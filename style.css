@@ -1,0 +1,25 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    background: #171717;
+    display: block;
+    margin: auto;
+    max-width: 40em;
+}
+.settings {
+    width: 100%;
+}
+.panel-small {
+    display: inline-block;
+    vertical-align: top;
+    width: 10em;
+}
+.input {
+    width: 4em;
+}
+#input-beatprec {
+    width: 3.25em;
+}
+#input-njs-scale {
+    width: auto;
+}
