@@ -1,5 +1,5 @@
 document.getElementById('watermark').innerHTML = 'Kival Evan#5480 | ';
-document.getElementById('version').innerHTML = 'v1.1.1';
+document.getElementById('version').innerHTML = 'v1.1.2';
 
 const input = {
     bpm: 0,
@@ -8,6 +8,7 @@ const input = {
         ohj: 0,
     },
     beatPrec: 2,
+    timePrec: 0.5,
     njs: 16,
     offset: 0,
     hjd: 0,
@@ -18,6 +19,7 @@ const input = {
 
 document.getElementById('input-bpm').value = input.bpm;
 document.getElementById('input-beatprec').value = input.beatPrec;
+document.getElementById('input-timeprec').value = input.timePrec;
 document.getElementById('input-ebpm-stream').value = input.ebpm.stream;
 document.getElementById('input-ebpm-ohj').value = input.ebpm.ohj;
 document.getElementById('input-njs').value = input.njs;

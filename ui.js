@@ -16,7 +16,17 @@ document.getElementById('input-beatprec').addEventListener('input', function () 
 document.getElementById('input-beatprec').addEventListener('change', function () {
     input.beatPrec = Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : 1;
     inputBeatPrec();
-    document.getElementById('input-beatprec').value = input.beatPrec;
+    document.getElementById('input-beatprec').value = round(input.beatPrec, 3);
+});
+
+document.getElementById('input-timeprec').addEventListener('input', function () {
+    input.timePrec = Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : 1;
+    inputTimePrec();
+});
+document.getElementById('input-timeprec').addEventListener('change', function () {
+    input.timePrec = Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : 1;
+    inputTimePrec();
+    document.getElementById('input-timeprec').value = round(input.timePrec, 3);
 });
 
 document.getElementById('input-ebpm-ohj').addEventListener('input', function () {
@@ -96,6 +106,7 @@ document.getElementById('input-njs-scale').addEventListener('change', function (
 
 function enableInput() {
     document.getElementById('input-beatprec').disabled = false;
+    document.getElementById('input-timeprec').disabled = false;
     document.getElementById('input-ebpm-ohj').disabled = false;
     document.getElementById('input-ebpm-stream').disabled = false;
     document.getElementById('input-njs').disabled = false;
@@ -107,6 +118,7 @@ function enableInput() {
 }
 function disableInput() {
     document.getElementById('input-beatprec').disabled = true;
+    document.getElementById('input-timeprec').disabled = true;
     document.getElementById('input-ebpm-ohj').disabled = true;
     document.getElementById('input-ebpm-stream').disabled = true;
     document.getElementById('input-njs').disabled = true;
@@ -130,19 +142,28 @@ function inputBPM() {
 function inputBeatPrec() {
     if (input.beatPrec > 0) {
         updateEBPM();
+        input.timePrec = 1 / input.beatPrec;
+        document.getElementById('input-timeprec').value = round(input.timePrec, 3);
+    }
+}
+function inputTimePrec() {
+    if (input.beatPrec > 0) {
+        updateEBPM();
+        input.beatPrec = 1 / input.timePrec;
+        document.getElementById('input-beatprec').value = round(input.beatPrec, 3);
     }
 }
 function inputEBPMOHJ() {
     input.ebpm.stream = input.ebpm.ohj / 2;
     input.beatPrec = calcBeatPrecision();
-    document.getElementById('input-beatprec').value = round(input.beatPrec, 2);
+    document.getElementById('input-beatprec').value = round(input.beatPrec, 3);
     document.getElementById('input-ebpm-ohj').value = round(input.ebpm.ohj, 2);
     document.getElementById('input-ebpm-stream').value = round(input.ebpm.stream, 2);
 }
 function inputEBPMStream() {
     input.ebpm.ohj = input.ebpm.stream * 2;
     input.beatPrec = calcBeatPrecision();
-    document.getElementById('input-beatprec').value = round(input.beatPrec, 2);
+    document.getElementById('input-beatprec').value = round(input.beatPrec, 3);
     document.getElementById('input-ebpm-ohj').value = round(input.ebpm.ohj, 2);
 }
 function updateEBPM() {
