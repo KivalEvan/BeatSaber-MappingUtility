@@ -1,5 +1,5 @@
 document.getElementById('watermark').innerHTML = 'Kival Evan#5480 | ';
-document.getElementById('version').innerHTML = 'v1.2.0';
+document.getElementById('version').innerHTML = 'v1.2.1';
 
 // TODO: sps simulator
 // TODO: colour picker
@@ -231,7 +231,7 @@ const colorScheme = {
         _envColorLeft: '#c82080',
         _envColorRight: '#b120dd',
         _envColorLeftBoost: '#e68aff',
-        _envColorRightBoost: '#e68aff',
+        _envColorRightBoost: '#59ceff',
         _obstacleColor: '#ab2e8d',
     },
     Kaleidoscope: {
