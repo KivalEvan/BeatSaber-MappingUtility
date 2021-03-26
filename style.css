@@ -3,10 +3,11 @@ body {
     color: #fff;
     background: #171717;
     display: block;
-    margin: auto;
+    margin: 0 auto 4em;
+    padding: 0 1em;
     max-width: 40em;
 }
-.settings {
+.main {
     width: 100%;
 }
 .panel-small {
@@ -14,12 +15,35 @@ body {
     vertical-align: top;
     width: 10em;
 }
+.panel-medium {
+    display: inline-block;
+    vertical-align: top;
+    width: 16em;
+}
 .input {
-    width: 4em;
+    font-size: 0.9375em;
+    width: 5em;
 }
-#input-beatprec {
-    width: 3.75em;
-}
-#input-njs-scale {
+#option-njs-scale {
     width: auto;
+}
+table {
+    text-align: center;
+    vertical-align: top;
+}
+th {
+    min-width: 4em;
+    font-size: 1.125em;
+}
+.table-first {
+    text-align: left;
+    padding-right: 1em;
+}
+.table-input {
+    width: 5em;
+    font-size: 1.25em;
+    font-family: monospace;
+    text-align: center;
+    margin: 0;
+    padding: 0.125 0.25em;
 }
