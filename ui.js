@@ -256,18 +256,28 @@ function inputSPS(e) {
     const objName = this.id.slice(10);
     input.diffSPS[objName] = this.value ? Math.abs(parseFloat(this.value.trim())) : null;
     let prevDiff = null;
+    let highest = null;
+    let lowest = null;
     for (const d in input.diffSPS) {
         if (input.diffSPS[d] !== null) {
+            if (!highest || highest < input.diffSPS[d]) {
+                highest = input.diffSPS[d];
+            }
+            if (!lowest || lowest > input.diffSPS[d]) {
+                lowest = input.diffSPS[d];
+            }
             if (prevDiff !== null) {
                 document.getElementById(`output-sps-${prevDiff}`).innerHTML = `${
                     input.diffSPS[d] !== 0 ? ((1 - input.diffSPS[prevDiff] / input.diffSPS[d]) * 100).toFixed(2) : 'Infinity'
                 }%`;
             }
             prevDiff = d;
-        } else {
-            document.getElementById(`output-sps-${d}`).innerHTML = '';
         }
+        document.getElementById(`output-sps-${d}`).innerHTML = '';
     }
+    document.getElementById('output-sps-total-reduction').innerHTML = `${
+        highest && lowest ? ((1 - lowest / highest) * 100).toFixed(2) : '0.00'
+    }%`;
     if (e.type === 'change') {
         if (input.diffSPS[objName] !== null) {
             this.value = round(input.diffSPS[objName], 2);

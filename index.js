@@ -1,8 +1,6 @@
 document.getElementById('watermark').innerHTML = 'Kival Evan#5480 | ';
-document.getElementById('version').innerHTML = 'v1.2.1';
+document.getElementById('version').innerHTML = 'v1.2.2';
 
-// TODO: sps simulator
-// TODO: colour picker
 const input = {
     bpm: 0,
     ebpm: {
