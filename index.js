@@ -1,5 +1,5 @@
 document.getElementById('watermark').innerHTML = 'Kival Evan#5480 | ';
-document.getElementById('version').innerHTML = 'v1.2.2';
+document.getElementById('version').innerHTML = 'v1.2.3';
 
 const input = {
     bpm: 0,

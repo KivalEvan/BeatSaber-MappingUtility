@@ -276,7 +276,7 @@ function inputSPS(e) {
         document.getElementById(`output-sps-${d}`).innerHTML = '';
     }
     document.getElementById('output-sps-total-reduction').innerHTML = `${
-        highest && lowest ? ((1 - lowest / highest) * 100).toFixed(2) : '0.00'
+        highest || (highest && lowest) ? ((1 - lowest / highest) * 100).toFixed(2) : '0.00'
     }%`;
     if (e.type === 'change') {
         if (input.diffSPS[objName] !== null) {
@@ -362,7 +362,7 @@ function updateJSONColor() {
 }
 function inputColorHex() {
     // pepega
-    if (/^\#?[0-9a-f]{6,8}/.test(this.value.trim())) {
+    if (/^\#?[0-9a-fA-F]{6,8}/.test(this.value.trim())) {
         let objName = this.id.slice(10);
         for (const obj in input.colorPicker) {
             if (objName === obj.toLowerCase()) {
