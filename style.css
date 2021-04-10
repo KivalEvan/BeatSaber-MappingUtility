@@ -21,6 +21,14 @@ body {
     vertical-align: top;
     width: 16em;
 }
+.panel-center {
+    display: block;
+    margin: auto;
+    overflow: hidden;
+    justify-content: center;
+    text-align: center;
+    width: inherit;
+}
 .input {
     font-size: 0.9375em;
     width: 5em;
@@ -49,4 +57,29 @@ th {
     text-align: center;
     margin: 0;
     padding: 0.125 0.25em;
+}
+.diff-labels {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    font-family: 'Teko';
+    font-size: 1.75em;
+    font-weight: bold;
+}
+.diff-count-1 {
+    width: 20.79em;
+}
+.diff-count-2 {
+    width: 10.5em;
+}
+.diff-count-3 {
+    width: 6.9375em;
+}
+.diff-count-4 {
+    width: 5.25em;
+}
+.diff-count-5 {
+    width: 4.2em;
 }

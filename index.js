@@ -1,5 +1,5 @@
-document.getElementById('watermark').innerHTML = 'Kival Evan#5480 | ';
-document.getElementById('version').innerHTML = 'v1.2.3';
+document.getElementById('watermark').innerHTML = 'Kival Evan#5480';
+document.getElementById('version').innerHTML = 'v1.2.5';
 
 const input = {
     bpm: 0,
@@ -23,6 +23,8 @@ const input = {
         expert: null,
         expertplus: null,
     },
+    diffLabel: 'Difficulty Label',
+    diffCount: 1,
     colorPicker: {
         colorLeft: {
             hex: null,
@@ -67,6 +69,7 @@ document.getElementById('input-offset').value = input.offset;
 document.getElementById('input-hjd').value = input.hjd;
 document.getElementById('input-jd').value = input.jd;
 document.getElementById('input-reacttime').value = input.reactTime;
+document.getElementById('output-difficulty-label').innerHTML = input.diffLabel;
 
 function calcEffectiveBPM() {
     return (input.bpm * 0.5) / (1 / input.beatPrec);
@@ -110,6 +113,12 @@ function calcReactionTimeJD() {
 }
 function calcReactionTimeHJD() {
     return (60 / input.bpm) * calcHalfJumpDuration();
+}
+function calcJumpDistanceOptimalHigh() {
+    return 18 * (1 / 1.07) ** input.njs + 18;
+}
+function calcJumpDistanceOptimalLow() {
+    return -(18 / (input.njs + 1)) + 18;
 }
 
 function round(num, d = 0) {

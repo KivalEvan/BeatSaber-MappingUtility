@@ -2,10 +2,11 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=0.5, minimum-scale=0.5">
   <link rel="stylesheet" href="style.css">
-  <link rel="shortcut icon" type="image/jpg" href="favicon.png" />
+  <link rel="shortcut icon" type="image/jpg" href="favicon.png">
+  <link href='https://fonts.googleapis.com/css?family=Teko' rel='stylesheet'>
   <title>BS Mapping Utility</title>
 </head>
 
@@ -56,13 +57,16 @@
         <input type="number" class="input" id="input-reacttime" name="input-reacttime" min="0" step="1" disabled>
       </div>
       <div class="panel-small" style="width: auto">
-        <span>Minimum </span>
+        <span>Minimum </span><br>
       </div>
       <div class="panel-small" style="width: auto">
         <span>HJD: </span><span id="output-hjd">1</span><br>
         <span>JD: </span><span id="output-jd">0</span><br>
-        <span>Reaction Time: </span><span id="output-reacttime">0ms</span>
+        <span>Reaction Time: </span><span id="output-reacttime">0ms</span><br>
       </div><br>
+      <br>
+      <span>Optimal JD (highest): </span><span id="output-jd-optimal-high">0</span><br>
+      <span>Optimal JD (lowest): </span><span id="output-jd-optimal-low">0</span><br>
       <br>
       <div>
         <label for="option-njs-scale">Jump distance scale for:</label>
@@ -104,6 +108,27 @@
       <div>
         <span>Works for NPS or any number too.</span>
       </div>
+    </div>
+    <hr>
+    <div>
+      <h3>In-game Difficulty Label</h3>
+      <div class="panel-center">
+        <span>Difficulty Count: </span>
+        <input type="radio" class="settings" id="input-diff-count-1" name="input-diff-count" value="1">
+        <label for="input-diff-count-1">1</label>
+        <input type="radio" class="settings" id="input-diff-count-2" name="input-diff-count" value="2">
+        <label for="input-diff-count-2">2</label>
+        <input type="radio" class="settings" id="input-diff-count-3" name="input-diff-count" value="3">
+        <label for="input-diff-count-3">3</label>
+        <input type="radio" class="settings" id="input-diff-count-4" name="input-diff-count" value="4">
+        <label for="input-diff-count-4">4</label>
+        <input type="radio" class="settings" id="input-diff-count-5" name="input-diff-count" value="5">
+        <label for="input-diff-count-5">5</label><br>
+        <label for="input-difficulty-label"></label>
+        <input type="text" id="input-difficulty-label"><br>
+        <span class="diff-labels" id="output-difficulty-label"></span>
+      </div>
+      <span>NOTE: may not be representitive in-game, near boundary are very likely to ellipses.</span>
     </div>
     <hr>
     <div>
@@ -184,8 +209,7 @@
   </div>
   <hr>
   <div style="float: right">
-    <span id="watermark"></span>
-    <span id="version"></span>
+    <span id="watermark"></span> | <span id="version"></span>
   </div>
   <script src="./index.js" defer></script>
   <script src="./ui.js" defer></script>

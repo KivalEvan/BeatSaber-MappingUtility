@@ -33,6 +33,20 @@ for (const d in input.diffSPS) {
     document.getElementById(`input-sps-${d}`).addEventListener('change', inputSPS);
 }
 
+// diff label thing
+document.getElementById('input-difficulty-label').addEventListener('input', function () {
+    if (this.value.trim() !== '') {
+        document.getElementById('output-difficulty-label').innerHTML = this.value;
+    } else {
+        document.getElementById('output-difficulty-label').innerHTML = 'none';
+    }
+});
+document.getElementById('input-diff-count-1').addEventListener('click', inputDiffCount);
+document.getElementById('input-diff-count-2').addEventListener('click', inputDiffCount);
+document.getElementById('input-diff-count-3').addEventListener('click', inputDiffCount);
+document.getElementById('input-diff-count-4').addEventListener('click', inputDiffCount);
+document.getElementById('input-diff-count-5').addEventListener('click', inputDiffCount);
+
 // color stuff
 // pepega i know
 let UIOptionColorScheme = document.getElementById('option-colorscheme');
@@ -192,6 +206,8 @@ function updateNJS() {
     document.getElementById('input-hjd').value = round(input.hjd, 3);
     document.getElementById('input-jd').value = round(input.jd, 2);
     document.getElementById('input-reacttime').value = round(input.reactTime * 1000);
+    document.getElementById('output-jd-optimal-high').innerHTML = round(calcJumpDistanceOptimalHigh(), 2);
+    document.getElementById('output-jd-optimal-low').innerHTML = round(calcJumpDistanceOptimalLow(), 2);
     document.getElementById('output-jd').innerHTML = round(input.njs * (60 / input.bpm) * 2, 2);
 }
 function inputHJD(e) {
@@ -283,6 +299,11 @@ function inputSPS(e) {
             this.value = round(input.diffSPS[objName], 2);
         }
     }
+}
+
+function inputDiffCount() {
+    input.diffCount = parseInt(this.value);
+    document.getElementById('output-difficulty-label').className = `diff-labels diff-count-${input.diffCount}`;
 }
 
 function optionColorScheme() {
