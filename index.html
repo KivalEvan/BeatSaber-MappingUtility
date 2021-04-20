@@ -114,15 +114,15 @@
       <h3>In-game Difficulty Label</h3>
       <div class="panel-center">
         <span>Difficulty Count: </span>
-        <input type="radio" class="settings" id="input-diff-count-1" name="input-diff-count" value="1">
+        <input type="radio" id="input-diff-count-1" name="input-diff-count" value="1">
         <label for="input-diff-count-1">1</label>
-        <input type="radio" class="settings" id="input-diff-count-2" name="input-diff-count" value="2">
+        <input type="radio" id="input-diff-count-2" name="input-diff-count" value="2">
         <label for="input-diff-count-2">2</label>
-        <input type="radio" class="settings" id="input-diff-count-3" name="input-diff-count" value="3">
+        <input type="radio" id="input-diff-count-3" name="input-diff-count" value="3">
         <label for="input-diff-count-3">3</label>
-        <input type="radio" class="settings" id="input-diff-count-4" name="input-diff-count" value="4">
+        <input type="radio" id="input-diff-count-4" name="input-diff-count" value="4">
         <label for="input-diff-count-4">4</label>
-        <input type="radio" class="settings" id="input-diff-count-5" name="input-diff-count" value="5">
+        <input type="radio" id="input-diff-count-5" name="input-diff-count" value="5">
         <label for="input-diff-count-5">5</label><br>
         <label for="input-difficulty-label"></label>
         <input type="text" id="input-difficulty-label"><br>
@@ -204,6 +204,45 @@
           Copy text into difficulty _customData<br>
           (ignore first bracket, i'll deal with that later)
         </span>
+      </div>
+    </div>
+    <hr>
+    <div>
+      <h3>Random Pattern Generator</h3>
+      <div class="panel-center">
+        <table class="table-center" id="table-rpattern">
+          <tr>
+            <th class="table-grid"><img class="table-rpattern-image" src="./blank.png"></th>
+            <th class="table-grid"><img class="table-rpattern-image" src="./blank.png"></th>
+            <th class="table-grid"><img class="table-rpattern-image" src="./blank.png"></th>
+            <th class="table-grid"><img class="table-rpattern-image" src="./blank.png"></th>
+          </tr>
+          <tr>
+            <th class="table-grid"><img class="table-rpattern-image" src="./blank.png"></th>
+            <th class="table-grid"><img class="table-rpattern-image" src="./blank.png"></th>
+            <th class="table-grid"><img class="table-rpattern-image" src="./blank.png"></th>
+            <th class="table-grid"><img class="table-rpattern-image" src="./blank.png"></th>
+          </tr>
+          <tr>
+            <th class="table-grid"><img class="table-rpattern-image" src="./blank.png"></th>
+            <th class="table-grid"><img class="table-rpattern-image" src="./blank.png"></th>
+            <th class="table-grid"><img class="table-rpattern-image" src="./blank.png"></th>
+            <th class="table-grid"><img class="table-rpattern-image" src="./blank.png"></th>
+          </tr>
+        </table>
+        <label for="input-rpattern-red">Red:</label>
+        <input type="number" class="input" id="input-rpattern-red" name="input-rpattern-red" min="0">
+        <label for="input-rpattern-blue">Blue:</label>
+        <input type="number" class="input" id="input-rpattern-blue" name="input-rpattern-blue" min="0">
+        <label for="input-rpattern-bomb">Bomb:</label>
+        <input type="number" class="input" id="input-rpattern-bomb" name="input-rpattern-bomb" min="0"><br>
+        <input type="checkbox" id="input-rpattern-limit" name="input-rpattern-limit">
+        <label for="input-rpattern-limit">Set Limit</label>
+        <label for="input-rpattern-total">Total:</label>
+        <input type="number" class="input" id="input-rpattern-total" name="input-rpattern-total" min="0">
+        <input type="checkbox" id="input-rpattern-nodot" name="input-rpattern-nodot">
+        <label for="input-rpattern-nodot">No Dot</label><br>
+        <input type="button" class="input button" id="input-generate-rpattern" value="Generate Random Pattern">
       </div>
     </div>
   </div>

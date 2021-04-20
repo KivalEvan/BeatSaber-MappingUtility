@@ -1,21 +1,44 @@
 document.getElementById('watermark').innerHTML = 'Kival Evan#5480';
-document.getElementById('version').innerHTML = 'v1.2.5';
+document.getElementById('version').innerHTML = 'v1.3.0';
+const noteImage = {
+    0: 'noter.png',
+    1: 'noteb.png',
+    2: 'bomb.png',
+    3: 'noterd.png',
+    4: 'notebd.png',
+    blank: 'blank.png',
+};
+const noteRotation = {
+    0: '',
+    1: 'deg180',
+    2: 'deg270',
+    3: 'deg90',
+    4: 'deg315',
+    5: 'deg45',
+    6: 'deg225',
+    7: 'deg135',
+    8: '',
+};
 
 const input = {
     bpm: 0,
-    ebpm: {
-        stream: 0,
-        ohj: 0,
+    precTool: {
+        ebpm: {
+            stream: 0,
+            ohj: 0,
+        },
+        beatPrec: 2,
+        timePrec: 0.5,
+        realTimePrec: 0,
     },
-    beatPrec: 2,
-    timePrec: 0.5,
-    realTimePrec: 0,
-    njs: 16,
-    offset: 0,
-    hjd: 0,
-    jd: 0,
-    reactTime: 0,
-    njsScale: 'hjd',
+    njsTool: {
+        njs: 16,
+        offset: 0,
+        hjd: 0,
+        jd: 0,
+        reactTime: 0,
+        njsScale: 'hjd',
+    },
     diffSPS: {
         easy: null,
         normal: null,
@@ -23,8 +46,10 @@ const input = {
         expert: null,
         expertplus: null,
     },
-    diffLabel: 'Difficulty Label',
-    diffCount: 1,
+    ingameDiffLabel: {
+        diffLabel: 'Difficulty Label',
+        diffCount: 1,
+    },
     colorPicker: {
         colorLeft: {
             hex: null,
@@ -56,37 +81,53 @@ const input = {
         },
     },
     colorParsed: {},
+    randomPattern: {
+        maxIndex: 4,
+        maxLayer: 3,
+        note: {
+            0: 1,
+            1: 1,
+            2: 0,
+        },
+        total: 2,
+        limit: false,
+        noDot: false,
+    },
 };
 
 document.getElementById('input-bpm').value = input.bpm;
-document.getElementById('input-beatprec').value = input.beatPrec;
-document.getElementById('input-timeprec').value = input.timePrec;
-document.getElementById('input-realtimeprec').value = input.realTimePrec;
-document.getElementById('input-ebpm-stream').value = input.ebpm.stream;
-document.getElementById('input-ebpm-ohj').value = input.ebpm.ohj;
-document.getElementById('input-njs').value = input.njs;
-document.getElementById('input-offset').value = input.offset;
-document.getElementById('input-hjd').value = input.hjd;
-document.getElementById('input-jd').value = input.jd;
-document.getElementById('input-reacttime').value = input.reactTime;
-document.getElementById('output-difficulty-label').innerHTML = input.diffLabel;
+document.getElementById('input-beatprec').value = input.precTool.beatPrec;
+document.getElementById('input-timeprec').value = input.precTool.timePrec;
+document.getElementById('input-realtimeprec').value = input.precTool.realTimePrec;
+document.getElementById('input-ebpm-stream').value = input.precTool.ebpm.stream;
+document.getElementById('input-ebpm-ohj').value = input.precTool.ebpm.ohj;
+document.getElementById('input-njs').value = input.njsTool.njs;
+document.getElementById('input-offset').value = input.njsTool.offset;
+document.getElementById('input-hjd').value = input.njsTool.hjd;
+document.getElementById('input-jd').value = input.njsTool.jd;
+document.getElementById('input-reacttime').value = input.njsTool.reactTime;
+document.getElementById('output-difficulty-label').innerHTML = input.ingameDiffLabel.diffLabel;
+document.getElementById('input-rpattern-red').value = input.randomPattern.note[0];
+document.getElementById('input-rpattern-blue').value = input.randomPattern.note[1];
+document.getElementById('input-rpattern-bomb').value = input.randomPattern.note[2];
+document.getElementById('input-rpattern-total').value = input.randomPattern.total;
 
 function calcEffectiveBPM() {
-    return (input.bpm * 0.5) / (1 / input.beatPrec);
+    return (input.bpm * 0.5) / (1 / input.precTool.beatPrec);
 }
 function calcBeatPrecision() {
-    return input.ebpm.stream / (input.bpm * 0.25);
+    return input.precTool.ebpm.stream / (input.bpm * 0.25);
 }
 
 function calcHalfJumpDuration() {
     const maxHalfJump = 18;
-    const noteJumpMovementSpeed = (input.njs * input.bpm) / input.bpm;
+    const noteJumpMovementSpeed = (input.njsTool.njs * input.bpm) / input.bpm;
     const num = 60 / input.bpm;
     let hjd = 4;
     while (noteJumpMovementSpeed * num * hjd > maxHalfJump) {
         hjd /= 2;
     }
-    hjd += input.offset;
+    hjd += input.njsTool.offset;
     if (hjd < 1) {
         hjd = 1;
     }
@@ -94,7 +135,7 @@ function calcHalfJumpDuration() {
 }
 function calcHalfJumpDurationNoOffset() {
     const maxHalfJump = 18;
-    const noteJumpMovementSpeed = (input.njs * input.bpm) / input.bpm;
+    const noteJumpMovementSpeed = (input.njsTool.njs * input.bpm) / input.bpm;
     const num = 60 / input.bpm;
     let hjd = 4;
     while (noteJumpMovementSpeed * num * hjd > maxHalfJump) {
@@ -106,19 +147,19 @@ function calcHalfJumpDurationNoOffset() {
     return hjd;
 }
 function calcJumpDistance() {
-    return input.njs * (60 / input.bpm) * calcHalfJumpDuration() * 2;
+    return input.njsTool.njs * (60 / input.bpm) * calcHalfJumpDuration() * 2;
 }
 function calcReactionTimeJD() {
-    return calcJumpDistance() / (2 * input.njs);
+    return calcJumpDistance() / (2 * input.njsTool.njs);
 }
 function calcReactionTimeHJD() {
     return (60 / input.bpm) * calcHalfJumpDuration();
 }
 function calcJumpDistanceOptimalHigh() {
-    return 18 * (1 / 1.07) ** input.njs + 18;
+    return 18 * (1 / 1.07) ** input.njsTool.njs + 18;
 }
 function calcJumpDistanceOptimalLow() {
-    return -(18 / (input.njs + 1)) + 18;
+    return -(18 / (input.njsTool.njs + 1)) + 18;
 }
 
 function round(num, d = 0) {

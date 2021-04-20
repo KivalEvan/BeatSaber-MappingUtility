@@ -24,7 +24,7 @@ document.getElementById('input-jd').addEventListener('change', inputJD);
 document.getElementById('input-reacttime').addEventListener('input', inputReactTime);
 document.getElementById('input-reacttime').addEventListener('change', inputReactTime);
 document.getElementById('option-njs-scale').addEventListener('change', function () {
-    input.njsScale = this.value;
+    input.njsTool.njsScale = this.value;
 });
 
 // sps thingy
@@ -36,7 +36,8 @@ for (const d in input.diffSPS) {
 // diff label thing
 document.getElementById('input-difficulty-label').addEventListener('input', function () {
     if (this.value.trim() !== '') {
-        document.getElementById('output-difficulty-label').innerHTML = this.value;
+        input.ingameDiffLabel.diffLabel = this.value.trim();
+        document.getElementById('output-difficulty-label').innerHTML = input.ingameDiffLabel.diffLabel;
     } else {
         document.getElementById('output-difficulty-label').innerHTML = 'none';
     }
@@ -69,6 +70,27 @@ for (const obj in input.colorPicker) {
     document.getElementById(`input-reset-${obj.toLowerCase()}`).style.display = 'none';
 }
 document.getElementById('io-colorjson').addEventListener('change', inputJSONColor);
+
+// random pattern
+document.getElementById('input-generate-rpattern').addEventListener('click', generateRandomPattern);
+document.getElementById('input-rpattern-red').addEventListener('change', function () {
+    input.randomPattern.note[0] = Math.abs(parseFloat(this.value)) || 0;
+});
+document.getElementById('input-rpattern-blue').addEventListener('change', function () {
+    input.randomPattern.note[1] = Math.abs(parseFloat(this.value)) || 0;
+});
+document.getElementById('input-rpattern-bomb').addEventListener('change', function () {
+    input.randomPattern.note[2] = Math.abs(parseFloat(this.value)) || 0;
+});
+document.getElementById('input-rpattern-total').addEventListener('change', function () {
+    input.randomPattern.total = Math.abs(parseFloat(this.value)) || 0;
+});
+document.getElementById('input-rpattern-limit').addEventListener('click', function () {
+    input.randomPattern.limit = this.checked;
+});
+document.getElementById('input-rpattern-nodot').addEventListener('click', function () {
+    input.randomPattern.noDot = this.checked;
+});
 
 function enableInput() {
     document.getElementById('input-beatprec').disabled = false;
@@ -103,8 +125,8 @@ function inputBPM(e) {
         enableInput();
         updateEBPM();
         updateNJS();
-        input.realTimePrec = (60 / input.bpm / input.beatPrec) * 1000;
-        document.getElementById('input-realtimeprec').value = round(input.realTimePrec, 1);
+        input.precTool.realTimePrec = (60 / input.bpm / input.precTool.beatPrec) * 1000;
+        document.getElementById('input-realtimeprec').value = round(input.precTool.realTimePrec, 1);
         document.getElementById('output-reacttime').innerHTML = `${round((60 / input.bpm) * 1000)}ms`;
     } else {
         disableInput();
@@ -114,157 +136,156 @@ function inputBPM(e) {
     }
 }
 function inputBeatPrec(e) {
-    input.beatPrec = Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : 1;
-    if (input.beatPrec > 0) {
-        input.timePrec = 1 / input.beatPrec;
-        input.realTimePrec = (60 / input.bpm / input.beatPrec) * 1000;
+    input.precTool.beatPrec = Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : 1;
+    if (input.precTool.beatPrec > 0) {
+        input.precTool.timePrec = 1 / input.precTool.beatPrec;
+        input.precTool.realTimePrec = (60 / input.bpm / input.precTool.beatPrec) * 1000;
         updateEBPM();
-        document.getElementById('input-timeprec').value = round(input.timePrec, 3);
-        document.getElementById('input-realtimeprec').value = round(input.realTimePrec, 1);
+        document.getElementById('input-timeprec').value = round(input.precTool.timePrec, 3);
+        document.getElementById('input-realtimeprec').value = round(input.precTool.realTimePrec, 1);
     }
     if (e.type === 'change') {
-        this.value = round(input.beatPrec, 3);
+        this.value = round(input.precTool.beatPrec, 3);
     }
 }
 function inputTimePrec(e) {
-    input.timePrec = Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : 1;
-    if (input.timePrec > 0) {
-        input.beatPrec = 1 / input.timePrec;
-        input.realTimePrec = (60 / input.bpm / input.beatPrec) * 1000;
+    input.precTool.timePrec = Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : 1;
+    if (input.precTool.timePrec > 0) {
+        input.precTool.beatPrec = 1 / input.precTool.timePrec;
+        input.precTool.realTimePrec = (60 / input.bpm / input.precTool.beatPrec) * 1000;
         updateEBPM();
-        document.getElementById('input-beatprec').value = round(input.beatPrec, 3);
-        document.getElementById('input-realtimeprec').value = round(input.realTimePrec, 1);
+        document.getElementById('input-beatprec').value = round(input.precTool.beatPrec, 3);
+        document.getElementById('input-realtimeprec').value = round(input.precTool.realTimePrec, 1);
     }
     if (e.type === 'change') {
-        this.value = round(input.timePrec, 3);
+        this.value = round(input.precTool.timePrec, 3);
     }
 }
 function inputRealTimePrec(e) {
-    input.realTimePrec = Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : 1;
-    if (input.realTimePrec > 0) {
-        input.timePrec = (input.bpm * input.realTimePrec) / 60000;
-        input.beatPrec = 1 / input.timePrec;
+    input.precTool.realTimePrec = Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : 1;
+    if (input.precTool.realTimePrec > 0) {
+        input.precTool.timePrec = (input.bpm * input.precTool.realTimePrec) / 60000;
+        input.precTool.beatPrec = 1 / input.precTool.timePrec;
         updateEBPM();
-        document.getElementById('input-timeprec').value = round(input.timePrec, 3);
-        document.getElementById('input-beatprec').value = round(input.beatPrec, 3);
+        document.getElementById('input-timeprec').value = round(input.precTool.timePrec, 3);
+        document.getElementById('input-beatprec').value = round(input.precTool.beatPrec, 3);
     }
     if (e.type === 'change') {
-        this.value = round(input.realTimePrec, 3);
+        this.value = round(input.precTool.realTimePrec, 3);
     }
 }
 function inputEBPM(e) {
     if (this.id === 'input-ebpm-ohj') {
-        input.ebpm.ohj = Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : input.bpm;
-        input.ebpm.stream = input.ebpm.ohj / 2;
+        input.precTool.ebpm.ohj = Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : input.bpm;
+        input.precTool.ebpm.stream = input.precTool.ebpm.ohj / 2;
         if (e.type === 'change') {
-            this.value = round(input.ebpm.ohj, 2);
+            this.value = round(input.precTool.ebpm.ohj, 2);
         }
-        document.getElementById('input-ebpm-stream').value = round(input.ebpm.stream, 2);
+        document.getElementById('input-ebpm-stream').value = round(input.precTool.ebpm.stream, 2);
     }
     if (this.id === 'input-ebpm-stream') {
-        input.ebpm.stream = Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : input.bpm;
-        input.ebpm.ohj = input.ebpm.stream * 2;
+        input.precTool.ebpm.stream = Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : input.bpm;
+        input.precTool.ebpm.ohj = input.precTool.ebpm.stream * 2;
         if (e.type === 'change') {
-            this.value = round(input.ebpm.stream, 2);
+            this.value = round(input.precTool.ebpm.stream, 2);
         }
-        document.getElementById('input-ebpm-ohj').value = round(input.ebpm.ohj, 2);
+        document.getElementById('input-ebpm-ohj').value = round(input.precTool.ebpm.ohj, 2);
     }
-    input.beatPrec = calcBeatPrecision();
-    input.timePrec = 1 / input.beatPrec;
-    input.realTimePrec = (60 / input.bpm / input.beatPrec) * 1000;
-    document.getElementById('input-beatprec').value = round(input.beatPrec, 3);
-    document.getElementById('input-timeprec').value = round(input.timePrec, 3);
-    document.getElementById('input-realtimeprec').value = round(input.realTimePrec, 1);
+    input.precTool.beatPrec = calcBeatPrecision();
+    input.precTool.timePrec = 1 / input.beatPrec;
+    input.precTool.realTimePrec = (60 / input.bpm / input.precTool.beatPrec) * 1000;
+    document.getElementById('input-beatprec').value = round(input.precTool.beatPrec, 3);
+    document.getElementById('input-timeprec').value = round(input.precTool.timePrec, 3);
+    document.getElementById('input-realtimeprec').value = round(input.precTool.realTimePrec, 1);
 }
-
 function updateEBPM() {
-    input.ebpm.ohj = calcEffectiveBPM();
-    input.ebpm.stream = calcEffectiveBPM() / 2;
-    document.getElementById('input-ebpm-ohj').value = round(input.ebpm.ohj, 2);
-    document.getElementById('input-ebpm-stream').value = round(input.ebpm.stream, 2);
+    input.precTool.ebpm.ohj = calcEffectiveBPM();
+    input.precTool.ebpm.stream = calcEffectiveBPM() / 2;
+    document.getElementById('input-ebpm-ohj').value = round(input.precTool.ebpm.ohj, 2);
+    document.getElementById('input-ebpm-stream').value = round(input.precTool.ebpm.stream, 2);
 }
 
 function inputNJS(e) {
-    input.njs = Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : input.njs;
+    input.njsTool.njs = Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : input.njsTool.njs;
     updateNJS();
     if (e.type === 'change') {
-        this.value = round(input.njs, 3);
+        this.value = round(input.njsTool.njs, 3);
     }
 }
 function inputNJSOffset(e) {
-    input.offset = parseFloat(this.value) || 0;
+    input.njsTool.offset = parseFloat(this.value) || 0;
     updateNJS();
     if (e.type === 'change') {
-        this.value = round(input.offset, 3);
+        this.value = round(input.njsTool.offset, 3);
     }
 }
-
 function updateNJS() {
-    input.hjd = calcHalfJumpDuration();
-    input.jd = calcJumpDistance();
-    input.reactTime = calcReactionTimeJD();
-    document.getElementById('input-hjd').value = round(input.hjd, 3);
-    document.getElementById('input-jd').value = round(input.jd, 2);
-    document.getElementById('input-reacttime').value = round(input.reactTime * 1000);
+    input.njsTool.hjd = calcHalfJumpDuration();
+    input.njsTool.jd = calcJumpDistance();
+    input.njsTool.reactTime = calcReactionTimeJD();
+    document.getElementById('input-hjd').value = round(input.njsTool.hjd, 3);
+    document.getElementById('input-jd').value = round(input.njsTool.jd, 2);
+    document.getElementById('input-reacttime').value = round(input.njsTool.reactTime * 1000);
     document.getElementById('output-jd-optimal-high').innerHTML = round(calcJumpDistanceOptimalHigh(), 2);
     document.getElementById('output-jd-optimal-low').innerHTML = round(calcJumpDistanceOptimalLow(), 2);
-    document.getElementById('output-jd').innerHTML = round(input.njs * (60 / input.bpm) * 2, 2);
+    document.getElementById('output-jd').innerHTML = round(input.njsTool.njs * (60 / input.bpm) * 2, 2);
 }
 function inputHJD(e) {
-    input.hjd = Math.abs(parseFloat(this.value)) >= 1 ? Math.abs(parseFloat(this.value)) : input.hjd;
-    input.offset = input.hjd - calcHalfJumpDurationNoOffset();
-    input.hjd = calcHalfJumpDuration();
-    input.jd = calcJumpDistance();
-    input.reactTime = calcReactionTimeJD();
-    document.getElementById('input-jd').value = round(input.jd, 2);
-    document.getElementById('input-reacttime').value = round(input.reactTime * 1000);
-    document.getElementById('output-jd').innerHTML = round(input.njs * (60 / input.bpm) * 2, 2);
-    document.getElementById('input-offset').value = round(input.offset, 3);
+    input.njsTool.hjd = Math.abs(parseFloat(this.value)) >= 1 ? Math.abs(parseFloat(this.value)) : input.njsTool.hjd;
+    input.njsTool.offset = input.njsTool.hjd - calcHalfJumpDurationNoOffset();
+    input.njsTool.hjd = calcHalfJumpDuration();
+    input.njsTool.jd = calcJumpDistance();
+    input.njsTool.reactTime = calcReactionTimeJD();
+    document.getElementById('input-jd').value = round(input.njsTool.jd, 2);
+    document.getElementById('input-reacttime').value = round(input.njsTool.reactTime * 1000);
+    document.getElementById('output-jd').innerHTML = round(input.njsTool.njs * (60 / input.bpm) * 2, 2);
+    document.getElementById('input-offset').value = round(input.njsTool.offset, 3);
     if (e.type === 'change') {
-        this.value = round(input.hjd, 3);
+        this.value = round(input.njsTool.hjd, 3);
     }
 }
 function inputJD(e) {
-    input.jd = Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : input.jd;
-    if (input.njsScale === 'hjd') {
-        if (input.jd / ((60 / input.bpm) * input.njs * 2) < 1) {
-            input.jd = input.njs * (60 / input.bpm) * 2;
+    input.njsTool.jd = Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : input.njsTool.jd;
+    if (input.njsTool.njsScale === 'hjd') {
+        if (input.njsTool.jd / ((60 / input.bpm) * input.njsTool.njs * 2) < 1) {
+            input.njsTool.jd = input.njsTool.njs * (60 / input.bpm) * 2;
         }
-        input.hjd = input.jd / ((60 / input.bpm) * input.njs * 2);
+        input.njsTool.hjd = input.njsTool.jd / ((60 / input.bpm) * input.njsTool.njs * 2);
     }
     if (input.njsScale === 'njs') {
-        console.log(input.jd / (2 * input.reactTime));
-        input.njs = input.jd / (2 * input.reactTime);
+        console.log(input.njsTool.jd / (2 * input.njsTool.reactTime));
+        input.njs = input.njsTool.jd / (2 * input.njsTool.reactTime);
     }
-    input.offset = input.hjd - calcHalfJumpDurationNoOffset();
-    input.hjd = calcHalfJumpDuration();
-    input.jd = calcJumpDistance();
-    input.reactTime = calcReactionTimeJD();
-    document.getElementById('input-hjd').value = round(input.hjd, 3);
-    document.getElementById('input-reacttime').value = round(input.reactTime * 1000);
-    document.getElementById('output-jd').innerHTML = round(input.njs * (60 / input.bpm) * 2, 2);
-    document.getElementById('input-njs').value = round(input.njs, 3);
-    document.getElementById('input-offset').value = round(input.offset, 3);
+    input.njsTool.offset = input.njsTool.hjd - calcHalfJumpDurationNoOffset();
+    input.njsTool.hjd = calcHalfJumpDuration();
+    input.njsTool.jd = calcJumpDistance();
+    input.njsTool.reactTime = calcReactionTimeJD();
+    document.getElementById('input-hjd').value = round(input.njsTool.hjd, 3);
+    document.getElementById('input-reacttime').value = round(input.njsTool.reactTime * 1000);
+    document.getElementById('output-jd').innerHTML = round(input.njsTool.njs * (60 / input.bpm) * 2, 2);
+    document.getElementById('input-njs').value = round(input.njsTool.njs, 3);
+    document.getElementById('input-offset').value = round(input.njsTool.offset, 3);
     if (e.type === 'change') {
-        this.value = round(input.jd, 2);
+        this.value = round(input.njsTool.jd, 2);
     }
 }
 function inputReactTime(e) {
-    input.reactTime = Math.abs(parseFloat(this.value)) / 1000 > 0 ? Math.abs(parseFloat(this.value)) / 1000 : input.reactTime;
-    if (input.reactTime < 60 / input.bpm) {
-        input.reactTime = 60 / input.bpm;
+    input.njsTool.reactTime =
+        Math.abs(parseFloat(this.value)) / 1000 > 0 ? Math.abs(parseFloat(this.value)) / 1000 : input.njsTool.reactTime;
+    if (input.njsTool.reactTime < 60 / input.bpm) {
+        input.njsTool.reactTime = 60 / input.bpm;
     }
-    input.hjd = input.reactTime / (60 / input.bpm);
-    input.offset = input.hjd - calcHalfJumpDurationNoOffset();
-    input.hjd = calcHalfJumpDuration();
-    input.jd = calcJumpDistance();
-    input.reactTime = calcReactionTimeJD();
-    document.getElementById('input-hjd').value = round(input.hjd, 3);
-    document.getElementById('input-jd').value = round(input.jd, 2);
-    document.getElementById('output-jd').innerHTML = round(input.njs * (60 / input.bpm) * 2, 2);
-    document.getElementById('input-offset').value = round(input.offset, 3);
+    input.njsTool.hjd = input.njsTool.reactTime / (60 / input.bpm);
+    input.njsTool.offset = input.njsTool.hjd - calcHalfJumpDurationNoOffset();
+    input.njsTool.hjd = calcHalfJumpDuration();
+    input.njsTool.jd = calcJumpDistance();
+    input.njsTool.reactTime = calcReactionTimeJD();
+    document.getElementById('input-hjd').value = round(input.njsTool.hjd, 3);
+    document.getElementById('input-jd').value = round(input.njsTool.jd, 2);
+    document.getElementById('output-jd').innerHTML = round(input.njsTool.njs * (60 / input.bpm) * 2, 2);
+    document.getElementById('input-offset').value = round(input.njsTool.offset, 3);
     if (e.type === 'change') {
-        this.value = round(input.reactTime * 1000);
+        this.value = round(input.njsTool.reactTime * 1000);
     }
 }
 
@@ -302,8 +323,8 @@ function inputSPS(e) {
 }
 
 function inputDiffCount() {
-    input.diffCount = parseInt(this.value);
-    document.getElementById('output-difficulty-label').className = `diff-labels diff-count-${input.diffCount}`;
+    input.ingameDiffLabel.diffCount = parseInt(this.value);
+    document.getElementById('output-difficulty-label').className = `diff-labels diff-count-${input.ingameDiffLabel.diffCount}`;
 }
 
 function optionColorScheme() {
@@ -442,4 +463,63 @@ function inputColorReset() {
     document.getElementById(`input-include-${objName.toLowerCase()}`).checked = false;
     document.getElementById(`input-reset-${objName.toLowerCase()}`).style.display = 'none';
     updateJSONColor();
+}
+
+function generateRandomPattern() {
+    let total = 2;
+    const note = [input.randomPattern.note[0], input.randomPattern.note[1], input.randomPattern.note[2]];
+    const maxSize = input.randomPattern.maxIndex * input.randomPattern.maxLayer;
+    // deal with total
+    if (input.randomPattern.limit) {
+        total = Math.min(
+            input.randomPattern.total,
+            note.reduce((acc, cv) => acc + cv),
+            maxSize
+        );
+    }
+    if (!input.randomPattern.limit) {
+        total = Math.min(
+            note.reduce((acc, cv) => acc + cv),
+            maxSize
+        );
+    }
+    const arrayTableImage = document.querySelectorAll('.table-rpattern-image');
+    arrayTableImage.forEach((image) => {
+        image.src = 'blank.png';
+        image.className = 'table-rpattern-image';
+    });
+    if (total === 0) {
+        return;
+    }
+    const grid = new Array(maxSize).fill(null);
+    for (let i = 0; i < total; ) {
+        let randomIL = Math.floor(Math.random() * maxSize);
+        let randomDir = Math.floor(Math.random() * 9);
+        let randomNote = Math.floor(Math.random() * 3);
+        for (let j = 0; j < 3; j++) {
+            if (note[randomNote] === 0) {
+                randomNote = (randomNote + 1) % 3;
+            }
+        }
+        if (note[randomNote] === 0) {
+            break;
+        }
+        for (let j = 0; j < maxSize; j++) {
+            let pos = (randomIL + j) % maxSize;
+            if (grid[pos] === null) {
+                if (randomNote === 2) {
+                    randomDir = 0;
+                }
+                grid[pos] = 'not null';
+                arrayTableImage[pos].src =
+                    randomDir !== 8 || input.randomPattern.noDot ? noteImage[randomNote] : noteImage[randomNote + 3];
+                if (randomDir !== 8) {
+                    arrayTableImage[pos].className += ` ${noteRotation[randomDir]}`;
+                }
+                note[randomNote]--;
+                i++;
+                break;
+            }
+        }
+    }
 }
