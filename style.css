@@ -97,6 +97,8 @@ th {
     text-align: center;
     justify-content: center;
     vertical-align: middle;
+    width: 4em;
+    height: 4em;
 }
 .deg45 {
     -webkit-transform: rotate(45deg);

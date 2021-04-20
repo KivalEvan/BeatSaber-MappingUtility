@@ -210,26 +210,11 @@
     <div>
       <h3>Random Pattern Generator</h3>
       <div class="panel-center">
-        <table class="table-center" id="table-rpattern">
-          <tr>
-            <th class="table-grid"><img class="table-rpattern-image" src="./blank.png"></th>
-            <th class="table-grid"><img class="table-rpattern-image" src="./blank.png"></th>
-            <th class="table-grid"><img class="table-rpattern-image" src="./blank.png"></th>
-            <th class="table-grid"><img class="table-rpattern-image" src="./blank.png"></th>
-          </tr>
-          <tr>
-            <th class="table-grid"><img class="table-rpattern-image" src="./blank.png"></th>
-            <th class="table-grid"><img class="table-rpattern-image" src="./blank.png"></th>
-            <th class="table-grid"><img class="table-rpattern-image" src="./blank.png"></th>
-            <th class="table-grid"><img class="table-rpattern-image" src="./blank.png"></th>
-          </tr>
-          <tr>
-            <th class="table-grid"><img class="table-rpattern-image" src="./blank.png"></th>
-            <th class="table-grid"><img class="table-rpattern-image" src="./blank.png"></th>
-            <th class="table-grid"><img class="table-rpattern-image" src="./blank.png"></th>
-            <th class="table-grid"><img class="table-rpattern-image" src="./blank.png"></th>
-          </tr>
-        </table>
+        <label for="input-rpattern-row">Row:</label>
+        <input type="number" class="input" id="input-rpattern-row" name="input-rpattern-row" min="0">
+        <label for="input-rpattern-column">Column:</label>
+        <input type="number" class="input" id="input-rpattern-column" name="input-rpattern-column" min="0">
+        <table class="table-center" id="table-rpattern"></table>
         <label for="input-rpattern-red">Red:</label>
         <input type="number" class="input" id="input-rpattern-red" name="input-rpattern-red" min="0">
         <label for="input-rpattern-blue">Blue:</label>

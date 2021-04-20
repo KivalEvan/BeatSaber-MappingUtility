@@ -1,5 +1,5 @@
 document.getElementById('watermark').innerHTML = 'Kival Evan#5480';
-document.getElementById('version').innerHTML = 'v1.3.0';
+document.getElementById('version').innerHTML = 'v1.3.1';
 const noteImage = {
     0: 'noter.png',
     1: 'noteb.png',
@@ -107,6 +107,8 @@ document.getElementById('input-hjd').value = input.njsTool.hjd;
 document.getElementById('input-jd').value = input.njsTool.jd;
 document.getElementById('input-reacttime').value = input.njsTool.reactTime;
 document.getElementById('output-difficulty-label').innerHTML = input.ingameDiffLabel.diffLabel;
+document.getElementById('input-rpattern-column').value = input.randomPattern.maxIndex;
+document.getElementById('input-rpattern-row').value = input.randomPattern.maxLayer;
 document.getElementById('input-rpattern-red').value = input.randomPattern.note[0];
 document.getElementById('input-rpattern-blue').value = input.randomPattern.note[1];
 document.getElementById('input-rpattern-bomb').value = input.randomPattern.note[2];

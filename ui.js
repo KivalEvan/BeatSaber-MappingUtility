@@ -72,6 +72,17 @@ for (const obj in input.colorPicker) {
 document.getElementById('io-colorjson').addEventListener('change', inputJSONColor);
 
 // random pattern
+tableRPattern();
+document.getElementById('input-rpattern-row').addEventListener('change', function () {
+    input.randomPattern.maxLayer = Math.min(Math.abs(parseFloat(this.value)) || 1, 4);
+    this.value = input.randomPattern.maxLayer;
+    tableRPattern();
+});
+document.getElementById('input-rpattern-column').addEventListener('change', function () {
+    input.randomPattern.maxIndex = Math.min(Math.abs(parseFloat(this.value)) || 1, 8);
+    this.value = input.randomPattern.maxIndex;
+    tableRPattern();
+});
 document.getElementById('input-generate-rpattern').addEventListener('click', generateRandomPattern);
 document.getElementById('input-rpattern-red').addEventListener('change', function () {
     input.randomPattern.note[0] = Math.abs(parseFloat(this.value)) || 0;
@@ -465,6 +476,24 @@ function inputColorReset() {
     updateJSONColor();
 }
 
+function tableRPattern() {
+    let table = document.getElementById('table-rpattern');
+    table.innerHTML = '';
+    for (let l = 0; l < input.randomPattern.maxLayer; l++) {
+        let row = document.createElement('tr');
+        for (let i = 0; i < input.randomPattern.maxIndex; i++) {
+            let elem = document.createElement('td');
+            elem.className = 'table-grid';
+            let img = document.createElement('img');
+            img.className = 'table-rpattern-image';
+            img.src = noteImage.blank;
+            img.alt = noteImage.blank.slice(0, -4);
+            elem.appendChild(img);
+            row.appendChild(elem);
+        }
+        table.appendChild(row);
+    }
+}
 function generateRandomPattern() {
     let total = 2;
     const note = [input.randomPattern.note[0], input.randomPattern.note[1], input.randomPattern.note[2]];
@@ -486,6 +515,7 @@ function generateRandomPattern() {
     const arrayTableImage = document.querySelectorAll('.table-rpattern-image');
     arrayTableImage.forEach((image) => {
         image.src = 'blank.png';
+        image.alt = 'blank';
         image.className = 'table-rpattern-image';
     });
     if (total === 0) {
@@ -513,8 +543,10 @@ function generateRandomPattern() {
                 grid[pos] = 'not null';
                 arrayTableImage[pos].src =
                     randomDir !== 8 || input.randomPattern.noDot ? noteImage[randomNote] : noteImage[randomNote + 3];
+                arrayTableImage[pos].alt = noteImage[randomNote].slice(0, -4);
                 if (randomDir !== 8) {
                     arrayTableImage[pos].className += ` ${noteRotation[randomDir]}`;
+                    arrayTableImage[pos].alt += ` ${noteRotation[randomDir]}`;
                 }
                 note[randomNote]--;
                 i++;
