@@ -97,8 +97,16 @@ th {
     text-align: center;
     justify-content: center;
     vertical-align: middle;
+}
+.table-rpattern-image[src*='png'] {
     width: 4em;
     height: 4em;
+    padding: 0;
+}
+.table-rpattern-image[src*='svg'] {
+    width: 2.75em;
+    height: 2.75em;
+    padding: 0.625em;
 }
 .deg45 {
     -webkit-transform: rotate(45deg);

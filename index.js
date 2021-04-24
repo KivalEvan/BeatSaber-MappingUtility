@@ -1,11 +1,11 @@
 document.getElementById('watermark').innerHTML = 'Kival Evan#5480';
-document.getElementById('version').innerHTML = 'v1.3.1';
+document.getElementById('version').innerHTML = 'v1.3.2';
 const noteImage = {
-    0: 'noter.png',
-    1: 'noteb.png',
+    0: 'noter.svg',
+    1: 'noteb.svg',
     2: 'bomb.png',
-    3: 'noterd.png',
-    4: 'notebd.png',
+    3: 'noterd.svg',
+    4: 'notebd.svg',
     blank: 'blank.png',
 };
 const noteRotation = {
