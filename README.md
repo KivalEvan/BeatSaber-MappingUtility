@@ -8,4 +8,4 @@ by **Kival Evan#5480**
 
 ## How to use
 
-Visit the [github.io page](https://kivalevan.github.io/BeatSaber-MappingUtility/) or download a copy and run `index.html` locally on any browser.
+Visit the [github.io page](https://kivalevan.github.io/BeatSaber-MappingUtility/) or download a copy and run `index.html` locally on any supported browser.

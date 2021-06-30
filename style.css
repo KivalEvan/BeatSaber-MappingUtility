@@ -1,27 +1,75 @@
+:root {
+    --max-size: 36em;
+    --sidenav-width: 10em;
+    --sidenav-offset: 1em;
+}
+html {
+    scroll-behavior: smooth;
+}
 body {
     font-size: 1em;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #fff;
     background: #171717;
-    display: block;
-    margin: 0 auto 4em;
-    padding: 0 0.5em;
-    max-width: 40em;
+    margin-bottom: 2.5em;
 }
-.main {
+.web-main {
+    display: block;
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    max-width: var(--max-size);
+}
+.wrapper {
+    display: block;
+    position: relative;
+    justify-content: space-between;
+}
+.wrapper-sidenav {
+    position: absolute;
+    height: 100%;
+    left: calc(0px - var(--sidenav-width));
+}
+.panel-sidenav {
+    position: -webkit-sticky;
+    position: sticky;
+    top: var(--sidenav-offset);
+    width: var(--sidenav-width);
+}
+.panel-sidenav div {
+    display: inline-block;
+    margin: 0.25em 0;
+    border-left: #ff0000 solid 1px;
+}
+.panel-sidenav div a {
+    display: block;
+    padding: 0.25em 1em;
+    text-decoration: none;
+    color: #888888;
+    transition: color 0.125s, transform 0.125s;
+}
+.panel-sidenav div a:hover,
+a.active {
+    transform: scale(1.1, 1.1);
+    color: #ff0000;
+}
+.panel-main {
     width: 100%;
 }
-.panel-small {
+.subpanel-small {
     display: inline-block;
     vertical-align: top;
-    width: 10em;
+    width: 32.25%;
 }
-.panel-medium {
+.subpanel-medium {
     display: inline-block;
     vertical-align: top;
-    width: 16em;
+    width: 49%;
 }
-.panel-center {
+.subpanel-right {
+    float: right;
+}
+.subpanel-center {
     display: block;
     margin: auto;
     overflow: hidden;
@@ -29,9 +77,27 @@ body {
     text-align: center;
     width: inherit;
 }
-.input {
-    font-size: 0.9375em;
+a {
+    color: #dd0000;
+    text-decoration: none;
+    transition: color 0.125s ease;
+}
+a:hover {
+    color: #ff3333;
+}
+input {
     width: 5em;
+    font-family: monospace;
+    font-size: 1.25em;
+}
+input[type='radio'] {
+    width: initial;
+}
+input[type='button'] {
+    width: auto;
+}
+input[type='checkbox'] {
+    width: auto;
 }
 select {
     padding: 0.125em;
@@ -39,31 +105,42 @@ select {
     width: auto;
 }
 table {
+    width: 100%;
     text-align: center;
     vertical-align: top;
+    table-layout: fixed;
 }
 th {
-    min-width: 4em;
     font-size: 1.125em;
 }
+td {
+    text-overflow: clip;
+    white-space: nowrap;
+}
 .table-center {
+    width: auto;
     margin: 0 auto;
+}
+.table-grid {
+    border: 1px solid white;
+    border-collapse: collapse;
 }
 .table-first {
     text-align: left;
-    padding-right: 1em;
 }
 .table-input {
-    width: 5em;
-    font-size: 1.25em;
-    font-family: monospace;
+    width: 90%;
     text-align: center;
     margin: 0;
     padding: 0.125 0.25em;
 }
-.diff-labels {
+#label-input-text {
+    width: 50%;
+}
+.diff-label {
     display: inline-block;
-    white-space: nowrap;
+    white-space: normal;
+    word-break: break-all;
     overflow: hidden;
     text-overflow: ellipsis;
     text-transform: uppercase;
@@ -86,21 +163,14 @@ th {
 .diff-count-5 {
     width: 4.2em;
 }
-.button {
-    width: auto;
-}
-.table-grid {
-    border: 1px solid white;
-    border-collapse: collapse;
-}
 .table-rpattern-image {
+    width: 4em;
+    height: 4em;
     text-align: center;
     justify-content: center;
     vertical-align: middle;
 }
 .table-rpattern-image[src*='png'] {
-    width: 4em;
-    height: 4em;
     padding: 0;
 }
 .table-rpattern-image[src*='svg'] {
@@ -156,4 +226,29 @@ th {
     -o-transform: rotate(315deg);
     -ms-transform: rotate(315deg);
     transform: rotate(315deg);
+}
+
+@media only screen and (max-width: 900px) {
+    .wrapper-sidenav {
+        position: initial;
+    }
+    .panel-sidenav {
+        position: initial;
+        display: block;
+        width: 100%;
+    }
+    .panel-sidenav a {
+        display: inline-block;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .subpanel-medium {
+        width: 100%;
+    }
+    .subpanel-small {
+        width: 50%;
+    }
+    input {
+        width: 4em;
+    }
 }
