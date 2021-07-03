@@ -11,7 +11,6 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #fff;
     background: #171717;
-    margin-bottom: 2.5em;
 }
 .web-main {
     display: block;
@@ -67,7 +66,7 @@ a.active {
     width: 49%;
 }
 .subpanel-right {
-    float: right;
+    text-align: right;
 }
 .subpanel-center {
     display: block;
@@ -78,12 +77,13 @@ a.active {
     width: inherit;
 }
 a {
-    color: #dd0000;
+    padding: 0.125em;
+    color: #4080ff;
     text-decoration: none;
     transition: color 0.125s ease;
 }
 a:hover {
-    color: #ff3333;
+    color: #dd2020;
 }
 input {
     width: 5em;
@@ -248,7 +248,7 @@ td {
     .subpanel-small {
         width: 50%;
     }
-    input {
-        width: 4em;
+    html {
+        font-size: 1.25em;
     }
 }

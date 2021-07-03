@@ -3,12 +3,11 @@
     "version": "2.0.0",
     "description": "<img align=\"left\" src=\"https://github.com/KivalEvan/BeatSaber-MapCheck/blob/main/icon-large.png\" height=\"176\" width=\"176\">",
     "private": true,
-    "dependencies": {
-        "@types/jest": "^26.0.23",
-        "jest": "^27.0.4",
-        "ts-jest": "^27.0.3"
-    },
+    "dependencies": {},
     "devDependencies": {
+        "@types/jest": "^26.0.23",
+        "jest": "^27.0.6",
+        "ts-jest": "^27.0.3",
         "ts-loader": "^9.2.3",
         "typescript": "^4.3.2",
         "webpack": "^5.39.0",
@@ -18,13 +17,14 @@
     "scripts": {
         "test": "jest",
         "build": "webpack --config webpack.prod.js",
-        "dev": "webpack --config webpack.dev.js"
+        "dev": "webpack --config webpack.dev.js",
+        "clean": "npm cache clean --force"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/KivalEvan/BeatSaber-MappingUtility.git"
     },
-    "author": "",
+    "author": "Kival Evan",
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/KivalEvan/BeatSaber-MappingUtility/issues"
