@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.0.2 [ 2021-09-26 ]
+
+### Added
+
+-   Skrillex & Billie Eilish color scheme
+-   My own map with full color scheme
+
 ## v2.0.1 [ 2021-07-04 ]
 
 ### Changed

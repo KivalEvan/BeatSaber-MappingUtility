@@ -434,6 +434,80 @@ export const colorScheme: EnvironmentColor = {
             b: 0.721569,
         },
     },
+    Skrillex: {
+        _colorLeft: {
+            r: 0.69803923,
+            g: 0.14117648,
+            b: 0.36862746,
+        },
+        _colorRight: {
+            r: 0.32933334,
+            g: 0.32299998,
+            b: 0.38,
+        },
+        _envColorLeft: {
+            r: 0.80000001,
+            g: 0.28000003,
+            b: 0.58594489,
+        },
+        _envColorRight: {
+            r: 0.06525807,
+            g: 0.57800001,
+            b: 0.56867743,
+        },
+        _envColorLeftBoost: {
+            r: 0.81176478,
+            g: 0.30588236,
+            b: 0.30588236,
+        },
+        _envColorRightBoost: {
+            r: 0.27843139,
+            g: 0.80000001,
+            b: 0.44597632,
+        },
+        _obstacleColor: {
+            r: 0.15686275,
+            g: 0.60392159,
+            b: 0.60392159,
+        },
+    },
+    'Billie Eilish': {
+        _colorLeft: {
+            r: 0.80000001,
+            g: 0.64481932,
+            b: 0.43200001,
+        },
+        _colorRight: {
+            r: 0.54808509,
+            g: 0.61276591,
+            b: 0.63999999,
+        },
+        _envColorLeft: {
+            r: 0.81960785,
+            g: 0.442,
+            b: 0.184,
+        },
+        _envColorRight: {
+            r: 0.94117647,
+            g: 0.70677096,
+            b: 0.56470591,
+        },
+        _obstacleColor: {
+            r: 0.71325314,
+            g: 0.56140977,
+            b: 0.78301889,
+        },
+        _envColorLeftBoost: {
+            r: 0.80000001,
+            g: 0,
+            b: 0,
+        },
+        _envColorRightBoost: {
+            r: 0.55686277,
+            g: 0.7019608,
+            b: 0.77647066,
+        },
+    },
     'Glass Desert': {
         _colorLeft: {
             r: 0.6792453,
@@ -460,5 +534,186 @@ export const colorScheme: EnvironmentColor = {
             g: 0.2869513,
             b: 0.3962264,
         },
+    },
+    'New World': {
+        _colorLeft: {
+            r: 0.625,
+            g: 0.625,
+            b: 0.625,
+        },
+        _colorRight: {
+            r: 0.34375,
+            g: 0.4375,
+            b: 0.625,
+        },
+        _envColorLeft: {
+            r: 0.21875,
+            g: 0.28125,
+            b: 0.46875,
+        },
+        _envColorRight: {
+            r: 0.5,
+            g: 0.5625,
+            b: 0.78125,
+        },
+        _obstacleColor: {
+            r: 0.625,
+            g: 0.59375,
+            b: 0.8125,
+        },
+    },
+    'Girly Cupid': {
+        _colorLeft: {
+            r: 1,
+            g: 0.1875,
+            b: 0.1875,
+        },
+        _colorRight: {
+            r: 0.375,
+            g: 0.5625,
+            b: 0.875,
+        },
+        _envColorLeft: {
+            r: 0.375,
+            g: 0.375,
+            b: 0.375,
+        },
+        _envColorRight: {
+            r: 0.625,
+            g: 0.75,
+            b: 0.875,
+        },
+        _obstacleColor: {
+            r: 0.75,
+            g: 0.75,
+            b: 0.75,
+        },
+    },
+    'T.R.Y Revolution': {
+        _colorLeft: {
+            r: 1,
+            g: 0,
+            b: 0.375,
+        },
+        _colorRight: {
+            r: 0.125,
+            g: 0.375,
+            b: 0.90625,
+        },
+        _envColorLeft: {
+            r: 1,
+            g: 0.125,
+            b: 0.375,
+        },
+        _envColorRight: {
+            r: 0.1875,
+            g: 0.5625,
+            b: 1,
+        },
+        _obstacleColor: {
+            r: 0.625,
+            g: 0.625,
+            b: 0.625,
+        },
+    },
+    Frightmare: {
+        _colorLeft: {
+            r: 0.8125,
+            g: 0.125,
+            b: 0.125,
+        },
+        _colorRight: {
+            r: 0.625,
+            g: 0.625,
+            b: 0.625,
+        },
+        _envColorLeft: {
+            r: 0.625,
+            g: 0.03215,
+            b: 0.03215,
+        },
+        _envColorRight: {
+            r: 0.71875,
+            g: 0.71875,
+            b: 0.71875,
+        },
+        _obstacleColor: {
+            r: 0.1875,
+            g: 0.1875,
+            b: 0.1875,
+        },
+    },
+    'Azure Raindrop': {
+        _colorLeft: {
+            r: 0.8125,
+            g: 0.125,
+            b: 0.125,
+        },
+        _colorRight: {
+            r: 0.0625,
+            g: 0.5,
+            b: 0.875,
+        },
+        _envColorLeft: {
+            r: 0.5625,
+            g: 0.5625,
+            b: 0.5625,
+        },
+        _envColorRight: {
+            r: 0.0625,
+            g: 0.5,
+            b: 0.875,
+        },
+        _obstacleColor: {
+            r: 0.75,
+            g: 0.25,
+            b: 0.75,
+        },
+    },
+    VENTEN: {
+        _colorLeft: {
+            r: 0.8125,
+            g: 0.625,
+            b: 0.375,
+        },
+        _colorRight: {
+            r: 0.625,
+            g: 0.375,
+            b: 0.875,
+        },
+        _envColorLeft: {
+            r: 0.78125,
+            g: 0.625,
+            b: 0.1875,
+        },
+        _envColorRight: {
+            r: 0.09375,
+            g: 0.4375,
+            b: 0.6875,
+        },
+        _envColorLeftBoost: {
+            r: 0.875,
+            g: 0.0625,
+            b: 0.375,
+        },
+        _envColorRightBoost: {
+            r: 0.1875,
+            g: 0.5,
+            b: 0.875,
+        },
+        _obstacleColor: {
+            r: 0.125,
+            g: 0.25,
+            b: 0.4375,
+        },
+    },
+    'Unconscious Requiem': {
+        _colorLeft: { r: 0.438, g: 0.438, b: 0.438 },
+        _colorRight: { r: 0.388, g: 0.62, b: 0.157 },
+        _envColorLeft: { r: 0.85, g: 0.085, b: 0.085 },
+        _envColorRight: { r: 0.604, g: 0.604, b: 0.604 },
+        _envColorLeftBoost: { r: 0.922, g: 0.596, b: 0.255 },
+        _envColorRightBoost: { r: 0.259, g: 0.784, b: 0.02 },
+        _obstacleColor: { r: 0.5, g: 0.5, b: 0.5 },
     },
 };
