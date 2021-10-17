@@ -25,15 +25,24 @@ const version = new Version();
 const textVersion = document.querySelectorAll<HTMLElement>('.text-version');
 const textWatermark = document.querySelectorAll<HTMLElement>('.text-watermark');
 
-const mapSettingsInputBPM = document.querySelector<HTMLInputElement>('#map-settings-input-bpm');
+const mapSettingsInputBPM = document.querySelector<HTMLInputElement>(
+    '#map-settings-input-bpm'
+);
 
 const inputToggle = document.querySelectorAll<HTMLInputElement>('.toggle-input');
 
-const ebpmInputPrecBeat = document.querySelector<HTMLInputElement>('#ebpm-input-precbeat');
-const ebpmInputPrecTime = document.querySelector<HTMLInputElement>('#ebpm-input-prectime');
-const ebpmInputPrecRealTime = document.querySelector<HTMLInputElement>('#ebpm-input-precrealtime');
-const ebpmInputEBPMOHJ = document.querySelector<HTMLInputElement>('#ebpm-input-ebpm-ohj');
-const ebpmInputEBPMStream = document.querySelector<HTMLInputElement>('#ebpm-input-ebpm-stream');
+const ebpmInputPrecBeat =
+    document.querySelector<HTMLInputElement>('#ebpm-input-precbeat');
+const ebpmInputPrecTime =
+    document.querySelector<HTMLInputElement>('#ebpm-input-prectime');
+const ebpmInputPrecRealTime = document.querySelector<HTMLInputElement>(
+    '#ebpm-input-precrealtime'
+);
+const ebpmInputEBPMOHJ =
+    document.querySelector<HTMLInputElement>('#ebpm-input-ebpm-ohj');
+const ebpmInputEBPMStream = document.querySelector<HTMLInputElement>(
+    '#ebpm-input-ebpm-stream'
+);
 
 const njsInputNJS = document.querySelector<HTMLInputElement>('#njs-input-njs');
 const njsInputOffset = document.querySelector<HTMLInputElement>('#njs-input-offset');
@@ -42,42 +51,81 @@ const njsInputJD = document.querySelector<HTMLInputElement>('#njs-input-jd');
 const njsInputReact = document.querySelector<HTMLInputElement>('#njs-input-reacttime');
 const njsOutputJD = document.querySelector<HTMLElement>('#njs-output-jd');
 const njsOutputMinReact = document.querySelector<HTMLElement>('#njs-output-reacttime');
-const njsOutputJDOHigh = document.querySelector<HTMLElement>('#njs-output-jd-optimal-high');
-const njsOutputJDOLow = document.querySelector<HTMLElement>('#njs-output-jd-optimal-low');
-const njsSelectScale = document.querySelector<HTMLSelectElement>('#njs-option-njs-scale');
+const njsOutputJDOHigh = document.querySelector<HTMLElement>(
+    '#njs-output-jd-optimal-high'
+);
+const njsOutputJDOLow = document.querySelector<HTMLElement>(
+    '#njs-output-jd-optimal-low'
+);
+const njsSelectScale = document.querySelector<HTMLSelectElement>(
+    '#njs-option-njs-scale'
+);
 
 const scoreInputNote = document.querySelector<HTMLInputElement>('#score-input-note');
 const scoreInputStar = document.querySelector<HTMLInputElement>('#score-input-star');
-const scoreInputPercent = document.querySelector<HTMLInputElement>('#score-input-percent');
+const scoreInputPercent =
+    document.querySelector<HTMLInputElement>('#score-input-percent');
 const scoreInputScore = document.querySelector<HTMLInputElement>('#score-input-score');
 const scoreInputPP = document.querySelector<HTMLInputElement>('#score-input-pp');
-const scoreOutputMaxScore = document.querySelector<HTMLElement>('#score-output-maxscore');
+const scoreOutputMaxScore = document.querySelector<HTMLElement>(
+    '#score-output-maxscore'
+);
 const scoreOutputMaxScoreMod = document.querySelector<HTMLElement>(
     '#score-output-maxscore-modifier'
 );
-const scoreInputAvgCut = document.querySelector<HTMLInputElement>('#score-input-avgcut');
-const scoreInputMissed = document.querySelector<HTMLTextAreaElement>('#score-input-missed');
-const scoreInputBreak = document.querySelector<HTMLTextAreaElement>('#score-input-break');
-const scoreOutputEstScore = document.querySelector<HTMLElement>('#score-output-estscore');
-const scoreOutputEstPercent = document.querySelector<HTMLElement>('#score-output-estpercent');
+const scoreInputAvgCut =
+    document.querySelector<HTMLInputElement>('#score-input-avgcut');
+const scoreInputMissed =
+    document.querySelector<HTMLTextAreaElement>('#score-input-missed');
+const scoreInputBreak =
+    document.querySelector<HTMLTextAreaElement>('#score-input-break');
+const scoreOutputEstScore = document.querySelector<HTMLElement>(
+    '#score-output-estscore'
+);
+const scoreOutputEstPercent = document.querySelector<HTMLElement>(
+    '#score-output-estpercent'
+);
 const scoreOutputEstPP = document.querySelector<HTMLElement>('#score-output-estpp');
-const scoreOutputMissScore = document.querySelector<HTMLElement>('#score-output-missscore');
-const scoreOutputNoMissScore = document.querySelector<HTMLElement>('#score-output-nomissscore');
-const scoreOutputNoMissPercent = document.querySelector<HTMLElement>('#score-output-nomisspercent');
-const scoreOutputNoMissPP = document.querySelector<HTMLElement>('#score-output-nomisspp');
+const scoreOutputMissScore = document.querySelector<HTMLElement>(
+    '#score-output-missscore'
+);
+const scoreOutputNoMissScore = document.querySelector<HTMLElement>(
+    '#score-output-nomissscore'
+);
+const scoreOutputNoMissPercent = document.querySelector<HTMLElement>(
+    '#score-output-nomisspercent'
+);
+const scoreOutputNoMissPP = document.querySelector<HTMLElement>(
+    '#score-output-nomisspp'
+);
 const scoreTable = document.querySelector<HTMLTableElement>('#score-table');
-const scoreTablePercent = document.querySelector<HTMLTextAreaElement>('#score-table-percentage');
-const scoreOptionPP = document.querySelector<HTMLOptionElement>('#score-option-pp-curve');
-const scoreTextAreaJSON = document.querySelector<HTMLTextAreaElement>('#score-text-json');
+const scoreTablePercent = document.querySelector<HTMLTextAreaElement>(
+    '#score-table-percentage'
+);
+const scoreOptionPP = document.querySelector<HTMLOptionElement>(
+    '#score-option-pp-curve'
+);
+const scoreTextAreaJSON =
+    document.querySelector<HTMLTextAreaElement>('#score-text-json');
 const scoreErrorJSON = document.querySelector<HTMLElement>('#score-error-json');
 
 const labelInputText = document.querySelector<HTMLInputElement>('#label-input-text');
 const labelOutputText = document.querySelector<HTMLInputElement>('#label-output-text');
-const labelInputDiffCount1 = document.querySelector<HTMLInputElement>('#label-input-diff-count-1');
-const labelInputDiffCount2 = document.querySelector<HTMLInputElement>('#label-input-diff-count-2');
-const labelInputDiffCount3 = document.querySelector<HTMLInputElement>('#label-input-diff-count-3');
-const labelInputDiffCount4 = document.querySelector<HTMLInputElement>('#label-input-diff-count-4');
-const labelInputDiffCount5 = document.querySelector<HTMLInputElement>('#label-input-diff-count-5');
+const labelInputDiffCount1 = document.querySelector<HTMLInputElement>(
+    '#label-input-diff-count-1'
+);
+const labelInputDiffCount2 = document.querySelector<HTMLInputElement>(
+    '#label-input-diff-count-2'
+);
+const labelInputDiffCount3 = document.querySelector<HTMLInputElement>(
+    '#label-input-diff-count-3'
+);
+const labelInputDiffCount4 = document.querySelector<HTMLInputElement>(
+    '#label-input-diff-count-4'
+);
+const labelInputDiffCount5 = document.querySelector<HTMLInputElement>(
+    '#label-input-diff-count-5'
+);
 
 const spsInput: { [key: string]: HTMLInputElement } = {};
 const spsOutput: { [key: string]: HTMLInputElement } = {};
@@ -85,9 +133,13 @@ for (const d in swingPerSecond.difficulty) {
     spsInput[d] = document.querySelector<HTMLInputElement>(`#sps-input-${d}`);
     spsOutput[d] = document.querySelector<HTMLInputElement>(`#sps-output-${d}`);
 }
-const spsOutputTotal = document.querySelector<HTMLElement>('#sps-output-total-reduction');
+const spsOutputTotal = document.querySelector<HTMLElement>(
+    '#sps-output-total-reduction'
+);
 
-const cpOptionColorScheme = document.querySelector<HTMLInputElement>('#cp-option-colorscheme');
+const cpOptionColorScheme = document.querySelector<HTMLInputElement>(
+    '#cp-option-colorscheme'
+);
 const cpInputHex: { [key: string]: HTMLInputElement } = {};
 const cpInputPicker: { [key: string]: HTMLInputElement } = {};
 const cpInputInclude: { [key: string]: HTMLInputElement } = {};
@@ -95,23 +147,46 @@ const cpInputReset: { [key: string]: HTMLInputElement } = {};
 for (const obj in colorPicker.colorScheme) {
     const part: string = obj.replace(/^\_/, '').toLowerCase();
     cpInputHex[obj] = document.querySelector<HTMLInputElement>(`#cp-input-hex-${part}`);
-    cpInputPicker[obj] = document.querySelector<HTMLInputElement>(`#cp-input-picker-${part}`);
-    cpInputInclude[obj] = document.querySelector<HTMLInputElement>(`#cp-input-include-${part}`);
-    cpInputReset[obj] = document.querySelector<HTMLInputElement>(`#cp-input-reset-${part}`);
+    cpInputPicker[obj] = document.querySelector<HTMLInputElement>(
+        `#cp-input-picker-${part}`
+    );
+    cpInputInclude[obj] = document.querySelector<HTMLInputElement>(
+        `#cp-input-include-${part}`
+    );
+    cpInputReset[obj] = document.querySelector<HTMLInputElement>(
+        `#cp-input-reset-${part}`
+    );
 }
-const cpTextAreaIOJSON = document.querySelector<HTMLTextAreaElement>('#cp-io-colorjson');
+const cpTextAreaIOJSON =
+    document.querySelector<HTMLTextAreaElement>('#cp-io-colorjson');
 const cpErrorJSON = document.querySelector<HTMLElement>('#cp-error-colorjson');
 
 const rpgInputRow = document.querySelector<HTMLInputElement>('#rpg-input-rpattern-row');
-const rpgInputColumn = document.querySelector<HTMLInputElement>('#rpg-input-rpattern-column');
+const rpgInputColumn = document.querySelector<HTMLInputElement>(
+    '#rpg-input-rpattern-column'
+);
 const rpgTable = document.querySelector<HTMLTableElement>('#rpg-table-rpattern');
-const rpgInputNRed = document.querySelector<HTMLInputElement>('#rpg-input-rpattern-red');
-const rpgInputNBlue = document.querySelector<HTMLInputElement>('#rpg-input-rpattern-blue');
-const rpgInputNBomb = document.querySelector<HTMLInputElement>('#rpg-input-rpattern-bomb');
-const rpgInputLimit = document.querySelector<HTMLInputElement>('#rpg-input-rpattern-limit');
-const rpgInputTotal = document.querySelector<HTMLInputElement>('#rpg-input-rpattern-total');
-const rpgInputNoDot = document.querySelector<HTMLInputElement>('#rpg-input-rpattern-nodot');
-const rpgInputParity = document.querySelector<HTMLInputElement>('#rpg-input-rpattern-parity');
+const rpgInputNRed = document.querySelector<HTMLInputElement>(
+    '#rpg-input-rpattern-red'
+);
+const rpgInputNBlue = document.querySelector<HTMLInputElement>(
+    '#rpg-input-rpattern-blue'
+);
+const rpgInputNBomb = document.querySelector<HTMLInputElement>(
+    '#rpg-input-rpattern-bomb'
+);
+const rpgInputLimit = document.querySelector<HTMLInputElement>(
+    '#rpg-input-rpattern-limit'
+);
+const rpgInputTotal = document.querySelector<HTMLInputElement>(
+    '#rpg-input-rpattern-total'
+);
+const rpgInputNoDot = document.querySelector<HTMLInputElement>(
+    '#rpg-input-rpattern-nodot'
+);
+const rpgInputParity = document.querySelector<HTMLInputElement>(
+    '#rpg-input-rpattern-parity'
+);
 const rpgInputParityExtend = document.querySelector<HTMLInputElement>(
     '#rpg-input-rpattern-parity-extend'
 );
@@ -121,7 +196,9 @@ const rpgInputParityNRed = document.querySelector<HTMLInputElement>(
 const rpgInputParityNBlue = document.querySelector<HTMLInputElement>(
     '#rpg-input-rpattern-parity-blue'
 );
-const rpgInputGenerate = document.querySelector<HTMLInputElement>('#rpg-input-generate-rpattern');
+const rpgInputGenerate = document.querySelector<HTMLInputElement>(
+    '#rpg-input-generate-rpattern'
+);
 
 init();
 
@@ -213,7 +290,9 @@ function init() {
     njsInputNJS.value = noteJumpSpeed.njs.toString();
     njsInputOffset.value = noteJumpSpeed.offset.toString();
     updateNJS();
-    njsOutputMinReact.textContent = `${round((60 / bpm.value) * 1000)}ms`;
+    njsOutputMinReact.textContent = `${round(
+        (60 / bpm.value) * noteJumpSpeed.hjdMin * 1000
+    )}ms`;
     enableInput();
 
     const missedScore = [3, 22, 100, 102];
@@ -271,7 +350,9 @@ function inputBPMHandler(ev: Event) {
         updatePrec();
         updateEBPM();
         updateNJS();
-        njsOutputMinReact.textContent = `${round((60 / bpm.value) * 1000)}ms`;
+        njsOutputMinReact.textContent = `${round(
+            (60 / bpm.value) * noteJumpSpeed.hjdMin * 1000
+        )}ms`;
     } else {
         disableInput();
     }
@@ -280,7 +361,8 @@ function inputBPMHandler(ev: Event) {
     }
 }
 function inputPrecBeatHandler(ev: Event) {
-    ebpmPrec.precBeat = Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : 1;
+    ebpmPrec.precBeat =
+        Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : 1;
     if (ebpmPrec.precBeat > 0) {
         updateEBPM();
         ebpmInputPrecTime.value = round(ebpmPrec.precTime, 3).toString();
@@ -291,7 +373,8 @@ function inputPrecBeatHandler(ev: Event) {
     }
 }
 function inputPrecTimeHandler(ev: Event) {
-    ebpmPrec.precTime = Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : 1;
+    ebpmPrec.precTime =
+        Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : 1;
     if (ebpmPrec.precTime > 0) {
         updateEBPM();
         ebpmInputPrecBeat.value = round(ebpmPrec.precBeat, 3).toString();
@@ -316,7 +399,9 @@ function inputPrecRealTimeHandler(ev: Event) {
 function inputEBPMHandler(ev: Event) {
     if (this.id === 'ebpm-input-ebpm-ohj') {
         ebpmPrec.ebpmOHJ =
-            Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : bpm.value;
+            Math.abs(parseFloat(this.value)) > 0
+                ? Math.abs(parseFloat(this.value))
+                : bpm.value;
         if (ev.type === 'change') {
             this.value = round(ebpmPrec.ebpmOHJ, 2).toString();
         }
@@ -324,7 +409,9 @@ function inputEBPMHandler(ev: Event) {
     }
     if (this.id === 'ebpm-input-ebpm-stream') {
         ebpmPrec.ebpmStream =
-            Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : bpm.value;
+            Math.abs(parseFloat(this.value)) > 0
+                ? Math.abs(parseFloat(this.value))
+                : bpm.value;
         if (ev.type === 'change') {
             this.value = round(ebpmPrec.ebpmStream, 2).toString();
         }
@@ -344,7 +431,9 @@ function updateEBPM() {
 
 function inputNJSHandler(ev: Event) {
     noteJumpSpeed.njs =
-        Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : noteJumpSpeed.njs;
+        Math.abs(parseFloat(this.value)) > 0
+            ? Math.abs(parseFloat(this.value))
+            : noteJumpSpeed.njs;
     updateNJS();
     if (ev.type === 'change') {
         this.value = round(noteJumpSpeed.njs, 3);
@@ -371,11 +460,14 @@ function inputHJDHandler(ev: Event) {
 }
 function inputJDHandler(ev: Event) {
     let jd =
-        Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : noteJumpSpeed.jd;
+        Math.abs(parseFloat(this.value)) > 0
+            ? Math.abs(parseFloat(this.value))
+            : noteJumpSpeed.jd;
     if (njsSelectScale.value === 'hjd') {
         jd = Math.max(jd, noteJumpSpeed.jdMin);
         noteJumpSpeed.offset =
-            noteJumpSpeed.calcHalfJumpDurationFromJD(jd) - noteJumpSpeed.calcHalfJumpDurationRaw();
+            noteJumpSpeed.calcHalfJumpDurationFromJD(jd) -
+            noteJumpSpeed.calcHalfJumpDurationRaw();
     }
     if (njsSelectScale.value === 'njs') {
         noteJumpSpeed.njs = jd / (2 * noteJumpSpeed.calcReactionTimeHJD());
@@ -396,7 +488,8 @@ function inputReactTimeHandler(ev: Event) {
             : noteJumpSpeed.calcReactionTimeHJD(),
         noteJumpSpeed.calcReactionTimeHJD(noteJumpSpeed.hjdMin)
     );
-    noteJumpSpeed.offset = reactTime / (60 / bpm.value) - noteJumpSpeed.calcHalfJumpDurationRaw();
+    noteJumpSpeed.offset =
+        reactTime / (60 / bpm.value) - noteJumpSpeed.calcHalfJumpDurationRaw();
     njsInputHJD.value = round(noteJumpSpeed.hjd, 3).toString();
     njsInputJD.value = round(noteJumpSpeed.jd, 2).toString();
     njsOutputJD.textContent = round(noteJumpSpeed.jdMin, 2).toString();
@@ -410,8 +503,14 @@ function updateNJS() {
     njsInputHJD.value = round(noteJumpSpeed.hjd, 3).toString();
     njsInputJD.value = round(noteJumpSpeed.jd, 2).toString();
     njsInputReact.value = round(noteJumpSpeed.reactTime * 1000).toString();
-    njsOutputJDOHigh.textContent = round(noteJumpSpeed.calcJumpDistanceOptimalHigh(), 2).toString();
-    njsOutputJDOLow.textContent = round(noteJumpSpeed.calcJumpDistanceOptimalLow(), 2).toString();
+    njsOutputJDOHigh.textContent = round(
+        noteJumpSpeed.calcJumpDistanceOptimalHigh(),
+        2
+    ).toString();
+    njsOutputJDOLow.textContent = round(
+        noteJumpSpeed.calcJumpDistanceOptimalLow(),
+        2
+    ).toString();
     njsOutputJD.textContent = round(noteJumpSpeed.jdMin, 2).toString();
 }
 
@@ -445,7 +544,10 @@ function inputScoreHandler(ev: Event) {
     const maxScore = scoreCalculator.calcScore();
     scoreInputPercent.value = round((score / maxScore) * 100, 2).toString();
     scoreInputPP.value = round(
-        scoreCalculator.calcPP(scoreCalculator.star, parseFloat(scoreInputPercent.value) / 100),
+        scoreCalculator.calcPP(
+            scoreCalculator.star,
+            parseFloat(scoreInputPercent.value) / 100
+        ),
         2
     ).toString();
     if (ev.type === 'change') {
@@ -487,7 +589,10 @@ function updateScore() {
         scoreCalculator.calcScore() * (parseFloat(scoreInputPercent.value) / 100)
     ).toString();
     scoreInputPP.value = round(
-        scoreCalculator.calcPP(scoreCalculator.star, parseFloat(scoreInputPercent.value) / 100),
+        scoreCalculator.calcPP(
+            scoreCalculator.star,
+            parseFloat(scoreInputPercent.value) / 100
+        ),
         2
     ).toString();
     scoreOutputMaxScore.textContent = formatNumber(scoreCalculator.calcScore());
@@ -505,14 +610,20 @@ function updateScoreEst() {
     );
     const noMissScore = scoreCalculator.calcScore(parseFloat(scoreInputAvgCut.value));
     scoreOutputEstScore.textContent = formatNumber(round(estScore));
-    scoreOutputEstPercent.textContent = round((estScore / maxScore) * 100, 2).toString();
+    scoreOutputEstPercent.textContent = round(
+        (estScore / maxScore) * 100,
+        2
+    ).toString();
     scoreOutputEstPP.textContent = round(
         scoreCalculator.calcPP(scoreCalculator.star, estScore / maxScore),
         2
     ).toString();
     scoreOutputMissScore.textContent = formatNumber(round(noMissScore - estScore));
     scoreOutputNoMissScore.textContent = formatNumber(round(noMissScore));
-    scoreOutputNoMissPercent.textContent = round((noMissScore / maxScore) * 100, 2).toString();
+    scoreOutputNoMissPercent.textContent = round(
+        (noMissScore / maxScore) * 100,
+        2
+    ).toString();
     scoreOutputNoMissPP.textContent = round(
         scoreCalculator.calcPP(scoreCalculator.star, noMissScore / maxScore),
         2
@@ -630,7 +741,9 @@ function optionColorSchemeHandler() {
                 const hexColor = colorPicker.getColorHex(colorPicker.colorScheme[obj]);
                 cpInputHex[obj].value = hexColor;
                 cpInputPicker[obj].value = hexColor;
-                cpInputInclude[obj].checked = colorPicker.colorScheme[obj] ? true : false;
+                cpInputInclude[obj].checked = colorPicker.colorScheme[obj]
+                    ? true
+                    : false;
                 cpInputReset[obj].style.display = 'block';
             }
         }
@@ -725,7 +838,9 @@ function inputColorIncludeHandler() {
         }
     }
     if (this.checked) {
-        colorPicker.colorScheme[objName] = colorPicker.hexToRGB(cpInputPicker[objName].value);
+        colorPicker.colorScheme[objName] = colorPicker.hexToRGB(
+            cpInputPicker[objName].value
+        );
         cpInputHex[objName].value = cpInputPicker[objName].value;
         cpInputReset[objName].style.display = 'block';
     }
@@ -776,7 +891,9 @@ function inputRPatternColumnHandler() {
     tableRPattern();
 }
 function inputRPatternGenerateHandler() {
-    const rpgTableImage = document.querySelectorAll<HTMLImageElement>('.table-rpattern-image');
+    const rpgTableImage = document.querySelectorAll<HTMLImageElement>(
+        '.table-rpattern-image'
+    );
     rpgTableImage.forEach((image) => {
         image.src = './assets/blank.png';
         image.alt = 'blank';
@@ -802,7 +919,9 @@ function inputRPatternGenerateHandler() {
             }`;
             rpgTableImage[j].alt = noteImage[grid[j]._noteType].slice(0, -4);
             if (grid[j]._noteDirection !== 8) {
-                rpgTableImage[j].className += ` ${noteRotation[grid[j]._noteDirection]}`;
+                rpgTableImage[j].className += ` ${
+                    noteRotation[grid[j]._noteDirection]
+                }`;
                 rpgTableImage[j].alt += ` ${noteRotation[grid[j]._noteDirection]}`;
             }
         }

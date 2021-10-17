@@ -670,6 +670,43 @@ export const colorScheme: EnvironmentColor = {
             b: 0.75,
         },
     },
+    'werewolf howls.': {
+        _colorLeft: {
+            r: 0.812,
+            g: 0.125,
+            b: 0.125,
+        },
+        _colorRight: {
+            r: 0.25,
+            g: 0.5,
+            b: 0.75,
+        },
+        _envColorLeft: {
+            r: 0.875,
+            g: 0.062,
+            b: 0.062,
+        },
+        _envColorRight: {
+            r: 0.375,
+            g: 0.375,
+            b: 0.375,
+        },
+        _envColorLeftBoost: {
+            r: 0.938,
+            g: 0.062,
+            b: 0.062,
+        },
+        _envColorRightBoost: {
+            r: 0.938,
+            g: 0.438,
+            b: 0,
+        },
+        _obstacleColor: {
+            r: 0.25,
+            g: 0.25,
+            b: 0.25,
+        },
+    },
     VENTEN: {
         _colorLeft: {
             r: 0.8125,
@@ -708,12 +745,77 @@ export const colorScheme: EnvironmentColor = {
         },
     },
     'Unconscious Requiem': {
-        _colorLeft: { r: 0.438, g: 0.438, b: 0.438 },
-        _colorRight: { r: 0.388, g: 0.62, b: 0.157 },
-        _envColorLeft: { r: 0.85, g: 0.085, b: 0.085 },
-        _envColorRight: { r: 0.604, g: 0.604, b: 0.604 },
-        _envColorLeftBoost: { r: 0.922, g: 0.596, b: 0.255 },
-        _envColorRightBoost: { r: 0.259, g: 0.784, b: 0.02 },
-        _obstacleColor: { r: 0.5, g: 0.5, b: 0.5 },
+        _colorLeft: {
+            r: 0.312,
+            g: 0.312,
+            b: 0.312,
+        },
+        _colorRight: {
+            r: 0.419,
+            g: 0.625,
+            b: 0.213,
+        },
+        _envColorLeft: {
+            r: 0.85,
+            g: 0.085,
+            b: 0.085,
+        },
+        _envColorRight: {
+            r: 0.604,
+            g: 0.604,
+            b: 0.604,
+        },
+        _envColorLeftBoost: {
+            r: 0.922,
+            g: 0.596,
+            b: 0.255,
+        },
+        _envColorRightBoost: {
+            r: 0.259,
+            g: 0.784,
+            b: 0.02,
+        },
+        _obstacleColor: {
+            r: 0.5,
+            g: 0.5,
+            b: 0.5,
+        },
+    },
+    'Pure-Hearted Armeria': {
+        _colorLeft: {
+            r: 0.25,
+            g: 0.25,
+            b: 0.25,
+        },
+        _colorRight: {
+            r: 0.625,
+            g: 0.625,
+            b: 0.625,
+        },
+        _envColorLeft: {
+            r: 0.25,
+            g: 0.562,
+            b: 0.312,
+        },
+        _envColorRight: {
+            r: 0.562,
+            g: 0.562,
+            b: 0.562,
+        },
+        _obstacleColor: {
+            r: 0.25,
+            g: 0.5,
+            b: 0.375,
+        },
+        _envColorLeftBoost: {
+            r: 0.625,
+            g: 0.188,
+            b: 0.188,
+        },
+        _envColorRightBoost: {
+            r: 0.125,
+            g: 0.312,
+            b: 0.688,
+        },
     },
 };

@@ -5,8 +5,8 @@ export default class NoteJumpSpeed {
     private _njs: number;
     private _sdm: number;
     private _hjd: number;
-    private _hjdStart: number = 4;
-    private _hjdMin: number = 1;
+    private static readonly HJD_START: number = 4;
+    private static readonly HJD_MIN: number = 0.25;
     private _jd: number;
     private _jdMin: number;
     private _reactionTime: number;
@@ -36,7 +36,7 @@ export default class NoteJumpSpeed {
         return this._hjd;
     }
     get hjdMin(): number {
-        return this._hjdMin;
+        return NoteJumpSpeed.HJD_MIN;
     }
     get reactTime(): number {
         return this._reactionTime;
@@ -51,24 +51,24 @@ export default class NoteJumpSpeed {
     update(): void {
         this._hjd = this.calcHalfJumpDuration();
         this._jd = this.calcJumpDistance();
-        this._jdMin = this.calcJumpDistance(this._hjdMin);
+        this._jdMin = this.calcJumpDistance(NoteJumpSpeed.HJD_MIN);
         this._reactionTime = this.calcReactionTimeHJD();
     }
     calcHalfJumpDurationRaw(): number {
         const maxHalfJump = 18;
         const noteJumpMovementSpeed = (this._njs * this._njs) / this._njs;
         const num = 60 / this._bpm.value;
-        let hjd = this._hjdStart;
+        let hjd = NoteJumpSpeed.HJD_START;
         while (noteJumpMovementSpeed * num * hjd > maxHalfJump) {
             hjd /= 2;
         }
-        if (hjd < this._hjdMin) {
+        if (hjd < 1) {
             hjd = 1;
         }
         return hjd;
     }
     calcHalfJumpDuration(offset: number = this.offset): number {
-        return Math.max(this.calcHalfJumpDurationRaw() + offset, 1);
+        return Math.max(this.calcHalfJumpDurationRaw() + offset, NoteJumpSpeed.HJD_MIN);
     }
     calcHalfJumpDurationFromJD(jd: number = this.calcJumpDistance()): number {
         return jd / ((60 / this._bpm.value) * this._njs * 2);

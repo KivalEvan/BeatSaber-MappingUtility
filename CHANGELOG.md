@@ -1,13 +1,27 @@
 # Changelog
 
-## v2.0.2 [ 2021-09-26 ]
+## v2.0.3 [2021-10-17]
+
+### Added
+
+-   Yet another color scheme
+
+### Changed
+
+-   HJD step reduced to 0.25 from 1
+
+### Fixed
+
+-   NJS HJD minimum thing
+
+## v2.0.2 [2021-09-26]
 
 ### Added
 
 -   Skrillex & Billie Eilish color scheme
 -   My own map with full color scheme
 
-## v2.0.1 [ 2021-07-04 ]
+## v2.0.1 [2021-07-04]
 
 ### Changed
 
@@ -18,7 +32,7 @@
 -   Lighthouse related issue
 -   Some package pepega
 
-## v2.0.0 : TypeScript Rewrite [ 2021-06-30 ]
+## v2.0.0 : TypeScript Rewrite [2021-06-30]
 
 ### Added
 
