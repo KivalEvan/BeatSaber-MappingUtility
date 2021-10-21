@@ -1,5 +1,5 @@
-import { round } from './util';
-import { Color as Color } from './color';
+import { round } from './utils';
+import { Color } from './color';
 import { colorScheme, ColorScheme } from './envColor';
 
 export default class ColorPicker {
@@ -31,7 +31,8 @@ export default class ColorPicker {
     update() {
         if (colorScheme[this._environmentColor]) {
             for (const part in this._colorScheme) {
-                this._colorScheme[part] = colorScheme[this._environmentColor][part] || null;
+                this._colorScheme[part] =
+                    colorScheme[this._environmentColor][part] || null;
             }
         }
     }
@@ -59,9 +60,9 @@ export default class ColorPicker {
         for (const v in c) {
             color[v] = this.cDenorm(c[v]);
         }
-        return `#${this.decToHex(color.r)}${this.decToHex(color.g)}${this.decToHex(color.b)}${
-            color.a !== undefined ? this.decToHex(color.a) : ''
-        }`;
+        return `#${this.decToHex(color.r)}${this.decToHex(color.g)}${this.decToHex(
+            color.b
+        )}${color.a !== undefined ? this.decToHex(color.a) : ''}`;
     }
     public hexToRGB(hex: string) {
         return {

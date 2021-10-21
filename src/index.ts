@@ -1,13 +1,13 @@
 // it turns out ui is complete pain with typescript and webpack
 // need to learn how to break up these into separate files
 import Version from './version';
-import { formatNumber, round } from './util';
+import { formatNumber, round } from './utils';
 import BeatPerMinute from './bpm';
 import EBPMPrecision from './ebpmPrec';
 import NoteJumpSpeed from './njs';
 import ScoreCalculator, { maxNoteScore } from './score';
 import SwingPerSecond from './sps';
-import { Color } from './color';
+import { Color, ColorArray, deltaE00, toRGBArray } from './color';
 import ColorPicker from './colorPicker';
 import { colorScheme } from './envColor';
 import RandomPatternGenerator, { noteImage, noteRotation } from './randPattern';
@@ -157,6 +157,9 @@ for (const obj in colorPicker.colorScheme) {
         `#cp-input-reset-${part}`
     );
 }
+const cpTextDENC = document.querySelector<HTMLSpanElement>('#cp-output-de-nc');
+const cpTextDELA = document.querySelector<HTMLSpanElement>('#cp-output-de-la');
+const cpTextDERA = document.querySelector<HTMLSpanElement>('#cp-output-de-ra');
 const cpTextAreaIOJSON =
     document.querySelector<HTMLTextAreaElement>('#cp-io-colorjson');
 const cpErrorJSON = document.querySelector<HTMLElement>('#cp-error-colorjson');
@@ -747,6 +750,7 @@ function optionColorSchemeHandler() {
                 cpInputReset[obj].style.display = 'block';
             }
         }
+        updateDeltaE();
         updateColorJSON();
     }
 }
@@ -788,7 +792,37 @@ function inputJSONColorHandler() {
             cpInputReset[obj].style.display = 'block';
         }
     }
+    updateDeltaE();
     updateColorJSON();
+}
+function updateDeltaE() {
+    const noteLeft = colorPicker.colorScheme._colorLeft;
+    const noteRight = colorPicker.colorScheme._colorRight;
+    const arrowColor: ColorArray = [1, 1, 1];
+    if (noteLeft) {
+        cpTextDELA.textContent = round(
+            deltaE00(toRGBArray(noteLeft), arrowColor),
+            2
+        ).toString();
+    } else {
+        cpTextDELA.textContent = 'N/A';
+    }
+    if (noteRight) {
+        cpTextDERA.textContent = round(
+            deltaE00(toRGBArray(noteRight), arrowColor),
+            2
+        ).toString();
+    } else {
+        cpTextDERA.textContent = 'N/A';
+    }
+    if (noteLeft && noteRight) {
+        cpTextDENC.textContent = round(
+            deltaE00(toRGBArray(noteLeft), toRGBArray(noteRight)),
+            2
+        ).toString();
+    } else {
+        cpTextDENC.textContent = 'N/A';
+    }
 }
 function updateColorJSON() {
     const parsed: { [key: string]: object } = {};
@@ -814,6 +848,7 @@ function inputColorHexHandler() {
         cpInputPicker[objName].value = colorHex;
         cpInputInclude[objName].checked = true;
         cpInputReset[objName].style.display = 'block';
+        updateDeltaE();
         updateColorJSON();
     }
 }
@@ -828,6 +863,7 @@ function inputColorPickerHandler() {
     cpInputHex[objName].value = this.value;
     cpInputInclude[objName].checked = true;
     cpInputReset[objName].style.display = 'block';
+    updateDeltaE();
     updateColorJSON();
 }
 function inputColorIncludeHandler() {
@@ -844,6 +880,7 @@ function inputColorIncludeHandler() {
         cpInputHex[objName].value = cpInputPicker[objName].value;
         cpInputReset[objName].style.display = 'block';
     }
+    updateDeltaE();
     updateColorJSON();
 }
 function inputColorResetHandler() {
@@ -858,6 +895,7 @@ function inputColorResetHandler() {
     cpInputPicker[objName].value = '#000000';
     cpInputInclude[objName].checked = false;
     cpInputReset[objName].style.display = 'none';
+    updateDeltaE();
     updateColorJSON();
 }
 

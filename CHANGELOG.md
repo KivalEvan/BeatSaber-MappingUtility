@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.0.4 [2021-10-21]
+
+### Added
+
+-   Note color similarity in colour picker
+
 ## v2.0.3 [2021-10-17]
 
 ### Added

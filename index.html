@@ -274,17 +274,26 @@
               <td><input type="button" id="cp-input-reset-obstaclecolor" value="Reset"></td>
             </tr>
           </table>
-          <br>
-          <label for="cp-io-colorjson">JSON format:</label><br>
-          <textarea id="cp-io-colorjson" name="cp-io-colorjson" cols="40" rows="12"></textarea><br>
-          <span id="cp-error-colorjson"></span>
-          <br>
+          <div>
+            <br>
+            Note colour similarity (dE): <span id="cp-output-de-nc">N/A</span><br>
+            Left arrow similarity (dE): <span id="cp-output-de-la">N/A</span><br>
+            Right arrow similarity (dE): <span id="cp-output-de-ra">N/A</span><br>
+            <br>
+            Lower dE is similar colour, higher dE is opposite colour
+          </div>
+          <div>
+            <br>
+            <label for="cp-io-colorjson">JSON format:</label><br>
+            <textarea id="cp-io-colorjson" name="cp-io-colorjson" cols="40" rows="12"></textarea><br>
+            <span id="cp-error-colorjson"></span>
+            <br>
+          </div>
           <div>
             <span>
               Paste difficulty _customData onto text area<br>
               OR<br>
-              Copy text into difficulty _customData<br>
-              (ignore first bracket, i'll deal with that later)
+              Copy properties into difficulty _customData<br>
             </span>
           </div>
         </div>
