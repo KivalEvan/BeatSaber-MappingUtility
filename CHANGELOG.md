@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.0.5 [2021-10-26]
+
+### Added
+
+-   Spooky environment support
+
 ## v2.0.4 [2021-10-21]
 
 ### Added

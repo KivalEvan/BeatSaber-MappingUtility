@@ -508,6 +508,43 @@ export const colorScheme: EnvironmentColor = {
             b: 0.77647066,
         },
     },
+    Spooky: {
+        _colorLeft: {
+            r: 0.81960785,
+            g: 0.49807876,
+            b: 0.27702752,
+        },
+        _colorRight: {
+            r: 0.37894738,
+            g: 0.35789475,
+            b: 0.40000001,
+        },
+        _envColorLeft: {
+            r: 0.90196079,
+            g: 0.23009226,
+            b: 0,
+        },
+        _envColorRight: {
+            r: 0.46005884,
+            g: 0.56889427,
+            b: 0.92941177,
+        },
+        _obstacleColor: {
+            r: 0.81960791,
+            g: 0.44313729,
+            b: 0.18431373,
+        },
+        _envColorLeftBoost: {
+            r: 0.33768433,
+            g: 0.63207543,
+            b: 0.33690813,
+        },
+        _envColorRightBoost: {
+            r: 0.60209066,
+            g: 0.3280082,
+            b: 0.85849059,
+        },
+    },
     'Glass Desert': {
         _colorLeft: {
             r: 0.6792453,
