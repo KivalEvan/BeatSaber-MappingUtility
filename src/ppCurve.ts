@@ -20,7 +20,7 @@ export const ppCurve: ppCurve = {
         [0.45, 0.015],
         [0, 0],
     ],
-    '2020 ScoreSaber': [
+    'ScoreSaber 2020': [
         [1.14, 1.2],
         [1.1, 1.15],
         [1, 1.1],
