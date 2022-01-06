@@ -1,10 +1,15 @@
 # Changelog
 
-## v2.0.5 [2021-10-26]
+## v2.1.0 [2022-01-08]
 
 ### Added
 
--   Spooky environment support
+-   Spooky and Gaga environment support
+-   NJS hitbox time distance
+
+### Changed
+
+-   Cleaned up and organised codebase
 
 ## v2.0.4 [2021-10-21]
 

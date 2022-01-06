@@ -1,4 +1,5 @@
 import { CurvePoint, ppCurve } from './ppCurve';
+import { round, formatNumber } from './utils';
 
 function lerp(x: number, y: number, a: number): number {
     return x + (y - x) * a;
@@ -57,13 +58,13 @@ export const scoreModifier: { [key: string]: { [key: string]: number | string } 
 export default class ScoreCalculator {
     private _note: number;
     private _starRating: number = 7;
-    private _starPP: number = 42.521;
+    private _starPP: number = 1 / 1.046 / 0.0227;
     private _curvePoints: CurvePoint[];
 
     constructor(
         note: number = 0,
         star: number = 7,
-        curvePoints: CurvePoint[] = ppCurve.scoresaber
+        curvePoints: CurvePoint[] = ppCurve.ScoreSaber
     ) {
         this._note = note;
         this._starRating = star;
@@ -139,4 +140,259 @@ export default class ScoreCalculator {
         }
         return total;
     }
+}
+const scoreCalculator = new ScoreCalculator(727);
+
+const scoreInputNote = document.querySelector<HTMLInputElement>('#score-input-note')!;
+const scoreInputStar = document.querySelector<HTMLInputElement>('#score-input-star')!;
+const scoreInputPercent =
+    document.querySelector<HTMLInputElement>('#score-input-percent')!;
+const scoreInputScore = document.querySelector<HTMLInputElement>('#score-input-score')!;
+const scoreInputPP = document.querySelector<HTMLInputElement>('#score-input-pp')!;
+const scoreOutputMaxScore = document.querySelector<HTMLElement>(
+    '#score-output-maxscore'
+)!;
+const scoreOutputMaxScoreMod = document.querySelector<HTMLElement>(
+    '#score-output-maxscore-modifier'
+)!;
+const scoreInputAvgCut =
+    document.querySelector<HTMLInputElement>('#score-input-avgcut')!;
+const scoreInputMissed =
+    document.querySelector<HTMLTextAreaElement>('#score-input-missed')!;
+const scoreInputBreak =
+    document.querySelector<HTMLTextAreaElement>('#score-input-break')!;
+const scoreOutputEstScore = document.querySelector<HTMLElement>(
+    '#score-output-estscore'
+)!;
+const scoreOutputEstPercent = document.querySelector<HTMLElement>(
+    '#score-output-estpercent'
+)!;
+const scoreOutputEstPP = document.querySelector<HTMLElement>('#score-output-estpp')!;
+const scoreOutputMissScore = document.querySelector<HTMLElement>(
+    '#score-output-missscore'
+)!;
+const scoreOutputNoMissScore = document.querySelector<HTMLElement>(
+    '#score-output-nomissscore'
+)!;
+const scoreOutputNoMissPercent = document.querySelector<HTMLElement>(
+    '#score-output-nomisspercent'
+)!;
+const scoreOutputNoMissPP = document.querySelector<HTMLElement>(
+    '#score-output-nomisspp'
+)!;
+const scoreTable = document.querySelector<HTMLTableElement>('#score-table')!;
+const scoreTablePercent = document.querySelector<HTMLTextAreaElement>(
+    '#score-table-percentage'
+)!;
+const scoreOptionPP = document.querySelector<HTMLOptionElement>(
+    '#score-option-pp-curve'
+)!;
+const scoreTextAreaJSON =
+    document.querySelector<HTMLTextAreaElement>('#score-text-json')!;
+const scoreErrorJSON = document.querySelector<HTMLElement>('#score-error-json')!;
+
+scoreInputNote.addEventListener('change', inputNoteHandler);
+scoreInputNote.addEventListener('input', inputNoteHandler);
+scoreInputStar.addEventListener('change', inputStarHandler);
+scoreInputStar.addEventListener('input', inputStarHandler);
+scoreInputPercent.addEventListener('change', inputPercentHandler);
+scoreInputPercent.addEventListener('input', inputPercentHandler);
+scoreInputScore.addEventListener('change', inputScoreHandler);
+scoreInputScore.addEventListener('input', inputScoreHandler);
+scoreInputAvgCut.addEventListener('change', inputAvgCutHandler);
+scoreInputAvgCut.addEventListener('input', inputAvgCutHandler);
+scoreInputBreak.addEventListener('change', inputMissBreakHandler);
+scoreInputMissed.addEventListener('change', inputMissBreakHandler);
+scoreTablePercent.addEventListener('change', inputTablePercentHandler);
+scoreOptionPP.addEventListener('change', optionScoreCurveHandler);
+scoreTextAreaJSON.addEventListener('change', inputJSONScoreHandler);
+
+const missedScore = [3, 22, 100, 102];
+const breakScore = [127];
+scoreTablePercent.value = [100, 98, 97, 96, 95, 94, 93, 90, 85, 80].join(',');
+scoreInputNote.value = scoreCalculator.note.toString();
+scoreInputStar.value = scoreCalculator.star.toString();
+scoreInputPercent.value = '90';
+scoreInputAvgCut.value = '111';
+scoreInputMissed.value = missedScore.join(',');
+scoreInputBreak.value = breakScore.join(',');
+ppCurve['custom'] = [...ppCurve.ScoreSaber];
+updateScore();
+updateScoreEst();
+updateScoreTable();
+updateScoreJSON();
+
+function inputNoteHandler(this: HTMLInputElement, ev: Event) {
+    scoreCalculator.note = parseInt(this.value) || 0;
+    updateScore();
+    updateScoreEst();
+    updateScoreTable();
+    if (ev.type === 'change') {
+        this.value = scoreCalculator.note.toString();
+    }
+}
+function inputStarHandler(this: HTMLInputElement, ev: Event) {
+    scoreCalculator.star = parseFloat(this.value) || 0;
+    updateScore();
+    updateScoreEst();
+    updateScoreTable();
+    if (ev.type === 'change') {
+        this.value = round(scoreCalculator.star, 2).toString();
+    }
+}
+function inputPercentHandler(this: HTMLInputElement, ev: Event) {
+    updateScore();
+    updateScoreTable();
+    if (ev.type === 'change') {
+        this.value = round(parseFloat(this.value), 2).toString();
+    }
+}
+function inputScoreHandler(this: HTMLInputElement, ev: Event) {
+    const score = parseInt(this.value);
+    const maxScore = scoreCalculator.calcScore();
+    scoreInputPercent.value = round((score / maxScore) * 100, 2).toString();
+    scoreInputPP.value = round(
+        scoreCalculator.calcPP(
+            scoreCalculator.star,
+            parseFloat(scoreInputPercent.value) / 100
+        ),
+        2
+    ).toString();
+    if (ev.type === 'change') {
+        this.value = score.toString();
+    }
+}
+function inputAvgCutHandler(this: HTMLInputElement, ev: Event) {
+    updateScoreEst();
+    if (ev.type === 'change') {
+        this.value = round(parseFloat(this.value), 2).toString();
+    }
+}
+function inputMissBreakHandler(this: HTMLInputElement) {
+    const temp: string = this.value.trim().replace(/\s+,/, ',');
+    if (/^((\d+\.)?\d+,?)+/.test(temp) || temp === '') {
+        const temp2: number[] = temp
+            .split(',')
+            .map((x) => parseInt(x))
+            .filter((x) => !isNaN(x))
+            .sort((a: number, b: number) => a - b);
+        this.value = temp2.join(',').toString();
+        updateScoreEst();
+    }
+}
+function inputTablePercentHandler(this: HTMLInputElement) {
+    const temp: string = this.value.trim().replace(/\s+,/, ',');
+    if (/^((\d+\.)?\d+,?)+/.test(temp)) {
+        const temp2: number[] = temp
+            .split(',')
+            .map((x) => parseFloat(x))
+            .filter((x) => !isNaN(x))
+            .sort((a: number, b: number) => b - a);
+        this.value = temp2.toString();
+        updateScoreTable();
+    }
+}
+function updateScore() {
+    scoreInputScore.value = round(
+        scoreCalculator.calcScore() * (parseFloat(scoreInputPercent.value) / 100)
+    ).toString();
+    scoreInputPP.value = round(
+        scoreCalculator.calcPP(
+            scoreCalculator.star,
+            parseFloat(scoreInputPercent.value) / 100
+        ),
+        2
+    ).toString();
+    scoreOutputMaxScore.textContent = formatNumber(scoreCalculator.calcScore());
+    scoreOutputMaxScoreMod.textContent = formatNumber(scoreCalculator.calcScore());
+}
+function updateScoreEst() {
+    const missedScore = scoreInputMissed.value.split(',').map((x) => parseInt(x)) || [];
+    const breakScore = scoreInputBreak.value.split(',').map((x) => parseInt(x)) || [];
+    const maxScore = scoreCalculator.calcScore();
+    const estScore = scoreCalculator.calcScore(
+        parseFloat(scoreInputAvgCut.value),
+        undefined,
+        missedScore,
+        breakScore
+    );
+    const noMissScore = scoreCalculator.calcScore(parseFloat(scoreInputAvgCut.value));
+    scoreOutputEstScore.textContent = formatNumber(round(estScore));
+    scoreOutputEstPercent.textContent = round(
+        (estScore / maxScore) * 100,
+        2
+    ).toString();
+    scoreOutputEstPP.textContent = round(
+        scoreCalculator.calcPP(scoreCalculator.star, estScore / maxScore),
+        2
+    ).toString();
+    scoreOutputMissScore.textContent = formatNumber(round(noMissScore - estScore));
+    scoreOutputNoMissScore.textContent = formatNumber(round(noMissScore));
+    scoreOutputNoMissPercent.textContent = round(
+        (noMissScore / maxScore) * 100,
+        2
+    ).toString();
+    scoreOutputNoMissPP.textContent = round(
+        scoreCalculator.calcPP(scoreCalculator.star, noMissScore / maxScore),
+        2
+    ).toString();
+}
+function updateScoreTable() {
+    scoreTable.innerHTML = '<tr><th>Percentage</th><th>Score</th><th>PP</th></tr>';
+    const scorePerc = scoreTablePercent.value.split(',').map((x) => parseFloat(x));
+    for (let i = 0; i < scorePerc.length; i++) {
+        let elemRow = document.createElement('tr');
+        let elemPerc = document.createElement('td');
+        let elemScore = document.createElement('td');
+        let elemPP = document.createElement('td');
+        elemPerc.textContent = round(scorePerc[i], 2).toString();
+        elemScore.textContent = formatNumber(
+            round(scoreCalculator.calcScore() * (scorePerc[i] / 100))
+        );
+        elemPP.textContent = round(
+            scoreCalculator.calcPP(scoreCalculator.star, scorePerc[i] / 100),
+            2
+        ).toString();
+        elemRow.appendChild(elemPerc);
+        elemRow.appendChild(elemScore);
+        elemRow.appendChild(elemPP);
+        scoreTable.appendChild(elemRow);
+    }
+}
+function optionScoreCurveHandler(this: HTMLOptionElement) {
+    scoreCalculator.curvePoints = ppCurve[this.value];
+    scoreTextAreaJSON.disabled = true;
+    if (this.value === 'custom') {
+        scoreTextAreaJSON.disabled = false;
+    }
+    updateScore();
+    updateScoreEst();
+    updateScoreTable();
+    updateScoreJSON();
+}
+function inputJSONScoreHandler(this: HTMLTextAreaElement) {
+    let parsedJSON: { [key: string]: CurvePoint[] } = {};
+    scoreErrorJSON.innerHTML = '';
+    try {
+        if (/^{/.test(this.value.trim())) {
+            parsedJSON = JSON.parse(this.value.trim());
+        } else {
+            parsedJSON = JSON.parse(`{${this.value.trim().replace(/\,$/, '')}}`);
+        }
+        scoreCalculator.curvePoints = parsedJSON.curvePoints;
+        ppCurve['custom'] = parsedJSON.curvePoints;
+    } catch (err) {
+        console.error(err);
+        scoreErrorJSON.innerHTML = err + '<br>';
+    }
+    updateScore();
+    updateScoreEst();
+    updateScoreTable();
+    updateScoreJSON();
+}
+function updateScoreJSON() {
+    const parsed: { [key: string]: object } = {
+        curvePoints: [...scoreCalculator.curvePoints].reverse(),
+    };
+    scoreTextAreaJSON.value = JSON.stringify(parsed, null, 4);
 }

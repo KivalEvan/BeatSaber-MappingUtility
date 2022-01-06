@@ -4,12 +4,12 @@ export default class NoteJumpSpeed {
     private _bpm: BeatPerMinute;
     private _njs: number;
     private _sdm: number;
-    private _hjd: number;
+    private _hjd = 0;
     private static readonly HJD_START: number = 4;
     private static readonly HJD_MIN: number = 0.25;
-    private _jd: number;
-    private _jdMin: number;
-    private _reactionTime: number;
+    private _jd = 0;
+    private _jdMin = 0;
+    private _reactionTime = 0;
 
     constructor(bpm: BeatPerMinute, njs = 10, sdm = 0) {
         this._bpm = bpm;

@@ -27,16 +27,16 @@ interface ParityRotation {
 export default class RandomPatternGenerator {
     private _maxIndex: number;
     private _maxLayer: number;
-    private _noteRed: number;
-    private _noteBlue: number;
-    private _noteBomb: number;
-    private _noDot: boolean;
-    private _limit: boolean;
-    private _total: number;
-    private _parity: boolean;
-    private _parityExtend: number;
-    private _parityRed: boolean;
-    private _parityBlue: boolean;
+    private _noteRed!: number;
+    private _noteBlue!: number;
+    private _noteBomb!: number;
+    private _noDot!: boolean;
+    private _limit!: boolean;
+    private _total!: number;
+    private _parity!: boolean;
+    private _parityExtend!: number;
+    private _parityRed!: boolean;
+    private _parityBlue!: boolean;
 
     constructor(row: number, column: number) {
         this._maxIndex = column;
@@ -201,7 +201,10 @@ export default class RandomPatternGenerator {
             if (this._parity && randType <= 1) {
                 randDir =
                     validRotation[randType][parity[randType]][
-                        Math.floor(Math.random() * validRotation[randType][parity[randType]].length)
+                        Math.floor(
+                            Math.random() *
+                                validRotation[randType][parity[randType]].length
+                        )
                     ];
             }
             for (let j = 0; j < maxSize; j++) {
@@ -221,5 +224,127 @@ export default class RandomPatternGenerator {
             }
         }
         return grid;
+    }
+}
+const randPatternGen = new RandomPatternGenerator(3, 4);
+
+const rpgInputRow = document.querySelector<HTMLInputElement>(
+    '#rpg-input-rpattern-row'
+)!;
+const rpgInputColumn = document.querySelector<HTMLInputElement>(
+    '#rpg-input-rpattern-column'
+)!;
+const rpgTable = document.querySelector<HTMLTableElement>('#rpg-table-rpattern')!;
+const rpgInputNRed = document.querySelector<HTMLInputElement>(
+    '#rpg-input-rpattern-red'
+)!;
+const rpgInputNBlue = document.querySelector<HTMLInputElement>(
+    '#rpg-input-rpattern-blue'
+)!;
+const rpgInputNBomb = document.querySelector<HTMLInputElement>(
+    '#rpg-input-rpattern-bomb'
+)!;
+const rpgInputLimit = document.querySelector<HTMLInputElement>(
+    '#rpg-input-rpattern-limit'
+)!;
+const rpgInputTotal = document.querySelector<HTMLInputElement>(
+    '#rpg-input-rpattern-total'
+)!;
+const rpgInputNoDot = document.querySelector<HTMLInputElement>(
+    '#rpg-input-rpattern-nodot'
+)!;
+const rpgInputParity = document.querySelector<HTMLInputElement>(
+    '#rpg-input-rpattern-parity'
+)!;
+const rpgInputParityExtend = document.querySelector<HTMLInputElement>(
+    '#rpg-input-rpattern-parity-extend'
+)!;
+const rpgInputParityNRed = document.querySelector<HTMLInputElement>(
+    '#rpg-input-rpattern-parity-red'
+)!;
+const rpgInputParityNBlue = document.querySelector<HTMLInputElement>(
+    '#rpg-input-rpattern-parity-blue'
+)!;
+const rpgInputGenerate = document.querySelector<HTMLInputElement>(
+    '#rpg-input-generate-rpattern'
+)!;
+
+rpgInputRow.addEventListener('click', inputRPatternRowHandler);
+rpgInputColumn.addEventListener('click', inputRPatternColumnHandler);
+rpgInputGenerate.addEventListener('click', inputRPatternGenerateHandler);
+
+rpgInputRow.value = randPatternGen.row.toString();
+rpgInputColumn.value = randPatternGen.column.toString();
+rpgInputNRed.value = '1';
+rpgInputNBlue.value = '1';
+rpgInputNBomb.value = '0';
+rpgInputTotal.value = '2';
+rpgInputParityExtend.value = '0';
+tableRPattern();
+
+function tableRPattern() {
+    rpgTable.innerHTML = '';
+    for (let l = 0; l < randPatternGen.row; l++) {
+        let row = document.createElement('tr');
+        for (let i = 0; i < randPatternGen.column; i++) {
+            let elem = document.createElement('td');
+            elem.className = 'table-grid';
+            let img = document.createElement('img');
+            img.className = 'table-rpattern-image';
+            img.src = `./assets/${noteImage.blank}`;
+            img.alt = noteImage.blank.slice(0, -4);
+            elem.appendChild(img);
+            row.appendChild(elem);
+        }
+        rpgTable.appendChild(row);
+    }
+}
+function inputRPatternRowHandler(this: HTMLInputElement) {
+    const val = Math.min(Math.abs(parseFloat(this.value)) || 1, 4);
+    this.value = val.toString();
+    randPatternGen.row = val;
+    tableRPattern();
+}
+function inputRPatternColumnHandler(this: HTMLInputElement) {
+    const val = Math.min(Math.abs(parseFloat(this.value)) || 1, 8);
+    this.value = val.toString();
+    randPatternGen.column = val;
+    tableRPattern();
+}
+function inputRPatternGenerateHandler() {
+    const rpgTableImage = document.querySelectorAll<HTMLImageElement>(
+        '.table-rpattern-image'
+    );
+    rpgTableImage.forEach((image) => {
+        image.src = './assets/blank.png';
+        image.alt = 'blank';
+        image.className = 'table-rpattern-image';
+    });
+    randPatternGen.noteRed = parseInt(rpgInputNRed.value) || 0;
+    randPatternGen.noteBlue = parseInt(rpgInputNBlue.value) || 0;
+    randPatternGen.noteBomb = parseInt(rpgInputNBomb.value) || 0;
+    randPatternGen.noDot = rpgInputNoDot.checked;
+    randPatternGen.limit = rpgInputLimit.checked;
+    randPatternGen.total = parseInt(rpgInputTotal.value) || 0;
+    randPatternGen.parity = rpgInputParity.checked;
+    randPatternGen.parityExtend = parseInt(rpgInputParityExtend.value) || 0;
+    randPatternGen.parityRed = rpgInputParityNRed.checked;
+    randPatternGen.parityBlue = rpgInputParityNBlue.checked;
+    const grid = randPatternGen.generate();
+    for (let j = 0; j < grid.length; j++) {
+        if (grid[j] !== null) {
+            rpgTableImage[j].src = `./assets/${
+                grid[j]._noteDirection !== 8 || rpgInputNoDot.checked
+                    ? noteImage[grid[j]._noteType]
+                    : noteImage[grid[j]._noteType + 3]
+            }`;
+            rpgTableImage[j].alt = noteImage[grid[j]._noteType].slice(0, -4);
+            if (grid[j]._noteDirection !== 8) {
+                rpgTableImage[j].className += ` ${
+                    noteRotation[grid[j]._noteDirection]
+                }`;
+                rpgTableImage[j].alt += ` ${noteRotation[grid[j]._noteDirection]}`;
+            }
+        }
     }
 }

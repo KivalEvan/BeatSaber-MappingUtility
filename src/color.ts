@@ -4,8 +4,6 @@ export interface Color {
     r: number;
     g: number;
     b: number;
-    a?: number;
-    [key: string]: number;
 }
 
 export type ColorArray = [number, number, number, number?];

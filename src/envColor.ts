@@ -1,19 +1,39 @@
 import { Color as Color } from './color';
 
 export interface ColorScheme {
-    _colorLeft?: Color;
-    _colorRight?: Color;
-    _envColorLeft?: Color;
-    _envColorRight?: Color;
-    _envColorLeftBoost?: Color;
-    _envColorRightBoost?: Color;
-    _obstacleColor?: Color;
-    [key: string]: Color;
+    _colorLeft?: Color | null;
+    _colorRight?: Color | null;
+    _envColorLeft?: Color | null;
+    _envColorRight?: Color | null;
+    _envColorLeftBoost?: Color | null;
+    _envColorRightBoost?: Color | null;
+    _obstacleColor?: Color | null;
 }
 
-export interface EnvironmentColor {
-    [key: string]: ColorScheme;
-}
+type ColorSchemeList =
+    | 'Default Custom'
+    | 'The First'
+    | 'Origins'
+    | 'KDA'
+    | 'Crab Rave'
+    | 'Noir'
+    | 'Rocket'
+    | 'Green Day'
+    | 'Timbaland'
+    | 'FitBeat'
+    | 'Linkin Park'
+    | 'BTS'
+    | 'Kaleidoscope'
+    | 'Interscope'
+    | 'Skrillex'
+    | 'Billie Eilish'
+    | 'Spooky'
+    | 'Gaga'
+    | 'Glass Desert';
+
+export type EnvironmentColor = {
+    readonly [csl in ColorSchemeList | string]: ColorScheme;
+};
 
 export const colorScheme: EnvironmentColor = {
     'Default Custom': {
@@ -509,6 +529,43 @@ export const colorScheme: EnvironmentColor = {
         },
     },
     Spooky: {
+        _colorLeft: {
+            r: 0.81960785,
+            g: 0.49807876,
+            b: 0.27702752,
+        },
+        _colorRight: {
+            r: 0.37894738,
+            g: 0.35789475,
+            b: 0.40000001,
+        },
+        _envColorLeft: {
+            r: 0.90196079,
+            g: 0.23009226,
+            b: 0,
+        },
+        _envColorRight: {
+            r: 0.46005884,
+            g: 0.56889427,
+            b: 0.92941177,
+        },
+        _obstacleColor: {
+            r: 0.81960791,
+            g: 0.44313729,
+            b: 0.18431373,
+        },
+        _envColorLeftBoost: {
+            r: 0.33768433,
+            g: 0.63207543,
+            b: 0.33690813,
+        },
+        _envColorRightBoost: {
+            r: 0.60209066,
+            g: 0.3280082,
+            b: 0.85849059,
+        },
+    },
+    Gaga: {
         _colorLeft: {
             r: 0.81960785,
             g: 0.49807876,

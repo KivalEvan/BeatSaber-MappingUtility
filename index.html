@@ -5,7 +5,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Beat Saber Mapping Utility by Kival Evan">
-  <link rel="stylesheet" href="style.css">
   <link rel="shortcut icon" type="image/jpg" href="favicon.png">
   <link href='https://fonts.googleapis.com/css?family=Teko' rel='stylesheet'>
   <title>BS Mapping Utility</title>
@@ -68,7 +67,7 @@
         <div id="njs-calculator">
           <h2>NJS Calculator</h2>
           <div class="subpanel-small">
-            <input type="number" class="toggle-input" id="njs-input-njs" min="0" step="1" disabled>
+            <input type="number" class="toggle-input" id="njs-input-njs" min="0" step="0.5" disabled>
             <label for="njs-input-njs">NJS</label><br>
             <input type="number" class="toggle-input" id="njs-input-offset" step="0.125" disabled>
             <label for="njs-input-offset">Offset</label><br>
@@ -90,6 +89,14 @@
           <br>
           <span>Optimal JD (highest): </span><span id="njs-output-jd-optimal-high">0</span><br>
           <span>Optimal JD (lowest): </span><span id="njs-output-jd-optimal-low">0</span><br>
+          <br>
+          <span><strong>Note time distance before:</strong></span><br>
+          <span>Reverse Staircase (V/H): </span><span id="njs-output-reverse-staircase">0</span>
+          -> 1/<span id="njs-output-reverse-staircase-time">0</span> precision<br>
+          <span>Reverse Staircase (Diagonal): </span><span id="njs-output-reverse-staircase-diagonal">0</span>
+          -> 1/<span id="njs-output-reverse-staircase-diagonal-time">0</span> precision<br>
+          <span>Inline Hitbox: </span><span id="njs-output-inline">0</span>
+          -> 1/<span id="njs-output-inline-time">0</span> precision<br>
           <br>
           <div>
             <label for="njs-option-njs-scale">Jump distance scale for:</label>
@@ -124,9 +131,9 @@
             <label for="score-input-avgcut">Avg. Cut:</label>
             <input type="number" id="score-input-avgcut" min="0" step="1"><br>
             <label for="score-input-missed">Missed:</label>
-            <textarea id="score-input-missed" name="score-input-missed" cols="36" rows="2"></textarea><br>
+            <textarea id="score-input-missed" name="score-input-missed" rows="2"></textarea><br>
             <label for="score-input-break">Break:</label>
-            <textarea id="score-input-break" name="score-input-break" cols="36" rows="2"></textarea><br>
+            <textarea id="score-input-break" name="score-input-break" rows="2"></textarea><br>
             <br>
             <span>Est. Score: <span id="score-output-estscore">0</span> (<span
                 id="score-output-estpercent">0</span>%)</span><br>
@@ -140,7 +147,7 @@
           <div class="subpanel-medium">
             <table id="score-table"></table>
             <label for="score-table-percentage">Table Percentage:</label>
-            <textarea id="score-table-percentage" name="score-table-percentage" cols="36" rows="2"></textarea><br>
+            <textarea id="score-table-percentage" name="score-table-percentage" rows="2"></textarea><br>
           </div>
           <div class="subpanel-medium">
             <label for="score-option-pp-curve">PP Curve:</label>
@@ -150,7 +157,7 @@
               <option value="custom">Custom</option>
             </select><br>
             <label for="score-text-json">JSON format:</label><br>
-            <textarea id="score-text-json" name="score-text-json" cols="36" rows="12" disabled></textarea><br>
+            <textarea id="score-text-json" name="score-text-json" rows="12" disabled></textarea><br>
             <span id="score-error-json"></span>
           </div>
         </div>
@@ -339,7 +346,7 @@
         href="https://github.com/KivalEvan/BeatSaber-MappingUtility/blob/main/CHANGELOG.md"></a>
     </div>
   </div>
-  <script defer src="./dist/bundle.js"></script>
+  <script type="module" src="/src/index.ts"></script>
 </body>
 
 </html>

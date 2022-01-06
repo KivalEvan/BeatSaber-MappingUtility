@@ -3,10 +3,10 @@ import BeatPerMinute from './bpm';
 export default class EBPMPrecision {
     private _bpm: BeatPerMinute;
     private _precBeat: number;
-    private _precTime: number;
-    private _precRealTime: number;
-    private _ebpmOHJ: number;
-    private _ebpmStream: number;
+    private _precTime!: number;
+    private _precRealTime!: number;
+    private _ebpmOHJ!: number;
+    private _ebpmStream!: number;
 
     constructor(bpm: BeatPerMinute, precBeat: number = 2) {
         this._bpm = bpm;
