@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Beat Saber Mapping Utility by Kival Evan">
+  <link rel="shortcut icon" type="image/jpg" href="favicon.png">
+  <link href='https://fonts.googleapis.com/css?family=Teko' rel='stylesheet'>
+  <title>BS Mapping Utility</title>
+  <script type="module" crossorigin src="/BeatSaber-MappingUtility/assets/index.579f3f15.js"></script>
+  <link rel="stylesheet" href="/BeatSaber-MappingUtility/assets/index.7af018c5.css">
+</head>
+
+<body>
+  <div class="web-main">
+    <h1>Beat Saber Mapping Utility</h1>
+    <noscript>Javascript is required for the Mapping Utility to work. No worry, there's no intrusive script.</noscript>
+    <hr>
+    <div class="subpanel-right">
+      <a class="text-watermark" href="https://kivalevan.github.io/"></a> | <a class="text-version"
+        href="https://github.com/KivalEvan/BeatSaber-MappingUtility/blob/main/CHANGELOG.md"></a>
+    </div>
+    <div class="wrapper">
+      <div class="wrapper-sidenav">
+        <div class="panel-sidenav">
+          <div><a href="#map-settings">Map Settings</a></div>
+          <div><a href="#ebpm-precision">EBPM & Precision</a></div>
+          <div><a href="#njs-calculator">NJS Calculator</a></div>
+          <div><a href="#score-calculator">Score Calculator</a></div>
+          <div><a href="#sps-difference">SPS Difference</a></div>
+          <div><a href="#difficulty-label">Difficulty Label</a></div>
+          <div><a href="#color-picker">Color Picker</a></div>
+          <div><a href="#random-pattern">Random Pattern Generator</a></div>
+        </div>
+      </div>
+      <div class="panel-main">
+        <div id="map-settings">
+          <h2>Map Settings</h2>
+          <div>
+            <label for="map-settings-input-bpm">BPM:</label>
+            <input type="number" id="map-settings-input-bpm" min="0" step="1"><br>
+          </div>
+        </div>
+        <br>
+        <hr>
+        <div id="ebpm-precision">
+          <h2>Effective BPM & Time Precision</h2>
+          <div class="subpanel-medium">
+            <label for="ebpm-input-precbeat">Beat Precision: 1 / </label>
+            <input type="number" class="toggle-input" id="ebpm-input-precbeat" min="1" step="1" disabled>
+            <br>
+            <label for="ebpm-input-prectime">Time Precision: </label>
+            <input type="number" class="toggle-input" id="ebpm-input-prectime" min="0" step="0.125" disabled><br>
+            <label for="ebpm-input-precrealtime">Real-time (ms): </label>
+            <input type="number" class="toggle-input" id="ebpm-input-precrealtime" min="0" step="1" disabled><br>
+          </div>
+          <div class="subpanel-medium">
+            <span>Effective BPM:</span><br>
+            <input type="number" class="toggle-input" id="ebpm-input-ebpm-ohj" min="0" step="1" disabled>
+            <label for="ebpm-input-ebpm-ohj">(1-handed)</label>
+            <br>
+            <input type="number" class="toggle-input" id="ebpm-input-ebpm-stream" min="0" step="1" disabled>
+            <label for="ebpm-input-ebpm-stream">(2-handed)</label>
+          </div>
+        </div>
+        <br>
+        <hr>
+        <div id="njs-calculator">
+          <h2>NJS Calculator</h2>
+          <div class="subpanel-small">
+            <input type="number" class="toggle-input" id="njs-input-njs" min="0" step="0.5" disabled>
+            <label for="njs-input-njs">NJS</label><br>
+            <input type="number" class="toggle-input" id="njs-input-offset" step="0.125" disabled>
+            <label for="njs-input-offset">Offset</label><br>
+            <br>
+          </div>
+          <div class="subpanel-small">
+            <input type="number" class="toggle-input" id="njs-input-hjd" min="0" step="0.25" disabled>
+            <label for="njs-input-hjd">HJD</label><br>
+            <input type="number" class="toggle-input" id="njs-input-jd" min="0" step="0.25" disabled>
+            <label for="njs-input-jd">JD</label><br>
+            <label for="njs-input-reacttime">Reaction Time (ms):</label><br>
+            <input type="number" class="toggle-input" id="njs-input-reacttime" min="0" step="1" disabled>
+          </div>
+          <div class="subpanel-small">
+            <span>Min. HJD: </span><span id="njs-output-hjd">0.25</span><br>
+            <span>Min. JD: </span><span id="njs-output-jd">0</span><br>
+            <span>Min. Reaction Time: </span><span id="njs-output-reacttime">0ms</span><br>
+          </div><br>
+          <br>
+          <span>Optimal JD (highest): </span><span id="njs-output-jd-optimal-high">0</span><br>
+          <span>Optimal JD (lowest): </span><span id="njs-output-jd-optimal-low">0</span><br>
+          <br>
+          <span><strong>Note time distance before:</strong></span><br>
+          <span>Reverse Staircase (V/H): </span><span id="njs-output-reverse-staircase">0</span>
+          -> 1/<span id="njs-output-reverse-staircase-time">0</span> precision<br>
+          <span>Reverse Staircase (Diagonal): </span><span id="njs-output-reverse-staircase-diagonal">0</span>
+          -> 1/<span id="njs-output-reverse-staircase-diagonal-time">0</span> precision<br>
+          <span>Inline Hitbox: </span><span id="njs-output-inline">0</span>
+          -> 1/<span id="njs-output-inline-time">0</span> precision<br>
+          <br>
+          <div>
+            <label for="njs-option-njs-scale">Jump distance scale for:</label>
+            <select class="toggle-input" id="njs-option-njs-scale" disabled>
+              <option value="njs">NJS - Note Jump Speed</option>
+              <option value="hjd" selected>HJD - Half Jump Duration</option>
+            </select><br>
+            <span>When changing jump distance, scale either HJD or NJS.</span>
+          </div>
+        </div>
+        <br>
+        <hr>
+        <div id="score-calculator">
+          <h2>Score Calculator</h2>
+          <div class="subpanel-medium">
+            <label for="score-input-note">Notes:</label>
+            <input type="number" id="score-input-note" min="0" step="1"><br>
+            <label for="score-input-star">Star Rating:</label>
+            <input type="number" id="score-input-star" min="0" step="0.1"><br>
+            <label for="score-input-percent">Percentage:</label>
+            <input type="number" id="score-input-percent" min="0" max="100" step="1"><br>
+            <label for="score-input-score">Score:</label>
+            <input type="number" id="score-input-score" min="0" step="920"><br>
+            <label for="score-input-pp">PP:</label>
+            <input type="number" id="score-input-pp" min="0" step="1"><br>
+            <br>
+            <span>Max Score: <span id="score-output-maxscore">0</span></span><br>
+            <span style="display: none">Max Score (Modifier): <span
+                id="score-output-maxscore-modifier">0</span></span><br>
+          </div>
+          <div class="subpanel-medium">
+            <label for="score-input-avgcut">Avg. Cut:</label>
+            <input type="number" id="score-input-avgcut" min="0" step="1"><br>
+            <label for="score-input-missed">Missed:</label>
+            <textarea id="score-input-missed" name="score-input-missed" rows="2"></textarea><br>
+            <label for="score-input-break">Break:</label>
+            <textarea id="score-input-break" name="score-input-break" rows="2"></textarea><br>
+            <br>
+            <span>Est. Score: <span id="score-output-estscore">0</span> (<span
+                id="score-output-estpercent">0</span>%)</span><br>
+            <span>Est. PP: <span id="score-output-estpp">0</span></span><br>
+            <span>Missed Score: <span id="score-output-missscore">0</span></span><br>
+            <br>
+            <span>No Miss Score: <span id="score-output-nomissscore">0</span> (<span
+                id="score-output-nomisspercent">0</span>%)</span><br>
+            <span>No Miss PP: <span id="score-output-nomisspp">0</span></span><br>
+          </div>
+          <div class="subpanel-medium">
+            <table id="score-table"></table>
+            <label for="score-table-percentage">Table Percentage:</label>
+            <textarea id="score-table-percentage" name="score-table-percentage" rows="2"></textarea><br>
+          </div>
+          <div class="subpanel-medium">
+            <label for="score-option-pp-curve">PP Curve:</label>
+            <select id="score-option-pp-curve">
+              <option value="scoresaber" selected>ScoreSaber</option>
+              <option value="exponential">Exponential</option>
+              <option value="custom">Custom</option>
+            </select><br>
+            <label for="score-text-json">JSON format:</label><br>
+            <textarea id="score-text-json" name="score-text-json" rows="12" disabled></textarea><br>
+            <span id="score-error-json"></span>
+          </div>
+        </div>
+        <br>
+        <hr>
+        <div id="sps-difference">
+          <h2>SPS Difference</h2>
+          <table>
+            <tr>
+              <th><label for="sps-input-easy">Easy</label></th>
+              <th><label for="sps-input-normal">Normal</label></th>
+              <th><label for="sps-input-hard">Hard</label></th>
+              <th><label for="sps-input-expert">Expert</label></th>
+              <th><label for="sps-input-expertplus">Expert+</label></th>
+            </tr>
+            <tr>
+              <td><input type="number" class="table-input" id="sps-input-easy" min="0" step="0.1"></td>
+              <td><input type="number" class="table-input" id="sps-input-normal" min="0" step="0.1"></td>
+              <td><input type="number" class="table-input" id="sps-input-hard" min="0" step="0.1"></td>
+              <td><input type="number" class="table-input" id="sps-input-expert" min="0" step="0.1"></td>
+              <td><input type="number" class="table-input" id="sps-input-expertplus" min="0" step="0.1"></td>
+            </tr>
+            <tr>
+              <td id="sps-output-easy"></td>
+              <td id="sps-output-normal"></td>
+              <td id="sps-output-hard"></td>
+              <td id="sps-output-expert"></td>
+              <td id="sps-output-expertplus"></td>
+            </tr>
+          </table>
+          <span>Total Reduction: <span id="sps-output-total-reduction">0.00%</span></span><br>
+          <br>
+          <div>
+            <span>Works for NPS or any number too.</span>
+          </div>
+        </div>
+        <br>
+        <hr>
+        <div id="difficulty-label">
+          <h2>In-game Difficulty Label</h2>
+          <div class="subpanel-center">
+            <span>Difficulty Count: </span>
+            <input type="radio" id="label-input-diff-count-1" name="input-diff-count" value="1">
+            <label for="label-input-diff-count-1">1</label>
+            <input type="radio" id="label-input-diff-count-2" name="input-diff-count" value="2">
+            <label for="label-input-diff-count-2">2</label>
+            <input type="radio" id="label-input-diff-count-3" name="input-diff-count" value="3">
+            <label for="label-input-diff-count-3">3</label>
+            <input type="radio" id="label-input-diff-count-4" name="input-diff-count" value="4">
+            <label for="label-input-diff-count-4">4</label>
+            <input type="radio" id="label-input-diff-count-5" name="input-diff-count" value="5">
+            <label for="label-input-diff-count-5">5</label>
+            <br>
+            <label for="label-input-text"></label>
+            <input type="text" id="label-input-text">
+            <br>
+            <span class="diff-label" id="label-output-text"></span>
+          </div>
+          <span>NOTE: may not be representitive in-game.</span>
+        </div>
+        <br>
+        <hr>
+        <div id="color-picker">
+          <h2>Color Picker</h2>
+          <label for="cp-option-colorscheme">Color Scheme:</label>
+          <select id="cp-option-colorscheme" name="option-colorscheme"></select>
+          <table>
+            <tr>
+              <th>Part</th>
+              <th>Hex</th>
+              <th>Color Picker</th>
+              <th>Include</th>
+            </tr>
+            <tr>
+              <td class="table-first">Left Note</td>
+              <td><input type="text" class="table-input" id="cp-input-hex-colorleft"></td>
+              <td><input type="color" class="table-input" id="cp-input-picker-colorleft"></td>
+              <td><input type="checkbox" id="cp-input-include-colorleft"></td>
+              <td><input type="button" id="cp-input-reset-colorleft" value="Reset"></td>
+            </tr>
+            <tr>
+              <td class="table-first">Right Note</td>
+              <td><input type="text" class="table-input" id="cp-input-hex-colorright"></td>
+              <td><input type="color" class="table-input" id="cp-input-picker-colorright"></td>
+              <td><input type="checkbox" id="cp-input-include-colorright"></td>
+              <td><input type="button" id="cp-input-reset-colorright" value="Reset"></td>
+            </tr>
+            <tr>
+              <td class="table-first">Left Env.</td>
+              <td><input type="text" class="table-input" id="cp-input-hex-envcolorleft"></td>
+              <td><input type="color" class="table-input" id="cp-input-picker-envcolorleft"></td>
+              <td><input type="checkbox" id="cp-input-include-envcolorleft"></td>
+              <td><input type="button" id="cp-input-reset-envcolorleft" value="Reset"></td>
+            </tr>
+            <tr>
+              <td class="table-first">Right Env.</td>
+              <td><input type="text" class="table-input" id="cp-input-hex-envcolorright"></td>
+              <td><input type="color" class="table-input" id="cp-input-picker-envcolorright"></td>
+              <td><input type="checkbox" id="cp-input-include-envcolorright"></td>
+              <td><input type="button" id="cp-input-reset-envcolorright" value="Reset"></td>
+            </tr>
+            <tr>
+              <td class="table-first">Left Env. Boost</td>
+              <td><input type="text" class="table-input" id="cp-input-hex-envcolorleftboost"></td>
+              <td><input type="color" class="table-input" id="cp-input-picker-envcolorleftboost"></td>
+              <td><input type="checkbox" id="cp-input-include-envcolorleftboost"></td>
+              <td><input type="button" id="cp-input-reset-envcolorleftboost" value="Reset"></td>
+            </tr>
+            <tr>
+              <td class="table-first">Right Env. Boost</td>
+              <td><input type="text" class="table-input" id="cp-input-hex-envcolorrightboost"></td>
+              <td><input type="color" class="table-input" id="cp-input-picker-envcolorrightboost"></td>
+              <td><input type="checkbox" id="cp-input-include-envcolorrightboost"></td>
+              <td><input type="button" id="cp-input-reset-envcolorrightboost" value="Reset"></td>
+            </tr>
+            <tr>
+              <td class="table-first">Obstacle</td>
+              <td><input type="text" class="table-input" id="cp-input-hex-obstaclecolor"></td>
+              <td><input type="color" class="table-input" id="cp-input-picker-obstaclecolor"></td>
+              <td><input type="checkbox" id="cp-input-include-obstaclecolor"></td>
+              <td><input type="button" id="cp-input-reset-obstaclecolor" value="Reset"></td>
+            </tr>
+          </table>
+          <div>
+            <br>
+            Note colour similarity (dE): <span id="cp-output-de-nc">N/A</span><br>
+            Left arrow similarity (dE): <span id="cp-output-de-la">N/A</span><br>
+            Right arrow similarity (dE): <span id="cp-output-de-ra">N/A</span><br>
+            <br>
+            Lower dE is similar colour, higher dE is opposite colour
+          </div>
+          <div>
+            <br>
+            <label for="cp-io-colorjson">JSON format:</label><br>
+            <textarea id="cp-io-colorjson" name="cp-io-colorjson" cols="40" rows="12"></textarea><br>
+            <span id="cp-error-colorjson"></span>
+            <br>
+          </div>
+          <div>
+            <span>
+              Paste difficulty _customData onto text area<br>
+              OR<br>
+              Copy properties into difficulty _customData<br>
+            </span>
+          </div>
+        </div>
+        <br>
+        <hr>
+        <div id="random-pattern">
+          <h2>Random Pattern Generator</h2>
+          <div class="subpanel-center">
+            <label for="rpg-input-rpattern-row">Row:</label>
+            <input type="number" id="rpg-input-rpattern-row" min="0">
+            <label for="rpg-input-rpattern-column">Column:</label>
+            <input type="number" id="rpg-input-rpattern-column" min="0">
+            <table class="table-center" id="rpg-table-rpattern"></table>
+            <label for="rpg-input-rpattern-red">Red:</label>
+            <input type="number" id="rpg-input-rpattern-red" min="0">
+            <label for="rpg-input-rpattern-blue">Blue:</label>
+            <input type="number" id="rpg-input-rpattern-blue" min="0">
+            <label for="rpg-input-rpattern-bomb">Bomb:</label>
+            <input type="number" id="rpg-input-rpattern-bomb" min="0"><br>
+            <input type="checkbox" id="rpg-input-rpattern-limit">
+            <label for="rpg-input-rpattern-limit">Set Limit</label>
+            <label for="rpg-input-rpattern-total">Total:</label>
+            <input type="number" id="rpg-input-rpattern-total" min="0">
+            <input type="checkbox" id="rpg-input-rpattern-nodot">
+            <label for="rpg-input-rpattern-nodot">No Dot</label><br>
+            <input type="checkbox" id="rpg-input-rpattern-parity">
+            <label for="rpg-input-rpattern-parity">Parity</label>
+            <label for="rpg-input-rpattern-parity-extend">Extend:</label>
+            <input type="number" id="rpg-input-rpattern-parity-extend" min="0">
+            <input type="checkbox" id="rpg-input-rpattern-parity-red">
+            <label for="rpg-input-rpattern-parity-red">Backhand Red</label>
+            <input type="checkbox" id="rpg-input-rpattern-parity-blue">
+            <label for="rpg-input-rpattern-parity-blue">Backhand Blue</label><br>
+            <input type="button" id="rpg-input-generate-rpattern" value="Generate Random Pattern">
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <hr>
+    <div class="subpanel-right">
+      <a class="text-watermark" href="https://kivalevan.github.io/"></a> | <a class="text-version"
+        href="https://github.com/KivalEvan/BeatSaber-MappingUtility/blob/main/CHANGELOG.md"></a>
+    </div>
+  </div>
+  
+</body>
+
+</html>
