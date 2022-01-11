@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.1.1 [2022-01-11]
+
+### Changed
+
+-   Actually added Gaga color scheme
+-   Clarified hitbox timing
+
 ## v2.1.0 [2022-01-06]
 
 ### Added
