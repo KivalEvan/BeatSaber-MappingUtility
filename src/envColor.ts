@@ -29,6 +29,9 @@ type ColorSchemeList =
     | 'Billie Eilish'
     | 'Spooky'
     | 'Gaga'
+    | 'Weave'
+    | 'Pyro'
+    | 'EDM'
     | 'Glass Desert';
 
 export type EnvironmentColor = {
@@ -600,6 +603,117 @@ export const colorScheme: EnvironmentColor = {
             r: 0,
             g: 0.7058824,
             b: 1,
+        },
+    },
+    Weave: {
+        _colorLeft: {
+            r: 0.7843137,
+            g: 0.07843138,
+            b: 0.07843138,
+        },
+        _colorRight: {
+            r: 0.1568627,
+            g: 0.5568627,
+            b: 0.8235294,
+        },
+        _envColorLeft: {
+            r: 0.85,
+            g: 0.08499997,
+            b: 0.08499997,
+        },
+        _envColorRight: {
+            r: 0.1882353,
+            g: 0.675294,
+            b: 1,
+        },
+        _envColorLeftBoost: {
+            r: 0.8218409,
+            g: 0.08627451,
+            b: 0.8509804,
+        },
+        _envColorRightBoost: {
+            r: 0.5320754,
+            g: 0.5320754,
+            b: 0.5320754,
+        },
+        _obstacleColor: {
+            r: 1,
+            g: 0.1882353,
+            b: 0.1882353,
+        },
+    },
+    Pyro: {
+        _colorLeft: {
+            r: 0.5764706,
+            g: 0,
+            b: 0.03921569,
+        },
+        _colorRight: {
+            r: 1,
+            g: 0.6705883,
+            b: 0,
+        },
+        _envColorLeft: {
+            r: 1,
+            g: 0.1098039,
+            b: 0.2039216,
+        },
+        _envColorRight: {
+            r: 0.8862745,
+            g: 0.7372549,
+            b: 0.2627451,
+        },
+        _envColorLeftBoost: {
+            r: 1,
+            g: 0,
+            b: 0.1764706,
+        },
+        _envColorRightBoost: {
+            r: 0.7647059,
+            g: 0.7647059,
+            b: 0.7647059,
+        },
+        _obstacleColor: {
+            r: 0.8490566,
+            g: 0.7037643,
+            b: 0.4285333,
+        },
+    },
+    EDM: {
+        _colorLeft: {
+            r: 0.6320754,
+            g: 0.6320754,
+            b: 0.6320754,
+        },
+        _colorRight: {
+            r: 0.1764706,
+            g: 0.6980392,
+            b: 0.8784314,
+        },
+        _envColorLeft: {
+            r: 0.08220173,
+            g: 0.7169812,
+            b: 0,
+        },
+        _envColorRight: {
+            r: 0,
+            g: 0.3671638,
+            b: 0.7169812,
+        },
+        _envColorLeftBoost: {
+            r: 0.735849,
+            g: 0,
+            b: 0.1758632,
+        },
+        _envColorRightBoost: {
+            r: 0.4284593,
+            g: 0,
+            b: 0.754717,
+        },
+        _obstacleColor: {
+            r: 0.1764706,
+            g: 0.6980392,
+            b: 0.8784314,
         },
     },
     'Glass Desert': {
