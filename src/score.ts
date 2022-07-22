@@ -61,11 +61,7 @@ export default class ScoreCalculator {
     private _starPP: number = 1 / 1.046 / 0.0227;
     private _curvePoints: CurvePoint[];
 
-    constructor(
-        note: number = 0,
-        star: number = 7,
-        curvePoints: CurvePoint[] = ppCurve.ScoreSaber
-    ) {
+    constructor(note: number = 0, star: number = 7, curvePoints: CurvePoint[] = ppCurve.ScoreSaber) {
         this._note = note;
         this._starRating = star;
         this._curvePoints = [...curvePoints].sort((a, b) => a[0] - b[0]);
@@ -93,10 +89,7 @@ export default class ScoreCalculator {
     // 100% pp value
     // 0.9458064516129032 interpolated value
     // 0.9431707317073172 rabbit's interpolated value
-    public calcPP(
-        starRating: number = this._starRating,
-        perc: number = 0.9458064516129032
-    ): number {
+    public calcPP(starRating: number = this._starRating, perc: number = 0.9458064516129032): number {
         return this._starPP * starRating * interpolatePoint(this._curvePoints, perc);
     }
     // miss simulate missing the note
@@ -145,50 +138,25 @@ const scoreCalculator = new ScoreCalculator(727);
 
 const scoreInputNote = document.querySelector<HTMLInputElement>('#score-input-note')!;
 const scoreInputStar = document.querySelector<HTMLInputElement>('#score-input-star')!;
-const scoreInputPercent =
-    document.querySelector<HTMLInputElement>('#score-input-percent')!;
+const scoreInputPercent = document.querySelector<HTMLInputElement>('#score-input-percent')!;
 const scoreInputScore = document.querySelector<HTMLInputElement>('#score-input-score')!;
 const scoreInputPP = document.querySelector<HTMLInputElement>('#score-input-pp')!;
-const scoreOutputMaxScore = document.querySelector<HTMLElement>(
-    '#score-output-maxscore'
-)!;
-const scoreOutputMaxScoreMod = document.querySelector<HTMLElement>(
-    '#score-output-maxscore-modifier'
-)!;
-const scoreInputAvgCut =
-    document.querySelector<HTMLInputElement>('#score-input-avgcut')!;
-const scoreInputMissed =
-    document.querySelector<HTMLTextAreaElement>('#score-input-missed')!;
-const scoreInputBreak =
-    document.querySelector<HTMLTextAreaElement>('#score-input-break')!;
-const scoreOutputEstScore = document.querySelector<HTMLElement>(
-    '#score-output-estscore'
-)!;
-const scoreOutputEstPercent = document.querySelector<HTMLElement>(
-    '#score-output-estpercent'
-)!;
+const scoreOutputMaxScore = document.querySelector<HTMLElement>('#score-output-maxscore')!;
+const scoreOutputMaxScoreMod = document.querySelector<HTMLElement>('#score-output-maxscore-modifier')!;
+const scoreInputAvgCut = document.querySelector<HTMLInputElement>('#score-input-avgcut')!;
+const scoreInputMissed = document.querySelector<HTMLTextAreaElement>('#score-input-missed')!;
+const scoreInputBreak = document.querySelector<HTMLTextAreaElement>('#score-input-break')!;
+const scoreOutputEstScore = document.querySelector<HTMLElement>('#score-output-estscore')!;
+const scoreOutputEstPercent = document.querySelector<HTMLElement>('#score-output-estpercent')!;
 const scoreOutputEstPP = document.querySelector<HTMLElement>('#score-output-estpp')!;
-const scoreOutputMissScore = document.querySelector<HTMLElement>(
-    '#score-output-missscore'
-)!;
-const scoreOutputNoMissScore = document.querySelector<HTMLElement>(
-    '#score-output-nomissscore'
-)!;
-const scoreOutputNoMissPercent = document.querySelector<HTMLElement>(
-    '#score-output-nomisspercent'
-)!;
-const scoreOutputNoMissPP = document.querySelector<HTMLElement>(
-    '#score-output-nomisspp'
-)!;
+const scoreOutputMissScore = document.querySelector<HTMLElement>('#score-output-missscore')!;
+const scoreOutputNoMissScore = document.querySelector<HTMLElement>('#score-output-nomissscore')!;
+const scoreOutputNoMissPercent = document.querySelector<HTMLElement>('#score-output-nomisspercent')!;
+const scoreOutputNoMissPP = document.querySelector<HTMLElement>('#score-output-nomisspp')!;
 const scoreTable = document.querySelector<HTMLTableElement>('#score-table')!;
-const scoreTablePercent = document.querySelector<HTMLTextAreaElement>(
-    '#score-table-percentage'
-)!;
-const scoreOptionPP = document.querySelector<HTMLOptionElement>(
-    '#score-option-pp-curve'
-)!;
-const scoreTextAreaJSON =
-    document.querySelector<HTMLTextAreaElement>('#score-text-json')!;
+const scoreTablePercent = document.querySelector<HTMLTextAreaElement>('#score-table-percentage')!;
+const scoreOptionPP = document.querySelector<HTMLOptionElement>('#score-option-pp-curve')!;
+const scoreTextAreaJSON = document.querySelector<HTMLTextAreaElement>('#score-text-json')!;
 const scoreErrorJSON = document.querySelector<HTMLElement>('#score-error-json')!;
 
 scoreInputNote.addEventListener('change', inputNoteHandler);
@@ -209,7 +177,7 @@ scoreTextAreaJSON.addEventListener('change', inputJSONScoreHandler);
 
 const missedScore = [3, 22, 100, 102];
 const breakScore = [127];
-scoreTablePercent.value = [100, 98, 97, 96, 95, 94, 93, 90, 85, 80].join(',');
+scoreTablePercent.value = [100, 99.5, 99, 98, 97, 96, 95, 94, 93, 90, 85, 80].join(',');
 scoreInputNote.value = scoreCalculator.note.toString();
 scoreInputStar.value = scoreCalculator.star.toString();
 scoreInputPercent.value = '90';
@@ -252,10 +220,7 @@ function inputScoreHandler(this: HTMLInputElement, ev: Event) {
     const maxScore = scoreCalculator.calcScore();
     scoreInputPercent.value = round((score / maxScore) * 100, 2).toString();
     scoreInputPP.value = round(
-        scoreCalculator.calcPP(
-            scoreCalculator.star,
-            parseFloat(scoreInputPercent.value) / 100
-        ),
+        scoreCalculator.calcPP(scoreCalculator.star, parseFloat(scoreInputPercent.value) / 100),
         2
     ).toString();
     if (ev.type === 'change') {
@@ -293,14 +258,9 @@ function inputTablePercentHandler(this: HTMLInputElement) {
     }
 }
 function updateScore() {
-    scoreInputScore.value = round(
-        scoreCalculator.calcScore() * (parseFloat(scoreInputPercent.value) / 100)
-    ).toString();
+    scoreInputScore.value = round(scoreCalculator.calcScore() * (parseFloat(scoreInputPercent.value) / 100)).toString();
     scoreInputPP.value = round(
-        scoreCalculator.calcPP(
-            scoreCalculator.star,
-            parseFloat(scoreInputPercent.value) / 100
-        ),
+        scoreCalculator.calcPP(scoreCalculator.star, parseFloat(scoreInputPercent.value) / 100),
         2
     ).toString();
     scoreOutputMaxScore.textContent = formatNumber(scoreCalculator.calcScore());
@@ -310,28 +270,17 @@ function updateScoreEst() {
     const missedScore = scoreInputMissed.value.split(',').map((x) => parseInt(x)) || [];
     const breakScore = scoreInputBreak.value.split(',').map((x) => parseInt(x)) || [];
     const maxScore = scoreCalculator.calcScore();
-    const estScore = scoreCalculator.calcScore(
-        parseFloat(scoreInputAvgCut.value),
-        undefined,
-        missedScore,
-        breakScore
-    );
+    const estScore = scoreCalculator.calcScore(parseFloat(scoreInputAvgCut.value), undefined, missedScore, breakScore);
     const noMissScore = scoreCalculator.calcScore(parseFloat(scoreInputAvgCut.value));
     scoreOutputEstScore.textContent = formatNumber(round(estScore));
-    scoreOutputEstPercent.textContent = round(
-        (estScore / maxScore) * 100,
-        2
-    ).toString();
+    scoreOutputEstPercent.textContent = round((estScore / maxScore) * 100, 2).toString();
     scoreOutputEstPP.textContent = round(
         scoreCalculator.calcPP(scoreCalculator.star, estScore / maxScore),
         2
     ).toString();
     scoreOutputMissScore.textContent = formatNumber(round(noMissScore - estScore));
     scoreOutputNoMissScore.textContent = formatNumber(round(noMissScore));
-    scoreOutputNoMissPercent.textContent = round(
-        (noMissScore / maxScore) * 100,
-        2
-    ).toString();
+    scoreOutputNoMissPercent.textContent = round((noMissScore / maxScore) * 100, 2).toString();
     scoreOutputNoMissPP.textContent = round(
         scoreCalculator.calcPP(scoreCalculator.star, noMissScore / maxScore),
         2
@@ -346,13 +295,8 @@ function updateScoreTable() {
         let elemScore = document.createElement('td');
         let elemPP = document.createElement('td');
         elemPerc.textContent = round(scorePerc[i], 2).toString();
-        elemScore.textContent = formatNumber(
-            round(scoreCalculator.calcScore() * (scorePerc[i] / 100))
-        );
-        elemPP.textContent = round(
-            scoreCalculator.calcPP(scoreCalculator.star, scorePerc[i] / 100),
-            2
-        ).toString();
+        elemScore.textContent = formatNumber(round(scoreCalculator.calcScore() * (scorePerc[i] / 100)));
+        elemPP.textContent = round(scoreCalculator.calcPP(scoreCalculator.star, scorePerc[i] / 100), 2).toString();
         elemRow.appendChild(elemPerc);
         elemRow.appendChild(elemScore);
         elemRow.appendChild(elemPP);
