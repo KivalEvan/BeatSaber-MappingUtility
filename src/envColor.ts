@@ -11,34 +11,31 @@ export interface ColorScheme {
 }
 
 type ColorSchemeList =
-    | 'DefaultEnvironment'
-    | 'OriginsEnvironment'
-    | 'TriangleEnvironment'
-    | 'NiceEnvironment'
-    | 'BigMirrorEnvironment'
-    | 'DragonsEnvironment'
-    | 'KDAEnvironment'
-    | 'MonstercatEnvironment'
-    | 'CrabRaveEnvironment'
-    | 'PanicEnvironment'
-    | 'RocketEnvironment'
-    | 'GreenDayEnvironment'
-    | 'GreenDayGrenadeEnvironment'
-    | 'TimbalandEnvironment'
-    | 'FitBeatEnvironment'
-    | 'LinkinParkEnvironment'
-    | 'BTSEnvironment'
-    | 'KaleidoscopeEnvironment'
-    | 'InterscopeEnvironment'
-    | 'SkrillexEnvironment'
-    | 'BillieEnvironment'
-    | 'HalloweenEnvironment'
-    | 'GagaEnvironment'
-    | 'WeaveEnvironment'
-    | 'PyroEnvironment'
-    | 'EDMEnvironment'
-    | 'TheSecondEnvironment'
-    | 'GlassDesertEnvironment';
+    | 'Default Custom'
+    | 'The First'
+    | 'Origins'
+    | 'KDA'
+    | 'Crab Rave'
+    | 'Noir'
+    | 'Rocket'
+    | 'Green Day'
+    | 'Timbaland'
+    | 'FitBeat'
+    | 'Linkin Park'
+    | 'BTS'
+    | 'Kaleidoscope'
+    | 'Interscope'
+    | 'Skrillex'
+    | 'Billie Eilish'
+    | 'Spooky'
+    | 'Gaga'
+    | 'Weave'
+    | 'Pyro'
+    | 'EDM'
+    | 'The Second'
+    | 'Lizzo'
+    | 'The Weeknd'
+    | 'Glass Desert';
 
 export type EnvironmentColor = {
     readonly [csl in ColorSchemeList | string]: ColorScheme;
@@ -222,6 +219,24 @@ export const colorScheme: EnvironmentColor = {
         _envColorLeftBoost: { r: 0.8235294, g: 0.08627451, b: 0.8509804 },
         _envColorRightBoost: { r: 0, g: 1, b: 0.6478302 },
         _obstacleColor: { r: 1, g: 0.1882353, b: 0.1882353 },
+    },
+    Lizzo: {
+        _colorLeft: { r: 1, g: 0.8132076, b: 0.3773585 },
+        _colorRight: { r: 0.6705883, g: 0.254902, b: 0.8980392 },
+        _envColorLeft: { r: 0.8392157, g: 0.6470588, b: 0.2156863 },
+        _envColorRight: { r: 0.8196079, g: 0.2392157, b: 0.8784314 },
+        _envColorLeftBoost: { r: 1, g: 0.4, b: 0.5529412 },
+        _envColorRightBoost: { r: 0.3686275, g: 0.7960784, b: 1 },
+        _obstacleColor: { r: 1, g: 0.5020987, b: 0.1882353 },
+    },
+    'The Weeknd': {
+        _colorLeft: { r: 0.5843138, g: 0.1294118, b: 0.1294118 },
+        _colorRight: { r: 0.2235294, g: 0.2901961, b: 0.3294118 },
+        _envColorLeft: { r: 1, g: 0.2979701, b: 0.1411765 },
+        _envColorRight: { r: 0.1668743, g: 0.3753689, b: 0.7075472 },
+        _envColorLeftBoost: { r: 0.9568628, g: 0.6039216, b: 0.1215686 },
+        _envColorRightBoost: { r: 0.5254902, g: 0.8274511, b: 0.9921569 },
+        _obstacleColor: { r: 0.9176471, g: 0.2980392, b: 0.007843138 },
     },
     'Glass Desert': {
         _colorLeft: { r: 0.6792453, g: 0.5712628, b: 0 },

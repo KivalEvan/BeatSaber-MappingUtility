@@ -1,10 +1,16 @@
 # Changelog
 
+## v2.1.4 [2022-11-11]
+
+### Added
+
+-   Lizzo and The Weeknd color scheme
+
 ## v2.1.2 [2022-05-05]
 
 ### Added
 
--   Added Weave, Pyro, and EDM color scheme
+-   Weave, Pyro, and EDM color scheme
 
 ## v2.1.1 [2022-01-11]
 
