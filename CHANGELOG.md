@@ -1,25 +1,31 @@
 # Changelog
 
-## v2.1.4 [2022-11-11]
+## 2.1.5 [2022-12-19]
+
+### Added
+
+-   Rock Mixtape color scheme
+
+## 2.1.4 [2022-11-11]
 
 ### Added
 
 -   Lizzo and The Weeknd color scheme
 
-## v2.1.2 [2022-05-05]
+## 2.1.2 [2022-05-05]
 
 ### Added
 
 -   Weave, Pyro, and EDM color scheme
 
-## v2.1.1 [2022-01-11]
+## 2.1.1 [2022-01-11]
 
 ### Changed
 
 -   Actually added Gaga color scheme
 -   Clarified hitbox timing
 
-## v2.1.0 [2022-01-06]
+## 2.1.0 [2022-01-06]
 
 ### Added
 
@@ -30,13 +36,13 @@
 
 -   Cleaned up and organised codebase
 
-## v2.0.4 [2021-10-21]
+## 2.0.4 [2021-10-21]
 
 ### Added
 
 -   Note color similarity in colour picker
 
-## v2.0.3 [2021-10-17]
+## 2.0.3 [2021-10-17]
 
 ### Added
 
@@ -50,25 +56,25 @@
 
 -   NJS HJD minimum thing
 
-## v2.0.2 [2021-09-26]
+## 2.0.2 [2021-09-26]
 
 ### Added
 
 -   Skrillex & Billie Eilish color scheme
 -   My own map with full color scheme
 
-## v2.0.1 [2021-07-04]
+## 2.0.1 [2021-07-04]
 
 ### Changed
 
--   Mobile version is slightly larger
+-   Mobile ersion is slightly larger
 
 ### Fixed
 
 -   Lighthouse related issue
 -   Some package pepega
 
-## v2.0.0 : TypeScript Rewrite [2021-06-30]
+## 2.0.0 : TypeScript Rewrite [2021-06-30]
 
 ### Added
 
