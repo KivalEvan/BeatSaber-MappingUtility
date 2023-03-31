@@ -36,6 +36,8 @@ type ColorSchemeList =
     | 'Lizzo'
     | 'The Weeknd'
     | 'Rock Mixtape'
+    | 'Dragons 2.0'
+    | 'Panic 2.0'
     | 'Glass Desert';
 
 export type EnvironmentColor = {
@@ -248,6 +250,24 @@ export const colorScheme: EnvironmentColor = {
         _envColorRightBoost: { r: 0.378, g: 0.813, b: 0.9 },
         _obstacleColor: { r: 1, g: 1, b: 1 },
     },
+    'Dragons 2.0': {
+        _colorLeft: { r: 0.7264151, g: 0.6587077, b: 0.2809719 },
+        _colorRight: { r: 0.2509804, g: 0.7647059, b: 0.405098 },
+        _envColorLeft: { r: 0.01960784, g: 0.9960785, b: 0.06666667 },
+        _envColorRight: { r: 0, g: 0.05490196, b: 1 },
+        _envColorLeftBoost: { r: 0.9764706, g: 0.03137255, b: 0.01960784 },
+        _envColorRightBoost: { r: 1, g: 0.8292086, b: 0.2264151 },
+        _obstacleColor: { r: 0.5548979, g: 0.2470588, b: 1 },
+    },
+    'Panic 2.0': {
+        _colorLeft: { r: 0.9019608, g: 0.3333333, b: 0.5686275 },
+        _colorRight: { r: 0.1529412, g: 0.5568628, b: 0.4862745 },
+        _envColorLeft: { r: 0.6980392, g: 0.1137255, b: 0.372549 },
+        _envColorRight: { r: 0.1882353, g: 0.6196079, b: 0.6235294 },
+        _envColorLeftBoost: { r: 0.9019608, g: 0.4470589, b: 0.06666667 },
+        _envColorRightBoost: { r: 0.6365692, g: 0.4373443, b: 0.8584906 },
+        _obstacleColor: { r: 0.9686275, g: 0.3803922, b: 0.2745098 },
+    },
     'Glass Desert': {
         _colorLeft: { r: 0.6792453, g: 0.5712628, b: 0 },
         _colorRight: { r: 0.7075472, g: 0, b: 0.5364411 },
@@ -255,6 +275,9 @@ export const colorScheme: EnvironmentColor = {
         _envColorRight: { r: 0.03844783, g: 0.62239975, b: 0.90566039 },
         _obstacleColor: { r: 0.06167676, g: 0.2869513, b: 0.3962264 },
     },
+};
+
+export const myCustomColor: EnvironmentColor = {
     'New World': {
         _colorLeft: { r: 0.625, g: 0.625, b: 0.625 },
         _colorRight: { r: 0.34375, g: 0.4375, b: 0.625 },

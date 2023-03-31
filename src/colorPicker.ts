@@ -1,8 +1,10 @@
 import { round } from './utils';
 import { Color, ColorArray, deltaE00, toRGBArray } from './color';
-import { colorScheme, ColorScheme } from './envColor';
+import { colorScheme, myCustomColor, ColorScheme, EnvironmentColor } from './envColor';
 
 export default class ColorPicker {
+    static list: EnvironmentColor = colorScheme;
+
     private _colorScheme: ColorScheme = {
         _colorLeft: null,
         _colorRight: null,
@@ -29,10 +31,10 @@ export default class ColorPicker {
     }
 
     update() {
-        if (colorScheme[this._environmentColor]) {
+        if (ColorPicker.list[this._environmentColor]) {
             for (const part in this._colorScheme) {
                 const p = part as keyof ColorScheme;
-                this._colorScheme[p] = colorScheme[this._environmentColor][p] || null;
+                this._colorScheme[p] = ColorPicker.list[this._environmentColor][p] || null;
             }
         }
     }
@@ -63,9 +65,7 @@ export default class ColorPicker {
                 color[v] = this.cDenorm(c[v]);
             }
         }
-        return `#${this.decToHex(color.r)}${this.decToHex(color.g)}${this.decToHex(
-            color.b
-        )}`;
+        return `#${this.decToHex(color.r)}${this.decToHex(color.g)}${this.decToHex(color.b)}`;
     }
     public hexToRGB(hex: string) {
         return {
@@ -77,33 +77,23 @@ export default class ColorPicker {
 }
 const colorPicker = new ColorPicker();
 
-const cpOptionColorScheme = document.querySelector<HTMLInputElement>(
-    '#cp-option-colorscheme'
-)!;
+const cpOptionColorScheme = document.querySelector<HTMLSelectElement>('#cp-option-colorscheme')!;
+const cpShowCustom = document.querySelector<HTMLInputElement>('#cp-show-custom')!;
 const cpInputHex: { [key: string]: HTMLInputElement } = {};
 const cpInputPicker: { [key: string]: HTMLInputElement } = {};
 const cpInputInclude: { [key: string]: HTMLInputElement } = {};
 const cpInputReset: { [key: string]: HTMLInputElement } = {};
 for (const obj in colorPicker.colorScheme) {
     const part: string = obj.replace(/^\_/, '').toLowerCase();
-    cpInputHex[obj] = document.querySelector<HTMLInputElement>(
-        `#cp-input-hex-${part}`
-    )!;
-    cpInputPicker[obj] = document.querySelector<HTMLInputElement>(
-        `#cp-input-picker-${part}`
-    )!;
-    cpInputInclude[obj] = document.querySelector<HTMLInputElement>(
-        `#cp-input-include-${part}`
-    )!;
-    cpInputReset[obj] = document.querySelector<HTMLInputElement>(
-        `#cp-input-reset-${part}`
-    )!;
+    cpInputHex[obj] = document.querySelector<HTMLInputElement>(`#cp-input-hex-${part}`)!;
+    cpInputPicker[obj] = document.querySelector<HTMLInputElement>(`#cp-input-picker-${part}`)!;
+    cpInputInclude[obj] = document.querySelector<HTMLInputElement>(`#cp-input-include-${part}`)!;
+    cpInputReset[obj] = document.querySelector<HTMLInputElement>(`#cp-input-reset-${part}`)!;
 }
 const cpTextDENC = document.querySelector<HTMLSpanElement>('#cp-output-de-nc')!;
 const cpTextDELA = document.querySelector<HTMLSpanElement>('#cp-output-de-la')!;
 const cpTextDERA = document.querySelector<HTMLSpanElement>('#cp-output-de-ra')!;
-const cpTextAreaIOJSON =
-    document.querySelector<HTMLTextAreaElement>('#cp-io-colorjson')!;
+const cpTextAreaIOJSON = document.querySelector<HTMLTextAreaElement>('#cp-io-colorjson')!;
 const cpErrorJSON = document.querySelector<HTMLElement>('#cp-error-colorjson')!;
 
 cpOptionColorScheme.addEventListener('change', optionColorSchemeHandler);
@@ -119,12 +109,29 @@ let option = document.createElement('option');
 option.value = cpCustomText;
 option.textContent = cpCustomText;
 cpOptionColorScheme.append(option);
-for (const cs in colorScheme) {
+for (const cs in ColorPicker.list) {
     option = document.createElement('option');
     option.value = cs;
     option.textContent = cs;
     cpOptionColorScheme.append(option);
 }
+cpShowCustom.addEventListener('change', updateShowCustomHandler);
+function updateShowCustomHandler(this: HTMLInputElement) {
+    for (let i = cpOptionColorScheme.options.length - 1; i >= 0; i--) {
+        cpOptionColorScheme.remove(i);
+    }
+    ColorPicker.list = colorScheme;
+    if (this.checked) {
+        ColorPicker.list = { ...colorScheme, ...myCustomColor };
+    }
+    for (const cs in ColorPicker.list) {
+        option = document.createElement('option');
+        option.value = cs;
+        option.textContent = cs;
+        cpOptionColorScheme.append(option);
+    }
+}
+
 cpTextAreaIOJSON.addEventListener('change', inputJSONColorHandler);
 
 function optionColorSchemeHandler(this: HTMLOptionElement) {
@@ -197,18 +204,12 @@ function updateDeltaE() {
     const noteRight = colorPicker.colorScheme._colorRight;
     const arrowColor: ColorArray = [1, 1, 1];
     if (noteLeft) {
-        cpTextDELA.textContent = round(
-            deltaE00(toRGBArray(noteLeft), arrowColor),
-            2
-        ).toString();
+        cpTextDELA.textContent = round(deltaE00(toRGBArray(noteLeft), arrowColor), 2).toString();
     } else {
         cpTextDELA.textContent = 'N/A';
     }
     if (noteRight) {
-        cpTextDERA.textContent = round(
-            deltaE00(toRGBArray(noteRight), arrowColor),
-            2
-        ).toString();
+        cpTextDERA.textContent = round(deltaE00(toRGBArray(noteRight), arrowColor), 2).toString();
     } else {
         cpTextDERA.textContent = 'N/A';
     }
@@ -272,9 +273,7 @@ function inputColorIncludeHandler(this: HTMLInputElement) {
         }
     }
     if (this.checked) {
-        colorPicker.colorScheme[objName] = colorPicker.hexToRGB(
-            cpInputPicker[objName].value
-        );
+        colorPicker.colorScheme[objName] = colorPicker.hexToRGB(cpInputPicker[objName].value);
         cpInputHex[objName].value = cpInputPicker[objName].value;
         cpInputReset[objName].style.display = 'block';
     }
