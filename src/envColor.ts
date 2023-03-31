@@ -5,8 +5,10 @@ export interface ColorScheme {
     _colorRight?: Color | null;
     _envColorLeft?: Color | null;
     _envColorRight?: Color | null;
+    _envColorWhite?: Color | null;
     _envColorLeftBoost?: Color | null;
     _envColorRightBoost?: Color | null;
+    _envColorWhiteBoost?: Color | null;
     _obstacleColor?: Color | null;
 }
 

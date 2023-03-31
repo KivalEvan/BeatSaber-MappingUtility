@@ -10,8 +10,10 @@ export default class ColorPicker {
         _colorRight: null,
         _envColorLeft: null,
         _envColorRight: null,
+        _envColorWhite: null,
         _envColorLeftBoost: null,
         _envColorRightBoost: null,
+        _envColorWhiteBoost: null,
         _obstacleColor: null,
     };
 
@@ -170,8 +172,10 @@ function inputJSONColorHandler(this: HTMLTextAreaElement) {
         '_colorRight',
         '_envColorLeft',
         '_envColorRight',
+        '_envColorWhite',
         '_envColorLeftBoost',
         '_envColorRightBoost',
+        '_envColorWhiteBoost',
         '_obstacleColor',
     ];
     let parsedJSON: { [key: string]: Color } = {};

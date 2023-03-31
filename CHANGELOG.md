@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.1.6 [2023-03-31]
+
+### Added
+
+-   Dragons 2.0 and Panic 2.0 color scheme
+-   Toggle hide other color scheme
+-   White and white boost color pick
+
 ## 2.1.5 [2022-12-19]
 
 ### Added
