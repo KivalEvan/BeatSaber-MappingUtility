@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.7 [2023-05-25]
+
+### Added
+
+-   Queen color scheme
+
 ## 2.1.6 [2023-03-31]
 
 ### Added
