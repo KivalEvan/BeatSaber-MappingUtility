@@ -50,9 +50,7 @@ for (const d in swingPerSecond.difficulty) {
     spsInput[d] = document.querySelector<HTMLInputElement>(`#sps-input-${d}`)!;
     spsOutput[d] = document.querySelector<HTMLInputElement>(`#sps-output-${d}`)!;
 }
-const spsOutputTotal = document.querySelector<HTMLElement>(
-    '#sps-output-total-reduction'
-)!;
+const spsOutputTotal = document.querySelector<HTMLElement>('#sps-output-total-reduction')!;
 
 for (const d in swingPerSecond.difficulty) {
     spsInput[d].addEventListener('input', inputSPSHandlerHandler);

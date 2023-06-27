@@ -55,16 +55,11 @@ export default class NoteJumpSpeed {
         this._reactionTime = this.calcReactionTimeHJD();
     }
     calcHalfJumpDurationRaw(): number {
-        const maxHalfJump = 18;
-        const noteJumpMovementSpeed = (this._njs * this._njs) / this._njs;
+        const maxHalfJump = 17.999; // Beat Games, this is not how you fix float inconsistencies
         const num = 60 / this._bpm.value;
         let hjd = NoteJumpSpeed.HJD_START;
-        while (noteJumpMovementSpeed * num * hjd > maxHalfJump) {
-            hjd /= 2;
-        }
-        if (hjd < 1) {
-            hjd = 1;
-        }
+        while (this._njs * num * hjd > maxHalfJump) hjd /= 2;
+        if (hjd < 1) hjd = 1;
         return hjd;
     }
     calcHalfJumpDuration(offset: number = this.offset): number {

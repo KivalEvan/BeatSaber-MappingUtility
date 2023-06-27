@@ -201,10 +201,7 @@ export default class RandomPatternGenerator {
             if (this._parity && randType <= 1) {
                 randDir =
                     validRotation[randType][parity[randType]][
-                        Math.floor(
-                            Math.random() *
-                                validRotation[randType][parity[randType]].length
-                        )
+                        Math.floor(Math.random() * validRotation[randType][parity[randType]].length)
                     ];
             }
             for (let j = 0; j < maxSize; j++) {
@@ -228,34 +225,16 @@ export default class RandomPatternGenerator {
 }
 const randPatternGen = new RandomPatternGenerator(3, 4);
 
-const rpgInputRow = document.querySelector<HTMLInputElement>(
-    '#rpg-input-rpattern-row'
-)!;
-const rpgInputColumn = document.querySelector<HTMLInputElement>(
-    '#rpg-input-rpattern-column'
-)!;
+const rpgInputRow = document.querySelector<HTMLInputElement>('#rpg-input-rpattern-row')!;
+const rpgInputColumn = document.querySelector<HTMLInputElement>('#rpg-input-rpattern-column')!;
 const rpgTable = document.querySelector<HTMLTableElement>('#rpg-table-rpattern')!;
-const rpgInputNRed = document.querySelector<HTMLInputElement>(
-    '#rpg-input-rpattern-red'
-)!;
-const rpgInputNBlue = document.querySelector<HTMLInputElement>(
-    '#rpg-input-rpattern-blue'
-)!;
-const rpgInputNBomb = document.querySelector<HTMLInputElement>(
-    '#rpg-input-rpattern-bomb'
-)!;
-const rpgInputLimit = document.querySelector<HTMLInputElement>(
-    '#rpg-input-rpattern-limit'
-)!;
-const rpgInputTotal = document.querySelector<HTMLInputElement>(
-    '#rpg-input-rpattern-total'
-)!;
-const rpgInputNoDot = document.querySelector<HTMLInputElement>(
-    '#rpg-input-rpattern-nodot'
-)!;
-const rpgInputParity = document.querySelector<HTMLInputElement>(
-    '#rpg-input-rpattern-parity'
-)!;
+const rpgInputNRed = document.querySelector<HTMLInputElement>('#rpg-input-rpattern-red')!;
+const rpgInputNBlue = document.querySelector<HTMLInputElement>('#rpg-input-rpattern-blue')!;
+const rpgInputNBomb = document.querySelector<HTMLInputElement>('#rpg-input-rpattern-bomb')!;
+const rpgInputLimit = document.querySelector<HTMLInputElement>('#rpg-input-rpattern-limit')!;
+const rpgInputTotal = document.querySelector<HTMLInputElement>('#rpg-input-rpattern-total')!;
+const rpgInputNoDot = document.querySelector<HTMLInputElement>('#rpg-input-rpattern-nodot')!;
+const rpgInputParity = document.querySelector<HTMLInputElement>('#rpg-input-rpattern-parity')!;
 const rpgInputParityExtend = document.querySelector<HTMLInputElement>(
     '#rpg-input-rpattern-parity-extend'
 )!;
@@ -265,9 +244,7 @@ const rpgInputParityNRed = document.querySelector<HTMLInputElement>(
 const rpgInputParityNBlue = document.querySelector<HTMLInputElement>(
     '#rpg-input-rpattern-parity-blue'
 )!;
-const rpgInputGenerate = document.querySelector<HTMLInputElement>(
-    '#rpg-input-generate-rpattern'
-)!;
+const rpgInputGenerate = document.querySelector<HTMLInputElement>('#rpg-input-generate-rpattern')!;
 
 rpgInputRow.addEventListener('click', inputRPatternRowHandler);
 rpgInputColumn.addEventListener('click', inputRPatternColumnHandler);
@@ -312,9 +289,7 @@ function inputRPatternColumnHandler(this: HTMLInputElement) {
     tableRPattern();
 }
 function inputRPatternGenerateHandler() {
-    const rpgTableImage = document.querySelectorAll<HTMLImageElement>(
-        '.table-rpattern-image'
-    );
+    const rpgTableImage = document.querySelectorAll<HTMLImageElement>('.table-rpattern-image');
     rpgTableImage.forEach((image) => {
         image.src = './assets/blank.png';
         image.alt = 'blank';
@@ -340,9 +315,7 @@ function inputRPatternGenerateHandler() {
             }`;
             rpgTableImage[j].alt = noteImage[grid[j]._noteType].slice(0, -4);
             if (grid[j]._noteDirection !== 8) {
-                rpgTableImage[j].className += ` ${
-                    noteRotation[grid[j]._noteDirection]
-                }`;
+                rpgTableImage[j].className += ` ${noteRotation[grid[j]._noteDirection]}`;
                 rpgTableImage[j].alt += ` ${noteRotation[grid[j]._noteDirection]}`;
             }
         }

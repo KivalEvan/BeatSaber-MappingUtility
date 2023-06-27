@@ -21,24 +21,15 @@ const version = new Version();
 const textVersion = document.querySelectorAll<HTMLElement>('.text-version')!;
 const textWatermark = document.querySelectorAll<HTMLElement>('.text-watermark')!;
 
-const mapSettingsInputBPM = document.querySelector<HTMLInputElement>(
-    '#map-settings-input-bpm'
-)!;
+const mapSettingsInputBPM = document.querySelector<HTMLInputElement>('#map-settings-input-bpm')!;
 
 const inputToggle = document.querySelectorAll<HTMLInputElement>('.toggle-input');
 
-const ebpmInputPrecBeat =
-    document.querySelector<HTMLInputElement>('#ebpm-input-precbeat')!;
-const ebpmInputPrecTime =
-    document.querySelector<HTMLInputElement>('#ebpm-input-prectime')!;
-const ebpmInputPrecRealTime = document.querySelector<HTMLInputElement>(
-    '#ebpm-input-precrealtime'
-)!;
-const ebpmInputEBPMOHJ =
-    document.querySelector<HTMLInputElement>('#ebpm-input-ebpm-ohj')!;
-const ebpmInputEBPMStream = document.querySelector<HTMLInputElement>(
-    '#ebpm-input-ebpm-stream'
-)!;
+const ebpmInputPrecBeat = document.querySelector<HTMLInputElement>('#ebpm-input-precbeat')!;
+const ebpmInputPrecTime = document.querySelector<HTMLInputElement>('#ebpm-input-prectime')!;
+const ebpmInputPrecRealTime = document.querySelector<HTMLInputElement>('#ebpm-input-precrealtime')!;
+const ebpmInputEBPMOHJ = document.querySelector<HTMLInputElement>('#ebpm-input-ebpm-ohj')!;
+const ebpmInputEBPMStream = document.querySelector<HTMLInputElement>('#ebpm-input-ebpm-stream')!;
 
 const njsInputNJS = document.querySelector<HTMLInputElement>('#njs-input-njs')!;
 const njsInputOffset = document.querySelector<HTMLInputElement>('#njs-input-offset')!;
@@ -47,12 +38,8 @@ const njsInputJD = document.querySelector<HTMLInputElement>('#njs-input-jd')!;
 const njsInputReact = document.querySelector<HTMLInputElement>('#njs-input-reacttime')!;
 const njsOutputJD = document.querySelector<HTMLElement>('#njs-output-jd')!;
 const njsOutputMinReact = document.querySelector<HTMLElement>('#njs-output-reacttime')!;
-const njsOutputJDOHigh = document.querySelector<HTMLElement>(
-    '#njs-output-jd-optimal-high'
-)!;
-const njsOutputJDOLow = document.querySelector<HTMLElement>(
-    '#njs-output-jd-optimal-low'
-)!;
+const njsOutputJDOHigh = document.querySelector<HTMLElement>('#njs-output-jd-optimal-high')!;
+const njsOutputJDOLow = document.querySelector<HTMLElement>('#njs-output-jd-optimal-low')!;
 const njsOutputReverseStaircase = document.querySelector<HTMLElement>(
     '#njs-output-reverse-staircase'
 )!;
@@ -66,30 +53,16 @@ const njsOutputReverseStaircaseDiagonalTime = document.querySelector<HTMLElement
     '#njs-output-reverse-staircase-diagonal-time'
 )!;
 const njsOutputInline = document.querySelector<HTMLElement>('#njs-output-inline')!;
-const njsOutputInlineTime = document.querySelector<HTMLElement>(
-    '#njs-output-inline-time'
-)!;
-const njsSelectScale = document.querySelector<HTMLSelectElement>(
-    '#njs-option-njs-scale'
-)!;
+const njsOutputInlineTime = document.querySelector<HTMLElement>('#njs-output-inline-time')!;
+const njsSelectScale = document.querySelector<HTMLSelectElement>('#njs-option-njs-scale')!;
 
 const labelInputText = document.querySelector<HTMLInputElement>('#label-input-text')!;
 const labelOutputText = document.querySelector<HTMLInputElement>('#label-output-text')!;
-const labelInputDiffCount1 = document.querySelector<HTMLInputElement>(
-    '#label-input-diff-count-1'
-)!;
-const labelInputDiffCount2 = document.querySelector<HTMLInputElement>(
-    '#label-input-diff-count-2'
-)!;
-const labelInputDiffCount3 = document.querySelector<HTMLInputElement>(
-    '#label-input-diff-count-3'
-)!;
-const labelInputDiffCount4 = document.querySelector<HTMLInputElement>(
-    '#label-input-diff-count-4'
-)!;
-const labelInputDiffCount5 = document.querySelector<HTMLInputElement>(
-    '#label-input-diff-count-5'
-)!;
+const labelInputDiffCount1 = document.querySelector<HTMLInputElement>('#label-input-diff-count-1')!;
+const labelInputDiffCount2 = document.querySelector<HTMLInputElement>('#label-input-diff-count-2')!;
+const labelInputDiffCount3 = document.querySelector<HTMLInputElement>('#label-input-diff-count-3')!;
+const labelInputDiffCount4 = document.querySelector<HTMLInputElement>('#label-input-diff-count-4')!;
+const labelInputDiffCount5 = document.querySelector<HTMLInputElement>('#label-input-diff-count-5')!;
 
 mapSettingsInputBPM.addEventListener('change', inputBPMHandler);
 mapSettingsInputBPM.addEventListener('input', inputBPMHandler);
@@ -133,9 +106,7 @@ updatePrec();
 njsInputNJS.value = noteJumpSpeed.njs.toString();
 njsInputOffset.value = noteJumpSpeed.offset.toString();
 updateNJS();
-njsOutputMinReact.textContent = `${round(
-    (60 / bpm.value) * noteJumpSpeed.hjdMin * 1000
-)}ms`;
+njsOutputMinReact.textContent = `${round((60 / bpm.value) * noteJumpSpeed.hjdMin * 1000)}ms`;
 enableInput();
 
 function updateVersion(text: string): void {
@@ -179,8 +150,7 @@ function inputBPMHandler(this: HTMLInputElement, ev: Event) {
     }
 }
 function inputPrecBeatHandler(this: HTMLInputElement, ev: Event) {
-    ebpmPrec.precBeat =
-        Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : 1;
+    ebpmPrec.precBeat = Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : 1;
     if (ebpmPrec.precBeat > 0) {
         updateEBPM();
         ebpmInputPrecTime.value = round(ebpmPrec.precTime, 3).toString();
@@ -191,8 +161,7 @@ function inputPrecBeatHandler(this: HTMLInputElement, ev: Event) {
     }
 }
 function inputPrecTimeHandler(this: HTMLInputElement, ev: Event) {
-    ebpmPrec.precTime =
-        Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : 1;
+    ebpmPrec.precTime = Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : 1;
     if (ebpmPrec.precTime > 0) {
         updateEBPM();
         ebpmInputPrecBeat.value = round(ebpmPrec.precBeat, 3).toString();
@@ -217,9 +186,7 @@ function inputPrecRealTimeHandler(this: HTMLInputElement, ev: Event) {
 function inputEBPMHandler(this: HTMLInputElement, ev: Event) {
     if (this.id === 'ebpm-input-ebpm-ohj') {
         ebpmPrec.ebpmOHJ =
-            Math.abs(parseFloat(this.value)) > 0
-                ? Math.abs(parseFloat(this.value))
-                : bpm.value;
+            Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : bpm.value;
         if (ev.type === 'change') {
             this.value = round(ebpmPrec.ebpmOHJ, 2).toString();
         }
@@ -227,9 +194,7 @@ function inputEBPMHandler(this: HTMLInputElement, ev: Event) {
     }
     if (this.id === 'ebpm-input-ebpm-stream') {
         ebpmPrec.ebpmStream =
-            Math.abs(parseFloat(this.value)) > 0
-                ? Math.abs(parseFloat(this.value))
-                : bpm.value;
+            Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : bpm.value;
         if (ev.type === 'change') {
             this.value = round(ebpmPrec.ebpmStream, 2).toString();
         }
@@ -249,9 +214,7 @@ function updateEBPM() {
 
 function inputNJSHandler(this: HTMLInputElement, ev: Event) {
     noteJumpSpeed.njs =
-        Math.abs(parseFloat(this.value)) > 0
-            ? Math.abs(parseFloat(this.value))
-            : noteJumpSpeed.njs;
+        Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : noteJumpSpeed.njs;
     updateNJS();
     if (ev.type === 'change') {
         this.value = round(noteJumpSpeed.njs, 3).toString();
@@ -278,14 +241,11 @@ function inputHJDHandler(this: HTMLInputElement, ev: Event) {
 }
 function inputJDHandler(this: HTMLInputElement, ev: Event) {
     let jd =
-        Math.abs(parseFloat(this.value)) > 0
-            ? Math.abs(parseFloat(this.value))
-            : noteJumpSpeed.jd;
+        Math.abs(parseFloat(this.value)) > 0 ? Math.abs(parseFloat(this.value)) : noteJumpSpeed.jd;
     if (njsSelectScale.value === 'hjd') {
         jd = Math.max(jd, noteJumpSpeed.jdMin);
         noteJumpSpeed.offset =
-            noteJumpSpeed.calcHalfJumpDurationFromJD(jd) -
-            noteJumpSpeed.calcHalfJumpDurationRaw();
+            noteJumpSpeed.calcHalfJumpDurationFromJD(jd) - noteJumpSpeed.calcHalfJumpDurationRaw();
     }
     if (njsSelectScale.value === 'njs') {
         noteJumpSpeed.njs = jd / (2 * noteJumpSpeed.calcReactionTimeHJD());
@@ -306,8 +266,7 @@ function inputReactTimeHandler(this: HTMLInputElement, ev: Event) {
             : noteJumpSpeed.calcReactionTimeHJD(),
         noteJumpSpeed.calcReactionTimeHJD(noteJumpSpeed.hjdMin)
     );
-    noteJumpSpeed.offset =
-        reactTime / (60 / bpm.value) - noteJumpSpeed.calcHalfJumpDurationRaw();
+    noteJumpSpeed.offset = reactTime / (60 / bpm.value) - noteJumpSpeed.calcHalfJumpDurationRaw();
     njsInputHJD.value = round(noteJumpSpeed.hjd, 3).toString();
     njsInputJD.value = round(noteJumpSpeed.jd, 2).toString();
     njsOutputJD.textContent = round(noteJumpSpeed.jdMin, 2).toString();
@@ -321,14 +280,8 @@ function updateNJS() {
     njsInputHJD.value = round(noteJumpSpeed.hjd, 3).toString();
     njsInputJD.value = round(noteJumpSpeed.jd, 2).toString();
     njsInputReact.value = round(noteJumpSpeed.reactTime * 1000).toString();
-    njsOutputJDOHigh.textContent = round(
-        noteJumpSpeed.calcJumpDistanceOptimalHigh(),
-        2
-    ).toString();
-    njsOutputJDOLow.textContent = round(
-        noteJumpSpeed.calcJumpDistanceOptimalLow(),
-        2
-    ).toString();
+    njsOutputJDOHigh.textContent = round(noteJumpSpeed.calcJumpDistanceOptimalHigh(), 2).toString();
+    njsOutputJDOLow.textContent = round(noteJumpSpeed.calcJumpDistanceOptimalLow(), 2).toString();
     njsOutputReverseStaircase.textContent = round(
         (1.425 / noteJumpSpeed.njs - 0.0216882353) * (bpm.value / 60),
         3
