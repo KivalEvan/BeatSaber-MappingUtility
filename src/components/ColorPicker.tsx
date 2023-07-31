@@ -420,7 +420,6 @@ export default function () {
                      <textarea
                         id="cp-io-jsoncd"
                         rows="16"
-                        style="width:97%"
                         value={formatJson(jsonCd)}
                         onChange={jsonCdHandler}
                      />
@@ -429,7 +428,6 @@ export default function () {
                      <textarea
                         id="cp-io-jsoninfo"
                         rows="16"
-                        style="width:97%"
                         value={formatJson(jsonInfo)}
                         onChange={jsonInfoHandler}
                      />

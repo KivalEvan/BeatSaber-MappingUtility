@@ -1,5 +1,6 @@
 :root {
-   --max-size: 36em;
+   --max-size: 60em;
+   --max-size-readable: 36em;
    --sidenav-width: 10em;
    --sidenav-offset: 1em;
 }
@@ -23,6 +24,9 @@ main {
    display: block;
    position: relative;
    justify-content: space-between;
+   width: 100%;
+   margin: 0 auto;
+   max-width: var(--max-size-readable);
 }
 .wrapper-sidenav {
    position: absolute;
@@ -87,6 +91,10 @@ a {
 a:hover {
    color: #dd2020;
 }
+textarea {
+   width: 95%;
+   font-size: 1.25em;
+}
 input {
    width: 5em;
    font-family: monospace;
@@ -102,7 +110,6 @@ input[type='checkbox'] {
    width: auto;
 }
 select {
-   padding: 0.125em;
    font-size: 0.9375em;
    width: auto;
 }
@@ -249,8 +256,5 @@ td {
    }
    .subpanel-small {
       width: 50%;
-   }
-   html {
-      font-size: 1.25em;
    }
 }

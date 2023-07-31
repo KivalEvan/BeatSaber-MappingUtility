@@ -215,16 +215,15 @@ function jsonScoreHandler(this: HTMLTextAreaElement) {
       } else {
          parsedJSON = JSON.parse(`{${this.value.trim().replace(/\,$/, '')}}`);
       }
-      if (!Array.isArray(parsedJSON.curvePoints))
-         throw new Error('"curvePoints" is not an array of Vector2');
+      if (!Array.isArray(parsedJSON.points)) throw new Error('"points" is not an array of Vector2');
       if (
-         !parsedJSON.curvePoints.every((p) => {
+         !parsedJSON.points.every((p) => {
             return Array.isArray(p) && p.length > 1 && p.every((e) => typeof e === 'number');
          })
       )
-         throw new Error('Invalid element(s) in "curvePoints", not Vector2?');
-      setScore('curve', parsedJSON.curvePoints);
-      ppCurve['custom'] = parsedJSON.curvePoints;
+         throw new Error('Invalid element(s) in "points", not Vector2?');
+      setScore('curve', parsedJSON.points);
+      ppCurve['custom'] = parsedJSON.points;
    } catch (err) {
       console.error(err);
       setErrMsg(err instanceof Error ? err.message : 'Unhandled Exception');
@@ -312,7 +311,6 @@ export default function () {
             <textarea
                id="score-input-missed"
                name="missed"
-               style="width:97%"
                value={score.missed.join(',')}
                onChange={missBreakHandler}
             />
@@ -323,7 +321,6 @@ export default function () {
             <textarea
                id="score-input-break"
                name="break"
-               style="width:97%"
                value={score.break.join(',')}
                onChange={missBreakHandler}
             />
@@ -382,7 +379,6 @@ export default function () {
             </label>
             <textarea
                id="score-table-percentage"
-               style="width:97%"
                value={score.tablePercent.join(',')}
                onChange={tablePercentHandler}
             />
@@ -416,9 +412,8 @@ export default function () {
             <textarea
                id="score-text-json"
                rows="16"
-               style="width:97%"
                disabled={score.curveSelect === 'Custom'}
-               value={JSON.stringify({ curvePoints: score.curve }, null, 2)}
+               value={JSON.stringify({ points: score.curve }, null, 2)}
                onChange={jsonScoreHandler}
             />
             <br />
