@@ -2,7 +2,7 @@ import { createStore } from 'solid-js/store';
 import type { Vector2 } from '../bsmap/types/vector';
 import { formatNumber, invLerp, lerp, round } from '../bsmap/utils/math';
 import { ppCurve } from '../data/ppCurve';
-import { For, Index } from 'solid-js';
+import { For, Index, createSignal } from 'solid-js';
 
 function interpolatePoint(pointArr: Vector2[], xPoint: number): number {
    const percAry = pointArr.map((arr) => arr[0]);
@@ -74,12 +74,13 @@ const [score, setScore] = createStore({
    noMissScore: 0,
    noMissPP: 0,
 });
+const [errMsg, setErrMsg] = createSignal('');
 
 // 100% pp value
 // 0.9458064516129032 interpolated value
 // 0.9431707317073172 rabbit's interpolated value
 function calcPP(rate: number = score.rating, perc: number = 0.9458064516129032): number {
-   return score.ppStar * rate * interpolatePoint(score.curve, perc);
+   return score.ppStar * rate * interpolatePoint(score.curve.length ? score.curve : [[1, 1]], perc);
 }
 
 // miss simulate missing the note
@@ -126,7 +127,6 @@ function calcScore(
 
 updateScore();
 updateScoreEst();
-updateScoreJSON();
 
 function noteHandler(this: HTMLInputElement, ev: Event) {
    setScore('note', this.valueAsNumber || 0);
@@ -200,35 +200,37 @@ function scoreCurveHandler(this: HTMLOptionElement) {
    setScore('curve', ppCurve[this.value]);
    updateScore();
    updateScoreEst();
-   updateScoreJSON();
 }
 function ppStarHandler(this: HTMLInputElement) {
    setScore('ppStar', this.valueAsNumber);
    updateScore();
    updateScoreEst();
-   updateScoreJSON();
 }
 function jsonScoreHandler(this: HTMLTextAreaElement) {
    let parsedJSON: { [key: string]: Vector2[] } = {};
+   setErrMsg('');
    try {
       if (/^{/.test(this.value.trim())) {
          parsedJSON = JSON.parse(this.value.trim());
       } else {
          parsedJSON = JSON.parse(`{${this.value.trim().replace(/\,$/, '')}}`);
       }
+      if (!Array.isArray(parsedJSON.curvePoints))
+         throw new Error('"curvePoints" is not an array of Vector2');
+      if (
+         !parsedJSON.curvePoints.every((p) => {
+            return Array.isArray(p) && p.length > 1 && p.every((e) => typeof e === 'number');
+         })
+      )
+         throw new Error('Invalid element(s) in "curvePoints", not Vector2?');
       setScore('curve', parsedJSON.curvePoints);
       ppCurve['custom'] = parsedJSON.curvePoints;
    } catch (err) {
       console.error(err);
+      setErrMsg(err instanceof Error ? err.message : 'Unhandled Exception');
    }
    updateScore();
    updateScoreEst();
-   updateScoreJSON();
-}
-function updateScoreJSON() {
-   const parsed: { [key: string]: object } = {
-      curvePoints: [...score.curve].reverse(),
-   };
 }
 
 export default function () {
@@ -417,9 +419,10 @@ export default function () {
                style="width:97%"
                disabled={score.curveSelect === 'Custom'}
                value={JSON.stringify({ curvePoints: score.curve }, null, 2)}
+               onChange={jsonScoreHandler}
             />
             <br />
-            <span id="score-error-json" />
+            <span class="msg-error">{errMsg()}</span>
          </div>
       </div>
    );

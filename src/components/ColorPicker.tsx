@@ -78,6 +78,7 @@ const infoCdMap = {
 const [dENote, setDENote] = createSignal<number | null>(null);
 const [dEArrowL, setDEArrowL] = createSignal<number | null>(null);
 const [dEArrowR, setDEArrowR] = createSignal<number | null>(null);
+const [msgErr, setMsgErr] = createSignal('');
 
 function showCustomHandler(this: HTMLInputElement) {
    schemeList = ColorScheme;
@@ -114,6 +115,7 @@ function jsonCdHandler(this: HTMLTextAreaElement) {
       setColorSch(k, 'value', null);
       setColorSch(k, 'checked', false);
    }
+   setMsgErr('');
    const colorType: (keyof IColorScheme)[] = [
       '_colorLeft',
       '_colorRight',
@@ -135,6 +137,7 @@ function jsonCdHandler(this: HTMLTextAreaElement) {
       }
    } catch (err) {
       console.error(err);
+      setMsgErr(err instanceof Error ? err.message : 'Unhandled Exception');
       return;
    }
    for (const key in parsedJson) {
@@ -162,6 +165,7 @@ function jsonInfoHandler(this: HTMLTextAreaElement) {
       setColorSch(k, 'value', null);
       setColorSch(k, 'checked', false);
    }
+   setMsgErr('');
    const colorType: (keyof IInfoColorSchemeData)[] = [
       'saberAColor',
       'saberBColor',
@@ -183,6 +187,7 @@ function jsonInfoHandler(this: HTMLTextAreaElement) {
       }
    } catch (err) {
       console.error(err);
+      setMsgErr(err instanceof Error ? err.message : 'Unhandled Exception');
       return;
    }
    for (const key in parsedJson) {
@@ -309,7 +314,9 @@ export default function () {
    return (
       <div id="color-picker">
          <h2>Color Picker</h2>
-         <label for="cp-option-colorscheme">Color Scheme: </label>
+         <label for="cp-option-colorscheme">
+            <b>Color Scheme: </b>
+         </label>
          <select id="cp-option-colorscheme" onChange={colorSchemeHandler}>
             <For each={schList}>
                {(sch) => (
@@ -376,11 +383,20 @@ export default function () {
          </table>
          <div>
             <br />
-            <span>Note colour similarity (dE): {dENote() ? round(dENote()!, 2) : 'N/A'}</span>
+            <span>
+               <b>Note colour similarity (dE): </b>
+               {dENote() ? round(dENote()!, 2) : 'N/A'}
+            </span>
             <br />
-            <span>Left arrow similarity (dE): {dEArrowL() ? round(dEArrowL()!, 2) : 'N/A'}</span>
+            <span>
+               <b>Left arrow similarity (dE): </b>
+               {dEArrowL() ? round(dEArrowL()!, 2) : 'N/A'}
+            </span>
             <br />
-            <span>Right arrow similarity (dE): {dEArrowR() ? round(dEArrowR()!, 2) : 'N/A'}</span>
+            <span>
+               <b>Right arrow similarity (dE): </b>
+               {dEArrowR() ? round(dEArrowR()!, 2) : 'N/A'}
+            </span>
             <br />
             <br />
             <span>Lower dE is similar colour, higher dE is opposite colour.</span>
@@ -421,9 +437,8 @@ export default function () {
                </tr>
             </tbody>
          </table>
-         <div>
-            <p>Copy the JSON to respective location.</p>
-         </div>
+         <span class="msg-error">{msgErr()}</span>
+         <p>Copy the JSON to respective location.</p>
       </div>
    );
 }
