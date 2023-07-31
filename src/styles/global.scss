@@ -1,0 +1,256 @@
+:root {
+   --max-size: 36em;
+   --sidenav-width: 10em;
+   --sidenav-offset: 1em;
+}
+html {
+   scroll-behavior: smooth;
+}
+body {
+   font-size: 1em;
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+   color: #fff;
+   background: #171717;
+}
+main {
+   display: block;
+   position: relative;
+   width: 100%;
+   margin: 0 auto;
+   max-width: var(--max-size);
+}
+.wrapper {
+   display: block;
+   position: relative;
+   justify-content: space-between;
+}
+.wrapper-sidenav {
+   position: absolute;
+   height: 100%;
+   left: calc(0px - var(--sidenav-width));
+}
+.panel-sidenav {
+   position: -webkit-sticky;
+   position: sticky;
+   top: var(--sidenav-offset);
+   width: var(--sidenav-width);
+}
+.panel-sidenav div {
+   display: inline-block;
+   margin: 0.25em 0;
+   border-left: #ff0000 solid 1px;
+}
+.panel-sidenav div a {
+   display: block;
+   padding: 0.25em 1em;
+   text-decoration: none;
+   color: #888888;
+   transition:
+      color 0.125s,
+      transform 0.125s;
+}
+.panel-sidenav div a:hover,
+a.active {
+   transform: scale(1.1, 1.1);
+   color: #ff0000;
+}
+.panel-main {
+   width: 100%;
+}
+.subpanel-small {
+   display: inline-block;
+   vertical-align: top;
+   width: 32.25%;
+}
+.subpanel-medium {
+   display: inline-block;
+   vertical-align: top;
+   width: 49%;
+}
+.subpanel-right {
+   text-align: right;
+}
+.subpanel-center {
+   display: block;
+   margin: auto;
+   overflow: hidden;
+   justify-content: center;
+   text-align: center;
+   width: inherit;
+}
+a {
+   padding: 0.125em;
+   color: #4080ff;
+   text-decoration: none;
+   transition: color 0.125s ease;
+}
+a:hover {
+   color: #dd2020;
+}
+input {
+   width: 5em;
+   font-family: monospace;
+   font-size: 1.25em;
+}
+input[type='radio'] {
+   width: initial;
+}
+input[type='button'] {
+   width: auto;
+}
+input[type='checkbox'] {
+   width: auto;
+}
+select {
+   padding: 0.125em;
+   font-size: 0.9375em;
+   width: auto;
+}
+table {
+   width: 100%;
+   text-align: center;
+   vertical-align: top;
+   table-layout: fixed;
+}
+th {
+   font-size: 1.125em;
+}
+td {
+   text-overflow: clip;
+   white-space: nowrap;
+}
+.table-center {
+   width: auto;
+   margin: 0 auto;
+}
+.table-grid {
+   border: 1px solid white;
+   border-collapse: collapse;
+}
+.table-first {
+   text-align: left;
+}
+.table-input {
+   width: 90%;
+   text-align: center;
+   margin: 0;
+   padding: 0.125 0.25em;
+}
+#label-input-text {
+   width: 50%;
+}
+.diff-label {
+   display: inline-block;
+   white-space: normal;
+   word-break: break-all;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   text-transform: uppercase;
+   font-family: 'Teko';
+   font-size: 1.75em;
+   font-weight: bold;
+}
+.diff-count-1 {
+   width: 20.79em;
+}
+.diff-count-2 {
+   width: 10.5em;
+}
+.diff-count-3 {
+   width: 6.9375em;
+}
+.diff-count-4 {
+   width: 5.25em;
+}
+.diff-count-5 {
+   width: 4.2em;
+}
+.table-rpattern-image {
+   width: 4em;
+   height: 4em;
+   text-align: center;
+   justify-content: center;
+   vertical-align: middle;
+}
+.table-rpattern-image[src*='png'] {
+   padding: 0;
+}
+.table-rpattern-image[src*='svg'] {
+   width: 2.75em;
+   height: 2.75em;
+   padding: 0.625em;
+}
+.deg45 {
+   -webkit-transform: rotate(45deg);
+   -moz-transform: rotate(45deg);
+   -o-transform: rotate(45deg);
+   -ms-transform: rotate(45deg);
+   transform: rotate(45deg);
+}
+.deg90 {
+   -webkit-transform: rotate(90deg);
+   -moz-transform: rotate(90deg);
+   -o-transform: rotate(90deg);
+   -ms-transform: rotate(90deg);
+   transform: rotate(90deg);
+}
+.deg135 {
+   -webkit-transform: rotate(135deg);
+   -moz-transform: rotate(135deg);
+   -o-transform: rotate(135deg);
+   -ms-transform: rotate(135deg);
+   transform: rotate(135deg);
+}
+.deg180 {
+   -webkit-transform: rotate(180deg);
+   -moz-transform: rotate(180deg);
+   -o-transform: rotate(180deg);
+   -ms-transform: rotate(180deg);
+   transform: rotate(180deg);
+}
+.deg225 {
+   -webkit-transform: rotate(225deg);
+   -moz-transform: rotate(225deg);
+   -o-transform: rotate(225deg);
+   -ms-transform: rotate(225deg);
+   transform: rotate(225deg);
+}
+.deg270 {
+   -webkit-transform: rotate(270deg);
+   -moz-transform: rotate(270deg);
+   -o-transform: rotate(270deg);
+   -ms-transform: rotate(270deg);
+   transform: rotate(270deg);
+}
+.deg315 {
+   -webkit-transform: rotate(315deg);
+   -moz-transform: rotate(315deg);
+   -o-transform: rotate(315deg);
+   -ms-transform: rotate(315deg);
+   transform: rotate(315deg);
+}
+
+@media only screen and (max-width: 900px) {
+   .wrapper-sidenav {
+      position: initial;
+   }
+   .panel-sidenav {
+      position: initial;
+      display: block;
+      width: 100%;
+   }
+   .panel-sidenav a {
+      display: inline-block;
+   }
+}
+@media only screen and (max-width: 600px) {
+   .subpanel-medium {
+      width: 100%;
+   }
+   .subpanel-small {
+      width: 50%;
+   }
+   html {
+      font-size: 1.25em;
+   }
+}

@@ -1,28 +1,23 @@
 {
-    "name": "beatsaber-mappingutility",
-    "version": "2.1.0",
-    "description": "",
-    "private": true,
-    "devDependencies": {
-        "typescript": "^4.5.4",
-        "vite": "^2.7.10"
-    },
-    "scripts": {
-        "dev": "vite",
-        "build": "tsc && vite build",
-        "check": "tsc",
-        "preview": "vite preview",
-        "serve": "vite preview --port 8080",
-        "clean": "npm cache clean --force"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/KivalEvan/BeatSaber-MappingUtility.git"
-    },
-    "author": "Kival Evan",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/KivalEvan/BeatSaber-MappingUtility/issues"
-    },
-    "homepage": "https://github.com/KivalEvan/BeatSaber-MappingUtility#readme"
+   "name": "bs-maputility",
+   "type": "module",
+   "version": "3.0.0",
+   "scripts": {
+      "dev": "astro dev",
+      "start": "astro dev",
+      "build": "astro build",
+      "preview": "astro preview",
+      "format": "prettier --write ./src",
+      "astro": "astro"
+   },
+   "dependencies": {
+      "@astrojs/solid-js": "^2.2.0",
+      "astro": "^2.9.3",
+      "solid-js": "^1.4.3"
+   },
+   "devDependencies": {
+      "prettier": "^3.0.0",
+      "prettier-plugin-astro": "^0.11.0",
+      "sass": "^1.64.1"
+   }
 }
