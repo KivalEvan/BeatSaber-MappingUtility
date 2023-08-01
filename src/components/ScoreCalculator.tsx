@@ -60,8 +60,8 @@ const [score, setScore] = createStore({
    avgCut: 111,
    missed: [3, 22, 100, 102],
    break: [127],
-   curveSelect: 'ScoreSaber 2022',
-   curve: ppCurve['ScoreSaber 2022'],
+   curveSelect: 'ScoreSaber 2023',
+   curve: ppCurve['ScoreSaber 2023'],
    tablePercent: [100, 99.5, 99, 98, 97, 96, 95, 94, 93, 90, 85, 80],
 
    maxScore: 0,
@@ -198,6 +198,7 @@ function updateScoreEst() {
 }
 function scoreCurveHandler(this: HTMLOptionElement) {
    setScore('curve', ppCurve[this.value]);
+   setScore('curveSelect', this.value);
    updateScore();
    updateScoreEst();
 }
@@ -222,8 +223,10 @@ function jsonScoreHandler(this: HTMLTextAreaElement) {
          })
       )
          throw new Error('Invalid element(s) in "points", not Vector2?');
-      setScore('curve', parsedJSON.points);
-      ppCurve['custom'] = parsedJSON.points;
+      if (score.curveSelect === 'Custom') {
+         setScore('curve', parsedJSON.points);
+         ppCurve['Custom'] = parsedJSON.points;
+      }
    } catch (err) {
       console.error(err);
       setErrMsg(err instanceof Error ? err.message : 'Unhandled Exception');
@@ -412,7 +415,7 @@ export default function () {
             <textarea
                id="score-text-json"
                rows="16"
-               disabled={score.curveSelect === 'Custom'}
+               disabled={score.curveSelect !== 'Custom'}
                value={JSON.stringify({ points: score.curve }, null, 2)}
                onChange={jsonScoreHandler}
             />
