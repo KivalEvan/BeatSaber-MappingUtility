@@ -1,12 +1,7 @@
 // deno-lint-ignore-file prefer-const
-import logger from '../logger';
 import type { ColorArray, ColorInput, ColorObject, ColorType, IColor } from '../types/colors';
 import { degToRad, lerp, radToDeg, round } from './math';
 import { hexToDec, isHex } from './misc';
-
-function tag(name: string): string[] {
-   return ['utils', 'colors', name];
-}
 
 /** Convert RGBA to HSVA array.
  * ```
@@ -208,7 +203,7 @@ export function hexToRgba(hex: string): ColorArray {
          result.push(cNorm(hexToDec(hex.slice(6, 8))));
       }
    } else {
-      logger.tWarn(tag('hexToRgba'), `Unknown color hex #${hex}`);
+      throw new Error('Not valid colour hexadecimal');
    }
    return result;
 }
@@ -463,7 +458,7 @@ export function colorFrom(): ColorArray {
    if (Array.isArray(args[0])) {
       let val = [args[0][0], args[0][1], args[0][2]] as ColorArray;
       if (!val.every((v) => typeof v === 'number')) {
-         throw new Error('Unable to parse color; array contain undefined or non-numeric');
+         throw new Error('Unable to parse color; array contain undefined or non-numeric value');
       }
       if (typeof args[0][3] === 'number') {
          val.push(args[0][3]);
