@@ -1,4 +1,4 @@
-import { For, Index, Show, createSignal } from 'solid-js';
+import { For, Index, createSignal } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import type { ColorSchemeName, IColorScheme } from '../bsmap/types/beatmap/shared/colorScheme';
 import type { LooseAutocomplete, Nullable } from '../bsmap/types/utils';
@@ -10,7 +10,7 @@ import { round } from '../bsmap/utils/math';
 import { myCustomColor } from '../data/customColor';
 import { deepCopy } from '../bsmap/utils/misc';
 
-let schemeList: { [key: string]: IColorScheme } = ColorScheme;
+let schemeList: { [key: string]: IColorScheme } = { ...ColorScheme, Custom: {} };
 const [schName, setSchName] = createSignal('Custom');
 const [schList, setSchList] = createStore<LooseAutocomplete<ColorSchemeName>[]>(
    ['Custom'].concat(Object.keys(schemeList)),
@@ -81,7 +81,7 @@ const [dEArrowR, setDEArrowR] = createSignal<number | null>(null);
 const [msgErr, setMsgErr] = createSignal('');
 
 function showCustomHandler(this: HTMLInputElement) {
-   schemeList = ColorScheme;
+   schemeList = { ...ColorScheme, Custom: schemeList.Custom };
    if (this.checked) {
       schemeList = { ...schemeList, ...myCustomColor };
    }
@@ -89,11 +89,7 @@ function showCustomHandler(this: HTMLInputElement) {
 }
 
 function colorSchemeHandler(this: HTMLOptionElement) {
-   for (const key in colorSch) {
-      const k = key as keyof IColorScheme;
-      setColorSch(k, 'value', null);
-      setColorSch(k, 'checked', false);
-   }
+   resetAll();
    let sch = schemeList[this.value];
    if (!sch) {
       return;
@@ -110,11 +106,7 @@ function colorSchemeHandler(this: HTMLOptionElement) {
 }
 
 function jsonCdHandler(this: HTMLTextAreaElement) {
-   for (const key in colorSch) {
-      const k = key as keyof IColorScheme;
-      setColorSch(k, 'value', null);
-      setColorSch(k, 'checked', false);
-   }
+   resetAll();
    setMsgErr('');
    const colorType: (keyof IColorScheme)[] = [
       '_colorLeft',
@@ -155,16 +147,13 @@ function jsonCdHandler(this: HTMLTextAreaElement) {
          setColorSch(k, 'checked', true);
       }
    }
+   setCustom();
    updateDeltaE();
    updateColorJSON();
 }
 
 function jsonInfoHandler(this: HTMLTextAreaElement) {
-   for (const key in colorSch) {
-      const k = key as keyof IColorScheme;
-      setColorSch(k, 'value', null);
-      setColorSch(k, 'checked', false);
-   }
+   resetAll();
    setMsgErr('');
    const colorType: (keyof IInfoColorSchemeData)[] = [
       'saberAColor',
@@ -205,6 +194,7 @@ function jsonInfoHandler(this: HTMLTextAreaElement) {
          setColorSch(infoCdMap[k], 'checked', true);
       }
    }
+   setCustom();
    updateDeltaE();
    updateColorJSON();
 }
@@ -218,6 +208,7 @@ function colorHexHandler(this: HTMLInputElement) {
    const color = colorFrom(colorHex);
    setColorSch(objName, 'value', toColorObject(color));
    setColorSch(objName, 'checked', true);
+   setCustom();
    updateDeltaE();
    updateColorJSON();
 }
@@ -227,6 +218,7 @@ function colorPickerHandler(this: HTMLInputElement) {
    const color = colorFrom(this.value);
    setColorSch(objName, 'value', toColorObject(color));
    setColorSch(objName, 'checked', true);
+   setCustom();
    updateDeltaE();
    updateColorJSON();
 }
@@ -235,6 +227,7 @@ function includeHandler(this: HTMLInputElement) {
    const objName = this.name as keyof IColorScheme;
    setColorSch(objName, 'value', colorSch[objName]?.value ?? { r: 0, g: 0, b: 0, a: 0 });
    setColorSch(objName, 'checked', this.checked);
+   setCustom();
    updateDeltaE();
    updateColorJSON();
 }
@@ -243,6 +236,7 @@ function resetHandler(this: HTMLInputElement, ev: Event) {
    const objName = this.name as keyof IColorScheme;
    setColorSch(objName, 'value', null);
    setColorSch(objName, 'checked', false);
+   setCustom();
    updateDeltaE();
    updateColorJSON();
 }
@@ -308,6 +302,26 @@ function formatJson(data: Record<string, any>): string {
       null,
       2,
    );
+}
+
+function setCustom() {
+   for (const key in colorSch) {
+      const k = key as keyof IColorScheme;
+      if (colorSch[k]!.value) {
+         schemeList['Custom'][k] = colorSch[k]!.value!;
+      } else {
+         delete schemeList['Custom'][k];
+      }
+   }
+   setSchName('Custom');
+}
+
+function resetAll() {
+   for (const key in colorSch) {
+      const k = key as keyof IColorScheme;
+      setColorSch(k, 'value', null);
+      setColorSch(k, 'checked', false);
+   }
 }
 
 export default function () {

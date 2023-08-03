@@ -12,3 +12,4 @@ To ease of development for future maintainer or anyone who is much more comforta
 
 -  Internal structure rewrite
 -  Slightly better styling
+-  Custom color now save between select and override where applicable
