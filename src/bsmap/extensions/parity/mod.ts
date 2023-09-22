@@ -1,2 +1,2 @@
-export * as types from './types/mod';
-export * from './parity';
+export * as types from './types/mod.ts';
+export * from './parity.ts';

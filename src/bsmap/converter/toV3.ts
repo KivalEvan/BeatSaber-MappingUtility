@@ -1,49 +1,50 @@
-import logger from '../logger';
-import { Difficulty as DifficultyV1 } from '../beatmap/v1/difficulty';
-import { Difficulty as DifficultyV2 } from '../beatmap/v2/difficulty';
-import { Difficulty as DifficultyV3 } from '../beatmap/v3/difficulty';
-import { clamp } from '../utils/math';
-import { EventLaneRotationValue } from '../beatmap/shared/constants';
-import { ICustomDataNote } from '../types/beatmap/v3/custom/note';
-import { ICustomDataObstacle } from '../types/beatmap/v3/custom/obstacle';
-import { IChromaComponent, IChromaMaterial } from '../types/beatmap/v3/custom/chroma';
-import objectToV3 from './customData/objectToV3';
-import eventToV3 from './customData/eventToV3';
-import { Obstacle } from '../beatmap/v3/obstacle';
-import { Arc } from '../beatmap/v3/arc';
-import { Waypoint } from '../beatmap/v3/waypoint';
-import { BasicEvent } from '../beatmap/v3/basicEvent';
-import { BasicEventTypesWithKeywords } from '../beatmap/v3/basicEventTypesWithKeywords';
-import { BombNote } from '../beatmap/v3/bombNote';
-import { BPMEvent } from '../beatmap/v3/bpmEvent';
-import { ColorBoostEvent } from '../beatmap/v3/colorBoostEvent';
-import { ColorNote } from '../beatmap/v3/colorNote';
-import { RotationEvent } from '../beatmap/v3/rotationEvent';
-import { isVector3, vectorMul } from '../utils/vector';
-import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty';
+import logger from '../logger.ts';
+import { Difficulty as V1Difficulty } from '../beatmap/v1/difficulty.ts';
+import { Difficulty as V2Difficulty } from '../beatmap/v2/difficulty.ts';
+import { Difficulty as V3Difficulty } from '../beatmap/v3/difficulty.ts';
+import { clamp } from '../utils/math.ts';
+import { EventLaneRotationValue } from '../beatmap/shared/constants.ts';
+import type { ICustomDataNote } from '../types/beatmap/v3/custom/note.ts';
+import type { ICustomDataObstacle } from '../types/beatmap/v3/custom/obstacle.ts';
+import type { IChromaComponent, IChromaMaterial } from '../types/beatmap/v3/custom/chroma.ts';
+import objectToV3 from './customData/objectToV3.ts';
+import eventToV3 from './customData/eventToV3.ts';
+import { Obstacle } from '../beatmap/v3/obstacle.ts';
+import { Arc } from '../beatmap/v3/arc.ts';
+import { Waypoint } from '../beatmap/v3/waypoint.ts';
+import { BasicEvent } from '../beatmap/v3/basicEvent.ts';
+import { BasicEventTypesWithKeywords } from '../beatmap/v3/basicEventTypesWithKeywords.ts';
+import { BombNote } from '../beatmap/v3/bombNote.ts';
+import { BPMEvent } from '../beatmap/v3/bpmEvent.ts';
+import { ColorBoostEvent } from '../beatmap/v3/colorBoostEvent.ts';
+import { ColorNote } from '../beatmap/v3/colorNote.ts';
+import { RotationEvent } from '../beatmap/v3/rotationEvent.ts';
+import { isVector3, vectorMul } from '../utils/vector.ts';
+import type { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
 
 function tag(name: string): string[] {
    return ['convert', name];
 }
 
-/** Convert beatmap to beatmap v3, you are encouraged to convert to make full use of new beatmap features.
+/**
+ * Convert beatmap to beatmap v3, you are encouraged to convert to make full use of new beatmap features.
  * ```ts
  * const converted = convert.toV3(data);
  * ```
- * ---
+ *
  * **WARNING:** Custom data may be lost on conversion, as well as other incompatible attributes.
  */
-export function toV3(data: IWrapDifficulty): DifficultyV3 {
-   if (data instanceof DifficultyV3) {
+export function toV3Difficulty(data: IWrapDifficulty): V3Difficulty {
+   if (data instanceof V3Difficulty) {
       return data;
    }
 
-   logger.tWarn(tag('toV3'), 'Converting beatmap to v3 may lose certain data!');
+   logger.tWarn(tag('toV3Difficulty'), 'Converting beatmap to v3 may lose certain data!');
 
-   const template = new DifficultyV3();
+   const template = new V3Difficulty();
    template.filename = data.filename;
 
-   if (data instanceof DifficultyV1) {
+   if (data instanceof V1Difficulty) {
       template.colorNotes = data.colorNotes.map((obj) => new ColorNote(obj));
       template.obstacles = data.obstacles.map((obj) => new Obstacle(obj));
       template.basicEvents = data.basicEvents.map((obj) => new BasicEvent(obj));
@@ -65,7 +66,7 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
       });
    }
 
-   if (data instanceof DifficultyV2) {
+   if (data instanceof V2Difficulty) {
       template.customData.fakeBombNotes = [];
       template.customData.fakeColorNotes = [];
       template.customData.fakeObstacles = [];
@@ -74,7 +75,7 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
          const customData: ICustomDataNote = objectToV3(n.customData);
          if (typeof n.customData._cutDirection === 'number') {
             logger.tDebug(
-               tag('toV3'),
+               tag('toV3Difficulty'),
                `notes[${i}] at time ${n.time} NE _cutDirection will be converted.`,
             );
          }
@@ -209,13 +210,13 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
             if (e.isLightEvent()) {
                if (e.customData._propID) {
                   logger.tWarn(
-                     tag('toV3'),
+                     tag('toV3Difficulty'),
                      `events[${i}] at time ${e.time} Chroma _propID will be removed.`,
                   );
                }
                if (e.customData._lightGradient) {
                   logger.tWarn(
-                     tag('toV3'),
+                     tag('toV3Difficulty'),
                      `events[${i}] at time ${e.time} Chroma _lightGradient will be removed.`,
                   );
                }
@@ -223,19 +224,19 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
             if (e.isRingEvent()) {
                if (e.customData._reset) {
                   logger.tWarn(
-                     tag('toV3'),
+                     tag('toV3Difficulty'),
                      `events[${i}] at time ${e.time} Chroma _reset will be removed.`,
                   );
                }
                if (e.customData._counterSpin) {
                   logger.tWarn(
-                     tag('toV3'),
+                     tag('toV3Difficulty'),
                      `events[${i}] at time ${e.time} Chroma _counterSpin will be removed.`,
                   );
                }
                if (e.customData._stepMult || e.customData._propMult || e.customData._speedMult) {
                   logger.tWarn(
-                     tag('toV3'),
+                     tag('toV3Difficulty'),
                      `events[${i}] at time ${e.time} Chroma _mult will be removed.`,
                   );
                }
@@ -550,7 +551,10 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
          for (const ce of customEvents) {
             if (typeof ce.d.track === 'string') {
                if (typeof ce.d.position === 'string') {
-                  logger.tWarn(tag('toV3'), 'Cannot convert point definitions, unknown use.');
+                  logger.tWarn(
+                     tag('toV3Difficulty'),
+                     'Cannot convert point definitions, unknown use.',
+                  );
                } else if (Array.isArray(ce.d.position)) {
                   isVector3(ce.d.position)
                      ? vectorMul(ce.d.position, 0.6)
@@ -562,7 +566,7 @@ export function toV3(data: IWrapDifficulty): DifficultyV3 {
                }
             } else {
                logger.tWarn(
-                  tag('toV3'),
+                  tag('toV3Difficulty'),
                   'Environment animate track array conversion not yet implemented.',
                );
             }

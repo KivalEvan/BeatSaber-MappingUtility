@@ -1,3 +1,3 @@
-export { difficulty as difficultyV1, info as infoV1 } from './v1/parse';
-export { difficulty as difficultyV2, info as infoV2 } from './v2/parse';
-export { difficulty as difficultyV3 } from './v3/parse';
+export { parseDifficulty as v1Difficulty, parseInfo as v1Info } from './v1/parse.ts';
+export { parseDifficulty as v2Difficulty, parseInfo as v2Info } from './v2/parse.ts';
+export { parseDifficulty as v3Difficulty } from './v3/parse.ts';

@@ -1,5 +1,5 @@
-import { IWrapLightTranslationBase } from '../../types/beatmap/wrapper/lightTranslationBase';
-import { WrapBaseObject } from './baseObject';
+import type { IWrapLightTranslationBase } from '../../types/beatmap/wrapper/lightTranslationBase.ts';
+import { WrapBaseObject } from './baseObject.ts';
 
 /** Light translation base beatmap class object. */
 export abstract class WrapLightTranslationBase<T extends { [P in keyof T]: T[P] }>

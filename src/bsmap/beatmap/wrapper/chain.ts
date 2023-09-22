@@ -1,7 +1,8 @@
-import { WrapBaseSlider } from './baseSlider';
-import { IWrapChain } from '../../types/beatmap/wrapper/chain';
+import { WrapBaseSlider } from './baseSlider.ts';
+import type { IWrapChain } from '../../types/beatmap/wrapper/chain.ts';
 
-/** Chain beatmap class object.
+/**
+ * Chain beatmap class object.
  *
  * Also known as chain.
  */

@@ -1,12 +1,12 @@
-import { ILightRotationEventBoxGroup } from '../../types/beatmap/v3/lightRotationEventBoxGroup';
-import { DeepPartial } from '../../types/utils';
-import { LightRotationEventBox } from './lightRotationEventBox';
-import { WrapLightRotationEventBoxGroup } from '../wrapper/lightRotationEventBoxGroup';
-import { deepCopy } from '../../utils/misc';
-import { ILightRotationEventBox } from '../../types/beatmap/v3/lightRotationEventBox';
-import { IIndexFilter } from '../../types/beatmap/v3/indexFilter';
-import { ILightRotationBase } from '../../types/beatmap/v3/lightRotationBase';
-import { IWrapLightRotationEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightRotationEventBoxGroup';
+import type { ILightRotationEventBoxGroup } from '../../types/beatmap/v3/lightRotationEventBoxGroup.ts';
+import type { DeepPartial } from '../../types/utils.ts';
+import { LightRotationEventBox } from './lightRotationEventBox.ts';
+import { WrapLightRotationEventBoxGroup } from '../wrapper/lightRotationEventBoxGroup.ts';
+import { deepCopy } from '../../utils/misc.ts';
+import type { ILightRotationEventBox } from '../../types/beatmap/v3/lightRotationEventBox.ts';
+import type { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
+import type { ILightRotationBase } from '../../types/beatmap/v3/lightRotationBase.ts';
+import type { IWrapLightRotationEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightRotationEventBoxGroup.ts';
 
 /** Light Rotation event box group beatmap v3 class object. */
 export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
@@ -58,11 +58,11 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
    ) {
       super();
 
-      this._time = data.time ?? data.b ?? LightRotationEventBoxGroup.default.b;
-      this._id = data.id ?? data.g ?? LightRotationEventBoxGroup.default.g;
+      this._time = data.b ?? data.time ?? LightRotationEventBoxGroup.default.b;
+      this._id = data.g ?? data.id ?? LightRotationEventBoxGroup.default.g;
       this._boxes = (
-         (data.boxes as ILightRotationEventBox[]) ??
          (data.e as unknown as ILightRotationEventBox[]) ??
+         (data.boxes as ILightRotationEventBox[]) ??
          LightRotationEventBoxGroup.default.e
       ).map((obj) => new LightRotationEventBox(obj));
       this._customData = deepCopy(data.customData ?? LightRotationEventBoxGroup.default.customData);
@@ -119,7 +119,7 @@ export class LightRotationEventBoxGroup extends WrapLightRotationEventBoxGroup<
       };
    }
 
-   get boxes() {
+   get boxes(): LightRotationEventBox[] {
       return this._boxes as LightRotationEventBox[];
    }
    set boxes(value: LightRotationEventBox[]) {

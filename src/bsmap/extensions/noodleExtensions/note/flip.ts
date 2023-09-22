@@ -1,8 +1,9 @@
-import { ColorNote } from '../../../beatmap/v3/colorNote';
-import { Vector2 } from '../../../types/vector';
-import { random } from '../../../utils/math';
+import { ColorNote } from '../../../beatmap/v3/colorNote.ts';
+import type { Vector2 } from '../../../types/vector.ts';
+import { random } from '../../../utils/math.ts';
 
-/** Apply random flip to notes.
+/**
+ * Apply random flip to notes.
  * ```ts
  * ne.randomFlip(notes, [[-4, 4], [0, 2]]);
  * ```

@@ -3,18 +3,18 @@ import {
    SetColorGradientOptions,
    SetColorOptions,
    SetColorRangeOptions,
-} from './types/colors';
-import { convertColorType, interpolateColor } from '../../utils/colors';
-import { normalize } from '../../utils/math';
-import { IChromaEventLight } from '../../types/beatmap/v3/custom/chroma';
-import { settings } from './settings';
-import logger from '../../logger';
+} from './types/colors.ts';
+import { convertColorType, lerpColor } from '../../utils/colors.ts';
+import { normalize } from '../../utils/math.ts';
+import type { IChromaEventLight } from '../../types/beatmap/v3/custom/chroma.ts';
+import { settings } from './settings.ts';
+import logger from '../../logger.ts';
 
 function tag(name: string): string[] {
    return ['ext', 'chroma', 'color', name];
 }
 
-export function setColor(objects: IChromaObject[], options: SetColorOptions) {
+export function setColor(objects: IChromaObject[], options: SetColorOptions): void {
    const opt: Required<SetColorOptions> = {
       color: options.color,
       colorType: options.colorType ?? (settings.colorType || 'hsva'),
@@ -46,13 +46,7 @@ export function setColorGradient(objects: IChromaObject[], options: SetColorGrad
    const endTime = objects.at(-1)!.time + opt.offsetEnd;
    objects.forEach((obj) => {
       const norm = normalize(obj.time, startTime, endTime);
-      const color = interpolateColor(
-         opt.colorStart,
-         opt.colorEnd,
-         norm,
-         opt.colorType,
-         opt.easingColor,
-      );
+      const color = lerpColor(opt.colorStart, opt.colorEnd, norm, opt.colorType, opt.easingColor);
       (obj.customData as IChromaEventLight).color = color;
    });
 }
@@ -71,7 +65,7 @@ export function setColorRandom(objects: IChromaObject[], options: SetColorRangeO
       if (objects[i].time > prevTime + 0.001) {
          random = Math.random();
       }
-      const color = interpolateColor(opt.color1, opt.color2, random, opt.colorType);
+      const color = lerpColor(opt.color1, opt.color2, random, opt.colorType);
       objects[i].customData._color = color;
       prevTime = objects[i].time;
    }

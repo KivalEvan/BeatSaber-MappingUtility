@@ -1,7 +1,7 @@
-import { Vector3 } from '../../../types/vector';
-import { IChromaEnvironment } from '../../../types/beatmap/v3/custom/chroma';
-import { IChromaEnvironmentPlacement } from '../types/environment';
-import { deepCopy } from '../../../utils/misc';
+import type { Vector3 } from '../../../types/vector.ts';
+import type { IChromaEnvironment } from '../../../types/beatmap/v3/custom/chroma.ts';
+import type { IChromaEnvironmentPlacement } from '../types/environment.ts';
+import { deepCopy } from '../../../utils/misc.ts';
 
 /** **IMPORTANT:** Manually adjust block to be exactly 1x1x1 unity unit (1x1x1 scale does usually not work) */
 export class EnvironmentBlock {
@@ -45,6 +45,9 @@ export class EnvironmentBlock {
             components.ILightWithId.type = options.type;
          }
          components.ILightWithId.lightID = EnvironmentBlock.startLightID + EnvironmentBlock.index++;
+      }
+      if (options.track) {
+         d.track = options.track;
       }
       const data = {
          ...d,

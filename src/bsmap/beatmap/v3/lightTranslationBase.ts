@@ -1,7 +1,7 @@
-import { ILightTranslationBase } from '../../types/beatmap/v3/lightTranslationBase';
-import { IWrapLightTranslationBaseAttribute } from '../../types/beatmap/wrapper/lightTranslationBase';
-import { deepCopy } from '../../utils/misc';
-import { WrapLightTranslationBase } from '../wrapper/lightTranslationBase';
+import type { ILightTranslationBase } from '../../types/beatmap/v3/lightTranslationBase.ts';
+import type { IWrapLightTranslationBaseAttribute } from '../../types/beatmap/wrapper/lightTranslationBase.ts';
+import { deepCopy } from '../../utils/misc.ts';
+import { WrapLightTranslationBase } from '../wrapper/lightTranslationBase.ts';
 
 /** Light translation base beatmap v3 class object. */
 export class LightTranslationBase extends WrapLightTranslationBase<ILightTranslationBase> {
@@ -26,10 +26,10 @@ export class LightTranslationBase extends WrapLightTranslationBase<ILightTransla
    ) {
       super();
 
-      this._time = data.time ?? data.b ?? LightTranslationBase.default.b;
-      this._previous = data.previous ?? data.p ?? LightTranslationBase.default.p;
-      this._easing = data.easing ?? data.e ?? LightTranslationBase.default.e;
-      this._translation = data.translation ?? data.t ?? LightTranslationBase.default.t;
+      this._time = data.b ?? data.time ?? LightTranslationBase.default.b;
+      this._previous = data.p ?? data.previous ?? LightTranslationBase.default.p;
+      this._easing = data.e ?? data.easing ?? LightTranslationBase.default.e;
+      this._translation = data.t ?? data.translation ?? LightTranslationBase.default.t;
       this._customData = deepCopy(data.customData ?? LightTranslationBase.default.customData);
    }
 

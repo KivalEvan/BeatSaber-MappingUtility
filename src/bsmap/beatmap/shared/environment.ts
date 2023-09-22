@@ -1,4 +1,4 @@
-import { EnvironmentAllName } from '../../types/beatmap/shared/environment';
+import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 
 /** Environment rename to human readable. */
 export const EnvironmentRename: { readonly [key in EnvironmentAllName]: string } = {

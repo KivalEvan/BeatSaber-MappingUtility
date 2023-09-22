@@ -1,17 +1,17 @@
 // deno-lint-ignore-file no-explicit-any
-import { LooseAutocomplete } from '../../utils';
-import { Version } from '../shared/version';
-import { CharacteristicName } from '../shared/characteristic';
-import { DifficultyName } from '../shared/difficulty';
+import type { LooseAutocomplete } from '../../utils.ts';
+import type { Version } from '../shared/version.ts';
+import type { CharacteristicName } from '../shared/characteristic.ts';
+import type { DifficultyName } from '../shared/difficulty.ts';
 import {
    Environment360Name,
    EnvironmentAllName,
    EnvironmentName,
    EnvironmentV3Name,
-} from '../shared/environment';
-import { GenericFileName } from '../shared/filename';
-import { IWrapBaseItem } from './baseItem';
-import { IColor } from '../../colors';
+} from '../shared/environment.ts';
+import type { GenericFileName } from '../shared/filename.ts';
+import type { IWrapBaseItem } from './baseItem.ts';
+import type { IColor } from '../../colors.ts';
 
 export interface IWrapInfoAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
    extends IWrapBaseItem<T> {
@@ -32,7 +32,7 @@ export interface IWrapInfoAttribute<T extends { [P in keyof T]: T[P] } = Record<
    environmentNames: EnvironmentAllName[];
    colorSchemes: IWrapInfoColorScheme[];
    songTimeOffset: number;
-   readonly difficultySets: { [mode in CharacteristicName]?: IWrapInfoDifficulty[] };
+   readonly difficultySets: IWrapInfoSet[];
 }
 
 export interface IWrapInfoColorScheme {
@@ -60,6 +60,16 @@ export interface IWrapInfo<T extends { [P in keyof T]: T[P] } = Record<string, a
    addMap(data: Partial<IWrapInfoDifficultyAttribute>): this;
    listMap(): [CharacteristicName, IWrapInfoDifficulty][];
 }
+
+export interface IWrapInfoSetAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
+   extends IWrapBaseItem<T> {
+   characteristic: CharacteristicName;
+   difficulties: IWrapInfoDifficulty[];
+}
+
+export interface IWrapInfoSet<T extends { [P in keyof T]: T[P] } = Record<string, any>>
+   extends IWrapBaseItem<T>,
+      IWrapInfoSetAttribute<T> {}
 
 export interface IWrapInfoDifficultyAttribute<
    T extends { [P in keyof T]: T[P] } = Record<string, any>,

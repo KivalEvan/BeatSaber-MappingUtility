@@ -1,17 +1,17 @@
-import { FloatPointDefinition, Vector4PointDefinition } from '../../shared/custom/heck';
-import { Easings } from '../../../easings';
-import { ColorArray } from '../../../colors';
-import { ICustomDataBase } from '../../shared/custom/customData';
+import type { FloatPointDefinition, Vector4PointDefinition } from '../../shared/custom/heck.ts';
+import type { Easings } from '../../../easings.ts';
+import type { ColorArray } from '../../../colors.ts';
+import type { ICustomDataBase } from '../../shared/custom/customData.ts';
 import {
    EnvironmentMaterial,
    GeometryType,
    LookupMethod,
    ShaderKeywords,
    ShaderType,
-} from '../../shared/custom/chroma';
-import { IHeckBase } from './heck';
-import { LooseAutocomplete } from '../../../utils';
-import { Vector2, Vector3 } from '../../../vector';
+} from '../../shared/custom/chroma.ts';
+import type { IHeckBase } from './heck.ts';
+import type { LooseAutocomplete } from '../../../utils.ts';
+import type { Vector2, Vector3 } from '../../../vector.ts';
 
 /** Chroma Material interface for Environment Enhancement. */
 export interface IChromaMaterial {
@@ -78,16 +78,18 @@ export interface IChromaComponent {
 
 /** Chroma interface for Environment Enhancement Base. */
 export interface IChromaEnvironmentBase {
-   /** Look up environment object name.
+   /**
+    * Look up environment object name.
     *
     * This grabs every environment objects that match the string.
     * ```ts
-    * id: 'Environment.[0]GlowLine' // Non-regex
-    * id: 'Environment\.\\[\\d+\\]GlowLine$' // Regex
+    * **id:** 'Environment.[0]GlowLine' // Non-regex
+    * **id:** 'Environment\.\\[\\d+\\]GlowLine$' // Regex
     * ```
     */
    id?: unknown;
-   /** Look-up method to grab the object name.
+   /**
+    * Look-up method to grab the object name.
     *
     * Regex is considered an advanced method and more powerful than other methods.
     */
@@ -95,7 +97,8 @@ export interface IChromaEnvironmentBase {
    geometry?: unknown;
    /** Assign track to the object for animation use. */
    track?: string;
-   /** Duplicate the object by set amount.
+   /**
+    * Duplicate the object by set amount.
     *
     * **WARNING:** You should always duplicate only one at a time unless you know what you are doing.
     */
@@ -110,7 +113,8 @@ export interface IChromaEnvironmentBase {
    components?: IChromaComponent;
 }
 
-/** Chroma interface for Environment Enhancement ID.
+/**
+ * Chroma interface for Environment Enhancement ID.
  *
  * @extends IChromaEnvironmentBase
  */
@@ -120,7 +124,8 @@ export interface IChromaEnvironmentID extends IChromaEnvironmentBase {
    geometry?: never;
 }
 
-/** Chroma interface for Environment Enhancement Geometry.
+/**
+ * Chroma interface for Environment Enhancement Geometry.
  *
  * @extends IChromaEnvironmentBase
  */
@@ -196,14 +201,14 @@ export interface IChromaCustomEventDataAnimateComponent extends Required<IHeckBa
    duration: number;
    easing?: string;
    BloomFogEnvironment?: {
-      attenuation?: string | number | FloatPointDefinition[];
-      offset?: string | number | FloatPointDefinition[];
-      startY?: string | number | FloatPointDefinition[];
-      height?: string | number | FloatPointDefinition[];
+      attenuation?: string | [number] | FloatPointDefinition[];
+      offset?: string | [number] | FloatPointDefinition[];
+      startY?: string | [number] | FloatPointDefinition[];
+      height?: string | [number] | FloatPointDefinition[];
    };
    TubeBloomPrePassLight?: {
-      colorAlphaMultiplier: string | number | FloatPointDefinition[];
-      bloomFogIntensityMultiplier: string | number | FloatPointDefinition[];
+      colorAlphaMultiplier: string | [number] | FloatPointDefinition[];
+      bloomFogIntensityMultiplier: string | [number] | FloatPointDefinition[];
    };
 }
 

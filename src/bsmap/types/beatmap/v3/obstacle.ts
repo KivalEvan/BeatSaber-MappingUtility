@@ -1,15 +1,17 @@
-import { IGridObject } from './gridObject';
-import { ICustomDataObstacle } from './custom/obstacle';
+import type { IGridObject } from './gridObject.ts';
+import type { ICustomDataObstacle } from './custom/obstacle.ts';
 
 export interface IObstacle extends IGridObject {
    /** Duration `<float>` of obstacle.*/
    d: number;
-   /** Width `<int>` of obstacle.
-    * ---
-    * Range: `none`
+   /**
+    * Width `<int>` of obstacle.
+    *
+    * **RANGE:** `none`
     */
    w: number;
-   /** Height `<int>` of obstacle.
+   /**
+    * Height `<int>` of obstacle.
     * ```ts
     * 1 -> Short
     * 2 -> Moderate
@@ -17,8 +19,8 @@ export interface IObstacle extends IGridObject {
     * 4 -> Tall
     * 5 -> Full
     * ```
-    * ---
-    * Range: `1-5`
+    *
+    * **RANGE:** `1-5`
     */
    h: number;
    customData?: ICustomDataObstacle;

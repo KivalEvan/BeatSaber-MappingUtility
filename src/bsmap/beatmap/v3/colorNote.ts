@@ -1,10 +1,10 @@
-import { IColorNote } from '../../types/beatmap/v3/colorNote';
-import { deepCopy } from '../../utils/misc';
-import { WrapColorNote } from '../wrapper/colorNote';
-import { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote';
-import { isVector3 } from '../../utils/vector';
-import { Vector2 } from '../../types/vector';
-import { ModType } from '../../types/beatmap/shared/modCheck';
+import type { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
+import { deepCopy } from '../../utils/misc.ts';
+import { WrapColorNote } from '../wrapper/colorNote.ts';
+import type { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
+import { isVector3 } from '../../utils/vector.ts';
+import type { Vector2 } from '../../types/vector.ts';
+import type { ModType } from '../../types/beatmap/shared/modCheck.ts';
 
 /** Color note beatmap v3 class object. */
 export class ColorNote extends WrapColorNote<IColorNote> {
@@ -25,14 +25,15 @@ export class ColorNote extends WrapColorNote<IColorNote> {
    constructor(data: Partial<IColorNote> & Partial<IWrapColorNoteAttribute<IColorNote>> = {}) {
       super();
 
-      this._time = data.time ?? data.b ?? ColorNote.default.b;
-      this._posX = data.posX ?? data.x ?? ColorNote.default.x;
-      this._posY = data.posY ?? data.y ?? ColorNote.default.y;
+      this._time = data.b ?? data.time ?? ColorNote.default.b;
+      this._posX = data.x ?? data.posX ?? ColorNote.default.x;
+      this._posY = data.y ?? data.posY ?? ColorNote.default.y;
       this._color =
+         data.c ??
          data.color ??
-         (data.type === 0 || data.type === 1 ? (data.type as 0) : data.c ?? ColorNote.default.c);
-      this._direction = data.direction ?? data.d ?? ColorNote.default.d;
-      this._angleOffset = data.angleOffset ?? data.a ?? ColorNote.default.a;
+         (data.type === 0 || data.type === 1 ? (data.type as 0) : ColorNote.default.c);
+      this._direction = data.d ?? data.direction ?? ColorNote.default.d;
+      this._angleOffset = data.a ?? data.angleOffset ?? ColorNote.default.a;
       this._customData = deepCopy(data.customData ?? ColorNote.default.customData);
    }
 
@@ -65,7 +66,7 @@ export class ColorNote extends WrapColorNote<IColorNote> {
       };
    }
 
-   get type() {
+   get type(): IColorNote['c'] {
       return this._color;
    }
    set type(value: IColorNote['c']) {
@@ -126,9 +127,9 @@ export class ColorNote extends WrapColorNote<IColorNote> {
          default:
             return [
                (this.posX <= -1000
-                  ? this.posX / 1000
+                  ? this.posX / 1000 + 1
                   : this.posX >= 1000
-                  ? this.posX / 1000
+                  ? this.posX / 1000 - 1
                   : this.posX) - 2,
                this.posY <= -1000
                   ? this.posY / 1000

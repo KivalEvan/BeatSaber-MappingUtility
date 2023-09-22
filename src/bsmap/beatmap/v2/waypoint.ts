@@ -1,7 +1,7 @@
-import { IWaypoint } from '../../types/beatmap/v2/waypoint';
-import { IWrapWaypointAttribute } from '../../types/beatmap/wrapper/waypoint';
-import { deepCopy } from '../../utils/misc';
-import { WrapWaypoint } from '../wrapper/waypoint';
+import type { IWaypoint } from '../../types/beatmap/v2/waypoint.ts';
+import type { IWrapWaypointAttribute } from '../../types/beatmap/wrapper/waypoint.ts';
+import { deepCopy } from '../../utils/misc.ts';
+import { WrapWaypoint } from '../wrapper/waypoint.ts';
 
 /** Waypoint beatmap v2 class object. */
 export class Waypoint extends WrapWaypoint<IWaypoint> {
@@ -20,13 +20,13 @@ export class Waypoint extends WrapWaypoint<IWaypoint> {
    constructor(data: Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>> = {}) {
       super();
 
-      this._time = data.time ?? data._time ?? Waypoint.default._time;
-      this._posX = data.posX ?? data._lineIndex ?? Waypoint.default._lineIndex;
-      this._posY = data.posY ?? data._lineLayer ?? Waypoint.default._lineLayer;
+      this._time = data._time ?? data.time ?? Waypoint.default._time;
+      this._posX = data._lineIndex ?? data.posX ?? Waypoint.default._lineIndex;
+      this._posY = data._lineLayer ?? data.posY ?? Waypoint.default._lineLayer;
       this._direction =
-         data.direction ?? data._offsetDirection ?? Waypoint.default._offsetDirection;
+         data._offsetDirection ?? data.direction ?? Waypoint.default._offsetDirection;
       this._customData = deepCopy(
-         data.customData ?? data._customData ?? Waypoint.default._customData,
+         data._customData ?? data.customData ?? Waypoint.default._customData,
       );
    }
 

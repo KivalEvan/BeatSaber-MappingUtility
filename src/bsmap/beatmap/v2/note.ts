@@ -1,10 +1,10 @@
-import logger from '../../logger';
-import { ModType } from '../../types/beatmap/shared/modCheck';
-import { INote } from '../../types/beatmap/v2/note';
-import { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote';
-import { Vector2 } from '../../types/vector';
-import { deepCopy } from '../../utils/misc';
-import { WrapColorNote } from '../wrapper/colorNote';
+import logger from '../../logger.ts';
+import type { ModType } from '../../types/beatmap/shared/modCheck.ts';
+import type { INote } from '../../types/beatmap/v2/note.ts';
+import type { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
+import type { Vector2 } from '../../types/vector.ts';
+import { deepCopy } from '../../utils/misc.ts';
+import { WrapColorNote } from '../wrapper/colorNote.ts';
 
 function tag(name: string): string[] {
    return ['beatmap', 'v2', 'note', name];
@@ -28,12 +28,12 @@ export class Note extends WrapColorNote<INote> {
    constructor(data: Partial<INote> & Partial<IWrapColorNoteAttribute<INote>> = {}) {
       super();
 
-      this._time = data.time ?? data._time ?? Note.default._time;
-      this._posX = data.posX ?? data._lineIndex ?? Note.default._lineIndex;
-      this._posY = data.posY ?? data._lineLayer ?? Note.default._lineLayer;
-      this._type = data.type ?? data.color ?? data._type ?? Note.default._type;
-      this._direction = data.direction ?? data._cutDirection ?? Note.default._cutDirection;
-      this._customData = deepCopy(data.customData ?? data._customData ?? Note.default._customData);
+      this._time = data._time ?? data.time ?? Note.default._time;
+      this._posX = data._lineIndex ?? data.posX ?? Note.default._lineIndex;
+      this._posY = data._lineLayer ?? data.posY ?? Note.default._lineLayer;
+      this._type = data._type ?? data.type ?? data.color ?? Note.default._type;
+      this._direction = data._cutDirection ?? data.direction ?? Note.default._cutDirection;
+      this._customData = deepCopy(data._customData ?? data.customData ?? Note.default._customData);
    }
 
    static create(): Note[];
@@ -60,14 +60,15 @@ export class Note extends WrapColorNote<INote> {
       };
    }
 
-   get color() {
+   // FIXME: this aint ok
+   get color(): 0 | 1 {
       return this._type as 0;
    }
    set color(value: 0 | 1) {
       this._type = value;
    }
 
-   get angleOffset() {
+   get angleOffset(): 0 {
       return 0;
    }
    set angleOffset(_: number) {
@@ -94,9 +95,9 @@ export class Note extends WrapColorNote<INote> {
          default:
             return [
                (this.posX <= -1000
-                  ? this.posX / 1000
+                  ? this.posX / 1000 + 1
                   : this.posX >= 1000
-                  ? this.posX / 1000
+                  ? this.posX / 1000 - 1
                   : this.posX) - 2,
                this.posY <= -1000
                   ? this.posY / 1000

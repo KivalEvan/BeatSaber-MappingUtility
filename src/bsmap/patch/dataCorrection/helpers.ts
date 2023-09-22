@@ -2,13 +2,13 @@ import {
    FloatPointDefinition,
    Vector3PointDefinition,
    Vector4PointDefinition,
-} from '../../types/beatmap/shared/custom/heck';
-import { ColorArray } from '../../types/colors';
-import { Easings } from '../../types/easings';
-import { PointModifier } from '../../types/beatmap/shared/custom/heck';
-import { Vector2, Vector3, Vector4 } from '../../types/vector';
-import { EasingsFn } from '../../utils/easings';
-import { clamp } from '../../utils/math';
+} from '../../types/beatmap/shared/custom/heck.ts';
+import type { ColorArray } from '../../types/colors.ts';
+import type { Easings } from '../../types/easings.ts';
+import type { PointModifier } from '../../types/beatmap/shared/custom/heck.ts';
+import type { Vector2, Vector3, Vector4 } from '../../types/vector.ts';
+import { EasingsFn } from '../../utils/easings.ts';
+import { clamp } from '../../utils/math.ts';
 
 export function fixBoolean(value: unknown): boolean;
 export function fixBoolean(value: unknown, defaultValue: boolean): boolean;

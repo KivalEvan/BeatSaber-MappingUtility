@@ -1,4 +1,4 @@
-import type { IColorScheme } from '../bsmap/types/beatmap/shared/colorScheme';
+import type { IColorScheme } from '../bsmap/types/beatmap/v2/custom/colorScheme';
 
 export const myCustomColor: { [key: string]: IColorScheme } = {
    'New World': {
@@ -46,8 +46,8 @@ export const myCustomColor: { [key: string]: IColorScheme } = {
       _obstacleColor: { r: 0.25, g: 0.25, b: 0.25 },
    },
    VENTEN: {
-      _colorLeft: { r: 1, g: 0.8335, b: 0.334 },
-      _colorRight: { r: 0.5738, g: 0.2475, b: 0.9 },
+      _colorLeft: { r: 0.9375, g: 0.6253, b: 0.3131 },
+      _colorRight: { r: 0.5977, g: 0.2578, b: 0.9375 },
       _envColorLeft: { r: 0.666, g: 0.4995, b: 0 },
       _envColorRight: { r: 0.3, g: 0.5, b: 0.1 },
       _envColorLeftBoost: { r: 0.75, g: 0, b: 0.375 },

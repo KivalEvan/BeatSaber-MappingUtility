@@ -1,4 +1,4 @@
-import { BeatPerMinute } from '../../beatmap/shared/bpm';
+import { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
 
 export const settings: {
    BPM: BeatPerMinute | null;

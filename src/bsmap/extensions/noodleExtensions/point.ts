@@ -1,5 +1,5 @@
-import { Vector2 } from '../../types/vector';
-import { degToRad, radToDeg } from '../../utils/math';
+import type { Vector2 } from '../../types/vector.ts';
+import { degToRad, radToDeg } from '../../utils/math.ts';
 
 /** Create points around circle, higher precision is more accurate. */
 export function createCircle(radius: number, precision: number, angleOffset?: number) {
@@ -61,7 +61,11 @@ export function drawPolygon(
    return { coordinates, rotations, sizes };
 }
 
-export function drawPath(path: Vector2[]) {
+export function drawPath(path: Vector2[]): {
+   coordinates: Vector2[];
+   rotations: number[];
+   sizes: number[];
+} {
    const coordinates: Vector2[] = [];
    const rotations: number[] = [];
    const sizes: number[] = [];

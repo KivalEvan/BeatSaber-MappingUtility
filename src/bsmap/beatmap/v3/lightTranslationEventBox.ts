@@ -1,12 +1,12 @@
-import { IIndexFilter } from '../../types/beatmap/v3/indexFilter';
-import { ILightTranslationBase } from '../../types/beatmap/v3/lightTranslationBase';
-import { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslationEventBox';
-import { IWrapLightTranslationEventBoxAttribute } from '../../types/beatmap/wrapper/lightTranslationEventBox';
-import { DeepPartial } from '../../types/utils';
-import { deepCopy } from '../../utils/misc';
-import { WrapLightTranslationEventBox } from '../wrapper/lightTranslationEventBox';
-import { IndexFilter } from './indexFilter';
-import { LightTranslationBase } from './lightTranslationBase';
+import type { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
+import type { ILightTranslationBase } from '../../types/beatmap/v3/lightTranslationBase.ts';
+import type { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslationEventBox.ts';
+import type { IWrapLightTranslationEventBoxAttribute } from '../../types/beatmap/wrapper/lightTranslationEventBox.ts';
+import type { DeepPartial } from '../../types/utils.ts';
+import { deepCopy } from '../../utils/misc.ts';
+import { WrapLightTranslationEventBox } from '../wrapper/lightTranslationEventBox.ts';
+import { IndexFilter } from './indexFilter.ts';
+import { LightTranslationBase } from './lightTranslationBase.ts';
 
 /** Light translation event box beatmap v3 class object. */
 export class LightTranslationEventBox extends WrapLightTranslationEventBox<
@@ -72,25 +72,25 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
       super();
 
       this._filter = new IndexFilter(
-         (data.filter as IIndexFilter) ??
-            (data as ILightTranslationEventBox).f ??
+         (data as ILightTranslationEventBox).f ??
+            (data.filter as IIndexFilter) ??
             LightTranslationEventBox.default.f,
       );
       this._beatDistribution =
-         data.beatDistribution ?? data.w ?? LightTranslationEventBox.default.w;
+         data.w ?? data.beatDistribution ?? LightTranslationEventBox.default.w;
       this._beatDistributionType =
-         data.beatDistributionType ?? data.d ?? LightTranslationEventBox.default.d;
+         data.d ?? data.beatDistributionType ?? LightTranslationEventBox.default.d;
       this._translationDistribution =
-         data.translationDistribution ?? data.s ?? LightTranslationEventBox.default.s;
+         data.s ?? data.translationDistribution ?? LightTranslationEventBox.default.s;
       this._translationDistributionType =
-         data.translationDistributionType ?? data.t ?? LightTranslationEventBox.default.t;
-      this._axis = data.axis ?? data.a ?? LightTranslationEventBox.default.a;
-      this._flip = data.flip ?? data.r ?? LightTranslationEventBox.default.r;
-      this._affectFirst = data.affectFirst ?? data.b ?? LightTranslationEventBox.default.b;
-      this._easing = data.easing ?? data.i ?? LightTranslationEventBox.default.i;
+         data.t ?? data.translationDistributionType ?? LightTranslationEventBox.default.t;
+      this._axis = data.a ?? data.axis ?? LightTranslationEventBox.default.a;
+      this._flip = data.r ?? data.flip ?? LightTranslationEventBox.default.r;
+      this._affectFirst = data.b ?? data.affectFirst ?? LightTranslationEventBox.default.b;
+      this._easing = data.i ?? data.easing ?? LightTranslationEventBox.default.i;
       this._events = (
-         (data.events as ILightTranslationBase[]) ??
          (data as ILightTranslationEventBox).l ??
+         (data.events as ILightTranslationBase[]) ??
          LightTranslationEventBox.default.l
       ).map((obj) => new LightTranslationBase(obj));
       this._customData = deepCopy(data.customData ?? LightTranslationEventBox.default.customData);
@@ -151,14 +151,14 @@ export class LightTranslationEventBox extends WrapLightTranslationEventBox<
       };
    }
 
-   get filter() {
+   get filter(): IndexFilter {
       return this._filter as IndexFilter;
    }
    set filter(value: IndexFilter) {
       this._filter = value;
    }
 
-   get events() {
+   get events(): LightTranslationBase[] {
       return this._events as LightTranslationBase[];
    }
    set events(value: LightTranslationBase[]) {

@@ -1,6 +1,6 @@
-import { IWrapLightRotationBase } from '../../types/beatmap/wrapper/lightRotationBase';
-import { IWrapLightRotationEventBox } from '../../types/beatmap/wrapper/lightRotationEventBox';
-import { WrapEventBox } from './eventBox';
+import type { IWrapLightRotationBase } from '../../types/beatmap/wrapper/lightRotationBase.ts';
+import type { IWrapLightRotationEventBox } from '../../types/beatmap/wrapper/lightRotationEventBox.ts';
+import { WrapEventBox } from './eventBox.ts';
 
 /** Light rotation event box beatmap class object. */
 export abstract class WrapLightRotationEventBox<

@@ -1,8 +1,8 @@
-import { ModType } from '../../types/beatmap/shared/modCheck';
-import { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle';
-import { Vector2 } from '../../types/vector';
-import { LINE_COUNT } from '../shared/constants';
-import { WrapGridObject } from './gridObject';
+import type { ModType } from '../../types/beatmap/shared/modCheck.ts';
+import type { IWrapObstacle } from '../../types/beatmap/wrapper/obstacle.ts';
+import type { Vector2 } from '../../types/vector.ts';
+import { LINE_COUNT } from '../shared/constants.ts';
+import { WrapGridObject } from './gridObject.ts';
 
 /** Obstacle beatmap class object. */
 export abstract class WrapObstacle<T extends { [P in keyof T]: T[P] }>
@@ -55,7 +55,7 @@ export abstract class WrapObstacle<T extends { [P in keyof T]: T[P] }>
    }
 
    // FIXME: there are a lot more other variables
-   isInteractive() {
+   isInteractive(_type?: ModType) {
       return (
          (this.posX < 0 && this.width > 1 - this.posX) ||
          (this.posX === 0 && this.width > 1) ||
@@ -64,7 +64,7 @@ export abstract class WrapObstacle<T extends { [P in keyof T]: T[P] }>
       );
    }
 
-   isLonger(compareTo: IWrapObstacle, prevOffset = 0): boolean {
+   isLonger(compareTo: IWrapObstacle, prevOffset = 0, _type?: ModType): boolean {
       return this.time + this.duration > compareTo.time + compareTo.duration + prevOffset;
    }
 

@@ -1,5 +1,5 @@
-import { BeatPerMinute } from '../../beatmap/shared/bpm';
-import { ColorType } from '../../types/colors';
+import { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
+import type { ColorType } from '../../types/colors.ts';
 
 export const settings: {
    BPM: BeatPerMinute | null;

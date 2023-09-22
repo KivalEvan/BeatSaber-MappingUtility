@@ -1,14 +1,14 @@
 // deno-lint-ignore-file no-unused-vars
-import { IBasicEvent } from '../../types/beatmap/v3/basicEvent';
+import type { IBasicEvent } from '../../types/beatmap/v3/basicEvent.ts';
 import {
    IChromaEventLaser,
    IChromaEventLight,
    IChromaEventRing,
-} from '../../types/beatmap/v3/custom/chroma';
-import { deepCopy } from '../../utils/misc';
-import { EnvironmentAllName } from '../../types/beatmap/shared/environment';
-import { IWrapEventAttribute } from '../../types/beatmap/wrapper/event';
-import { WrapEvent } from '../wrapper/event';
+} from '../../types/beatmap/v3/custom/chroma.ts';
+import { deepCopy } from '../../utils/misc.ts';
+import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
+import type { IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
+import { WrapEvent } from '../wrapper/event.ts';
 
 /** Basic event beatmap v3 class object. */
 export class BasicEvent extends WrapEvent<IBasicEvent> {
@@ -27,10 +27,10 @@ export class BasicEvent extends WrapEvent<IBasicEvent> {
    constructor(data: Partial<IBasicEvent> & Partial<IWrapEventAttribute<IBasicEvent>> = {}) {
       super();
 
-      this._time = data.time ?? data.b ?? BasicEvent.default.b;
-      this._type = data.type ?? data.et ?? BasicEvent.default.et;
-      this._value = data.value ?? data.i ?? BasicEvent.default.i;
-      this._floatValue = data.floatValue ?? data.f ?? BasicEvent.default.f;
+      this._time = data.b ?? data.time ?? BasicEvent.default.b;
+      this._type = data.et ?? data.type ?? BasicEvent.default.et;
+      this._value = data.i ?? data.value ?? BasicEvent.default.i;
+      this._floatValue = data.f ?? data.floatValue ?? BasicEvent.default.f;
       this._customData = deepCopy(data.customData ?? BasicEvent.default.customData);
    }
 

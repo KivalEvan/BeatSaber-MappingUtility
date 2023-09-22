@@ -1,5 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
-
 enum LogLevels {
    VERBOSE,
    DEBUG,
@@ -31,7 +29,7 @@ export class Logger {
       this.#logLevel = value;
       this.tInfo(['logger', 'logLevel'], `Log level set to ${Logger.LogPrefixes.get(value)}`);
    }
-   get logLevel() {
+   get logLevel(): LogLevels {
       return this.#logLevel;
    }
 
@@ -39,7 +37,7 @@ export class Logger {
       this.#tagPrint = fn;
       this.tInfo(['logger', 'tagPrint'], `Update tag print function`);
    }
-   get tagPrint() {
+   get tagPrint(): (tags: string[], level: LogLevels) => string {
       return this.#tagPrint;
    }
 
@@ -47,30 +45,32 @@ export class Logger {
       this.#untagged = value.trim();
       this.tInfo(['logger', 'untagged'], `Update untagged string to ${this.#untagged}`);
    }
-   get untagged() {
+   get untagged(): string {
       return this.#untagged;
    }
 
-   private log(level: LogLevels, tags: string[], ...args: any[]) {
+   private log(level: LogLevels, tags: string[], args: any[]) {
       if (level < this.#logLevel) return;
 
-      const log = [this.tagPrint(tags, level), ...args];
+      const tag = this.tagPrint(tags, level);
+      if (tag) args.unshift(tag);
 
       switch (level) {
          case LogLevels.DEBUG:
-            return console.debug(...log);
+            return console.debug(...args);
          case LogLevels.INFO:
-            return console.info(...log);
+            return console.info(...args);
          case LogLevels.WARN:
-            return console.warn(...log);
+            return console.warn(...args);
          case LogLevels.ERROR:
-            return console.error(...log);
+            return console.error(...args);
          default:
-            return console.log(...log);
+            return console.log(...args);
       }
    }
 
-   /** Set logging level to filter various information.
+   /**
+    * Set logging level to filter various information.
     * ```ts
     * 0 -> Verbose
     * 1 -> Debug
@@ -87,23 +87,23 @@ export class Logger {
    }
 
    tVerbose(tags: string[], ...args: any[]) {
-      this.log(LogLevels.VERBOSE, tags, ...args);
+      this.log(LogLevels.VERBOSE, tags, args);
    }
 
    tDebug(tags: string[], ...args: any[]) {
-      this.log(LogLevels.DEBUG, tags, ...args);
+      this.log(LogLevels.DEBUG, tags, args);
    }
 
    tInfo(tags: string[], ...args: any[]) {
-      this.log(LogLevels.INFO, tags, ...args);
+      this.log(LogLevels.INFO, tags, args);
    }
 
    tWarn(tags: string[], ...args: any[]) {
-      this.log(LogLevels.WARN, tags, ...args);
+      this.log(LogLevels.WARN, tags, args);
    }
 
    tError(tags: string[], ...args: any[]) {
-      this.log(LogLevels.ERROR, tags, ...args);
+      this.log(LogLevels.ERROR, tags, args);
    }
 
    verbose(...args: any[]) {

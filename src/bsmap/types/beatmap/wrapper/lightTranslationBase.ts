@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject';
+import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
 export interface IWrapLightTranslationBaseAttribute<
    T extends { [P in keyof T]: T[P] } = Record<string, any>,
@@ -8,7 +8,8 @@ export interface IWrapLightTranslationBaseAttribute<
    time: number;
    /** Use previous event translation value `<int>` in light translation. */
    previous: 0 | 1;
-   /** Ease type `<int>` of light translation.
+   /**
+    * Ease type `<int>` of light translation.
     * ```ts
     * -1 -> Step
     * 0 -> Linear

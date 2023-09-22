@@ -3,11 +3,11 @@ abstract class EnvironmentGrabBase {
    protected _regex = '';
    protected _string = '';
 
-   get regex() {
+   get regex(): string {
       return this._regex;
    }
 
-   get string() {
+   get string(): string {
       return this._string;
    }
 }

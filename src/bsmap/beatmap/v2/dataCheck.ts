@@ -1,20 +1,20 @@
-import { DataCheck } from '../../types/beatmap/shared/dataCheck';
-import { IDifficulty } from '../../types/beatmap/v2/difficulty';
-import { IEvent } from '../../types/beatmap/v2/event';
-import { INote } from '../../types/beatmap/v2/note';
-import { IObstacle } from '../../types/beatmap/v2/obstacle';
-import { IArc } from '../../types/beatmap/v2/arc';
-import { ISpecialEventsKeywordFilters } from '../../types/beatmap/v2/specialEventsKeywordFilters';
-import { ISpecialEventsKeywordFiltersKeywords } from '../../types/beatmap/v2/specialEventsKeywordFiltersKeywords';
-import { IWaypoint } from '../../types/beatmap/v2/waypoint';
+import type { DataCheck } from '../../types/beatmap/shared/dataCheck.ts';
+import type { IDifficulty } from '../../types/beatmap/v2/difficulty.ts';
+import type { IEvent } from '../../types/beatmap/v2/event.ts';
+import type { INote } from '../../types/beatmap/v2/note.ts';
+import type { IObstacle } from '../../types/beatmap/v2/obstacle.ts';
+import type { IArc } from '../../types/beatmap/v2/arc.ts';
+import type { ISpecialEventsKeywordFilters } from '../../types/beatmap/v2/specialEventsKeywordFilters.ts';
+import type { ISpecialEventsKeywordFiltersKeywords } from '../../types/beatmap/v2/specialEventsKeywordFiltersKeywords.ts';
+import type { IWaypoint } from '../../types/beatmap/v2/waypoint.ts';
 import {
    IInfo,
    IInfoColorScheme,
    IInfoColorSchemeData,
+   IInfoDifficulty,
    IInfoSet,
-   IInfoSetDifficulty,
-} from '../../types/beatmap/v2/info';
-import { IColor } from '../../types/colors';
+} from '../../types/beatmap/v2/info.ts';
+import type { IColor } from '../../types/colors.ts';
 
 export const NoteDataCheck: { readonly [key in keyof INote]: DataCheck } = {
    _time: {
@@ -275,7 +275,7 @@ export const DifficultyCheck: { readonly [key in keyof IDifficulty]: DataCheck }
    },
 } as const;
 
-export const InfoSetDifficultyCheck: { readonly [key in keyof IInfoSetDifficulty]: DataCheck } = {
+export const InfoSetDifficultyCheck: { readonly [key in keyof IInfoDifficulty]: DataCheck } = {
    _difficulty: {
       type: 'string',
       version: '2.0.0',

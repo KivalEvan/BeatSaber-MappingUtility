@@ -1,6 +1,6 @@
-import { CharacteristicName } from '../../../types/beatmap/shared/characteristic';
-import { DifficultyName } from '../../../types/beatmap/shared/difficulty';
-import { NoteContainer } from '../../../types/beatmap/wrapper/container';
+import type { CharacteristicName } from '../../../types/beatmap/shared/characteristic.ts';
+import type { DifficultyName } from '../../../types/beatmap/shared/difficulty.ts';
+import type { NoteContainer } from '../../../types/beatmap/wrapper/container.ts';
 
 export interface ISwingContainer {
    time: number;

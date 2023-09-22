@@ -1,26 +1,27 @@
-import logger from '../logger';
-import { ColorArray } from '../types/colors';
-import { ColorScheme, EnvironmentSchemeName } from '../beatmap/shared/colorScheme';
-import { EnvironmentAllName } from '../types/beatmap/shared/environment';
-import { isV2 } from '../beatmap/version';
-import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty';
-import { IWrapEvent } from '../types/beatmap/wrapper/event';
+import logger from '../logger.ts';
+import type { ColorArray } from '../types/colors.ts';
+import { ColorScheme, EnvironmentSchemeName } from '../beatmap/shared/colorScheme.ts';
+import type { EnvironmentAllName } from '../types/beatmap/shared/environment.ts';
+import { isV2 } from '../beatmap/version.ts';
+import type { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
+import type { IWrapEvent } from '../types/beatmap/wrapper/event.ts';
 
 function tag(name: string): string[] {
    return ['convert', name];
 }
 
-/** Convert old Chroma color value to Chroma 2 custom data.
+/**
+ * Convert old Chroma color value to Chroma 2 custom data.
  * ```ts
- * const newData = convert.ogChromaToChromaV2(oldData);
+ * const newData = convert.ogChromaToV2Chroma(oldData);
  * ```
  */
-export function ogChromaToChromaV2<T extends IWrapDifficulty>(
+export function ogChromaToV2Chroma<T extends IWrapDifficulty>(
    data: T,
    environment: EnvironmentAllName = 'DefaultEnvironment',
 ): T {
    logger.tInfo(
-      tag('ogChromaToChromaV2'),
+      tag('ogChromaToV2Chroma'),
       'Converting old Chroma event value to Chroma event customData',
    );
    const events: IWrapEvent[] = data.basicEvents;
@@ -47,7 +48,7 @@ export function ogChromaToChromaV2<T extends IWrapDifficulty>(
    for (const ev of events) {
       let noChromaColor = false;
       if (ev.value >= 2000000000) {
-         currentColor[ev.type] = oldChromaColorConvert(ev.value) as ColorArray;
+         currentColor[ev.type] = oldChromaColorConvert(ev.value);
       }
       if (!currentColor[ev.type]) {
          noChromaColor = true;

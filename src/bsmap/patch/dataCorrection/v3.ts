@@ -1,49 +1,49 @@
-import { Difficulty } from '../../beatmap/v3/difficulty';
-import { ColorNote } from '../../beatmap/v3/colorNote';
-import { Obstacle } from '../../beatmap/v3/obstacle';
-import { BasicEvent } from '../../beatmap/v3/basicEvent';
-import { Waypoint } from '../../beatmap/v3/waypoint';
-import { Arc } from '../../beatmap/v3/arc';
-import { RotationEvent } from '../../beatmap/v3/rotationEvent';
-import { BPMEvent } from '../../beatmap/v3/bpmEvent';
-import { BombNote } from '../../beatmap/v3/bombNote';
-import { IBombNote } from '../../types/beatmap/v3/bombNote';
-import { IColorNote } from '../../types/beatmap/v3/colorNote';
-import { IObstacle } from '../../types/beatmap/v3/obstacle';
-import { Chain } from '../../beatmap/v3/chain';
-import { IChain } from '../../types/beatmap/v3/chain';
-import { ColorBoostEvent } from '../../beatmap/v3/colorBoostEvent';
-import { fixBoolean, fixFloat, fixInt } from './helpers';
-import { LightColorEventBoxGroup } from '../../beatmap/v3/lightColorEventBoxGroup';
-import { LightRotationEventBoxGroup } from '../../beatmap/v3/lightRotationEventBoxGroup';
-import { IndexFilter } from '../../beatmap/v3/indexFilter';
-import { LightColorBase } from '../../beatmap/v3/lightColorBase';
-import { LightColorEventBox } from '../../beatmap/v3/lightColorEventBox';
-import { LightRotationBase } from '../../beatmap/v3/lightRotationBase';
-import { LightRotationEventBox } from '../../beatmap/v3/lightRotationEventBox';
-import { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox';
-import { ILightRotationEventBox } from '../../types/beatmap/v3/lightRotationEventBox';
-import { fixCustomDataEvent } from './customDataEvent';
-import { fixCustomDataObject } from './customDataObject';
-import logger from '../../logger';
-import { LightTranslationBase } from '../../beatmap/v3/lightTranslationBase';
-import { LightTranslationEventBox } from '../../beatmap/v3/lightTranslationEventBox';
-import { LightTranslationEventBoxGroup } from '../../beatmap/v3/lightTranslationEventBoxGroup';
-import { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslationEventBox';
-import { EventLaneRotationValue } from '../../beatmap/shared/constants';
+import { Difficulty } from '../../beatmap/v3/difficulty.ts';
+import { ColorNote } from '../../beatmap/v3/colorNote.ts';
+import { Obstacle } from '../../beatmap/v3/obstacle.ts';
+import { BasicEvent } from '../../beatmap/v3/basicEvent.ts';
+import { Waypoint } from '../../beatmap/v3/waypoint.ts';
+import { Arc } from '../../beatmap/v3/arc.ts';
+import { RotationEvent } from '../../beatmap/v3/rotationEvent.ts';
+import { BPMEvent } from '../../beatmap/v3/bpmEvent.ts';
+import { BombNote } from '../../beatmap/v3/bombNote.ts';
+import type { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
+import type { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
+import type { IObstacle } from '../../types/beatmap/v3/obstacle.ts';
+import { Chain } from '../../beatmap/v3/chain.ts';
+import type { IChain } from '../../types/beatmap/v3/chain.ts';
+import { ColorBoostEvent } from '../../beatmap/v3/colorBoostEvent.ts';
+import { fixBoolean, fixFloat, fixInt } from './helpers.ts';
+import { LightColorEventBoxGroup } from '../../beatmap/v3/lightColorEventBoxGroup.ts';
+import { LightRotationEventBoxGroup } from '../../beatmap/v3/lightRotationEventBoxGroup.ts';
+import { IndexFilter } from '../../beatmap/v3/indexFilter.ts';
+import { LightColorBase } from '../../beatmap/v3/lightColorBase.ts';
+import { LightColorEventBox } from '../../beatmap/v3/lightColorEventBox.ts';
+import { LightRotationBase } from '../../beatmap/v3/lightRotationBase.ts';
+import { LightRotationEventBox } from '../../beatmap/v3/lightRotationEventBox.ts';
+import type { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox.ts';
+import type { ILightRotationEventBox } from '../../types/beatmap/v3/lightRotationEventBox.ts';
+import { fixCustomDataEvent } from './customDataEvent.ts';
+import { fixCustomDataObject } from './customDataObject.ts';
+import logger from '../../logger.ts';
+import { LightTranslationBase } from '../../beatmap/v3/lightTranslationBase.ts';
+import { LightTranslationEventBox } from '../../beatmap/v3/lightTranslationEventBox.ts';
+import { LightTranslationEventBoxGroup } from '../../beatmap/v3/lightTranslationEventBoxGroup.ts';
+import type { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslationEventBox.ts';
+import { EventLaneRotationValue } from '../../beatmap/shared/constants.ts';
 
-function fixBpmEvent(obj: BPMEvent) {
+function fixBpmEvent(obj: BPMEvent): void {
    obj.time = fixFloat(obj.time, BPMEvent.default.b);
    obj.bpm = fixFloat(obj.bpm);
 }
 
-function fixRotationEvent(obj: RotationEvent) {
+function fixRotationEvent(obj: RotationEvent): void {
    obj.time = fixFloat(obj.time, RotationEvent.default.b);
    obj.executionTime = fixInt(obj.executionTime, RotationEvent.default.e, [0, 1]);
    obj.rotation = fixFloat(obj.rotation, RotationEvent.default.r);
 }
 
-function fixColorNote(obj: ColorNote) {
+function fixColorNote(obj: ColorNote): void {
    obj.time = fixFloat(obj.time, ColorNote.default.b);
    obj.color = fixInt(obj.color, [0, 1], [0, 1]);
    obj.posX = fixInt(obj.posX, ColorNote.default.x);
@@ -53,7 +53,7 @@ function fixColorNote(obj: ColorNote) {
    fixCustomDataObject(obj.customData);
 }
 
-function fixFakeColorNote(obj: IColorNote) {
+function fixFakeColorNote(obj: IColorNote): void {
    obj.b = fixFloat(obj.b, ColorNote.default.b);
    obj.c = fixInt(obj.c, [0, 1], [0, 1]);
    obj.x = fixInt(obj.x, ColorNote.default.x);
@@ -63,21 +63,21 @@ function fixFakeColorNote(obj: IColorNote) {
    fixCustomDataObject(obj.customData);
 }
 
-function fixBombNote(obj: BombNote) {
+function fixBombNote(obj: BombNote): void {
    obj.time = fixFloat(obj.time, BombNote.default.b);
    obj.posX = fixInt(obj.posX, BombNote.default.x);
    obj.posY = fixInt(obj.posY, BombNote.default.y);
    fixCustomDataObject(obj.customData);
 }
 
-function fixFakeBombNote(obj: IBombNote) {
+function fixFakeBombNote(obj: IBombNote): void {
    obj.b = fixFloat(obj.b, BombNote.default.b);
    obj.x = fixInt(obj.x, BombNote.default.x);
    obj.y = fixInt(obj.y, BombNote.default.y);
    fixCustomDataObject(obj.customData);
 }
 
-function fixObstacle(obj: Obstacle) {
+function fixObstacle(obj: Obstacle): void {
    obj.time = fixFloat(obj.time, Obstacle.default.b);
    obj.posX = fixInt(obj.posX, Obstacle.default.x);
    obj.posY = fixInt(obj.posY, Obstacle.default.y);
@@ -87,7 +87,7 @@ function fixObstacle(obj: Obstacle) {
    fixCustomDataObject(obj.customData);
 }
 
-function fixFakeObstacle(obj: IObstacle) {
+function fixFakeObstacle(obj: IObstacle): void {
    obj.b = fixFloat(obj.b, Obstacle.default.b);
    obj.x = fixInt(obj.x, Obstacle.default.x);
    obj.y = fixInt(obj.y, Obstacle.default.y);
@@ -97,7 +97,7 @@ function fixFakeObstacle(obj: IObstacle) {
    fixCustomDataObject(obj.customData);
 }
 
-function fixSlider(obj: Arc) {
+function fixSlider(obj: Arc): void {
    obj.time = fixFloat(obj.time, Arc.default.b);
    obj.color = fixInt(obj.color, [0, 1], [0, 1]);
    obj.posX = fixInt(obj.posX, Arc.default.x);
@@ -113,7 +113,7 @@ function fixSlider(obj: Arc) {
    fixCustomDataObject(obj.customData);
 }
 
-function fixChain(obj: Chain) {
+function fixChain(obj: Chain): void {
    obj.time = fixFloat(obj.time, Chain.default.b);
    obj.color = fixInt(obj.color, [0, 1], [0, 1]);
    obj.posX = fixInt(obj.posX, Chain.default.x);
@@ -127,7 +127,7 @@ function fixChain(obj: Chain) {
    fixCustomDataObject(obj.customData);
 }
 
-function fixFakeChain(obj: IChain) {
+function fixFakeChain(obj: IChain): void {
    obj.b = fixFloat(obj.b, Chain.default.b);
    obj.c = fixInt(obj.c, [0, 1], [0, 1]);
    obj.x = fixInt(obj.x, Chain.default.x);
@@ -141,14 +141,14 @@ function fixFakeChain(obj: IChain) {
    fixCustomDataObject(obj.customData);
 }
 
-function fixWaypoint(obj: Waypoint) {
+function fixWaypoint(obj: Waypoint): void {
    obj.time = fixFloat(obj.time, Waypoint.default.b);
    obj.posX = fixInt(obj.posX, Waypoint.default.x);
    obj.posY = fixInt(obj.posY, Waypoint.default.y);
    obj.direction = fixInt(obj.direction, Waypoint.default.d);
 }
 
-function fixBasicEvent(obj: BasicEvent) {
+function fixBasicEvent(obj: BasicEvent): void {
    obj.time = fixFloat(obj.time, BasicEvent.default.b);
    obj.type = fixInt(obj.type, BasicEvent.default.et);
    obj.value = fixInt(obj.value, BasicEvent.default.i);
@@ -156,12 +156,12 @@ function fixBasicEvent(obj: BasicEvent) {
    fixCustomDataEvent(obj.customData);
 }
 
-function fixColorBoostEvent(obj: ColorBoostEvent) {
+function fixColorBoostEvent(obj: ColorBoostEvent): void {
    obj.time = fixFloat(obj.time, ColorBoostEvent.default.b);
    obj.toggle = fixBoolean(obj.toggle, ColorBoostEvent.default.o);
 }
 
-function fixIndexFilter(obj: IndexFilter) {
+function fixIndexFilter(obj: IndexFilter): void {
    obj.type = fixInt(obj.type, IndexFilter.default.f, [1, 2]);
    obj.p0 = fixInt(obj.p0, IndexFilter.default.p);
    obj.p1 = fixInt(obj.p1, IndexFilter.default.t);
@@ -173,7 +173,7 @@ function fixIndexFilter(obj: IndexFilter) {
    obj.limitAffectsType = fixInt(obj.limitAffectsType, IndexFilter.default.d, [0, 1, 2, 3]);
 }
 
-function fixLightColorBase(obj: LightColorBase) {
+function fixLightColorBase(obj: LightColorBase): void {
    obj.time = fixFloat(obj.time, LightColorBase.default.b);
    obj.transition = fixInt(obj.transition, LightColorBase.default.i, [0, 1, 2]);
    obj.color =
@@ -184,7 +184,7 @@ function fixLightColorBase(obj: LightColorBase) {
    obj.frequency = fixInt(obj.frequency, LightColorBase.default.f);
 }
 
-function fixLightColorEventBox(obj: LightColorEventBox) {
+function fixLightColorEventBox(obj: LightColorEventBox): void {
    fixIndexFilter(obj.filter);
    obj.beatDistribution = fixFloat(obj.beatDistribution, LightColorEventBox.default.w);
    obj.beatDistributionType = fixInt(
@@ -206,13 +206,13 @@ function fixLightColorEventBox(obj: LightColorEventBox) {
    obj.events.forEach(fixLightColorBase);
 }
 
-function fixLightColorEventBoxGroup(obj: LightColorEventBoxGroup) {
+function fixLightColorEventBoxGroup(obj: LightColorEventBoxGroup): void {
    obj.time = fixFloat(obj.time, LightColorEventBoxGroup.default.b);
    obj.id = fixInt(obj.id, LightColorEventBoxGroup.default.g);
    obj.boxes.forEach(fixLightColorEventBox);
 }
 
-function fixLightRotationBase(obj: LightRotationBase) {
+function fixLightRotationBase(obj: LightRotationBase): void {
    obj.time = fixFloat(obj.time, LightRotationBase.default.b);
    obj.previous = fixInt(obj.previous, LightRotationBase.default.p, [0, 1]);
    obj.easing = fixInt(obj.easing, LightRotationBase.default.e, [-1, 0, 1, 2, 3]);
@@ -221,7 +221,7 @@ function fixLightRotationBase(obj: LightRotationBase) {
    obj.direction = fixInt(obj.direction, LightRotationBase.default.o, [0, 1, 2]);
 }
 
-function fixLightRotationEventBox(obj: LightRotationEventBox) {
+function fixLightRotationEventBox(obj: LightRotationEventBox): void {
    fixIndexFilter(obj.filter);
    obj.beatDistribution = fixFloat(obj.beatDistribution, LightRotationEventBox.default.w);
    obj.beatDistributionType = fixInt(
@@ -249,20 +249,20 @@ function fixLightRotationEventBox(obj: LightRotationEventBox) {
    obj.events.forEach(fixLightRotationBase);
 }
 
-function fixLightRotationEventBoxGroup(obj: LightRotationEventBoxGroup) {
+function fixLightRotationEventBoxGroup(obj: LightRotationEventBoxGroup): void {
    obj.time = fixFloat(obj.time, LightRotationEventBoxGroup.default.b);
    obj.id = fixInt(obj.id, LightRotationEventBoxGroup.default.g);
    obj.boxes.forEach(fixLightRotationEventBox);
 }
 
-function fixLightTranslationBase(obj: LightTranslationBase) {
+function fixLightTranslationBase(obj: LightTranslationBase): void {
    obj.time = fixFloat(obj.time, LightTranslationBase.default.b);
    obj.previous = fixInt(obj.previous, LightTranslationBase.default.p, [0, 1]);
    obj.easing = fixInt(obj.easing, LightTranslationBase.default.e, [-1, 0, 1, 2, 3]);
    obj.translation = fixFloat(obj.translation, LightTranslationBase.default.t);
 }
 
-function fixLightTranslationEventBox(obj: LightTranslationEventBox) {
+function fixLightTranslationEventBox(obj: LightTranslationEventBox): void {
    fixIndexFilter(obj.filter);
    obj.beatDistribution = fixFloat(obj.beatDistribution, LightTranslationEventBox.default.w);
    obj.beatDistributionType = fixInt(
@@ -293,13 +293,13 @@ function fixLightTranslationEventBox(obj: LightTranslationEventBox) {
    obj.events.forEach(fixLightTranslationBase);
 }
 
-function fixLightTranslationEventBoxGroup(obj: LightTranslationEventBoxGroup) {
+function fixLightTranslationEventBoxGroup(obj: LightTranslationEventBoxGroup): void {
    obj.time = fixFloat(obj.time, LightTranslationEventBoxGroup.default.b);
    obj.id = fixInt(obj.id, LightTranslationEventBoxGroup.default.g);
    obj.boxes.forEach(fixLightTranslationEventBox);
 }
 
-export function v3(data: Difficulty) {
+export function v3(data: Difficulty): void {
    logger.tInfo(
       ['patch', 'dataCorrection', 'difficulty', 'v3'],
       'Verifying and correcting data type for beatmap v3...',

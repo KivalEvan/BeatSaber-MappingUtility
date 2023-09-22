@@ -1,8 +1,9 @@
-import { IBaseObject } from './object';
+import type { IBaseObject } from './object.ts';
 
 /** Beatmap object interface for Obstacle. */
 export interface IObstacle extends IBaseObject {
-   /** Obstacle placement on column.
+   /**
+    * Obstacle placement on column.
     * ```ts
     * 0 -> Outer Left
     * 1 -> Middle Left
@@ -11,7 +12,8 @@ export interface IObstacle extends IBaseObject {
     * ```
     */
    _lineIndex: number;
-   /** Type of obstacle.
+   /**
+    * Type of obstacle.
     * ```ts
     * 0 -> Full-height Wall
     * 1 -> Crouch Wall

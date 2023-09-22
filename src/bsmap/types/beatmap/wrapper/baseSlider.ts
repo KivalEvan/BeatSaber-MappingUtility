@@ -1,29 +1,31 @@
 // deno-lint-ignore-file no-explicit-any
-import { IWrapBaseNote, IWrapBaseNoteAttribute } from './baseNote';
+import type { IWrapBaseNote, IWrapBaseNoteAttribute } from './baseNote.ts';
 
 export interface IWrapBaseSliderAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
    extends IWrapBaseNoteAttribute<T> {
    /** Tail beat time `<float>` of base arc. */
    tailTime: number;
-   /** Tail position x `<int>` of base arc.
+   /**
+    * Tail position x `<int>` of base arc.
     * ```ts
     * 0 -> Outer Left
     * 1 -> Middle Left
     * 2 -> Middle Right
     * 3 -> Outer Right
     * ```
-    * ---
-    * Range: `none`
+    *
+    * **RANGE:** `none`
     */
    tailPosX: number;
-   /** Tail position y `<int>` of base arc.
+   /**
+    * Tail position y `<int>` of base arc.
     * ```ts
     * 0 -> Bottom row
     * 1 -> Middle row
     * 2 -> Top row
     * ```
-    * ---
-    * Range: `0-2`
+    *
+    * **RANGE:** `0-2`
     */
    tailPosY: number;
 }

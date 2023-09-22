@@ -1,8 +1,9 @@
-import { BeatPerMinute } from '../../beatmap/shared/bpm';
-import { settings } from './settings';
-import { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject';
+import { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
+import { settings } from './settings.ts';
+import type { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
 
-/** Return objects at given time, adjusted by BPM change if provided.
+/**
+ * Return objects at given time, adjusted by BPM change if provided.
  * ```ts
  * const notesHere = at(notes, 42);
  * console.log(...notesHere);
@@ -22,7 +23,8 @@ export function at<T extends IWrapBaseObject>(
    return objects.filter((o) => (bpm ? bpm.adjustTime(o.time) === times : o.time === times));
 }
 
-/** Return objects at given time range, adjusted by BPM change if provided.
+/**
+ * Return objects at given time range, adjusted by BPM change if provided.
  * ```ts
  * const notesRange = between(notes, 42, 69);
  * console.log(...notesRange);
@@ -42,7 +44,8 @@ export function between<T extends IWrapBaseObject>(
    );
 }
 
-/** Return objects before specified time, adjusted by BPM change if provided.
+/**
+ * Return objects before specified time, adjusted by BPM change if provided.
  * ```ts
  * const notesBefore = before(notes, 42);
  * console.log(...notesBefore);
@@ -57,7 +60,8 @@ export function before<T extends IWrapBaseObject>(
    return objects.filter((o) => (bpm ? bpm.adjustTime(o.time) > before : o.time > before));
 }
 
-/** Return objects after specified time, adjusted by BPM change if provided.
+/**
+ * Return objects after specified time, adjusted by BPM change if provided.
  * ```ts
  * const notesAfter = after(notes, 69);
  * console.log(...notesAfter);

@@ -1,9 +1,10 @@
-import { ISpecialEventsKeywordFiltersKeywords } from '../../types/beatmap/v2/specialEventsKeywordFiltersKeywords';
-import { IWrapEventTypesForKeywordsAttribute } from '../../types/beatmap/wrapper/eventTypesForKeywords';
-import { DeepPartial } from '../../types/utils';
-import { WrapEventTypesForKeywords } from '../wrapper/eventTypesForKeywords';
+import type { ISpecialEventsKeywordFiltersKeywords } from '../../types/beatmap/v2/specialEventsKeywordFiltersKeywords.ts';
+import type { IWrapEventTypesForKeywordsAttribute } from '../../types/beatmap/wrapper/eventTypesForKeywords.ts';
+import type { DeepPartial } from '../../types/utils.ts';
+import { WrapEventTypesForKeywords } from '../wrapper/eventTypesForKeywords.ts';
 
-/** Special event types for keywords beatmap v2 class object.
+/**
+ * Special event types for keywords beatmap v2 class object.
  *
  * Used in special event types with keywords.
  */
@@ -27,10 +28,10 @@ export class SpecialEventsKeywordFiltersKeywords extends WrapEventTypesForKeywor
       super();
 
       this._keyword =
-         data.keyword ?? data._keyword ?? SpecialEventsKeywordFiltersKeywords.default._keyword;
+         data._keyword ?? data.keyword ?? SpecialEventsKeywordFiltersKeywords.default._keyword;
       this._events = (
-         data.events ??
          data._specialEvents ??
+         data.events ??
          SpecialEventsKeywordFiltersKeywords.default._specialEvents
       ).filter((n) => typeof n === 'number') as number[];
    }

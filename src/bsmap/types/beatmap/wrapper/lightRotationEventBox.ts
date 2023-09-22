@@ -1,6 +1,9 @@
 // deno-lint-ignore-file no-explicit-any
-import { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox';
-import { IWrapLightRotationBase, IWrapLightRotationBaseAttribute } from './lightRotationBase';
+import type { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox.ts';
+import type {
+   IWrapLightRotationBase,
+   IWrapLightRotationBaseAttribute,
+} from './lightRotationBase.ts';
 
 export interface IWrapLightRotationEventBoxAttribute<
    TBox extends { [P in keyof TBox]: TBox[P] } = Record<string, any>,
@@ -9,14 +12,16 @@ export interface IWrapLightRotationEventBoxAttribute<
 > extends IWrapEventBoxAttribute<TBox, TBase, TFilter> {
    /** Rotation distribution `<float>` of light rotation event box. */
    rotationDistribution: number;
-   /** Rotation distribution type `<int>` of light rotation event box.
+   /**
+    * Rotation distribution type `<int>` of light rotation event box.
     * ```ts
     * 1 -> Wave // adds up to last ID.
     * 2 -> Step // adds to consequent ID.
     * ```
     */
    rotationDistributionType: 1 | 2;
-   /** Axis `<int>` of light rotation event box.
+   /**
+    * Axis `<int>` of light rotation event box.
     * ```ts
     * 0 -> X
     * 1 -> Y

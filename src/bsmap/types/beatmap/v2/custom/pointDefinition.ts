@@ -1,16 +1,16 @@
-import { ColorArray } from '../../../colors';
-import { Vector2, Vector3 } from '../../../vector';
+import type { ColorArray } from '../../../colors.ts';
+import type { Vector2, Vector3 } from '../../../vector.ts';
 import {
    FloatPointDefinition,
    Vector3PointDefinition,
    Vector4PointDefinition,
-} from '../../shared/custom/heck';
+} from '../../shared/custom/heck.ts';
 
 /** Point Definition interface. */
 export interface IPointDefinition {
    _name: string;
    _points:
-      | number
+      | [number]
       | Vector2
       | Vector3
       | ColorArray

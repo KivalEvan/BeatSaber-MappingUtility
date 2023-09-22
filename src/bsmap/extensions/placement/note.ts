@@ -1,8 +1,8 @@
-import { NoteDirection } from '../../beatmap/shared/constants';
-import { WrapColorNote } from '../../beatmap/wrapper/colorNote';
-import { IWrapBaseNote } from '../../types/beatmap/wrapper/baseNote';
-import { IWrapGridObject } from '../../types/beatmap/wrapper/gridObject';
-import { radToDeg, shortRotDistance } from '../../utils/math';
+import { NoteDirection } from '../../beatmap/shared/constants.ts';
+import { WrapColorNote } from '../../beatmap/wrapper/colorNote.ts';
+import type { IWrapBaseNote } from '../../types/beatmap/wrapper/baseNote.ts';
+import type { IWrapGridObject } from '../../types/beatmap/wrapper/gridObject.ts';
+import { radToDeg, shortRotDistance } from '../../utils/math.ts';
 
 // TODO: update with new position/rotation system
 export function isEnd(currNote: IWrapBaseNote, prevNote: IWrapBaseNote, cd: number): boolean {
@@ -130,7 +130,8 @@ export function isEnd(currNote: IWrapBaseNote, prevNote: IWrapBaseNote, cd: numb
    return false;
 }
 
-/** Check if the note intersect on swing path by angle and distance.
+/**
+ * Check if the note intersect on swing path by angle and distance.
  * ```ts
  * if (isIntersect(note1, note2, [[20, 1.5]])) {}
  * ```
@@ -231,7 +232,8 @@ export function predictDirection(currNote: IWrapBaseNote, prevNote: IWrapBaseNot
    return NoteDirection.ANY;
 }
 
-/** Check the angle equality of the two notes.
+/**
+ * Check the angle equality of the two notes.
  * @param {(IWrapBaseNote|number|null)}  - First beatmap note, note `direction`, or null value
  * @param {(IWrapBaseNote|number|null)} n2 - Second beatmap note, note `direction`, or null value
  * @param {number} angleTol - Angle tolerance

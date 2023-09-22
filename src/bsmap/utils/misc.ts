@@ -16,14 +16,40 @@ export function pickRandom<T>(ary: T[], fn = Math.random): T {
    return ary[Math.floor(fn() * ary.length)];
 }
 
-/** Simple old-fashioned deep copy JSON object or JSON array.
+/**
+ * Fast and simple copy for flat object like `{ name: 'hello' }`, `[0, 1, 2]` or any other primitives.
  *
- * Works best with only primitive objects. Use `structuredClone()` for more complicated objects.
+ * **WARNING:** Avoid using if contain nested object.
+ */
+export function shallowCopy<T>(object: T): T {
+   if (object === null || object === undefined || typeof object !== 'object') return object;
+   if (Array.isArray(object)) return [...object] as T;
+   return { ...object };
+}
+
+/**
+ * Recursive copy, used for nested object.
+ *
+ * Works best with only primitive object. Use `structuredClone()` for more complicated objects, or `clone()` or similar object method if available.
  */
 export function deepCopy<T>(object: T): T {
-   if (typeof object !== 'object' || typeof object === null || typeof object === undefined) {
-      return object;
+   if (object === null || object === undefined || typeof object !== 'object') return object;
+   // deno-lint-ignore no-explicit-any
+   const newObj: any = Array.isArray(object) ? Array(object.length) : {};
+   for (const k in object) {
+      newObj[k] = deepCopy(object[k]);
    }
+   return newObj;
+}
+
+/**
+ * Simple old-fashioned deep copy JSON object or JSON array.
+ *
+ * Works best with only primitive object. Use `structuredClone()` for more complicated objects, or `clone()` or similar object method if available.
+ *
+ * **WARNING:** Memory intensive operation especially for very large object.
+ */
+export function jsonCopy<T>(object: T): T {
    return JSON.parse(JSON.stringify(object));
 }
 

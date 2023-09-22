@@ -21,5 +21,5 @@ export function sanitizeBeatSaverId(id: string): string {
    if (regexID.test(id)) {
       return id;
    }
-   throw new Error('Invalid ID');
+   throw new Error('Invalid BeatSaver ID');
 }

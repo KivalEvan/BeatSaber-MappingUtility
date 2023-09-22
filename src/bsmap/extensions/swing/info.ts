@@ -1,11 +1,11 @@
-import { BeatPerMinute } from '../../beatmap/shared/bpm';
-import { Difficulty } from '../../beatmap/v3/difficulty';
-import { CharacteristicName } from '../../types/beatmap/shared/characteristic';
-import { DifficultyName } from '../../types/beatmap/shared/difficulty';
-import { NoteContainer } from '../../types/beatmap/wrapper/container';
-import { ISwingAnalysis, ISwingCount } from './types/swing';
-import { median } from '../../utils/math';
-import Swing from './swing';
+import { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
+import { Difficulty } from '../../beatmap/v3/difficulty.ts';
+import type { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
+import type { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
+import type { NoteContainer } from '../../types/beatmap/wrapper/container.ts';
+import type { ISwingAnalysis, ISwingCount } from './types/swing.ts';
+import { median } from '../../utils/math.ts';
+import Swing from './swing.ts';
 
 // derived from Uninstaller's Swings Per Second tool
 // some variable or function may have been modified

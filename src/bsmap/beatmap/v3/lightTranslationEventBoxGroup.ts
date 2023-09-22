@@ -1,12 +1,12 @@
-import { ILightTranslationEventBoxGroup } from '../../types/beatmap/v3/lightTranslationEventBoxGroup';
-import { DeepPartial } from '../../types/utils';
-import { LightTranslationEventBox } from './lightTranslationEventBox';
-import { WrapLightTranslationEventBoxGroup } from '../wrapper/lightTranslationEventBoxGroup';
-import { deepCopy } from '../../utils/misc';
-import { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslationEventBox';
-import { IIndexFilter } from '../../types/beatmap/v3/indexFilter';
-import { ILightTranslationBase } from '../../types/beatmap/v3/lightTranslationBase';
-import { IWrapLightTranslationEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup';
+import type { ILightTranslationEventBoxGroup } from '../../types/beatmap/v3/lightTranslationEventBoxGroup.ts';
+import type { DeepPartial } from '../../types/utils.ts';
+import { LightTranslationEventBox } from './lightTranslationEventBox.ts';
+import { WrapLightTranslationEventBoxGroup } from '../wrapper/lightTranslationEventBoxGroup.ts';
+import { deepCopy } from '../../utils/misc.ts';
+import type { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslationEventBox.ts';
+import type { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
+import type { ILightTranslationBase } from '../../types/beatmap/v3/lightTranslationBase.ts';
+import type { IWrapLightTranslationEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
 
 /** Light translation event box group beatmap v3 class object. */
 export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxGroup<
@@ -58,11 +58,11 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
    ) {
       super();
 
-      this._time = data.time ?? data.b ?? LightTranslationEventBoxGroup.default.b;
-      this._id = data.id ?? data.g ?? LightTranslationEventBoxGroup.default.g;
+      this._time = data.b ?? data.time ?? LightTranslationEventBoxGroup.default.b;
+      this._id = data.g ?? data.id ?? LightTranslationEventBoxGroup.default.g;
       this._boxes = (
-         (data.boxes as ILightTranslationEventBox[]) ??
          (data.e as unknown as ILightTranslationEventBox[]) ??
+         (data.boxes as ILightTranslationEventBox[]) ??
          LightTranslationEventBoxGroup.default.e
       ).map((obj) => new LightTranslationEventBox(obj));
       this._customData = deepCopy(
@@ -123,7 +123,7 @@ export class LightTranslationEventBoxGroup extends WrapLightTranslationEventBoxG
       };
    }
 
-   get boxes() {
+   get boxes(): LightTranslationEventBox[] {
       return this._boxes as LightTranslationEventBox[];
    }
    set boxes(value: LightTranslationEventBox[]) {

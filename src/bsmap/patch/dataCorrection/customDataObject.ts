@@ -1,9 +1,9 @@
-import { ICustomDataNote as ICustomDataNoteV2 } from '../../types/beatmap/v2/custom/note';
-import { ICustomDataObstacle as ICustomDataObstacleV2 } from '../../types/beatmap/v2/custom/obstacle';
-import { ICustomDataNote as ICustomDataNoteV3 } from '../../types/beatmap/v3/custom/note';
-import { ICustomDataObstacle as ICustomDataObstacleV3 } from '../../types/beatmap/v3/custom/obstacle';
-import { ICustomDataSlider } from '../../types/beatmap/v3/custom/slider';
-import { Vector3 } from '../../types/vector';
+import type { ICustomDataNote as IV2CustomDataNote } from '../../types/beatmap/v2/custom/note.ts';
+import type { ICustomDataObstacle as IV2CustomDataObstacle } from '../../types/beatmap/v2/custom/obstacle.ts';
+import type { ICustomDataNote as IV3CustomDataNote } from '../../types/beatmap/v3/custom/note.ts';
+import type { ICustomDataObstacle as IV3CustomDataObstacle } from '../../types/beatmap/v3/custom/obstacle.ts';
+import type { ICustomDataSlider } from '../../types/beatmap/v3/custom/slider.ts';
+import type { Vector3 } from '../../types/vector.ts';
 import {
    fixBoolean,
    fixColor,
@@ -15,13 +15,13 @@ import {
    fixVector3,
    fixVector3PointDefinition,
    fixVector4PointDefinition,
-} from './helpers';
+} from './helpers.ts';
 
 export function fixCustomDataObject(
-   cd?: ICustomDataNoteV2 &
-      ICustomDataObstacleV2 &
-      ICustomDataNoteV3 &
-      ICustomDataObstacleV3 &
+   cd?: IV2CustomDataNote &
+      IV2CustomDataObstacle &
+      IV3CustomDataNote &
+      IV3CustomDataObstacle &
       ICustomDataSlider,
 ) {
    if (!cd) {

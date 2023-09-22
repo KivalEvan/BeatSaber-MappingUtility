@@ -1,12 +1,12 @@
-import { IIndexFilter } from '../../types/beatmap/v3/indexFilter';
-import { ILightColorBase } from '../../types/beatmap/v3/lightColorBase';
-import { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox';
-import { ILightColorEventBoxGroup } from '../../types/beatmap/v3/lightColorEventBoxGroup';
-import { IWrapLightColorEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightColorEventBoxGroup';
-import { DeepPartial } from '../../types/utils';
-import { deepCopy } from '../../utils/misc';
-import { WrapLightColorEventBoxGroup } from '../wrapper/lightColorEventBoxGroup';
-import { LightColorEventBox } from './lightColorEventBox';
+import type { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
+import type { ILightColorBase } from '../../types/beatmap/v3/lightColorBase.ts';
+import type { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox.ts';
+import type { ILightColorEventBoxGroup } from '../../types/beatmap/v3/lightColorEventBoxGroup.ts';
+import type { IWrapLightColorEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
+import type { DeepPartial } from '../../types/utils.ts';
+import { deepCopy } from '../../utils/misc.ts';
+import { WrapLightColorEventBoxGroup } from '../wrapper/lightColorEventBoxGroup.ts';
+import { LightColorEventBox } from './lightColorEventBox.ts';
 
 /** Light color event box group beatmap v3 class object. */
 export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
@@ -58,11 +58,11 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
    ) {
       super();
 
-      this._time = data.time ?? data.b ?? LightColorEventBoxGroup.default.b;
-      this._id = data.id ?? data.g ?? LightColorEventBoxGroup.default.g;
+      this._time = data.b ?? data.time ?? LightColorEventBoxGroup.default.b;
+      this._id = data.g ?? data.id ?? LightColorEventBoxGroup.default.g;
       this._boxes = (
-         (data.boxes as ILightColorEventBox[]) ??
          (data.e as unknown as ILightColorEventBox[]) ??
+         (data.boxes as ILightColorEventBox[]) ??
          LightColorEventBoxGroup.default.e
       ).map((obj) => new LightColorEventBox(obj));
       this._customData = deepCopy(data.customData ?? LightColorEventBoxGroup.default.customData);
@@ -119,7 +119,7 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
       };
    }
 
-   get boxes() {
+   get boxes(): LightColorEventBox[] {
       return this._boxes as LightColorEventBox[];
    }
    set boxes(value: LightColorEventBox[]) {

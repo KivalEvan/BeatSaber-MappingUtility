@@ -1,6 +1,6 @@
-import { IEvent } from '../../types/beatmap/v2/event';
-import { IBasicEvent } from '../../types/beatmap/v3/basicEvent';
-import { fixBoolean, fixColor, fixFloat, fixInt, fixString } from './helpers';
+import type { IEvent } from '../../types/beatmap/v2/event.ts';
+import type { IBasicEvent } from '../../types/beatmap/v3/basicEvent.ts';
+import { fixBoolean, fixColor, fixFloat, fixInt, fixString } from './helpers.ts';
 
 export function fixCustomDataEvent(cd?: IEvent['_customData'] & IBasicEvent['customData']) {
    if (!cd) {

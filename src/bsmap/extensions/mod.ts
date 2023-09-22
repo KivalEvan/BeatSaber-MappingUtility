@@ -6,12 +6,12 @@
  * @module
  */
 
-export * as chroma from './chroma/mod';
-export * as NE from './noodleExtensions/mod';
-export * as parity from './parity/mod';
-export * as placement from './placement/mod';
-export * as renamer from './renamer/mod';
-export * as selector from './selector/mod';
-export * as stats from './stats/mod';
-export * as swing from './swing/mod';
-export * as zip from './zip/mod';
+export * as chroma from './chroma/mod.ts';
+export * as NE from './noodleExtensions/mod.ts';
+export * as parity from './parity/mod.ts';
+export * as placement from './placement/mod.ts';
+export * as renamer from './renamer/mod.ts';
+export * as selector from './selector/mod.ts';
+export * as stats from './stats/mod.ts';
+export * as swing from './swing/mod.ts';
+export * as zip from './zip/mod.ts';

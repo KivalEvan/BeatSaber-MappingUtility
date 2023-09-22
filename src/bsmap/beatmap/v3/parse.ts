@@ -1,18 +1,18 @@
-import { IDifficulty } from '../../types/beatmap/v3/difficulty';
-import { Difficulty } from './difficulty';
-import { DifficultyCheck } from './dataCheck';
-import { deepCheck } from '../shared/dataCheck';
-import logger from '../../logger';
-import { sortV3NoteFn, sortV3ObjectFn } from '../shared/helpers';
-import { DataCheckOption } from '../../types/beatmap/shared/dataCheck';
+import type { IDifficulty } from '../../types/beatmap/v3/difficulty.ts';
+import { Difficulty } from './difficulty.ts';
+import { DifficultyCheck } from './dataCheck.ts';
+import { deepCheck } from '../shared/dataCheck.ts';
+import logger from '../../logger.ts';
+import { sortV3NoteFn, sortV3ObjectFn } from '../shared/helpers.ts';
+import type { IDataCheckOption } from '../../types/beatmap/shared/dataCheck.ts';
 
 function tag(name: string): string[] {
    return ['v3', 'parse', name];
 }
 
-export function difficulty(
+export function parseDifficulty(
    data: Partial<IDifficulty>,
-   checkData: DataCheckOption = { enabled: true, throwError: true },
+   checkData: IDataCheckOption = { enabled: true, throwError: true },
 ): Difficulty {
    logger.tInfo(tag('difficulty'), 'Parsing beatmap difficulty v3.x.x');
    if (!(data.version === '3.0.0' || data.version === '3.1.0' || data.version === '3.2.0')) {

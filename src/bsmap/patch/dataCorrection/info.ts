@@ -1,9 +1,9 @@
-import { fixBoolean, fixFloat, fixInt, fixString } from './helpers';
-import { IWrapInfo } from '../../types/beatmap/wrapper/info';
-import { EnvironmentRename } from '../../beatmap/shared/environment';
-import { IColor } from '../../types/colors';
-import logger from '../../logger';
-import { clamp } from '../../utils/math';
+import { fixBoolean, fixFloat, fixInt, fixString } from './helpers.ts';
+import type { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
+import { EnvironmentRename } from '../../beatmap/shared/environment.ts';
+import type { IColor } from '../../types/colors.ts';
+import logger from '../../logger.ts';
+import { clamp } from '../../utils/math.ts';
 
 function fixEnvironment(str: unknown, all = false): IWrapInfo['environmentName'] {
    if (typeof str === 'string') {
@@ -42,7 +42,7 @@ function fixColorObject(val: unknown, req?: boolean) {
    return req ? { r: 0, g: 0, b: 0, a: 1 } : { r: 0, g: 0, b: 0 };
 }
 
-export function info(data: IWrapInfo) {
+export function info(data: IWrapInfo): void {
    logger.tInfo(
       ['patch', 'dataCorrection', 'info'],
       'Verifying and correcting data type for beatmap info...',

@@ -1,10 +1,11 @@
-import { EventList } from '../../beatmap/shared/environment';
-import { BasicEvent } from '../../beatmap/v3/basicEvent';
-import { ColorBoostEvent } from '../../beatmap/v3/colorBoostEvent';
-import { EnvironmentAllName } from '../../types/beatmap/shared/environment';
-import { ICountEvent } from './types/stats';
+import { EventList } from '../../beatmap/shared/environment.ts';
+import { BasicEvent } from '../../beatmap/v3/basicEvent.ts';
+import { ColorBoostEvent } from '../../beatmap/v3/colorBoostEvent.ts';
+import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
+import type { ICountEvent } from './types/stats.ts';
 
-/** Count number of type of events with their properties in given array and return a event count object.
+/**
+ * Count number of type of events with their properties in given array and return a event count object.
  * ```ts
  * const list = count(events);
  * console.log(list);

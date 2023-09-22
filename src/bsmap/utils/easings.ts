@@ -1,5 +1,5 @@
 // taken from Aeroluna's Heck easing animation
-import { EasingFunction, Easings } from '../types/easings';
+import type { EasingFunction, Easings } from '../types/easings.ts';
 
 const PI = Math.PI;
 const HALFPI = Math.PI / 2;
@@ -18,12 +18,7 @@ const easeInBounce = (x: number) => 1 - easeOutBounce(1 - x);
 const easeInOutBounce = (x: number) =>
    x < 0.5 ? 0.5 * easeInBounce(x * 2) : 0.5 * easeOutBounce(x * 2 - 1) + 0.5;
 
-/** Easings function methods, able to define own function.
- * ```
- * Call: method.name(number) => number
- * Define: method.name = (x) => x
- * ```
- */
+/** Mapped easings function. */
 export const EasingsFn: {
    readonly [easing in Easings]: EasingFunction;
 } = {

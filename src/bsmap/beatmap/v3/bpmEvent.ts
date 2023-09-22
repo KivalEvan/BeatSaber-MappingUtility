@@ -1,7 +1,7 @@
-import { IBPMEvent } from '../../types/beatmap/v3/bpmEvent';
-import { IWrapBPMEventAttribute } from '../../types/beatmap/wrapper/bpmEvent';
-import { deepCopy } from '../../utils/misc';
-import { WrapBPMEvent } from '../wrapper/bpmEvent';
+import type { IBPMEvent } from '../../types/beatmap/v3/bpmEvent.ts';
+import type { IWrapBPMEventAttribute } from '../../types/beatmap/wrapper/bpmEvent.ts';
+import { deepCopy } from '../../utils/misc.ts';
+import { WrapBPMEvent } from '../wrapper/bpmEvent.ts';
 
 /** BPM change event beatmap v3 class object. */
 export class BPMEvent extends WrapBPMEvent<IBPMEvent> {
@@ -18,8 +18,8 @@ export class BPMEvent extends WrapBPMEvent<IBPMEvent> {
    constructor(data: Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<IBPMEvent>> = {}) {
       super();
 
-      this._time = data.time ?? data.b ?? BPMEvent.default.b;
-      this._bpm = data.bpm ?? data.m ?? BPMEvent.default.m;
+      this._time = data.b ?? data.time ?? BPMEvent.default.b;
+      this._bpm = data.m ?? data.bpm ?? BPMEvent.default.m;
       this._customData = deepCopy(data.customData ?? BPMEvent.default.customData);
    }
 

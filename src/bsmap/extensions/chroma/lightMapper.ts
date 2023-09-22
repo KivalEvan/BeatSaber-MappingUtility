@@ -1,20 +1,26 @@
-import { BasicEvent } from '../../beatmap/v3/basicEvent';
-import { Event } from '../../beatmap/v2/event';
-import { ColorBoostEvent } from '../../beatmap/v3/colorBoostEvent';
-import { isV3 } from '../../beatmap/version';
-import { EnvironmentAllName } from '../../types/beatmap/shared/environment';
-import { IEvent } from '../../types/beatmap/v2/event';
-import { IChromaEventRing, IChromaEventZoom } from '../../types/beatmap/v3/custom/chroma';
-import { DeepPartial } from '../../types/utils';
-import { LightIDList } from './lightID';
-import { EventBase, EventBox, EventBoxType, IndexFilterDivision } from './types/lightMapper';
-import { EasingsFn } from '../../utils/easings';
-import { colorFrom, HsvaToRgba, RgbaToHsva } from '../../utils/colors';
-import { ColorScheme, EnvironmentSchemeName } from '../../beatmap/shared/colorScheme';
-import { ColorArray } from '../../types/colors';
-import { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty';
+import { BasicEvent } from '../../beatmap/v3/basicEvent.ts';
+import { Event } from '../../beatmap/v2/event.ts';
+import { ColorBoostEvent } from '../../beatmap/v3/colorBoostEvent.ts';
+import { isV3 } from '../../beatmap/version.ts';
+import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
+import type { IEvent } from '../../types/beatmap/v2/event.ts';
+import type { IChromaEventRing, IChromaEventZoom } from '../../types/beatmap/v3/custom/chroma.ts';
+import type { DeepPartial } from '../../types/utils.ts';
+import { LightIDList } from './lightID.ts';
+import type {
+   EventBase,
+   EventBox,
+   EventBoxType,
+   IndexFilterDivision,
+} from './types/lightMapper.ts';
+import { EasingsFn } from '../../utils/easings.ts';
+import { colorFrom, hsvaToRgba, rgbaToHsva } from '../../utils/colors.ts';
+import { ColorScheme, EnvironmentSchemeName } from '../../beatmap/shared/colorScheme.ts';
+import type { ColorArray } from '../../types/colors.ts';
+import type { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
 
-/** This uses new lighting lighting syntax for v2 lighting including support for color and easing.
+/**
+ * This uses new lighting lighting syntax for v2 lighting including support for color and easing.
  * ```ts
  * const lightMapper = new LightMapper('FitbeatEnvironment');
  * lightMapper.light(8, 2, [eventBox]);
@@ -272,8 +278,8 @@ export class LightMapper {
                              );
                      }
                      if (!isFirst) {
-                        event.customData.color = HsvaToRgba(
-                           ...(RgbaToHsva(...event.customData.color).map((v, x) => {
+                        event.customData.color = hsvaToRgba(
+                           ...(rgbaToHsva(...event.customData.color).map((v, x) => {
                               if (!x) {
                                  v! +=
                                     eb.hueDistributionType === 'Division'

@@ -1,9 +1,9 @@
-export * as types from './types/mod';
-export * from './environment/mod';
-export * from './lightID';
-export * from './lightMapper';
-export * from './misc';
-export * from './setColor';
-export * from './shiftColor';
-export * from './removeColor';
-export * from './settings';
+export * as types from './types/mod.ts';
+export * from './environment/mod.ts';
+export * from './lightID.ts';
+export * from './lightMapper.ts';
+export * from './misc.ts';
+export * from './setColor.ts';
+export * from './shiftColor.ts';
+export * from './removeColor.ts';
+export * from './settings.ts';

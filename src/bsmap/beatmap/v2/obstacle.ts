@@ -1,9 +1,9 @@
-import { Vector2 } from '../../types/vector';
-import { IObstacle } from '../../types/beatmap/v2/obstacle';
-import { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle';
-import { deepCopy } from '../../utils/misc';
-import { WrapObstacle } from '../wrapper/obstacle';
-import { ModType } from '../../types/beatmap/shared/modCheck';
+import type { Vector2 } from '../../types/vector.ts';
+import type { IObstacle } from '../../types/beatmap/v2/obstacle.ts';
+import type { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
+import { deepCopy } from '../../utils/misc.ts';
+import { WrapObstacle } from '../wrapper/obstacle.ts';
+import type { ModType } from '../../types/beatmap/shared/modCheck.ts';
 
 /** Obstacle beatmap v2 class object. */
 export class Obstacle extends WrapObstacle<IObstacle> {
@@ -25,13 +25,19 @@ export class Obstacle extends WrapObstacle<IObstacle> {
    constructor(data: Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>> = {}) {
       super();
 
-      this._time = data.time ?? data._time ?? Obstacle.default._time;
-      this._type = data._type ?? Obstacle.default._type;
-      this._posX = data.posX ?? data._lineIndex ?? Obstacle.default._lineIndex;
-      this._duration = data.duration ?? data._duration ?? Obstacle.default._duration;
-      this._width = data.width ?? data._width ?? Obstacle.default._width;
+      this._time = data._time ?? data.time ?? Obstacle.default._time;
+      this._type =
+         data._type ??
+         (data.posY === 2 && data.height === 3
+            ? 1
+            : data.posY === 0 && data.height === 5
+            ? 0
+            : Obstacle.default._type);
+      this._posX = data._lineIndex ?? data.posX ?? Obstacle.default._lineIndex;
+      this._duration = data._duration ?? data.duration ?? Obstacle.default._duration;
+      this._width = data._width ?? data.width ?? Obstacle.default._width;
       this._customData = deepCopy(
-         data.customData ?? data._customData ?? Obstacle.default._customData,
+         data._customData ?? data.customData ?? Obstacle.default._customData,
       );
    }
 
@@ -63,14 +69,14 @@ export class Obstacle extends WrapObstacle<IObstacle> {
       };
    }
 
-   get type() {
+   get type(): IObstacle['_type'] {
       return this._type;
    }
    set type(value: IObstacle['_type']) {
       this._type = value;
    }
 
-   get posY() {
+   get posY(): 0 | 2 {
       return this.type == 1 ? 2 : 0;
    }
    set posY(value: 0 | 2) {
@@ -83,7 +89,7 @@ export class Obstacle extends WrapObstacle<IObstacle> {
       }
    }
 
-   get height() {
+   get height(): 3 | 5 {
       return this.type == 1 ? 3 : 5;
    }
    set height(value: 3 | 5) {
@@ -116,9 +122,9 @@ export class Obstacle extends WrapObstacle<IObstacle> {
          default:
             return [
                (this.posX <= -1000
-                  ? this.posX / 1000
+                  ? this.posX / 1000 + 1
                   : this.posX >= 1000
-                  ? this.posX / 1000
+                  ? this.posX / 1000 - 1
                   : this.posX) - 2,
                (this.posY <= -1000
                   ? this.posY / 1000

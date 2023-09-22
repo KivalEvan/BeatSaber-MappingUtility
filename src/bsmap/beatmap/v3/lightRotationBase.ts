@@ -1,7 +1,7 @@
-import { ILightRotationBase } from '../../types/beatmap/v3/lightRotationBase';
-import { IWrapLightRotationBaseAttribute } from '../../types/beatmap/wrapper/lightRotationBase';
-import { deepCopy } from '../../utils/misc';
-import { WrapLightRotationBase } from '../wrapper/lightRotationBase';
+import type { ILightRotationBase } from '../../types/beatmap/v3/lightRotationBase.ts';
+import type { IWrapLightRotationBaseAttribute } from '../../types/beatmap/wrapper/lightRotationBase.ts';
+import { deepCopy } from '../../utils/misc.ts';
+import { WrapLightRotationBase } from '../wrapper/lightRotationBase.ts';
 
 /** Light rotation base beatmap v3 class object. */
 export class LightRotationBase extends WrapLightRotationBase<ILightRotationBase> {
@@ -28,12 +28,12 @@ export class LightRotationBase extends WrapLightRotationBase<ILightRotationBase>
    ) {
       super();
 
-      this._time = data.time ?? data.b ?? LightRotationBase.default.b;
-      this._previous = data.previous ?? data.p ?? LightRotationBase.default.p;
-      this._easing = data.easing ?? data.e ?? LightRotationBase.default.e;
-      this._loop = data.loop ?? data.l ?? LightRotationBase.default.l;
-      this._rotation = data.rotation ?? data.r ?? LightRotationBase.default.r;
-      this._direction = data.direction ?? data.o ?? LightRotationBase.default.o;
+      this._time = data.b ?? data.time ?? LightRotationBase.default.b;
+      this._previous = data.p ?? data.previous ?? LightRotationBase.default.p;
+      this._easing = data.e ?? data.easing ?? LightRotationBase.default.e;
+      this._loop = data.l ?? data.loop ?? LightRotationBase.default.l;
+      this._rotation = data.r ?? data.rotation ?? LightRotationBase.default.r;
+      this._direction = data.o ?? data.direction ?? LightRotationBase.default.o;
       this._customData = deepCopy(data.customData ?? LightRotationBase.default.customData);
    }
 

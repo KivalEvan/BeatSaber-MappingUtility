@@ -1,10 +1,11 @@
 // deno-lint-ignore-file no-explicit-any
-import { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject';
+import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 
 export interface IWrapRotationEventAttribute<
    T extends { [P in keyof T]: T[P] } = Record<string, any>,
 > extends IWrapBaseObjectAttribute<T> {
-   /** Execution time `<int>` of rotation event.
+   /**
+    * Execution time `<int>` of rotation event.
     * ```ts
     * 0 -> Early
     * 1 -> Late

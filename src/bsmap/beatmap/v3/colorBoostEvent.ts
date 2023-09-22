@@ -1,7 +1,7 @@
-import { IColorBoostEvent } from '../../types/beatmap/v3/colorBoostEvent';
-import { IWrapColorBoostEventAttribute } from '../../types/beatmap/wrapper/colorBoostEvent';
-import { deepCopy } from '../../utils/misc';
-import { WrapColorBoostEvent } from '../wrapper/colorBoostEvent';
+import type { IColorBoostEvent } from '../../types/beatmap/v3/colorBoostEvent.ts';
+import type { IWrapColorBoostEventAttribute } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
+import { deepCopy } from '../../utils/misc.ts';
+import { WrapColorBoostEvent } from '../wrapper/colorBoostEvent.ts';
 
 /** Boost event beatmap v3 class object. */
 export class ColorBoostEvent extends WrapColorBoostEvent<IColorBoostEvent> {
@@ -23,8 +23,8 @@ export class ColorBoostEvent extends WrapColorBoostEvent<IColorBoostEvent> {
    ) {
       super();
 
-      this._time = data.time ?? data.b ?? ColorBoostEvent.default.b;
-      this._toggle = data.toggle ?? data.o ?? ColorBoostEvent.default.o;
+      this._time = data.b ?? data.time ?? ColorBoostEvent.default.b;
+      this._toggle = data.o ?? data.toggle ?? ColorBoostEvent.default.o;
       this._customData = deepCopy(data.customData ?? ColorBoostEvent.default.customData);
    }
 

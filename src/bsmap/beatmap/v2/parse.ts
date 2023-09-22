@@ -1,22 +1,22 @@
-import { IDifficulty } from '../../types/beatmap/v2/difficulty';
-import { Difficulty } from './difficulty';
-import { IInfo } from '../../types/beatmap/v2/info';
-import { Info } from './info';
-import { deepCheck } from '../shared/dataCheck';
-import { DifficultyCheck, InfoCheck } from './dataCheck';
-import { CharacteristicOrder } from '../shared/characteristic';
-import { DifficultyRanking } from '../shared/difficulty';
-import logger from '../../logger';
-import { sortV2NoteFn, sortV2ObjectFn } from '../shared/helpers';
-import { DataCheckOption } from '../../types/beatmap/shared/dataCheck';
+import type { IDifficulty } from '../../types/beatmap/v2/difficulty.ts';
+import { Difficulty } from './difficulty.ts';
+import type { IInfo } from '../../types/beatmap/v2/info.ts';
+import { Info } from './info.ts';
+import { deepCheck } from '../shared/dataCheck.ts';
+import { DifficultyCheck, InfoCheck } from './dataCheck.ts';
+import { CharacteristicOrder } from '../shared/characteristic.ts';
+import { DifficultyRanking } from '../shared/difficulty.ts';
+import logger from '../../logger.ts';
+import { sortV2NoteFn, sortV2ObjectFn } from '../shared/helpers.ts';
+import type { IDataCheckOption } from '../../types/beatmap/shared/dataCheck.ts';
 
 function tag(name: string): string[] {
    return ['v2', 'parse', name];
 }
 
-export function difficulty(
+export function parseDifficulty(
    data: Partial<IDifficulty>,
-   checkData: DataCheckOption = { enabled: true, throwError: true },
+   checkData: IDataCheckOption = { enabled: true, throwError: true },
 ): Difficulty {
    logger.tInfo(tag('difficulty'), 'Parsing beatmap difficulty v2.x.x');
    if (!data._version?.startsWith('2')) {
@@ -36,9 +36,9 @@ export function difficulty(
    return new Difficulty(data);
 }
 
-export function info(
+export function parseInfo(
    data: Partial<IInfo>,
-   checkData: DataCheckOption = { enabled: true, throwError: true },
+   checkData: IDataCheckOption = { enabled: true, throwError: true },
 ): Info {
    logger.tInfo(tag('info'), 'Parsing beatmap info v2.x.x');
    if (!data._version?.startsWith('2')) {

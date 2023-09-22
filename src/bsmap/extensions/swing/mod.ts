@@ -1,5 +1,5 @@
-export * as types from './types/mod';
-export * from './ebpm';
-export * from './info';
-export * from './slider';
-export * from './swing';
+export * as types from './types/mod.ts';
+export * from './ebpm.ts';
+export * from './info.ts';
+export * from './slider.ts';
+export * from './swing.ts';

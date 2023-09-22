@@ -1,37 +1,38 @@
-import logger from '../logger';
-import { Difficulty as DifficultyV1 } from '../beatmap/v1/difficulty';
-import { Difficulty as DifficultyV2 } from '../beatmap/v2/difficulty';
-import { Difficulty as DifficultyV3 } from '../beatmap/v3/difficulty';
-import { Note } from '../beatmap/v1/note';
-import { Event } from '../beatmap/v1/event';
-import { Obstacle } from '../beatmap/v1/obstacle';
-import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty';
-import { IWrapInfo, IWrapInfoDifficulty } from '../types/beatmap/wrapper/info';
-import { Info as InfoV1 } from '../beatmap/v1/info';
-import { deepCopy } from '../utils/misc';
+import logger from '../logger.ts';
+import { Difficulty as V1Difficulty } from '../beatmap/v1/difficulty.ts';
+import { Difficulty as V2Difficulty } from '../beatmap/v2/difficulty.ts';
+import { Difficulty as V3Difficulty } from '../beatmap/v3/difficulty.ts';
+import { Note } from '../beatmap/v1/note.ts';
+import { Event } from '../beatmap/v1/event.ts';
+import { Obstacle } from '../beatmap/v1/obstacle.ts';
+import type { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
+import type { IWrapInfo, IWrapInfoDifficulty } from '../types/beatmap/wrapper/info.ts';
+import { Info as IV1nfo } from '../beatmap/v1/info.ts';
+import { shallowCopy } from '../utils/misc.ts';
 
 function tag(name: string): string[] {
    return ['convert', name];
 }
 
-/** Feeling nostalgic?
+/**
+ * Feeling nostalgic?
  * ```ts
  * const converted = convert.toV1(data);
  * ```
- * ---
+ *
  * **WARNING:** Guess you should know this legacy version does not have modern features.
  */
-export function toV1(
+export function toV1Difficulty(
    data: IWrapDifficulty,
    info: IWrapInfo,
    infoDifficulty: IWrapInfoDifficulty,
-): DifficultyV1 {
-   if (data instanceof DifficultyV1) {
+): V1Difficulty {
+   if (data instanceof V1Difficulty) {
       return data;
    }
 
-   logger.tWarn(tag('toV1'), 'Converting beatmap to v1 may lose certain data!');
-   const template = new DifficultyV1();
+   logger.tWarn(tag('toV1Difficulty'), 'Converting beatmap to v1 may lose certain data!');
+   const template = new V1Difficulty();
    template.filename = data.filename;
 
    template.beatsPerMinute = info.beatsPerMinute;
@@ -40,13 +41,13 @@ export function toV1(
    template.noteJumpSpeed = infoDifficulty.njs;
    template.noteJumpStartBeatOffset = infoDifficulty.njsOffset;
 
-   if (data instanceof DifficultyV2) {
+   if (data instanceof V2Difficulty) {
       template.time = data.customData._time ?? 0;
       template.BPMChanges = data.customData._bpmChanges ?? [];
       template.bookmarks = data.customData._bookmarks ?? [];
    }
 
-   if (data instanceof DifficultyV3) {
+   if (data instanceof V3Difficulty) {
       template.time = data.customData.time ?? 0;
       template.BPMChanges =
          data.customData.BPMChanges?.map((bpmc) => {
@@ -70,12 +71,12 @@ export function toV1(
    return template;
 }
 
-export function toInfoV1(data: IWrapInfo): InfoV1 {
-   if (data instanceof InfoV1) {
+export function toIV1nfo(data: IWrapInfo): IV1nfo {
+   if (data instanceof IV1nfo) {
       return data;
    }
 
-   const template = new InfoV1();
+   const template = new IV1nfo();
 
    template.songName = data.songName;
    template.songSubName = data.songSubName;
@@ -104,16 +105,17 @@ export function toInfoV1(data: IWrapInfo): InfoV1 {
                m.customData?._obstacleColor
             ),
             difficultyLabel: m.customData?._difficultyLabel,
-            colorLeft: deepCopy(m.customData._colorLeft),
-            colorRight: deepCopy(m.customData._colorRight),
-            envColorLeft: deepCopy(m.customData._envColorLeft),
-            envColorRight: deepCopy(m.customData._envColorRight),
-            obstacleColor: deepCopy(m.customData._obstacleColor),
+            colorLeft: shallowCopy(m.customData._colorLeft),
+            colorRight: shallowCopy(m.customData._colorRight),
+            envColorLeft: shallowCopy(m.customData._envColorLeft),
+            envColorRight: shallowCopy(m.customData._envColorRight),
+            obstacleColor: shallowCopy(m.customData._obstacleColor),
          },
          mode,
       );
    });
-   template.oneSaber = !!data.difficultySets.OneSaber?.length;
+   template.oneSaber = !!data.difficultySets.find((m) => m.characteristic === 'OneSaber')
+      ?.difficulties.length;
    template.contributors = data.customData?._contributors;
    template.customEnvironment = data.customData?._customEnvironment;
    template.customEnvironmentHash = data.customData?._customEnvironmentHash;

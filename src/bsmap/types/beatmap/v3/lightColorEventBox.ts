@@ -1,13 +1,15 @@
-import { IEventBox } from './eventBox';
-import { ILightColorBase } from './lightColorBase';
+import type { IEventBox } from './eventBox.ts';
+import type { ILightColorBase } from './lightColorBase.ts';
 
 export interface ILightColorEventBox extends IEventBox {
-   /** Brightness distribution `<float>` of light color event box.
+   /**
+    * Brightness distribution `<float>` of light color event box.
     *
-    * Range: `0-1` (0% to 100%), can be more than 1.
+    * Percentage value `0-1` (0% to 100%), can be more than 1.
     */
    r: number;
-   /** Brightness distribution type `<int>` of light color event box.
+   /**
+    * Brightness distribution type `<int>` of light color event box.
     * ```ts
     * 1 -> Wave // adds up to last ID.
     * 2 -> Step // adds to consequent ID.

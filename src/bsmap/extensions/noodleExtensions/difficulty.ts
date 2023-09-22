@@ -1,13 +1,13 @@
-import { BombNote } from '../../beatmap/v3/bombNote';
-import { Chain } from '../../beatmap/v3/chain';
-import { ColorNote } from '../../beatmap/v3/colorNote';
-import { Obstacle } from '../../beatmap/v3/obstacle';
-import { Difficulty } from '../../beatmap/v3/difficulty';
-import { IBombNote } from '../../types/beatmap/v3/bombNote';
-import { IChain } from '../../types/beatmap/v3/chain';
-import { IColorNote } from '../../types/beatmap/v3/colorNote';
-import { IObstacle } from '../../types/beatmap/v3/obstacle';
-import { IDifficulty } from '../../types/beatmap/v3/difficulty';
+import { BombNote } from '../../beatmap/v3/bombNote.ts';
+import { Chain } from '../../beatmap/v3/chain.ts';
+import { ColorNote } from '../../beatmap/v3/colorNote.ts';
+import { Obstacle } from '../../beatmap/v3/obstacle.ts';
+import { Difficulty } from '../../beatmap/v3/difficulty.ts';
+import type { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
+import type { IChain } from '../../types/beatmap/v3/chain.ts';
+import type { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
+import type { IObstacle } from '../../types/beatmap/v3/obstacle.ts';
+import type { IDifficulty } from '../../types/beatmap/v3/difficulty.ts';
 
 export class NoodleDifficulty {
    fakeColorNotes: ColorNote[];

@@ -1,6 +1,7 @@
 import { For, Index, createSignal } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import type { ColorSchemeName, IColorScheme } from '../bsmap/types/beatmap/shared/colorScheme';
+import type { ColorSchemeName } from '../bsmap/types/beatmap/shared/colorScheme';
+import type { IColorScheme } from '../bsmap/types/beatmap/v2/custom/colorScheme';
 import type { LooseAutocomplete, Nullable } from '../bsmap/types/utils';
 import { ColorScheme } from '../bsmap/beatmap/shared/colorScheme';
 import type { ColorArray, IColor } from '../bsmap/types/colors';

@@ -1,18 +1,20 @@
 // deno-lint-ignore-file no-explicit-any
-import { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox';
-import { IWrapLightColorBase, IWrapLightColorBaseAttribute } from './lightColorBase';
+import type { IWrapEventBox, IWrapEventBoxAttribute } from './eventBox.ts';
+import type { IWrapLightColorBase, IWrapLightColorBaseAttribute } from './lightColorBase.ts';
 
 export interface IWrapLightColorEventBoxAttribute<
    TBox extends { [P in keyof TBox]: TBox[P] } = Record<string, any>,
    TBase extends { [P in keyof TBase]: TBase[P] } = Record<string, any>,
    TFilter extends { [P in keyof TFilter]: TFilter[P] } = Record<string, any>,
 > extends IWrapEventBoxAttribute<TBox, TBase, TFilter> {
-   /** Brightness distribution `<float>` of light color event box.
+   /**
+    * Brightness distribution `<float>` of light color event box.
     *
-    * Range: `0-1` (0% to 100%), can be more than 1.
+    * Percentage value `0-1` (0% to 100%), can be more than 1.
     */
    brightnessDistribution: number;
-   /** Brightness distribution type `<int>` of light color event box.
+   /**
+    * Brightness distribution type `<int>` of light color event box.
     * ```ts
     * 1 -> Wave // adds up to last ID.
     * 2 -> Step // adds to consequent ID.

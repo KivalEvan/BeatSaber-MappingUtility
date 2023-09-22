@@ -1,12 +1,13 @@
-import { IArc } from '../../types/beatmap/v3/arc';
-import { IWrapArcAttribute } from '../../types/beatmap/wrapper/arc';
-import { ModType } from '../../types/beatmap/shared/modCheck';
-import { Vector2 } from '../../types/vector';
-import { deepCopy } from '../../utils/misc';
-import { isVector3 } from '../../utils/vector';
-import { WrapArc } from '../wrapper/arc';
+import type { IArc } from '../../types/beatmap/v3/arc.ts';
+import type { IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
+import type { ModType } from '../../types/beatmap/shared/modCheck.ts';
+import type { Vector2 } from '../../types/vector.ts';
+import { deepCopy } from '../../utils/misc.ts';
+import { isVector3 } from '../../utils/vector.ts';
+import { WrapArc } from '../wrapper/arc.ts';
 
-/** Arc beatmap v3 class object.
+/**
+ * Arc beatmap v3 class object.
  *
  * Also known as slider internally.
  */
@@ -34,18 +35,18 @@ export class Arc extends WrapArc<IArc> {
    constructor(data: Partial<IArc> & Partial<IWrapArcAttribute<IArc>> = {}) {
       super();
 
-      this._time = data.time ?? data.b ?? Arc.default.b;
-      this._color = data.color ?? data.c ?? Arc.default.c;
-      this._posX = data.posX ?? data.x ?? Arc.default.x;
-      this._posY = data.posY ?? data.y ?? Arc.default.y;
-      this._direction = data.direction ?? data.d ?? Arc.default.d;
-      this._lengthMultiplier = data.lengthMultiplier ?? data.mu ?? Arc.default.mu;
-      this._tailTime = data.tailTime ?? data.tb ?? Arc.default.tb;
-      this._tailPosX = data.tailPosX ?? data.tx ?? Arc.default.tx;
-      this._tailPosY = data.tailPosY ?? data.ty ?? Arc.default.ty;
-      this._tailDirection = data.tailDirection ?? data.tc ?? Arc.default.tc;
-      this._tailLengthMultiplier = data.tailLengthMultiplier ?? data.tmu ?? Arc.default.tmu;
-      this._midAnchor = data.midAnchor ?? data.m ?? Arc.default.m;
+      this._time = data.b ?? data.time ?? Arc.default.b;
+      this._color = data.c ?? data.color ?? Arc.default.c;
+      this._posX = data.x ?? data.posX ?? Arc.default.x;
+      this._posY = data.y ?? data.posY ?? Arc.default.y;
+      this._direction = data.d ?? data.direction ?? Arc.default.d;
+      this._lengthMultiplier = data.mu ?? data.lengthMultiplier ?? Arc.default.mu;
+      this._tailTime = data.tb ?? data.tailTime ?? Arc.default.tb;
+      this._tailPosX = data.tx ?? data.tailPosX ?? Arc.default.tx;
+      this._tailPosY = data.ty ?? data.tailPosY ?? Arc.default.ty;
+      this._tailDirection = data.tc ?? data.tailDirection ?? Arc.default.tc;
+      this._tailLengthMultiplier = data.tmu ?? data.tailLengthMultiplier ?? Arc.default.tmu;
+      this._midAnchor = data.m ?? data.midAnchor ?? Arc.default.m;
       this._customData = deepCopy(data.customData ?? Arc.default.customData);
    }
 
@@ -134,9 +135,9 @@ export class Arc extends WrapArc<IArc> {
          default:
             return [
                (this.posX <= -1000
-                  ? this.posX / 1000
+                  ? this.posX / 1000 + 1
                   : this.posX >= 1000
-                  ? this.posX / 1000
+                  ? this.posX / 1000 - 1
                   : this.posX) - 2,
                this.posY <= -1000
                   ? this.posY / 1000
@@ -174,9 +175,9 @@ export class Arc extends WrapArc<IArc> {
          default:
             return [
                (this.tailPosX <= -1000
-                  ? this.tailPosX / 1000
+                  ? this.tailPosX / 1000 + 1
                   : this.tailPosX >= 1000
-                  ? this.tailPosX / 1000
+                  ? this.tailPosX / 1000 - 1
                   : this.tailPosX) - 2,
                this.tailPosY <= -1000
                   ? this.tailPosY / 1000

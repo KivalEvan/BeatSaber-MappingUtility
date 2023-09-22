@@ -1,13 +1,14 @@
-import { Easings } from '../../../easings';
-import { Vector3 } from '../../../vector';
-import { Vector3PointDefinition } from '../../shared/custom/heck';
+import type { Easings } from '../../../easings.ts';
+import type { Vector3 } from '../../../vector.ts';
+import type { Vector3PointDefinition } from '../../shared/custom/heck.ts';
 
 /** Heck Base Custom Event interface. */
 export interface IHeckBase {
    track?: string | string[];
 }
 
-/** AssignPathAnimation interface for Heck Custom Event.
+/**
+ * AssignPathAnimation interface for Heck Custom Event.
  * @extends Required<IHeckBase>
  */
 export interface IHeckCustomEventDataAnimateTrack extends Required<IHeckBase> {
@@ -20,7 +21,8 @@ export interface IHeckCustomEventDataAnimateTrack extends Required<IHeckBase> {
    scale?: string | Vector3 | Vector3PointDefinition[];
 }
 
-/** AssignPathAnimation interface for Heck Custom Event.
+/**
+ * AssignPathAnimation interface for Heck Custom Event.
  * @extends Required<IHeckBase>
  */
 export interface IHeckCustomEventDataAssignPathAnimation extends Required<IHeckBase> {

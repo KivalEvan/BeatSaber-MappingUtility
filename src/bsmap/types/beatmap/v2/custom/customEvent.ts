@@ -2,14 +2,17 @@ import {
    IChromaCustomEventDataAnimateTrack,
    IChromaCustomEventDataAssignFogTrack,
    IChromaCustomEventDataAssignPathAnimation,
-} from './chroma';
-import { IHeckCustomEventDataAnimateTrack, IHeckCustomEventDataAssignPathAnimation } from './heck';
+} from './chroma.ts';
+import {
+   IHeckCustomEventDataAnimateTrack,
+   IHeckCustomEventDataAssignPathAnimation,
+} from './heck.ts';
 import {
    INECustomEventDataAnimateTrack,
    INECustomEventDataAssignPathAnimation,
    INECustomEventDataAssignPlayerToTrack,
    INECustomEventDataAssignTrackParent,
-} from './noodleExtensions';
+} from './noodleExtensions.ts';
 
 export type ICustomEventDataAnimateTrack = IHeckCustomEventDataAnimateTrack &
    IChromaCustomEventDataAnimateTrack &

@@ -1,21 +1,21 @@
-import { Difficulty as DifficultyV2 } from '../beatmap/v2/difficulty';
-import { Difficulty as DifficultyV3 } from '../beatmap/v3/difficulty';
-import { isV2, isV3 } from '../beatmap/version';
-import eventToV2 from '../converter/customData/eventToV2';
-import eventToV3 from '../converter/customData/eventToV3';
-import objectToV2 from '../converter/customData/objectToV2';
-import objectToV3 from '../converter/customData/objectToV3';
-import logger from '../logger';
-import { IPointDefinition } from '../types/beatmap/v3/custom/pointDefinition';
-import { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty';
-import { ColorArray } from '../types/colors';
-import { colorFrom } from '../utils/colors';
+import { Difficulty as V2Difficulty } from '../beatmap/v2/difficulty.ts';
+import { Difficulty as V3Difficulty } from '../beatmap/v3/difficulty.ts';
+import { isV2, isV3 } from '../beatmap/version.ts';
+import eventToV2 from '../converter/customData/eventToV2.ts';
+import eventToV3 from '../converter/customData/eventToV3.ts';
+import objectToV2 from '../converter/customData/objectToV2.ts';
+import objectToV3 from '../converter/customData/objectToV3.ts';
+import logger from '../logger.ts';
+import type { IPointDefinition } from '../types/beatmap/v3/custom/pointDefinition.ts';
+import type { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
+import type { ColorArray } from '../types/colors.ts';
+import { colorFrom } from '../utils/colors.ts';
 
 function tag(name: string): string[] {
    return ['patch', 'customDataUpdate', name];
 }
 
-function v2(data: DifficultyV2) {
+function v2(data: V2Difficulty): void {
    logger.tDebug(tag('v2'), ' Patching notes');
    data.colorNotes.forEach((n) => {
       n.customData = objectToV2(n.customData);
@@ -37,7 +37,7 @@ function v2(data: DifficultyV2) {
    });
 }
 
-function v3(data: DifficultyV3) {
+function v3(data: V3Difficulty): void {
    logger.tDebug(tag('v3'), ' Patching color notes');
    data.colorNotes.forEach((n) => {
       n.customData = objectToV3(n.customData);

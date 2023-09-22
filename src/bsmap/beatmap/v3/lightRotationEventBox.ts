@@ -1,12 +1,12 @@
-import { IIndexFilter } from '../../types/beatmap/v3/indexFilter';
-import { ILightRotationBase } from '../../types/beatmap/v3/lightRotationBase';
-import { ILightRotationEventBox } from '../../types/beatmap/v3/lightRotationEventBox';
-import { IWrapLightRotationEventBoxAttribute } from '../../types/beatmap/wrapper/lightRotationEventBox';
-import { DeepPartial } from '../../types/utils';
-import { deepCopy } from '../../utils/misc';
-import { WrapLightRotationEventBox } from '../wrapper/lightRotationEventBox';
-import { IndexFilter } from './indexFilter';
-import { LightRotationBase } from './lightRotationBase';
+import type { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
+import type { ILightRotationBase } from '../../types/beatmap/v3/lightRotationBase.ts';
+import type { ILightRotationEventBox } from '../../types/beatmap/v3/lightRotationEventBox.ts';
+import type { IWrapLightRotationEventBoxAttribute } from '../../types/beatmap/wrapper/lightRotationEventBox.ts';
+import type { DeepPartial } from '../../types/utils.ts';
+import { deepCopy } from '../../utils/misc.ts';
+import { WrapLightRotationEventBox } from '../wrapper/lightRotationEventBox.ts';
+import { IndexFilter } from './indexFilter.ts';
+import { LightRotationBase } from './lightRotationBase.ts';
 
 /** Light rotation event box beatmap v3 class object. */
 export class LightRotationEventBox extends WrapLightRotationEventBox<
@@ -72,24 +72,24 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
       super();
 
       this._filter = new IndexFilter(
-         (data.filter as IIndexFilter) ??
-            (data as ILightRotationEventBox).f ??
+         (data as ILightRotationEventBox).f ??
+            (data.filter as IIndexFilter) ??
             LightRotationEventBox.default.f,
       );
-      this._beatDistribution = data.beatDistribution ?? data.w ?? LightRotationEventBox.default.w;
+      this._beatDistribution = data.w ?? data.beatDistribution ?? LightRotationEventBox.default.w;
       this._beatDistributionType =
-         data.beatDistributionType ?? data.d ?? LightRotationEventBox.default.d;
+         data.d ?? data.beatDistributionType ?? LightRotationEventBox.default.d;
       this._rotationDistribution =
-         data.rotationDistribution ?? data.s ?? LightRotationEventBox.default.s;
+         data.s ?? data.rotationDistribution ?? LightRotationEventBox.default.s;
       this._rotationDistributionType =
-         data.rotationDistributionType ?? data.t ?? LightRotationEventBox.default.t;
-      this._axis = data.axis ?? data.a ?? LightRotationEventBox.default.a;
-      this._flip = data.flip ?? data.r ?? LightRotationEventBox.default.r;
-      this._affectFirst = data.affectFirst ?? data.b ?? LightRotationEventBox.default.b;
-      this._easing = data.easing ?? data.i ?? LightRotationEventBox.default.i;
+         data.t ?? data.rotationDistributionType ?? LightRotationEventBox.default.t;
+      this._axis = data.a ?? data.axis ?? LightRotationEventBox.default.a;
+      this._flip = data.r ?? data.flip ?? LightRotationEventBox.default.r;
+      this._affectFirst = data.b ?? data.affectFirst ?? LightRotationEventBox.default.b;
+      this._easing = data.i ?? data.easing ?? LightRotationEventBox.default.i;
       this._events = (
-         (data.events as ILightRotationBase[]) ??
          (data as ILightRotationEventBox).l ??
+         (data.events as ILightRotationBase[]) ??
          LightRotationEventBox.default.l
       ).map((obj) => new LightRotationBase(obj));
       this._customData = deepCopy(data.customData ?? LightRotationEventBox.default.customData);
@@ -150,14 +150,14 @@ export class LightRotationEventBox extends WrapLightRotationEventBox<
       };
    }
 
-   get filter() {
+   get filter(): IndexFilter {
       return this._filter as IndexFilter;
    }
    set filter(value: IndexFilter) {
       this._filter = value;
    }
 
-   get events() {
+   get events(): LightRotationBase[] {
       return this._events as LightRotationBase[];
    }
    set events(value: LightRotationBase[]) {

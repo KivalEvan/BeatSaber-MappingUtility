@@ -1,17 +1,17 @@
-import { FloatPointDefinition, Vector4PointDefinition } from '../../shared/custom/heck';
-import { Easings } from '../../../easings';
-import { ColorArray } from '../../../colors';
-import { ICustomDataBase } from '../../shared/custom/customData';
+import type { FloatPointDefinition, Vector4PointDefinition } from '../../shared/custom/heck.ts';
+import type { Easings } from '../../../easings.ts';
+import type { ColorArray } from '../../../colors.ts';
+import type { ICustomDataBase } from '../../shared/custom/customData.ts';
 import {
    EnvironmentMaterial,
    GeometryType,
    LookupMethod,
    ShaderKeywords,
    ShaderType,
-} from '../../shared/custom/chroma';
-import { IHeckBase } from './heck';
-import { LooseAutocomplete } from '../../../utils';
-import { Vector2, Vector3 } from '../../../vector';
+} from '../../shared/custom/chroma.ts';
+import type { IHeckBase, IInfoSettingsCustomData } from './heck.ts';
+import type { LooseAutocomplete } from '../../../utils.ts';
+import type { Vector2, Vector3 } from '../../../vector.ts';
 
 /** Chroma Material interface for Environment Enhancement. */
 export interface IChromaMaterial {
@@ -46,16 +46,18 @@ export type IChromaGeometry = IChromaGeometryBase | IChromaGeometryCustom;
 
 /** Chroma interface for Environment Enhancement Base. */
 export interface IChromaEnvironmentBase {
-   /** Look up environment object name.
+   /**
+    * Look up environment object name.
     *
     * This grabs every environment objects that match the string.
     * ```ts
-    * id: 'Environment.[0]GlowLine' // Non-regex
-    * id: 'Environment\.\\[\\d+\\]GlowLine$' // Regex
+    * **id:** 'Environment.[0]GlowLine' // Non-regex
+    * **id:** 'Environment\.\\[\\d+\\]GlowLine$' // Regex
     * ```
     */
    _id?: unknown;
-   /** Look-up method to grab the object name.
+   /**
+    * Look-up method to grab the object name.
     *
     * Regex is considered an advanced method and more powerful than other methods.
     */
@@ -63,7 +65,8 @@ export interface IChromaEnvironmentBase {
    _geometry?: unknown;
    /** Assign track to the object for animation use. */
    _track?: string;
-   /** Duplicate the object by set amount.
+   /**
+    * Duplicate the object by set amount.
     *
     * **WARNING:** You should always duplicate only one at a time unless you know what you are doing.
     */
@@ -78,7 +81,8 @@ export interface IChromaEnvironmentBase {
    _lightID?: number;
 }
 
-/** Chroma interface for Environment Enhancement ID.
+/**
+ * Chroma interface for Environment Enhancement ID.
  *
  * @extends IChromaEnvironmentBase
  */
@@ -88,7 +92,8 @@ export interface IChromaEnvironmentID extends IChromaEnvironmentBase {
    _geometry?: never;
 }
 
-/** Chroma interface for Environment Enhancement Geometry.
+/**
+ * Chroma interface for Environment Enhancement Geometry.
  *
  * @extends IChromaEnvironmentBase
  */
@@ -176,14 +181,27 @@ export interface IChromaCustomEventDataAssignPathAnimation extends Required<IHec
 /** AssignFogTrack interface for Chroma Custom Event. */
 export interface IChromaCustomEventDataAssignFogTrack extends Required<IHeckBase> {
    _duration: number;
-   _attenuation?: string | number | FloatPointDefinition[];
-   _offset?: string | number | FloatPointDefinition[];
-   _startY?: string | number | FloatPointDefinition[];
-   _height?: string | number | FloatPointDefinition[];
+   _attenuation?: string | [number] | FloatPointDefinition[];
+   _offset?: string | [number] | FloatPointDefinition[];
+   _startY?: string | [number] | FloatPointDefinition[];
+   _height?: string | [number] | FloatPointDefinition[];
 }
 
 /** Chroma Custom Data interface for difficulty custom data. */
 export interface IChromaCustomData {
    _environment?: IChromaEnvironment[];
    _materials?: Record<string, IChromaMaterial>;
+}
+
+/** Chroma interface for Difficulty Info Custom Data. */
+export interface IChromaInfoCustomData extends IInfoSettingsCustomData {
+   _settings?: {
+      _chroma?: {
+         _disableChromaEvents?: boolean;
+         _disableEnvironmentEnhancements?: boolean;
+         _disableNoteColoring?: boolean;
+         _forceZenModeWall?: boolean;
+      };
+   };
+   _environmentalRemoval?: string[];
 }

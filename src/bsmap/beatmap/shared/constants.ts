@@ -1,6 +1,6 @@
 // const enum is used regardless as this will never be compiled and reused by JS.
 
-import { Vector2 } from '../../types/vector';
+import type { Vector2 } from '../../types/vector.ts';
 
 /** Also known as lane count. */
 export const LINE_COUNT = 4;
@@ -41,7 +41,8 @@ export const enum PositionY {
    TOP,
 }
 
-/** Cut angle corresponding to the `direction`.
+/**
+ * Cut angle corresponding to the `direction`.
  * ```ts
  * 0 (UP) -> 180
  * 1 (DOWN) -> 0
@@ -53,6 +54,7 @@ export const enum PositionY {
  * 7 (DOWN_RIGHT) -> 45
  * 8 (ANY) -> 0
  * ```
+ *
  * **NOTE:** Rotation in counter-clockwise.
  */
 export const NoteDirectionAngle: { readonly [d in NoteDirection]: number } = {
@@ -67,7 +69,8 @@ export const NoteDirectionAngle: { readonly [d in NoteDirection]: number } = {
    [NoteDirection.ANY]: 0,
 } as const;
 
-/** Opposite direction corresponding to the `direction`.
+/**
+ * Opposite direction corresponding to the `direction`.
  * ```ts
  * 0 (UP) -> 1 (DOWN)
  * 1 (DOWN) -> 0 (UP)
@@ -92,7 +95,8 @@ export const NoteDirectionFlip: { readonly [d in NoteDirection]: NoteDirection }
    [NoteDirection.ANY]: NoteDirection.ANY,
 } as const;
 
-/** Array index mapped to tuple of `posX` and `posY` corresponding to the `direction`.
+/**
+ * Array index mapped to tuple of `posX` and `posY` corresponding to the `direction`.
  * ```ts
  * 0 -> [0, 1]
  * 1 -> [0, -1]

@@ -1,8 +1,8 @@
-import { IBombNote } from '../../types/beatmap/v3/bombNote';
-import { deepCopy } from '../../utils/misc';
-import { WrapBombNote } from '../wrapper/bombNote';
-import { IWrapBombNoteAttribute } from '../../types/beatmap/wrapper/bombNote';
-import { isVector3 } from '../../utils/vector';
+import type { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
+import { deepCopy } from '../../utils/misc.ts';
+import { WrapBombNote } from '../wrapper/bombNote.ts';
+import type { IWrapBombNoteAttribute } from '../../types/beatmap/wrapper/bombNote.ts';
+import { isVector3 } from '../../utils/vector.ts';
 
 /** Bomb note beatmap v3 class object. */
 export class BombNote extends WrapBombNote<IBombNote> {
@@ -20,9 +20,9 @@ export class BombNote extends WrapBombNote<IBombNote> {
    constructor(data: Partial<IBombNote> & Partial<IWrapBombNoteAttribute<IBombNote>> = {}) {
       super();
 
-      this._time = data.time ?? data.b ?? BombNote.default.b;
-      this._posX = data.posX ?? data.x ?? BombNote.default.x;
-      this._posY = data.posY ?? data.y ?? BombNote.default.y;
+      this._time = data.b ?? data.time ?? BombNote.default.b;
+      this._posX = data.x ?? data.posX ?? BombNote.default.x;
+      this._posY = data.y ?? data.posY ?? BombNote.default.y;
       this._customData = deepCopy(data.customData ?? BombNote.default.customData);
    }
 

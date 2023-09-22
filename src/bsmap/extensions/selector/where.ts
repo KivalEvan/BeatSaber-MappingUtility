@@ -1,10 +1,11 @@
 // deno-lint-ignore-file no-explicit-any
-import { IFilter } from './types/filter';
-import { Difficulty } from '../../beatmap/v3/difficulty';
-import { DeepPartialWrapper } from '../../types/utils';
-import { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject';
+import type { IFilter } from './types/filter.ts';
+import { Difficulty } from '../../beatmap/v3/difficulty.ts';
+import type { DeepPartialWrapper } from '../../types/utils.ts';
+import type { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
 
-/** Query function on class object array.
+/**
+ * Query function on class object array.
  * ```ts
  * const notesFilter = where(notes, { include: { x: 2, y: [1, 0] }, exclude: { customData: ['color'] } });
  * console.log(...notesFilter);

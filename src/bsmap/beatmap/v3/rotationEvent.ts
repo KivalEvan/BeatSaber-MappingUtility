@@ -1,7 +1,7 @@
-import { IRotationEvent } from '../../types/beatmap/v3/rotationEvent';
-import { IWrapRotationEventAttribute } from '../../types/beatmap/wrapper/rotationEvent';
-import { deepCopy } from '../../utils/misc';
-import { WrapRotationEvent } from '../wrapper/rotationEvent';
+import type { IRotationEvent } from '../../types/beatmap/v3/rotationEvent.ts';
+import type { IWrapRotationEventAttribute } from '../../types/beatmap/wrapper/rotationEvent.ts';
+import { deepCopy } from '../../utils/misc.ts';
+import { WrapRotationEvent } from '../wrapper/rotationEvent.ts';
 
 /** Rotation event beatmap v3 class object. */
 export class RotationEvent extends WrapRotationEvent<IRotationEvent> {
@@ -23,9 +23,9 @@ export class RotationEvent extends WrapRotationEvent<IRotationEvent> {
    ) {
       super();
 
-      this._time = data.time ?? data.b ?? RotationEvent.default.b;
-      this._executionTime = data.executionTime ?? data.e ?? RotationEvent.default.e;
-      this._rotation = data.rotation ?? data.r ?? RotationEvent.default.r;
+      this._time = data.b ?? data.time ?? RotationEvent.default.b;
+      this._executionTime = data.e ?? data.executionTime ?? RotationEvent.default.e;
+      this._rotation = data.r ?? data.rotation ?? RotationEvent.default.r;
       this._customData = deepCopy(data.customData ?? RotationEvent.default.customData);
    }
 

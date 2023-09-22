@@ -1,54 +1,54 @@
-import { IDifficulty } from '../../types/beatmap/v3/difficulty';
-import { BasicEvent } from './basicEvent';
-import { BasicEventTypesWithKeywords } from './basicEventTypesWithKeywords';
-import { BombNote } from './bombNote';
-import { BPMEvent } from './bpmEvent';
-import { Chain } from './chain';
-import { ColorBoostEvent } from './colorBoostEvent';
-import { ColorNote } from './colorNote';
-import { LightColorEventBoxGroup } from './lightColorEventBoxGroup';
-import { LightRotationEventBoxGroup } from './lightRotationEventBoxGroup';
-import { LightTranslationEventBoxGroup } from './lightTranslationEventBoxGroup';
-import { Obstacle } from './obstacle';
-import { RotationEvent } from './rotationEvent';
-import { Arc } from './arc';
-import { Waypoint } from './waypoint';
-import { DeepPartial } from '../../types/utils';
-import { IBPMEvent } from '../../types/beatmap/v3/bpmEvent';
-import { IRotationEvent } from '../../types/beatmap/v3/rotationEvent';
-import { IColorNote } from '../../types/beatmap/v3/colorNote';
-import { IBombNote } from '../../types/beatmap/v3/bombNote';
-import { IObstacle } from '../../types/beatmap/v3/obstacle';
-import { IArc } from '../../types/beatmap/v3/arc';
-import { IChain } from '../../types/beatmap/v3/chain';
-import { IWaypoint } from '../../types/beatmap/v3/waypoint';
-import { IBasicEvent } from '../../types/beatmap/v3/basicEvent';
-import { IColorBoostEvent } from '../../types/beatmap/v3/colorBoostEvent';
-import { ILightRotationEventBoxGroup } from '../../types/beatmap/v3/lightRotationEventBoxGroup';
-import { ILightColorEventBoxGroup } from '../../types/beatmap/v3/lightColorEventBoxGroup';
-import { ILightTranslationEventBoxGroup } from '../../types/beatmap/v3/lightTranslationEventBoxGroup';
-import { deepCopy } from '../../utils/misc';
-import { WrapDifficulty } from '../wrapper/difficulty';
-import { IWrapBPMEventAttribute } from '../../types/beatmap/wrapper/bpmEvent';
-import { IWrapLightTranslationEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup';
-import { IWrapBombNoteAttribute } from '../../types/beatmap/wrapper/bombNote';
-import { IWrapChainAttribute } from '../../types/beatmap/wrapper/chain';
-import { IWrapColorBoostEventAttribute } from '../../types/beatmap/wrapper/colorBoostEvent';
-import { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote';
-import { IWrapEventAttribute } from '../../types/beatmap/wrapper/event';
-import { IWrapLightColorEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightColorEventBoxGroup';
-import { IWrapLightRotationEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightRotationEventBoxGroup';
-import { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle';
-import { IWrapRotationEventAttribute } from '../../types/beatmap/wrapper/rotationEvent';
-import { IWrapArcAttribute } from '../../types/beatmap/wrapper/arc';
-import { IWrapWaypointAttribute } from '../../types/beatmap/wrapper/waypoint';
-import { IIndexFilter } from '../../types/beatmap/v3/indexFilter';
-import { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox';
-import { ILightRotationEventBox } from '../../types/beatmap/v3/lightRotationEventBox';
-import { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslationEventBox';
-import { ILightColorBase } from '../../types/beatmap/v3/lightColorBase';
-import { ILightRotationBase } from '../../types/beatmap/v3/lightRotationBase';
-import { ILightTranslationBase } from '../../types/beatmap/v3/lightTranslationBase';
+import type { IDifficulty } from '../../types/beatmap/v3/difficulty.ts';
+import { BasicEvent } from './basicEvent.ts';
+import { BasicEventTypesWithKeywords } from './basicEventTypesWithKeywords.ts';
+import { BombNote } from './bombNote.ts';
+import { BPMEvent } from './bpmEvent.ts';
+import { Chain } from './chain.ts';
+import { ColorBoostEvent } from './colorBoostEvent.ts';
+import { ColorNote } from './colorNote.ts';
+import { LightColorEventBoxGroup } from './lightColorEventBoxGroup.ts';
+import { LightRotationEventBoxGroup } from './lightRotationEventBoxGroup.ts';
+import { LightTranslationEventBoxGroup } from './lightTranslationEventBoxGroup.ts';
+import { Obstacle } from './obstacle.ts';
+import { RotationEvent } from './rotationEvent.ts';
+import { Arc } from './arc.ts';
+import { Waypoint } from './waypoint.ts';
+import type { DeepPartial } from '../../types/utils.ts';
+import type { IBPMEvent } from '../../types/beatmap/v3/bpmEvent.ts';
+import type { IRotationEvent } from '../../types/beatmap/v3/rotationEvent.ts';
+import type { IColorNote } from '../../types/beatmap/v3/colorNote.ts';
+import type { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
+import type { IObstacle } from '../../types/beatmap/v3/obstacle.ts';
+import type { IArc } from '../../types/beatmap/v3/arc.ts';
+import type { IChain } from '../../types/beatmap/v3/chain.ts';
+import type { IWaypoint } from '../../types/beatmap/v3/waypoint.ts';
+import type { IBasicEvent } from '../../types/beatmap/v3/basicEvent.ts';
+import type { IColorBoostEvent } from '../../types/beatmap/v3/colorBoostEvent.ts';
+import type { ILightRotationEventBoxGroup } from '../../types/beatmap/v3/lightRotationEventBoxGroup.ts';
+import type { ILightColorEventBoxGroup } from '../../types/beatmap/v3/lightColorEventBoxGroup.ts';
+import type { ILightTranslationEventBoxGroup } from '../../types/beatmap/v3/lightTranslationEventBoxGroup.ts';
+import { deepCopy } from '../../utils/misc.ts';
+import { WrapDifficulty } from '../wrapper/difficulty.ts';
+import type { IWrapBPMEventAttribute } from '../../types/beatmap/wrapper/bpmEvent.ts';
+import type { IWrapLightTranslationEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightTranslationEventBoxGroup.ts';
+import type { IWrapBombNoteAttribute } from '../../types/beatmap/wrapper/bombNote.ts';
+import type { IWrapChainAttribute } from '../../types/beatmap/wrapper/chain.ts';
+import type { IWrapColorBoostEventAttribute } from '../../types/beatmap/wrapper/colorBoostEvent.ts';
+import type { IWrapColorNoteAttribute } from '../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
+import type { IWrapLightColorEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
+import type { IWrapLightRotationEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightRotationEventBoxGroup.ts';
+import type { IWrapObstacleAttribute } from '../../types/beatmap/wrapper/obstacle.ts';
+import type { IWrapRotationEventAttribute } from '../../types/beatmap/wrapper/rotationEvent.ts';
+import type { IWrapArcAttribute } from '../../types/beatmap/wrapper/arc.ts';
+import type { IWrapWaypointAttribute } from '../../types/beatmap/wrapper/waypoint.ts';
+import type { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
+import type { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox.ts';
+import type { ILightRotationEventBox } from '../../types/beatmap/v3/lightRotationEventBox.ts';
+import type { ILightTranslationEventBox } from '../../types/beatmap/v3/lightTranslationEventBox.ts';
+import type { ILightColorBase } from '../../types/beatmap/v3/lightColorBase.ts';
+import type { ILightRotationBase } from '../../types/beatmap/v3/lightRotationBase.ts';
+import type { ILightTranslationBase } from '../../types/beatmap/v3/lightTranslationBase.ts';
 
 /** Difficulty beatmap v3 class object. */
 export class Difficulty extends WrapDifficulty<IDifficulty> {
@@ -73,25 +73,27 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       super();
 
       this.version = '3.2.0';
-      this.bpmEvents = (data.bpmEvents ?? []).map((obj) => new BPMEvent(obj)) ?? [];
-      this.rotationEvents = (data.rotationEvents ?? []).map((obj) => new RotationEvent(obj)) ?? [];
-      this.colorNotes = (data.colorNotes ?? []).map((obj) => new ColorNote(obj)) ?? [];
-      this.bombNotes = (data.bombNotes ?? []).map((obj) => new BombNote(obj)) ?? [];
-      this.obstacles = (data.obstacles ?? []).map((obj) => new Obstacle(obj)) ?? [];
-      this.arcs = (data.sliders ?? []).map((obj) => new Arc(obj)) ?? [];
-      this.chains = (data.burstSliders ?? []).map((obj) => new Chain(obj)) ?? [];
-      this.waypoints = (data.waypoints ?? []).map((obj) => new Waypoint(obj)) ?? [];
-      this.basicEvents = (data.basicBeatmapEvents ?? []).map((obj) => new BasicEvent(obj)) ?? [];
-      this.colorBoostEvents =
-         data.colorBoostBeatmapEvents?.map((obj) => new ColorBoostEvent(obj)) ?? [];
-      this.lightColorEventBoxGroups =
-         data.lightColorEventBoxGroups?.map((obj) => new LightColorEventBoxGroup(obj)) ?? [];
-      this.lightRotationEventBoxGroups =
-         data.lightRotationEventBoxGroups?.map((obj) => new LightRotationEventBoxGroup(obj)) ?? [];
-      this.lightTranslationEventBoxGroups =
-         data.lightTranslationEventBoxGroups?.map(
-            (obj) => new LightTranslationEventBoxGroup(obj),
-         ) ?? [];
+      this.bpmEvents = (data.bpmEvents ?? []).map((obj) => new BPMEvent(obj));
+      this.rotationEvents = (data.rotationEvents ?? []).map((obj) => new RotationEvent(obj));
+      this.colorNotes = (data.colorNotes ?? []).map((obj) => new ColorNote(obj));
+      this.bombNotes = (data.bombNotes ?? []).map((obj) => new BombNote(obj));
+      this.obstacles = (data.obstacles ?? []).map((obj) => new Obstacle(obj));
+      this.arcs = (data.sliders ?? []).map((obj) => new Arc(obj));
+      this.chains = (data.burstSliders ?? []).map((obj) => new Chain(obj));
+      this.waypoints = (data.waypoints ?? []).map((obj) => new Waypoint(obj));
+      this.basicEvents = (data.basicBeatmapEvents ?? []).map((obj) => new BasicEvent(obj));
+      this.colorBoostEvents = (data.colorBoostBeatmapEvents ?? []).map(
+         (obj) => new ColorBoostEvent(obj),
+      );
+      this.lightColorEventBoxGroups = (data.lightColorEventBoxGroups ?? []).map(
+         (obj) => new LightColorEventBoxGroup(obj),
+      );
+      this.lightRotationEventBoxGroups = (data.lightRotationEventBoxGroups ?? []).map(
+         (obj) => new LightRotationEventBoxGroup(obj),
+      );
+      this.lightTranslationEventBoxGroups = (data.lightTranslationEventBoxGroups ?? []).map(
+         (obj) => new LightTranslationEventBoxGroup(obj),
+      );
       this.eventTypesWithKeywords = new BasicEventTypesWithKeywords(
          data.basicEventTypesWithKeywords ?? {
             d: [],
@@ -160,11 +162,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    addBpmEvents(
       ...data: (Partial<IBPMEvent> & Partial<IWrapBPMEventAttribute<IBPMEvent>>)[]
    ): void {
-      this.bpmEvents.push(
-         ...data.map((obj) => {
-            return obj instanceof BPMEvent ? obj : new BPMEvent(obj);
-         }),
-      );
+      for (const obj of data) this.bpmEvents.push(new BPMEvent(obj));
    }
 
    addRotationEvents(...data: Partial<IWrapRotationEventAttribute<IRotationEvent>>[]): void;
@@ -175,9 +173,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    addRotationEvents(
       ...data: (Partial<IRotationEvent> & Partial<IWrapRotationEventAttribute<IRotationEvent>>)[]
    ): void {
-      this.rotationEvents.push(
-         ...data.map((obj) => (obj instanceof RotationEvent ? obj : new RotationEvent(obj))),
-      );
+      for (const obj of data) this.rotationEvents.push(new RotationEvent(obj));
    }
 
    addColorNotes(...data: Partial<IWrapColorNoteAttribute<IColorNote>>[]): void;
@@ -188,9 +184,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    addColorNotes(
       ...data: (Partial<IColorNote> & Partial<IWrapColorNoteAttribute<IColorNote>>)[]
    ): void {
-      this.colorNotes.push(
-         ...data.map((obj) => (obj instanceof ColorNote ? obj : new ColorNote(obj))),
-      );
+      for (const obj of data) this.colorNotes.push(new ColorNote(obj));
    }
 
    addBombNotes(...data: Partial<IWrapBombNoteAttribute<IBombNote>>[]): void;
@@ -201,9 +195,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    addBombNotes(
       ...data: (Partial<IBombNote>[] & Partial<IWrapBombNoteAttribute<IBombNote>>)[]
    ): void {
-      this.bombNotes.push(
-         ...data.map((obj) => (obj instanceof BombNote ? obj : new BombNote(obj))),
-      );
+      for (const obj of data) this.bombNotes.push(new BombNote(obj));
    }
 
    addObstacles(...data: Partial<IWrapObstacleAttribute<IObstacle>>[]): void;
@@ -212,23 +204,21 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    addObstacles(
       ...data: (Partial<IObstacle> & Partial<IWrapObstacleAttribute<IObstacle>>)[]
    ): void {
-      this.obstacles.push(
-         ...data.map((obj) => (obj instanceof Obstacle ? obj : new Obstacle(obj))),
-      );
+      for (const obj of data) this.obstacles.push(new Obstacle(obj));
    }
 
    addArcs(...data: Partial<IWrapArcAttribute<IArc>>[]): void;
    addArcs(...data: Partial<IArc>[]): void;
    addArcs(...data: (Partial<IArc> & Partial<IWrapArcAttribute<IArc>>)[]): void;
    addArcs(...data: (Partial<IArc> & Partial<IWrapArcAttribute<IArc>>)[]): void {
-      this.arcs.push(...data.map((obj) => (obj instanceof Arc ? obj : new Arc(obj))));
+      for (const obj of data) this.arcs.push(new Arc(obj));
    }
 
    addChains(...data: Partial<IWrapChainAttribute<IChain>>[]): void;
    addChains(...data: Partial<IChain>[]): void;
    addChains(...data: (Partial<IChain> & Partial<IWrapChainAttribute<IChain>>)[]): void;
    addChains(...data: (Partial<IChain> & Partial<IWrapChainAttribute<IChain>>)[]): void {
-      this.chains.push(...data.map((obj) => (obj instanceof Chain ? obj : new Chain(obj))));
+      for (const obj of data) this.chains.push(new Chain(obj));
    }
 
    addWaypoints(...data: Partial<IWrapWaypointAttribute<IWaypoint>>[]): void;
@@ -237,9 +227,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    addWaypoints(
       ...data: (Partial<IWaypoint> & Partial<IWrapWaypointAttribute<IWaypoint>>)[]
    ): void {
-      this.waypoints.push(
-         ...data.map((obj) => (obj instanceof Waypoint ? obj : new Waypoint(obj))),
-      );
+      for (const obj of data) this.waypoints.push(new Waypoint(obj));
    }
 
    addBasicEvents(...data: Partial<IWrapEventAttribute<IBasicEvent>>[]): void;
@@ -250,9 +238,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
    addBasicEvents(
       ...data: (Partial<IBasicEvent>[] & Partial<IWrapEventAttribute<IBasicEvent>>)[]
    ): void {
-      this.basicEvents.push(
-         ...data.map((obj) => (obj instanceof BasicEvent ? obj : new BasicEvent(obj))),
-      );
+      for (const obj of data) this.basicEvents.push(new BasicEvent(obj));
    }
 
    addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>[]): void;
@@ -265,9 +251,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
       ...data: (Partial<IColorBoostEvent> &
          Partial<IWrapColorBoostEventAttribute<IColorBoostEvent>>)[]
    ): void {
-      this.colorBoostEvents.push(
-         ...data.map((obj) => (obj instanceof ColorBoostEvent ? obj : new ColorBoostEvent(obj))),
-      );
+      for (const obj of data) this.colorBoostEvents.push(new ColorBoostEvent(obj));
    }
 
    addLightColorEventBoxGroups(
@@ -303,11 +287,7 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
             >
          >)[]
    ): void {
-      this.lightColorEventBoxGroups.push(
-         ...data.map((obj) =>
-            obj instanceof LightColorEventBoxGroup ? obj : new LightColorEventBoxGroup(obj),
-         ),
-      );
+      for (const obj of data) this.lightColorEventBoxGroups.push(new LightColorEventBoxGroup(obj));
    }
 
    addLightRotationEventBoxGroups(
@@ -343,11 +323,9 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
             >
          >)[]
    ): void {
-      this.lightRotationEventBoxGroups.push(
-         ...data.map((obj) =>
-            obj instanceof LightRotationEventBoxGroup ? obj : new LightRotationEventBoxGroup(obj),
-         ),
-      );
+      for (const obj of data) {
+         this.lightRotationEventBoxGroups.push(new LightRotationEventBoxGroup(obj));
+      }
    }
 
    addLightTranslationEventBoxGroups(
@@ -383,13 +361,9 @@ export class Difficulty extends WrapDifficulty<IDifficulty> {
             >
          >)[]
    ): void {
-      this.lightTranslationEventBoxGroups.push(
-         ...data.map((obj) =>
-            obj instanceof LightTranslationEventBoxGroup
-               ? obj
-               : new LightTranslationEventBoxGroup(obj),
-         ),
-      );
+      for (const obj of data) {
+         this.lightTranslationEventBoxGroups.push(new LightTranslationEventBoxGroup(obj));
+      }
    }
 
    isValid(): boolean {

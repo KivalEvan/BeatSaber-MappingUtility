@@ -1,16 +1,17 @@
-import { NoteJumpSpeed } from '../../beatmap/shared/njs';
-import { INEObject } from './types/object';
-import { settings } from './settings';
-import { BeatPerMinute } from '../../beatmap/shared/bpm';
-import { EasingFunction } from '../../types/easings';
-import { lerp, normalize } from '../../utils/math';
-import logger from '../../logger';
+import { NoteJumpSpeed } from '../../beatmap/shared/njs.ts';
+import type { INEObject } from './types/object.ts';
+import { settings } from './settings.ts';
+import { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
+import type { EasingFunction } from '../../types/easings.ts';
+import { lerp, normalize } from '../../utils/math.ts';
+import logger from '../../logger.ts';
 
 function tag(name: string): string[] {
    return ['ext', 'NE', 'njs', name];
 }
 
-/** Set NJS to object from start to end object.
+/**
+ * Set NJS to object from start to end object.
  *
  * **NOTE:** JD input will override NJS offset.
  */
@@ -38,7 +39,8 @@ export function setNjs(
    });
 }
 
-/** Simultaneously spawn the object from start to end object.
+/**
+ * Simultaneously spawn the object from start to end object.
  *
  * Speed determines how fast should note spawn from start to end. (1 is regular speed)
  *
@@ -81,7 +83,8 @@ export function simultaneousSpawn(
    });
 }
 
-/** Gradually change NJS for objects from start to end objects.
+/**
+ * Gradually change NJS for objects from start to end objects.
  *
  * **NOTE:** JD input will override NJS offset.
  */

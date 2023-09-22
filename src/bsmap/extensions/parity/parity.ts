@@ -6,10 +6,10 @@ import {
    NoteContainer,
    NoteContainerBomb,
    NoteContainerNote,
-} from '../../types/beatmap/wrapper/container';
-import { ParityState, ParityStatus, ParitySwitch } from './types/parity';
-import { predictDirection } from '../placement/note';
-import { NoteColor, NoteDirection, PositionX, PositionY } from '../../beatmap/shared/constants';
+} from '../../types/beatmap/wrapper/container.ts';
+import type { ParityState, ParityStatus, ParitySwitch } from './types/parity.ts';
+import { predictDirection } from '../placement/note.ts';
+import { NoteColor, NoteDirection, PositionX, PositionY } from '../../beatmap/shared/constants.ts';
 
 const noteInitParity: {
    [key: number]: { backhand: number[]; forehand: number[] };

@@ -1,22 +1,23 @@
-import { CharacteristicName } from '../../types/beatmap/shared/characteristic';
-import { DifficultyName } from '../../types/beatmap/shared/difficulty';
+import type { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
+import type { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
 import {
    Environment360Name,
    EnvironmentAllName,
    EnvironmentName,
    EnvironmentV3Name,
-} from '../../types/beatmap/shared/environment';
-import { GenericFileName } from '../../types/beatmap/shared/filename';
-import { Version } from '../../types/beatmap/shared/version';
+} from '../../types/beatmap/shared/environment.ts';
+import type { GenericFileName } from '../../types/beatmap/shared/filename.ts';
+import type { Version } from '../../types/beatmap/shared/version.ts';
 import {
    IWrapInfo,
    IWrapInfoColorScheme,
    IWrapInfoColorSchemeData,
    IWrapInfoDifficulty,
    IWrapInfoDifficultyAttribute,
-} from '../../types/beatmap/wrapper/info';
-import { LooseAutocomplete } from '../../types/utils';
-import { WrapBaseItem } from './baseItem';
+   IWrapInfoSet,
+} from '../../types/beatmap/wrapper/info.ts';
+import type { LooseAutocomplete } from '../../types/utils.ts';
+import { WrapBaseItem } from './baseItem.ts';
 
 /** Difficulty beatmap class object. */
 export abstract class WrapInfo<T extends { [P in keyof T]: T[P] }>
@@ -42,7 +43,7 @@ export abstract class WrapInfo<T extends { [P in keyof T]: T[P] }>
    abstract songTimeOffset: number;
    abstract environmentNames: EnvironmentAllName[];
    abstract colorSchemes: IWrapInfoColorScheme[];
-   difficultySets: { [mode in CharacteristicName]?: IWrapInfoDifficulty[] } = {};
+   abstract difficultySets: IWrapInfoSet[];
 
    clone<U extends this>(): U {
       return super.clone().setFileName(this.filename) as U;
@@ -63,19 +64,24 @@ export abstract class WrapInfo<T extends { [P in keyof T]: T[P] }>
    abstract addMap(data: Partial<IWrapInfoDifficultyAttribute>): this;
 
    listMap(): [CharacteristicName, IWrapInfoDifficulty][] {
-      return Object.entries(this.difficultySets).reduce(
-         (sets: [CharacteristicName, IWrapInfoDifficulty][], [mode, beatmaps]) => {
-            sets.push(
-               ...beatmaps.map(
-                  (b) =>
-                     [mode as CharacteristicName, b] as [CharacteristicName, IWrapInfoDifficulty],
+      return this.difficultySets.reduce(
+         (sets: [CharacteristicName, IWrapInfoDifficulty][], diffSet) =>
+            sets.concat(
+               diffSet.difficulties.map(
+                  (d) => [diffSet.characteristic, d] as [CharacteristicName, IWrapInfoDifficulty],
                ),
-            );
-            return sets;
-         },
+            ),
          [],
       );
    }
+}
+
+export abstract class WrapInfoSet<T extends { [P in keyof T]: T[P] }>
+   extends WrapBaseItem<T>
+   implements IWrapInfoSet<T>
+{
+   abstract characteristic: CharacteristicName;
+   abstract difficulties: IWrapInfoDifficulty[];
 }
 
 export abstract class WrapInfoDifficulty<T extends { [P in keyof T]: T[P] }>

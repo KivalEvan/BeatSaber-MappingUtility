@@ -1,8 +1,8 @@
-import { HsvaToRgba, RgbaToHsva } from '../../utils/colors';
-import { ColorArray } from '../../types/colors';
-import { clamp } from '../../utils/math';
-import { IChromaObject, ShiftColorOptions } from './types/colors';
-import { IChromaEventLight } from '../../types/beatmap/v3/custom/chroma';
+import { hsvaToRgba, rgbaToHsva } from '../../utils/colors.ts';
+import type { ColorArray } from '../../types/colors.ts';
+import { clamp } from '../../utils/math.ts';
+import type { IChromaObject, ShiftColorOptions } from './types/colors.ts';
+import type { IChromaEventLight } from '../../types/beatmap/v3/custom/chroma.ts';
 
 export function shiftColor(objects: IChromaObject[], options: ShiftColorOptions) {
    const opt: Omit<Required<ShiftColorOptions>, 'type'> = {
@@ -24,8 +24,8 @@ export function shiftColor(objects: IChromaObject[], options: ShiftColorOptions)
       opt.alpha,
    ];
    const shift = (currentColor: ColorArray, shiftHSVA: ColorArray, settings: typeof opt) => {
-      return HsvaToRgba(
-         ...(RgbaToHsva(...currentColor).map((hsva, i) => {
+      return hsvaToRgba(
+         ...(rgbaToHsva(...currentColor).map((hsva, i) => {
             if (i === 0 && typeof hsva === 'number') {
                if (settings.fixedHue) {
                   return shiftHSVA[0];

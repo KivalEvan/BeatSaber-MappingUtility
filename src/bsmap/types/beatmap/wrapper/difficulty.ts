@@ -1,33 +1,33 @@
 // deno-lint-ignore-file no-explicit-any
-import { IWrapBPMEvent, IWrapBPMEventAttribute } from './bpmEvent';
-import { IWrapRotationEvent, IWrapRotationEventAttribute } from './rotationEvent';
-import { IWrapColorNote, IWrapColorNoteAttribute } from './colorNote';
-import { IWrapBombNote, IWrapBombNoteAttribute } from './bombNote';
-import { IWrapObstacle, IWrapObstacleAttribute } from './obstacle';
-import { IWrapArc, IWrapArcAttribute } from './arc';
-import { IWrapChain, IWrapChainAttribute } from './chain';
-import { IWrapWaypoint, IWrapWaypointAttribute } from './waypoint';
-import { IWrapEvent, IWrapEventAttribute } from './event';
-import { IWrapColorBoostEvent, IWrapColorBoostEventAttribute } from './colorBoostEvent';
+import type { IWrapBPMEvent, IWrapBPMEventAttribute } from './bpmEvent.ts';
+import type { IWrapRotationEvent, IWrapRotationEventAttribute } from './rotationEvent.ts';
+import type { IWrapColorNote, IWrapColorNoteAttribute } from './colorNote.ts';
+import type { IWrapBombNote, IWrapBombNoteAttribute } from './bombNote.ts';
+import type { IWrapObstacle, IWrapObstacleAttribute } from './obstacle.ts';
+import type { IWrapArc, IWrapArcAttribute } from './arc.ts';
+import type { IWrapChain, IWrapChainAttribute } from './chain.ts';
+import type { IWrapWaypoint, IWrapWaypointAttribute } from './waypoint.ts';
+import type { IWrapEvent, IWrapEventAttribute } from './event.ts';
+import type { IWrapColorBoostEvent, IWrapColorBoostEventAttribute } from './colorBoostEvent.ts';
 import {
    IWrapLightColorEventBoxGroup,
    IWrapLightColorEventBoxGroupAttribute,
-} from './lightColorEventBoxGroup';
+} from './lightColorEventBoxGroup.ts';
 import {
    IWrapLightRotationEventBoxGroup,
    IWrapLightRotationEventBoxGroupAttribute,
-} from './lightRotationEventBoxGroup';
+} from './lightRotationEventBoxGroup.ts';
 import {
    IWrapLightTranslationEventBoxGroup,
    IWrapLightTranslationEventBoxGroupAttribute,
-} from './lightTranslationEventBoxGroup';
-import { IWrapEventTypesWithKeywords } from './eventTypesWithKeywords';
-import { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem';
-import { Version } from '../shared/version';
-import { DeepPartial, LooseAutocomplete } from '../../utils';
-import { GenericFileName } from '../shared/filename';
-import { EventContainer, NoteContainer } from './container';
-import { BeatPerMinute } from '../../../beatmap/shared/bpm';
+} from './lightTranslationEventBoxGroup.ts';
+import type { IWrapEventTypesWithKeywords } from './eventTypesWithKeywords.ts';
+import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
+import type { Version } from '../shared/version.ts';
+import type { DeepPartial, LooseAutocomplete } from '../../utils.ts';
+import type { GenericFileName } from '../shared/filename.ts';
+import type { EventContainer, NoteContainer } from './container.ts';
+import type { BeatPerMinute } from '../../../beatmap/shared/bpm.ts';
 
 export interface IWrapDifficultyAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
    extends IWrapBaseItemAttribute<T> {
@@ -56,7 +56,8 @@ export interface IWrapDifficulty<T extends { [P in keyof T]: T[P] } = Record<str
       IWrapDifficultyAttribute<T> {
    setFileName(filename: LooseAutocomplete<GenericFileName>): this;
 
-   /** Reparse the beatmap to their respective schema class.
+   /**
+    * Reparse the beatmap to their respective schema class.
     *
     * Used to match the beatmap schema if wrapper mix-and-matched the class.
     * ```ts
@@ -64,64 +65,72 @@ export interface IWrapDifficulty<T extends { [P in keyof T]: T[P] } = Record<str
     *     difficulty.reparse();
     * }
     * ```
-    * ---
+    *
     * **NOTE:** This will create a new set of array,
     * `keepRef` allows for already matched object to stay in new array instead of creating new object (this is faster and less memory but can cause reference issue)
     */
    reparse(keepRef?: boolean): void;
 
-   /** Calculate note per second.
+   /**
+    * Calculate note per second.
     * ```ts
     * const nps = difficulty.nps(10);
     * ```
-    * ---
+    *
     * **NOTE:** Duration can be either in any time type (second, beat, etc).
     */
    nps(duration: number): number;
 
-   /** Calculate the peak by rolling average.
+   /**
+    * Calculate the peak by rolling average.
     * ```ts
     * const peakNPS = difficulty.peak(10, BPM ?? 128);
     * ```
     */
    peak(beats: number, bpm: BeatPerMinute | number): number;
 
-   /** Get first interactible object beat time in beatmap.
+   /**
+    * Get first interactible object beat time in beatmap.
     * ```ts
     * const firstInteractiveTime = difficulty.getFirstInteractiveTime(Difficulty);
     * ```
     */
    getFirstInteractiveTime(): number;
 
-   /** Get last interactible object beat time in beatmap.
+   /**
+    * Get last interactible object beat time in beatmap.
     * ```ts
     * const lastInteractiveTime = difficulty.getLastInteractiveTime(Difficulty);
     * ```
     */
    getLastInteractiveTime(): number;
 
-   /** Get first interactible obstacle beat time in beatmap.
+   /**
+    * Get first interactible obstacle beat time in beatmap.
     * ```ts
     * const firstInteractiveObstacleTime = difficulty.findFirstInteractiveObstacleTime(obstacles);
     * ```
     */
    findFirstInteractiveObstacleTime(): number;
 
-   /** Get last interactible obstacle beat time in beatmap.
+   /**
+    * Get last interactible obstacle beat time in beatmap.
     * ```ts
     * const lastInteractiveObstacleTime = difficulty.findLastInteractiveObstacleTime(obstacles);
     * ```
     */
    findLastInteractiveObstacleTime(): number;
 
-   /** Get container of color notes, arcs, chains, and bombs (in order).
+   /**
+    * Get container of color notes, arcs, chains, and bombs (in order).
     * ```ts
     * const noteCountainer = getNoteContainer(Difficulty);
     * ```
     */
    getNoteContainer(): NoteContainer[];
 
-   /** Get container of basic events and boost events.
+   /**
+    * Get container of basic events and boost events.
     * ```ts
     * const noteCountainer = getNoteContainer(Difficulty);
     * ```

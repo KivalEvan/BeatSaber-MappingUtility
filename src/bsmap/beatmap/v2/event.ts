@@ -1,15 +1,15 @@
 // deno-lint-ignore-file no-unused-vars
-import { IEvent } from '../../types/beatmap/v2/event';
+import type { IEvent } from '../../types/beatmap/v2/event.ts';
 import {
    IChromaEventLaser,
    IChromaEventLight,
    IChromaEventRing,
-} from '../../types/beatmap/v2/custom/chroma';
-import { INEEvent } from '../../types/beatmap/v2/custom/noodleExtensions';
-import { deepCopy } from '../../utils/misc';
-import { EnvironmentAllName } from '../../types/beatmap/shared/environment';
-import { WrapEvent } from '../wrapper/event';
-import { IWrapEventAttribute } from '../../types/beatmap/wrapper/event';
+} from '../../types/beatmap/v2/custom/chroma.ts';
+import type { INEEvent } from '../../types/beatmap/v2/custom/noodleExtensions.ts';
+import { deepCopy } from '../../utils/misc.ts';
+import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
+import { WrapEvent } from '../wrapper/event.ts';
+import type { IWrapEventAttribute } from '../../types/beatmap/wrapper/event.ts';
 
 /** Event beatmap v2 class object. */
 export class Event extends WrapEvent<IEvent> {
@@ -28,11 +28,11 @@ export class Event extends WrapEvent<IEvent> {
    constructor(data: Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>> = {}) {
       super();
 
-      this._time = data.time ?? data._time ?? Event.default._time;
-      this._type = data.type ?? data._type ?? Event.default._type;
-      this._value = data.value ?? data._value ?? Event.default._value;
-      this._floatValue = data.floatValue ?? data._floatValue ?? Event.default._floatValue;
-      this._customData = deepCopy(data.customData ?? data._customData ?? Event.default._customData);
+      this._time = data._time ?? data.time ?? Event.default._time;
+      this._type = data._type ?? data.type ?? Event.default._type;
+      this._value = data._value ?? data.value ?? Event.default._value;
+      this._floatValue = data._floatValue ?? data.floatValue ?? Event.default._floatValue;
+      this._customData = deepCopy(data._customData ?? data.customData ?? Event.default._customData);
    }
 
    static create(): Event[];

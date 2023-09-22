@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
-import { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem';
-import { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject';
-import { IWrapIndexFilter, IWrapIndexFilterAttribute } from './indexFilter';
+import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
+import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
+import type { IWrapIndexFilter, IWrapIndexFilterAttribute } from './indexFilter.ts';
 
 export interface IWrapEventBoxAttribute<
    TBox extends { [P in keyof TBox]: TBox[P] } = Record<string, any>,
@@ -12,14 +12,16 @@ export interface IWrapEventBoxAttribute<
    filter: IWrapIndexFilterAttribute<TFilter>;
    /** Beat distribution `<float>` of event box. */
    beatDistribution: number;
-   /** Beat distribution type `<int>` of event box.
+   /**
+    * Beat distribution type `<int>` of event box.
     * ```ts
     * 1 -> Wave // adds up to last ID.
     * 2 -> Step // adds to consequent ID.
     * ```
     */
    beatDistributionType: 1 | 2;
-   /** Easing `<int>` of distribution.
+   /**
+    * Easing `<int>` of distribution.
     * ```ts
     * 0 -> Linear
     * 1 -> EaseInQuad

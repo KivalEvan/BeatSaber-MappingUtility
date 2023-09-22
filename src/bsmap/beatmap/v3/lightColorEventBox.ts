@@ -1,12 +1,12 @@
-import { IIndexFilter } from '../../types/beatmap/v3/indexFilter';
-import { ILightColorBase } from '../../types/beatmap/v3/lightColorBase';
-import { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox';
-import { IWrapLightColorEventBoxAttribute } from '../../types/beatmap/wrapper/lightColorEventBox';
-import { DeepPartial } from '../../types/utils';
-import { deepCopy } from '../../utils/misc';
-import { WrapLightColorEventBox } from '../wrapper/lightColorEventBox';
-import { IndexFilter } from './indexFilter';
-import { LightColorBase } from './lightColorBase';
+import type { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
+import type { ILightColorBase } from '../../types/beatmap/v3/lightColorBase.ts';
+import type { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox.ts';
+import type { IWrapLightColorEventBoxAttribute } from '../../types/beatmap/wrapper/lightColorEventBox.ts';
+import type { DeepPartial } from '../../types/utils.ts';
+import { deepCopy } from '../../utils/misc.ts';
+import { WrapLightColorEventBox } from '../wrapper/lightColorEventBox.ts';
+import { IndexFilter } from './indexFilter.ts';
+import { LightColorBase } from './lightColorBase.ts';
 
 /** Light color event box beatmap v3 class object. */
 export class LightColorEventBox extends WrapLightColorEventBox<
@@ -58,22 +58,22 @@ export class LightColorEventBox extends WrapLightColorEventBox<
       super();
 
       this._filter = new IndexFilter(
-         (data.filter as IIndexFilter) ??
-            (data as ILightColorEventBox).f ??
+         (data as ILightColorEventBox).f ??
+            (data.filter as IIndexFilter) ??
             LightColorEventBox.default.f,
       );
-      this._beatDistribution = data.beatDistribution ?? data.w ?? LightColorEventBox.default.w;
+      this._beatDistribution = data.w ?? data.beatDistribution ?? LightColorEventBox.default.w;
       this._beatDistributionType =
-         data.beatDistributionType ?? data.d ?? LightColorEventBox.default.d;
+         data.d ?? data.beatDistributionType ?? LightColorEventBox.default.d;
       this._brightnessDistribution =
-         data.brightnessDistribution ?? data.r ?? LightColorEventBox.default.r;
+         data.r ?? data.brightnessDistribution ?? LightColorEventBox.default.r;
       this._brightnessDistributionType =
-         data.brightnessDistributionType ?? data.t ?? LightColorEventBox.default.t;
-      this._affectFirst = data.affectFirst ?? data.b ?? LightColorEventBox.default.b;
-      this._easing = data.easing ?? data.i ?? LightColorEventBox.default.i;
+         data.t ?? data.brightnessDistributionType ?? LightColorEventBox.default.t;
+      this._affectFirst = data.b ?? data.affectFirst ?? LightColorEventBox.default.b;
+      this._easing = data.i ?? data.easing ?? LightColorEventBox.default.i;
       this._events = (
-         (data.events as ILightColorBase[]) ??
          (data as ILightColorEventBox).e ??
+         (data.events as ILightColorBase[]) ??
          LightColorEventBox.default.e
       ).map((obj) => new LightColorBase(obj));
       this._customData = deepCopy(data.customData ?? LightColorEventBox.default.customData);
@@ -120,14 +120,14 @@ export class LightColorEventBox extends WrapLightColorEventBox<
       };
    }
 
-   get filter() {
+   get filter(): IndexFilter {
       return this._filter as IndexFilter;
    }
    set filter(value: IndexFilter) {
       this._filter = value;
    }
 
-   get events() {
+   get events(): LightColorBase[] {
       return this._events as LightColorBase[];
    }
    set events(value: LightColorBase[]) {

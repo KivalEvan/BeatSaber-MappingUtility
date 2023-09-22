@@ -1,5 +1,5 @@
-export * as types from './types/mod';
-export * from './event';
-export * from './groupEvent';
-export * from './note';
-export * from './obstacle';
+export * as types from './types/mod.ts';
+export * from './event.ts';
+export * from './groupEvent.ts';
+export * from './note.ts';
+export * from './obstacle.ts';

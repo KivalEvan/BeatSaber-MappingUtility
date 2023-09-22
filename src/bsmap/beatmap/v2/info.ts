@@ -1,19 +1,22 @@
-import { EnvironmentAllName, EnvironmentName } from '../../types/beatmap/shared/environment';
-import { IInfo, IInfoSet, IInfoSetDifficulty } from '../../types/beatmap/v2/info';
-import { CharacteristicName } from '../../types/beatmap/shared/characteristic';
-import { EnvironmentV3Name } from '../../types/beatmap/shared/environment';
-import { WrapInfo, WrapInfoDifficulty } from '../wrapper/info';
-import { DifficultyName } from '../../types/beatmap/shared/difficulty';
-import { LooseAutocomplete } from '../../types/utils';
-import { GenericFileName } from '../../types/beatmap/shared/filename';
-import { Environment360Name } from '../../types/beatmap/shared/environment';
-import { deepCopy } from '../../utils/misc';
+import type {
+   EnvironmentAllName,
+   EnvironmentName,
+} from '../../types/beatmap/shared/environment.ts';
+import type { IInfo, IInfoDifficulty, IInfoSet } from '../../types/beatmap/v2/info.ts';
+import type { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
+import type { EnvironmentV3Name } from '../../types/beatmap/shared/environment.ts';
+import { WrapInfo, WrapInfoDifficulty, WrapInfoSet } from '../wrapper/info.ts';
+import type { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
+import type { LooseAutocomplete } from '../../types/utils.ts';
+import type { GenericFileName } from '../../types/beatmap/shared/filename.ts';
+import type { Environment360Name } from '../../types/beatmap/shared/environment.ts';
+import { deepCopy, shallowCopy } from '../../utils/misc.ts';
 import {
    IWrapInfo,
    IWrapInfoColorScheme,
    IWrapInfoColorSchemeData,
    IWrapInfoDifficultyAttribute,
-} from '../../types/beatmap/wrapper/info';
+} from '../../types/beatmap/wrapper/info.ts';
 
 /** Difficulty beatmap class object. */
 export class Info extends WrapInfo<IInfo> {
@@ -34,7 +37,7 @@ export class Info extends WrapInfo<IInfo> {
    allDirectionsEnvironmentName: Environment360Name;
    environmentNames: EnvironmentAllName[];
    colorSchemes: IWrapInfoColorScheme[];
-   difficultySets: { [mode in CharacteristicName]?: InfoDifficulty[] } = {};
+   difficultySets: InfoSet[] = [];
 
    constructor(data: Partial<IInfo> = {}) {
       super();
@@ -125,9 +128,7 @@ export class Info extends WrapInfo<IInfo> {
       this.customData = deepCopy(data._customData ?? {});
 
       data._difficultyBeatmapSets?.forEach((set) => {
-         this.difficultySets[set._beatmapCharacteristicName] = set._difficultyBeatmaps.map(
-            (beatmap) => new InfoDifficulty(beatmap, set._beatmapCharacteristicName),
-         );
+         this.difficultySets.push(new InfoSet(set));
       });
    }
 
@@ -158,42 +159,27 @@ export class Info extends WrapInfo<IInfo> {
                useOverride: e.useOverride,
                colorScheme: {
                   colorSchemeId: e.colorScheme.name,
-                  saberAColor: deepCopy(e.colorScheme.saberLeftColor),
-                  saberBColor: deepCopy(e.colorScheme.saberRightColor),
-                  environmentColor0: deepCopy(e.colorScheme.environment0Color),
-                  environmentColor1: deepCopy(e.colorScheme.environment1Color),
-                  obstaclesColor: deepCopy(e.colorScheme.obstaclesColor),
-                  environmentColor0Boost: deepCopy(e.colorScheme.environment0ColorBoost),
-                  environmentColor1Boost: deepCopy(e.colorScheme.environment1ColorBoost),
+                  saberAColor: shallowCopy(e.colorScheme.saberLeftColor),
+                  saberBColor: shallowCopy(e.colorScheme.saberRightColor),
+                  environmentColor0: shallowCopy(e.colorScheme.environment0Color),
+                  environmentColor1: shallowCopy(e.colorScheme.environment1Color),
+                  obstaclesColor: shallowCopy(e.colorScheme.obstaclesColor),
+                  environmentColor0Boost: shallowCopy(e.colorScheme.environment0ColorBoost),
+                  environmentColor1Boost: shallowCopy(e.colorScheme.environment1ColorBoost),
                },
             };
             if (e.colorScheme.environmentWColor) {
-               cs.colorScheme.environmentColorW = deepCopy(e.colorScheme.environmentWColor);
+               cs.colorScheme.environmentColorW = shallowCopy(e.colorScheme.environmentWColor);
             }
             if (e.colorScheme.environmentWColorBoost) {
-               cs.colorScheme.environmentColorWBoost = deepCopy(
+               cs.colorScheme.environmentColorWBoost = shallowCopy(
                   e.colorScheme.environmentWColorBoost,
                );
             }
             return cs;
          }),
-         _customData: this.customData,
-         _difficultyBeatmapSets: Object.entries(
-            this.listMap().reduce(
-               (sets, [mode, beatmap]) => {
-                  sets[mode] ??= [];
-                  sets[mode].push(beatmap.toJSON());
-                  return sets;
-               },
-               {} as { [key: string]: IInfoSetDifficulty[] },
-            ),
-         ).reduce((ary, [mode, beatmaps]) => {
-            ary.push({
-               _beatmapCharacteristicName: mode as CharacteristicName,
-               _difficultyBeatmaps: beatmaps,
-            });
-            return ary;
-         }, [] as IInfoSet[]),
+         _customData: deepCopy(this.customData),
+         _difficultyBeatmapSets: this.difficultySets.map((d) => d.toJSON()),
       };
    }
 
@@ -204,16 +190,19 @@ export class Info extends WrapInfo<IInfo> {
       this._customData = value;
    }
 
-   addMap(data: Partial<IInfoSetDifficulty>, characteristic?: CharacteristicName): this;
+   addMap(data: Partial<IInfoDifficulty>, characteristic?: CharacteristicName): this;
    addMap(data: Partial<IWrapInfoDifficultyAttribute>, characteristic?: CharacteristicName): this;
    addMap(
-      data: Partial<IWrapInfoDifficultyAttribute> & Partial<IInfoSetDifficulty>,
+      data: Partial<IWrapInfoDifficultyAttribute> & Partial<IInfoDifficulty>,
       characteristic?: CharacteristicName,
    ): this {
-      const mode = (characteristic || data.characteristic) ?? 'Standard';
-
-      this.difficultySets[mode] ??= [];
-      this.difficultySets[mode]!.push(new InfoDifficulty(data));
+      const mode = characteristic || data.characteristic || 'Standard';
+      let found = this.difficultySets.find((set) => set.characteristic === mode);
+      if (!found) {
+         found = new InfoSet({ _beatmapCharacteristicName: mode });
+         this.difficultySets.push(found);
+      }
+      found.difficulties.push(new InfoDifficulty(data));
       return this;
    }
 
@@ -226,17 +215,56 @@ export class Info extends WrapInfo<IInfo> {
    }
 }
 
-export class InfoDifficulty extends WrapInfoDifficulty<IInfoSetDifficulty> {
+export class InfoSet extends WrapInfoSet<IInfoSet> {
+   characteristic: CharacteristicName;
+   difficulties: InfoDifficulty[] = [];
+
+   constructor(data: Partial<IInfoSet>) {
+      super();
+
+      this.characteristic = data._beatmapCharacteristicName || 'Standard';
+      this.difficulties =
+         data._difficultyBeatmaps?.map((bmap) => new InfoDifficulty(bmap, this.characteristic)) ??
+         [];
+
+      this.customData = deepCopy(data._customData ?? {});
+   }
+
+   static create(data: Partial<IInfoSet>) {
+      return new this(data);
+   }
+
+   toJSON(): IInfoSet {
+      return {
+         _beatmapCharacteristicName: this.characteristic,
+         _difficultyBeatmaps: this.difficulties.map((d) => d.toJSON()),
+         _customData: deepCopy(this.customData),
+      };
+   }
+
+   get customData(): NonNullable<IInfoSet['_customData']> {
+      return this._customData;
+   }
+   set customData(value: NonNullable<IInfoSet['_customData']>) {
+      this._customData = value;
+   }
+
+   isValid(): boolean {
+      throw new Error('Method not implemented.');
+   }
+}
+
+export class InfoDifficulty extends WrapInfoDifficulty<IInfoDifficulty> {
    readonly characteristic?: CharacteristicName | undefined;
    difficulty: DifficultyName;
-   rank: IInfoSetDifficulty['_difficultyRank'];
+   rank: IInfoDifficulty['_difficultyRank'];
    filename: LooseAutocomplete<GenericFileName>;
    njs: number;
    njsOffset: number;
    colorSchemeId: number;
    environmentId: number;
 
-   constructor(data: Partial<IInfoSetDifficulty>, mode?: CharacteristicName) {
+   constructor(data: Partial<IInfoDifficulty>, mode?: CharacteristicName) {
       super();
 
       this.characteristic = mode;
@@ -250,11 +278,11 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoSetDifficulty> {
       this.customData = deepCopy(data._customData ?? {});
    }
 
-   static create(data: Partial<IInfoSetDifficulty>) {
+   static create(data: Partial<IInfoDifficulty>) {
       return new this(data);
    }
 
-   toJSON(): IInfoSetDifficulty {
+   toJSON(): IInfoDifficulty {
       return {
          _difficulty: this.difficulty,
          _difficultyRank: this.rank,
@@ -263,14 +291,14 @@ export class InfoDifficulty extends WrapInfoDifficulty<IInfoSetDifficulty> {
          _noteJumpStartBeatOffset: this.njsOffset,
          _beatmapColorSchemeIdx: this.colorSchemeId,
          _environmentNameIdx: this.environmentId,
-         _customData: this.customData,
+         _customData: deepCopy(this.customData),
       };
    }
 
-   get customData(): NonNullable<IInfoSetDifficulty['_customData']> {
+   get customData(): NonNullable<IInfoDifficulty['_customData']> {
       return this._customData;
    }
-   set customData(value: NonNullable<IInfoSetDifficulty['_customData']>) {
+   set customData(value: NonNullable<IInfoDifficulty['_customData']>) {
       this._customData = value;
    }
 

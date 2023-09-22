@@ -1,7 +1,6 @@
-import { IBasicEvent } from '../../types/beatmap/v3/basicEvent';
-import { deepCopy } from '../../utils/misc';
-import { IEvent } from '../../types/beatmap/v2/event';
-import { renameKey } from './_helpers';
+import type { IBasicEvent } from '../../types/beatmap/v3/basicEvent.ts';
+import type { IEvent } from '../../types/beatmap/v2/event.ts';
+import { renameKey } from './_helpers.ts';
 
 export default function (
    customData?: IBasicEvent['customData'],
@@ -9,7 +8,7 @@ export default function (
    if (!customData) {
       return {};
    }
-   const cd = deepCopy(customData);
+   const cd = { ...customData };
    if (!Object.keys(cd).length) {
       return {};
    }

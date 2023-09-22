@@ -1,5 +1,5 @@
-import { IChromaEventLight } from '../../../types/beatmap/v3/custom/chroma';
-import { Easings } from '../../../types/easings';
+import type { IChromaEventLight } from '../../../types/beatmap/v3/custom/chroma.ts';
+import type { Easings } from '../../../types/easings.ts';
 
 export type DistributionType = 'Division' | 'Step and Offset';
 
@@ -24,7 +24,8 @@ export type IndexFilter = IndexFilterDivision | IndexFilterStep;
 
 export interface EventBase {
    time: number;
-   /** Color `<int>` of event.
+   /**
+    * Color `<int>` of event.
     * ```ts
     * 0 -> Red
     * 1 -> Blue
@@ -32,7 +33,8 @@ export interface EventBase {
     * ```
     */
    color: 0 | 1 | 2;
-   /** Transition type `<int>` of event.
+   /**
+    * Transition type `<int>` of event.
     * ```ts
     * 0 -> Instant
     * 1 -> Interpolate
