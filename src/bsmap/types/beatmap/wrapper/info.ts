@@ -3,7 +3,7 @@ import type { LooseAutocomplete } from '../../utils.ts';
 import type { Version } from '../shared/version.ts';
 import type { CharacteristicName } from '../shared/characteristic.ts';
 import type { DifficultyName } from '../shared/difficulty.ts';
-import {
+import type {
    Environment360Name,
    EnvironmentAllName,
    EnvironmentName,

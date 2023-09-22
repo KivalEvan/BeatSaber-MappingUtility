@@ -1,6 +1,6 @@
 import type { ColorArray } from '../../../colors.ts';
 import type { Vector2, Vector3 } from '../../../vector.ts';
-import {
+import type {
    FloatPointDefinition,
    Vector3PointDefinition,
    Vector4PointDefinition,

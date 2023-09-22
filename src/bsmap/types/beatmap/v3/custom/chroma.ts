@@ -2,7 +2,7 @@ import type { FloatPointDefinition, Vector4PointDefinition } from '../../shared/
 import type { Easings } from '../../../easings.ts';
 import type { ColorArray } from '../../../colors.ts';
 import type { ICustomDataBase } from '../../shared/custom/customData.ts';
-import {
+import type {
    EnvironmentMaterial,
    GeometryType,
    LookupMethod,

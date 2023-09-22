@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import type { ISerializable } from '../shared/serializable.ts';
-import {
+import type {
    IWrapEventTypesForKeywords,
    IWrapEventTypesForKeywordsAttribute,
 } from './eventTypesForKeywords.ts';

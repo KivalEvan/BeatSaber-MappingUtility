@@ -7,7 +7,7 @@ import type {
    ICustomDataInfoSet,
 } from './custom/info.ts';
 import type { DifficultyName, DifficultyRank } from '../shared/difficulty.ts';
-import {
+import type {
    Environment360Name,
    EnvironmentAllName,
    EnvironmentName,

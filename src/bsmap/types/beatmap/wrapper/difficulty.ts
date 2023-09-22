@@ -9,15 +9,15 @@ import type { IWrapChain, IWrapChainAttribute } from './chain.ts';
 import type { IWrapWaypoint, IWrapWaypointAttribute } from './waypoint.ts';
 import type { IWrapEvent, IWrapEventAttribute } from './event.ts';
 import type { IWrapColorBoostEvent, IWrapColorBoostEventAttribute } from './colorBoostEvent.ts';
-import {
+import type {
    IWrapLightColorEventBoxGroup,
    IWrapLightColorEventBoxGroupAttribute,
 } from './lightColorEventBoxGroup.ts';
-import {
+import type {
    IWrapLightRotationEventBoxGroup,
    IWrapLightRotationEventBoxGroupAttribute,
 } from './lightRotationEventBoxGroup.ts';
-import {
+import type {
    IWrapLightTranslationEventBoxGroup,
    IWrapLightTranslationEventBoxGroupAttribute,
 } from './lightTranslationEventBoxGroup.ts';

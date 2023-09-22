@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import type { IWrapEventBoxGroup, IWrapEventBoxGroupAttribute } from './eventBoxGroup.ts';
-import {
+import type {
    IWrapLightTranslationEventBox,
    IWrapLightTranslationEventBoxAttribute,
 } from './lightTranslationEventBox.ts';
