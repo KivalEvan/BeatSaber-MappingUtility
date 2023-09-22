@@ -202,7 +202,7 @@ export default function () {
                                     return (
                                        <td class="table-grid">
                                           <img
-                                             src="./BeatSaber-MappingUtility/assets/blank.png"
+                                             src="/BeatSaber-MappingUtility/assets/blank.png"
                                              alt="blank"
                                              class="table-rpattern-image"
                                           />
@@ -211,7 +211,7 @@ export default function () {
                                  return (
                                     <td class="table-grid">
                                        <img
-                                          src={`./BeatSaber-MappingUtility/assets/${
+                                          src={`/BeatSaber-MappingUtility/assets/${
                                              g._noteDirection !== 8 || rpg.noDot
                                                 ? noteImage[g._noteType]
                                                 : noteImage[g._noteType + 3]
