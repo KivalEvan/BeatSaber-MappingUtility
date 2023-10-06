@@ -30,7 +30,9 @@ export interface IWrapEventBoxAttribute<
     * ```
     */
    easing: 0 | 1 | 2 | 3;
-   events: IWrapBaseObjectAttribute<TBase>[];
+   /** Event distribution should affect first event `<int>` of event box. */
+   affectFirst: 0 | 1;
+   events: number[] | IWrapBaseObjectAttribute<TBase>[];
 }
 
 export interface IWrapEventBox<
@@ -39,11 +41,11 @@ export interface IWrapEventBox<
    TFilter extends { [P in keyof TFilter]: TFilter[P] } = Record<string, any>,
 > extends IWrapBaseItem<TBox>,
       IWrapEventBoxAttribute<TBox, TBase, TFilter> {
-   events: IWrapBaseObject<TBase>[];
+   events: number[] | IWrapBaseObject<TBase>[];
 
    setFilter(value: IWrapIndexFilter<TFilter>): this;
    setBeatDistribution(value: IWrapEventBox['beatDistribution']): this;
    setBeatDistributionType(value: IWrapEventBox['beatDistributionType']): this;
    setEasing(value: IWrapEventBox['easing']): this;
-   setEvents(value: IWrapBaseObject<TBase>[]): this;
+   setEvents(value: number[] | IWrapBaseObject<TBase>[]): this;
 }

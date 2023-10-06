@@ -13,7 +13,6 @@ export abstract class WrapLightColorEventBox<
 {
    protected _brightnessDistribution!: IWrapLightColorEventBox['brightnessDistribution'];
    protected _brightnessDistributionType!: IWrapLightColorEventBox['brightnessDistributionType'];
-   protected _affectFirst!: IWrapLightColorEventBox['affectFirst'];
    protected declare _events: IWrapLightColorBase<TBase>[];
 
    get brightnessDistribution(): IWrapLightColorEventBox['brightnessDistribution'] {
@@ -28,12 +27,6 @@ export abstract class WrapLightColorEventBox<
    set brightnessDistributionType(value: IWrapLightColorEventBox['brightnessDistributionType']) {
       this._brightnessDistributionType = value;
    }
-   get affectFirst(): IWrapLightColorEventBox['affectFirst'] {
-      return this._affectFirst;
-   }
-   set affectFirst(value: IWrapLightColorEventBox['affectFirst']) {
-      this._affectFirst = value;
-   }
    get events(): IWrapLightColorBase<TBase>[] {
       return this._events;
    }
@@ -47,10 +40,6 @@ export abstract class WrapLightColorEventBox<
    }
    setBrightnessDistributionType(value: IWrapLightColorEventBox['brightnessDistributionType']) {
       this.brightnessDistributionType = value;
-      return this;
-   }
-   setAffectFirst(value: IWrapLightColorEventBox['affectFirst']) {
-      this.affectFirst = value;
       return this;
    }
    abstract setEvents(value: IWrapLightColorBase<TBase>[]): this;

@@ -21,8 +21,6 @@ export interface IWrapLightColorEventBoxAttribute<
     * ```
     */
    brightnessDistributionType: 1 | 2;
-   /** Brightness distribution should affect first event `<int>` of light color event box. */
-   affectFirst: 0 | 1;
    events: IWrapLightColorBaseAttribute<TBase>[];
 }
 

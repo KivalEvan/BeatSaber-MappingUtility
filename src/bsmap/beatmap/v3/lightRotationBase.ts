@@ -29,11 +29,11 @@ export class LightRotationBase extends WrapLightRotationBase<ILightRotationBase>
       super();
 
       this._time = data.b ?? data.time ?? LightRotationBase.default.b;
-      this._previous = data.p ?? data.previous ?? LightRotationBase.default.p;
       this._easing = data.e ?? data.easing ?? LightRotationBase.default.e;
       this._loop = data.l ?? data.loop ?? LightRotationBase.default.l;
-      this._rotation = data.r ?? data.rotation ?? LightRotationBase.default.r;
       this._direction = data.o ?? data.direction ?? LightRotationBase.default.o;
+      this._previous = data.p ?? data.previous ?? LightRotationBase.default.p;
+      this._rotation = data.r ?? data.rotation ?? LightRotationBase.default.r;
       this._customData = deepCopy(data.customData ?? LightRotationBase.default.customData);
    }
 
@@ -61,11 +61,11 @@ export class LightRotationBase extends WrapLightRotationBase<ILightRotationBase>
    toJSON(): ILightRotationBase {
       return {
          b: this.time,
-         p: this.previous,
          e: this.easing,
          l: this.loop,
-         r: this.rotation,
          o: this.direction,
+         p: this.previous,
+         r: this.rotation,
          customData: deepCopy(this.customData),
       };
    }

@@ -3,7 +3,6 @@ import { Difficulty } from './difficulty.ts';
 import { DifficultyCheck } from './dataCheck.ts';
 import { deepCheck } from '../shared/dataCheck.ts';
 import logger from '../../logger.ts';
-import { sortV3NoteFn, sortV3ObjectFn } from '../shared/helpers.ts';
 import type { IDataCheckOption } from '../../types/beatmap/shared/dataCheck.ts';
 
 function tag(name: string): string[] {
@@ -15,7 +14,14 @@ export function parseDifficulty(
    checkData: IDataCheckOption = { enabled: true, throwError: true },
 ): Difficulty {
    logger.tInfo(tag('difficulty'), 'Parsing beatmap difficulty v3.x.x');
-   if (!(data.version === '3.0.0' || data.version === '3.1.0' || data.version === '3.2.0')) {
+   if (
+      !(
+         data.version === '3.0.0' ||
+         data.version === '3.1.0' ||
+         data.version === '3.2.0' ||
+         data.version === '3.3.0'
+      )
+   ) {
       logger.tWarn(tag('difficulty'), 'Unidentified beatmap version');
       data.version = '3.0.0';
    }
@@ -23,19 +29,21 @@ export function parseDifficulty(
       deepCheck(data, DifficultyCheck, 'difficulty', data.version, checkData.throwError);
    }
 
-   data.bpmEvents?.sort(sortV3ObjectFn);
-   data.rotationEvents?.sort(sortV3ObjectFn);
-   data.colorNotes?.sort(sortV3NoteFn);
-   data.bombNotes?.sort(sortV3NoteFn);
-   data.obstacles?.sort(sortV3ObjectFn);
-   data.sliders?.sort(sortV3NoteFn);
-   data.burstSliders?.sort(sortV3NoteFn);
-   data.waypoints?.sort(sortV3ObjectFn);
-   data.basicBeatmapEvents?.sort(sortV3ObjectFn);
-   data.colorBoostBeatmapEvents?.sort(sortV3ObjectFn);
-   data.lightColorEventBoxGroups?.sort(sortV3ObjectFn);
-   data.lightRotationEventBoxGroups?.sort(sortV3ObjectFn);
-   data.lightTranslationEventBoxGroups?.sort(sortV3ObjectFn);
+   data.sliders?.forEach((e) => {
+      e.mu ??= 0;
+      e.tmu ??= 0;
+   });
+   data.basicBeatmapEvents?.forEach((e) => {
+      e.f ??= 0;
+   });
+   data.burstSliders?.forEach((e) => {
+      e.s ??= 0;
+   });
+   data.obstacles?.forEach((e) => {
+      e.d ??= 0;
+      e.w ??= 0;
+      e.h ??= 0;
+   });
 
    return new Difficulty(data);
 }

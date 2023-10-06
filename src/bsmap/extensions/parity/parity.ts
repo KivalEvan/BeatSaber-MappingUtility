@@ -9,7 +9,7 @@ import {
 } from '../../types/beatmap/wrapper/container.ts';
 import type { ParityState, ParityStatus, ParitySwitch } from './types/parity.ts';
 import { predictDirection } from '../placement/note.ts';
-import { NoteColor, NoteDirection, PositionX, PositionY } from '../../beatmap/shared/constants.ts';
+import { NoteColor, NoteDirection, PosX, PosY } from '../../beatmap/shared/constants.ts';
 
 const noteInitParity: {
    [key: number]: { backhand: number[]; forehand: number[] };
@@ -113,14 +113,14 @@ export default class Parity {
          if (bomb.data.time - 0.001 > startTime) {
             return;
          }
-         if (bomb.data.posY === PositionY.BOTTOM) {
-            if (bomb.data.posX === (noteType ? PositionX.MIDDLE_RIGHT : PositionX.MIDDLE_LEFT)) {
+         if (bomb.data.posY === PosY.BOTTOM) {
+            if (bomb.data.posX === (noteType ? PosX.MIDDLE_RIGHT : PosX.MIDDLE_LEFT)) {
                currentState = 'backhand';
                currentRotation = 0;
             }
          }
-         if (bomb.data.posY === PositionY.TOP) {
-            if (bomb.data.posX === (noteType ? PositionX.MIDDLE_RIGHT : PositionX.MIDDLE_LEFT)) {
+         if (bomb.data.posY === PosY.TOP) {
+            if (bomb.data.posX === (noteType ? PosX.MIDDLE_RIGHT : PosX.MIDDLE_LEFT)) {
                currentState = 'forehand';
                currentRotation = 0;
             }
@@ -226,14 +226,14 @@ export default class Parity {
          if (bomb.data.time - 0.001 > startTime) {
             return;
          }
-         if (bomb.data.posY === PositionY.BOTTOM) {
-            if (bomb.data.posX === (noteType ? PositionX.MIDDLE_RIGHT : PositionX.MIDDLE_LEFT)) {
+         if (bomb.data.posY === PosY.BOTTOM) {
+            if (bomb.data.posX === (noteType ? PosX.MIDDLE_RIGHT : PosX.MIDDLE_LEFT)) {
                this.state = 'forehand';
                this.rotation = 0;
             }
          }
-         if (bomb.data.posY === PositionY.TOP) {
-            if (bomb.data.posX === (noteType ? PositionX.MIDDLE_RIGHT : PositionX.MIDDLE_LEFT)) {
+         if (bomb.data.posY === PosY.TOP) {
+            if (bomb.data.posX === (noteType ? PosX.MIDDLE_RIGHT : PosX.MIDDLE_LEFT)) {
                this.state = 'backhand';
                this.rotation = 0;
             }
@@ -263,13 +263,13 @@ export default class Parity {
       let startParity: ParityState = 'neutral';
       for (let i = 0, len = nc.length; i < len; i++) {
          if (nc[i].type === 'bomb') {
-            if (nc[i].data.posY === PositionY.BOTTOM) {
-               if (nc[i].data.posX === type ? PositionX.MIDDLE_RIGHT : PositionX.MIDDLE_LEFT) {
+            if (nc[i].data.posY === PosY.BOTTOM) {
+               if (nc[i].data.posX === type ? PosX.MIDDLE_RIGHT : PosX.MIDDLE_LEFT) {
                   startParity = 'backhand';
                }
             }
-            if (nc[i].data.posY === PositionY.TOP) {
-               if (nc[i].data.posX === type ? PositionX.MIDDLE_RIGHT : PositionX.MIDDLE_LEFT) {
+            if (nc[i].data.posY === PosY.TOP) {
+               if (nc[i].data.posX === type ? PosX.MIDDLE_RIGHT : PosX.MIDDLE_LEFT) {
                   startParity = 'forehand';
                }
             }
@@ -298,10 +298,10 @@ export default class Parity {
                   return 'forehand';
                }
                if (startParity === 'neutral' && note.data.direction === NoteDirection.ANY) {
-                  if (note.data.posY === PositionY.BOTTOM) {
+                  if (note.data.posY === PosY.BOTTOM) {
                      startParity = 'backhand';
                   }
-                  if (note.data.posY > PositionY.BOTTOM) {
+                  if (note.data.posY > PosY.BOTTOM) {
                      startParity = 'forehand';
                   }
                }
@@ -332,27 +332,27 @@ export default class Parity {
                   return noteInitRotation[note.data.color][note.data.direction];
                }
                if (note.data.direction === NoteDirection.ANY) {
-                  if (note.data.posY === PositionY.BOTTOM) {
-                     if (note.data.posX === PositionX.LEFT) {
+                  if (note.data.posY === PosY.BOTTOM) {
+                     if (note.data.posX === PosX.LEFT) {
                         rotation = noteInitRotation[note.data.color][6];
                      }
-                     if (note.data.posX === PositionX.RIGHT) {
+                     if (note.data.posX === PosX.RIGHT) {
                         rotation = noteInitRotation[note.data.color][7];
                      }
                   }
-                  if (note.data.posY === PositionY.MIDDLE) {
-                     if (note.data.posX === PositionX.LEFT) {
+                  if (note.data.posY === PosY.MIDDLE) {
+                     if (note.data.posX === PosX.LEFT) {
                         rotation = noteInitRotation[note.data.color][2];
                      }
-                     if (note.data.posX === PositionX.RIGHT) {
+                     if (note.data.posX === PosX.RIGHT) {
                         rotation = noteInitRotation[note.data.color][3];
                      }
                   }
-                  if (note.data.posY === PositionY.BOTTOM) {
-                     if (note.data.posX === PositionX.LEFT) {
+                  if (note.data.posY === PosY.BOTTOM) {
+                     if (note.data.posX === PosX.LEFT) {
                         rotation = noteInitRotation[note.data.color][4];
                      }
-                     if (note.data.posX === PositionX.RIGHT) {
+                     if (note.data.posX === PosX.RIGHT) {
                         rotation = noteInitRotation[note.data.color][5];
                      }
                   }

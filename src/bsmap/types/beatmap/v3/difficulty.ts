@@ -14,9 +14,11 @@ import type { IBasicEventTypesWithKeywords } from './basicEventTypesWithKeywords
 import type { ILightTranslationEventBoxGroup } from './lightTranslationEventBoxGroup.ts';
 import type { ICustomDataDifficulty } from './custom/difficulty.ts';
 import type { IBaseItem } from './baseItem.ts';
+import type { IFxEventBoxGroup } from './fxEventBoxGroup.ts';
+import type { IFxEventsCollection } from './fxEventsCollection.ts';
 
 export interface IDifficulty extends IBaseItem {
-   version: `3.${0 | 1 | 2}.0`;
+   version: `3.${0 | 1 | 2 | 3}.0`;
    bpmEvents: IBPMEvent[];
    rotationEvents: IRotationEvent[];
    colorNotes: IColorNote[];
@@ -30,6 +32,8 @@ export interface IDifficulty extends IBaseItem {
    lightColorEventBoxGroups: ILightColorEventBoxGroup[];
    lightRotationEventBoxGroups: ILightRotationEventBoxGroup[];
    lightTranslationEventBoxGroups: ILightTranslationEventBoxGroup[];
+   vfxEventBoxGroups: IFxEventBoxGroup[];
+   _fxEventsCollection: IFxEventsCollection;
    basicEventTypesWithKeywords: IBasicEventTypesWithKeywords;
    useNormalEventsAsCompatibleEvents: boolean;
    customData?: ICustomDataDifficulty;

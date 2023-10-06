@@ -27,8 +27,8 @@ export class LightTranslationBase extends WrapLightTranslationBase<ILightTransla
       super();
 
       this._time = data.b ?? data.time ?? LightTranslationBase.default.b;
-      this._previous = data.p ?? data.previous ?? LightTranslationBase.default.p;
       this._easing = data.e ?? data.easing ?? LightTranslationBase.default.e;
+      this._previous = data.p ?? data.previous ?? LightTranslationBase.default.p;
       this._translation = data.t ?? data.translation ?? LightTranslationBase.default.t;
       this._customData = deepCopy(data.customData ?? LightTranslationBase.default.customData);
    }
@@ -57,8 +57,8 @@ export class LightTranslationBase extends WrapLightTranslationBase<ILightTransla
    toJSON(): ILightTranslationBase {
       return {
          b: this.time,
-         p: this.previous,
          e: this.easing,
+         p: this.previous,
          t: this.translation,
          customData: deepCopy(this.customData),
       };

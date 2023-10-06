@@ -31,8 +31,6 @@ export interface IWrapLightRotationEventBoxAttribute<
    axis: 0 | 1 | 2;
    /** Flip rotation `<int>` in light rotation event box. */
    flip: 0 | 1;
-   /** Rotation distribution should affect first event `<int>` of light rotation event box. */
-   affectFirst: 0 | 1;
    events: IWrapLightRotationBaseAttribute<TBase>[];
 }
 

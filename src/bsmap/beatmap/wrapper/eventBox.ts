@@ -16,7 +16,8 @@ export abstract class WrapEventBox<
    protected _beatDistribution!: IWrapEventBox<TBase>['beatDistribution'];
    protected _beatDistributionType!: IWrapEventBox<TBase>['beatDistributionType'];
    protected _easing!: IWrapEventBox<TBase>['easing'];
-   protected _events!: IWrapBaseObject<TBase>[];
+   protected _affectFirst!: IWrapEventBox<TBase>['affectFirst'];
+   protected _events!: number[] | IWrapBaseObject<TBase>[];
 
    get filter(): IWrapIndexFilter<TFilter> {
       return this._filter;
@@ -42,10 +43,16 @@ export abstract class WrapEventBox<
    set easing(value: IWrapEventBox<TBase>['easing']) {
       this._easing = value;
    }
-   get events(): IWrapBaseObject<TBase>[] {
+   get affectFirst(): IWrapEventBox<TBase>['affectFirst'] {
+      return this._affectFirst;
+   }
+   set affectFirst(value: IWrapEventBox<TBase>['affectFirst']) {
+      this._affectFirst = value;
+   }
+   get events(): number[] | IWrapBaseObject<TBase>[] {
       return this._events;
    }
-   set events(value: IWrapBaseObject<TBase>[]) {
+   set events(value: number[] | IWrapBaseObject<TBase>[]) {
       this._events = value;
    }
 
@@ -53,26 +60,30 @@ export abstract class WrapEventBox<
       this.filter = value;
       return this;
    }
-   setBeatDistribution(value: IWrapEventBox['beatDistribution']) {
+   setBeatDistribution(value: IWrapEventBox<TBase>['beatDistribution']) {
       this.beatDistribution = value;
       return this;
    }
-   setBeatDistributionType(value: IWrapEventBox['beatDistributionType']) {
+   setBeatDistributionType(value: IWrapEventBox<TBase>['beatDistributionType']) {
       this.beatDistributionType = value;
       return this;
    }
-   setEasing(value: IWrapEventBox['easing']) {
+   setEasing(value: IWrapEventBox<TBase>['easing']) {
       this.easing = value;
       return this;
    }
-   abstract setEvents(value: IWrapBaseObject<TBase>[]): this;
+   setAffectFirst(value: IWrapEventBox<TBase>['affectFirst']) {
+      this.affectFirst = value;
+      return this;
+   }
+   abstract setEvents(value: number[] | IWrapBaseObject<TBase>[]): this;
 
    isValid(): boolean {
       return (
          (this.beatDistributionType === 1 || this.beatDistributionType === 2) &&
          this.easing >= 0 &&
          this.easing <= 3 &&
-         this.events.every((e) => e.isValid()) &&
+         this.events.every((e) => typeof e === 'number' || e.isValid()) &&
          this.filter.isValid()
       );
    }

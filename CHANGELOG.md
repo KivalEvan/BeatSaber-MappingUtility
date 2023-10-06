@@ -6,10 +6,12 @@ To ease of development for future maintainer or anyone who is much more comforta
 
 ### Added
 
+-  Linkin Park 2.0 environment & color scheme
 -  Info color scheme for color picker
 
 ### Changed
 
+-  The Weeknd and Panic 2.0 color scheme now shows white color value
 -  Internal structure rewrite
 -  Slightly better styling
 -  Custom color now save between select and override where applicable

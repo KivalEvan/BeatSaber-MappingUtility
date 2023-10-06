@@ -54,6 +54,12 @@ import type { EventContainer, NoteContainer } from '../../types/beatmap/wrapper/
 import type { Version } from '../../types/beatmap/shared/version.ts';
 import { WrapBaseItem } from './baseItem.ts';
 import type { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
+import type { IWrapFxEventsCollection } from '../../types/beatmap/wrapper/fxEventsCollection.ts';
+import {
+   IWrapFxEventBoxGroup,
+   IWrapFxEventBoxGroupAttribute,
+} from '../../types/beatmap/wrapper/fxEventBoxGroup.ts';
+import { sortNoteFn, sortObjectFn } from '../shared/helpers.ts';
 
 /** Difficulty beatmap class object. */
 export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }>
@@ -76,7 +82,9 @@ export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }>
    abstract lightColorEventBoxGroups: IWrapLightColorEventBoxGroup[];
    abstract lightRotationEventBoxGroups: IWrapLightRotationEventBoxGroup[];
    abstract lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroup[];
+   abstract fxEventBoxGroups: IWrapFxEventBoxGroup[];
    abstract eventTypesWithKeywords: IWrapEventTypesWithKeywords;
+   abstract fxEventsCollection: IWrapFxEventsCollection;
    abstract useNormalEventsAsCompatibleEvents: boolean;
 
    clone<U extends this>(): U {
@@ -95,7 +103,36 @@ export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }>
       return this;
    }
 
-   abstract reparse(keepRef?: boolean): void;
+   sort(): this {
+      this.bpmEvents.sort(sortObjectFn);
+      this.rotationEvents.sort(sortObjectFn);
+      this.colorNotes.sort(sortNoteFn);
+      this.bombNotes.sort(sortNoteFn);
+      this.obstacles.sort(sortObjectFn);
+      this.arcs.sort(sortNoteFn);
+      this.chains.sort(sortNoteFn);
+      this.waypoints.sort(sortObjectFn);
+      this.basicEvents.sort(sortObjectFn);
+      this.colorBoostEvents.sort(sortObjectFn);
+      this.lightColorEventBoxGroups.sort(sortObjectFn);
+      this.lightRotationEventBoxGroups.sort(sortObjectFn);
+      this.lightTranslationEventBoxGroups.sort(sortObjectFn);
+      this.fxEventBoxGroups.sort(sortObjectFn);
+
+      this.lightColorEventBoxGroups.forEach((gr) =>
+         gr.boxes.forEach((bx) => bx.events.sort(sortObjectFn)),
+      );
+      this.lightRotationEventBoxGroups.forEach((gr) =>
+         gr.boxes.forEach((bx) => bx.events.sort(sortObjectFn)),
+      );
+      this.lightTranslationEventBoxGroups.forEach((gr) =>
+         gr.boxes.forEach((bx) => bx.events.sort(sortObjectFn)),
+      );
+
+      return this;
+   }
+
+   abstract reparse(keepRef?: boolean): this;
 
    protected createOrKeep<T, U>(concrete: { new (data: T | U): U }, obj: U, keep?: boolean): U {
       return keep && obj instanceof concrete ? obj : new concrete(obj);
@@ -203,4 +240,5 @@ export abstract class WrapDifficulty<T extends { [P in keyof T]: T[P] }>
    abstract addLightTranslationEventBoxGroups(
       ...data: DeepPartialWrapper<IWrapLightTranslationEventBoxGroupAttribute>[]
    ): void;
+   abstract addFxEventBoxGroups(...data: DeepPartialWrapper<IWrapFxEventBoxGroupAttribute>[]): void;
 }

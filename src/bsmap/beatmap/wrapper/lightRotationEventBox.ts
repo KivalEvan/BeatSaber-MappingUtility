@@ -15,7 +15,6 @@ export abstract class WrapLightRotationEventBox<
    protected _rotationDistributionType!: IWrapLightRotationEventBox['rotationDistributionType'];
    protected _axis!: IWrapLightRotationEventBox['axis'];
    protected _flip!: IWrapLightRotationEventBox['flip'];
-   protected _affectFirst!: IWrapLightRotationEventBox['affectFirst'];
    protected declare _events: IWrapLightRotationBase<TBase>[];
 
    get rotationDistribution(): IWrapLightRotationEventBox['rotationDistribution'] {
@@ -42,12 +41,6 @@ export abstract class WrapLightRotationEventBox<
    set flip(value: IWrapLightRotationEventBox['flip']) {
       this._flip = value;
    }
-   get affectFirst(): IWrapLightRotationEventBox['affectFirst'] {
-      return this._affectFirst;
-   }
-   set affectFirst(value: IWrapLightRotationEventBox['affectFirst']) {
-      this._affectFirst = value;
-   }
    get events(): IWrapLightRotationBase<TBase>[] {
       return this._events;
    }
@@ -69,10 +62,6 @@ export abstract class WrapLightRotationEventBox<
    }
    setFlip(value: IWrapLightRotationEventBox['flip']) {
       this.flip = value;
-      return this;
-   }
-   setAffectFirst(value: IWrapLightRotationEventBox['affectFirst']) {
-      this.affectFirst = value;
       return this;
    }
 

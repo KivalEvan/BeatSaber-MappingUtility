@@ -28,6 +28,8 @@ import type { DeepPartial, LooseAutocomplete } from '../../utils.ts';
 import type { GenericFileName } from '../shared/filename.ts';
 import type { EventContainer, NoteContainer } from './container.ts';
 import type { BeatPerMinute } from '../../../beatmap/shared/bpm.ts';
+import type { IWrapFxEventsCollection } from './fxEventsCollection.ts';
+import type { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBoxGroup.ts';
 
 export interface IWrapDifficultyAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
    extends IWrapBaseItemAttribute<T> {
@@ -45,7 +47,9 @@ export interface IWrapDifficultyAttribute<T extends { [P in keyof T]: T[P] } = R
    lightColorEventBoxGroups: IWrapLightColorEventBoxGroup[];
    lightRotationEventBoxGroups: IWrapLightRotationEventBoxGroup[];
    lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroup[];
+   fxEventBoxGroups: IWrapFxEventBoxGroup[];
    eventTypesWithKeywords: IWrapEventTypesWithKeywords;
+   fxEventsCollection: IWrapFxEventsCollection;
    useNormalEventsAsCompatibleEvents: boolean;
 
    filename: string;
@@ -55,6 +59,9 @@ export interface IWrapDifficulty<T extends { [P in keyof T]: T[P] } = Record<str
    extends IWrapBaseItem<T>,
       IWrapDifficultyAttribute<T> {
    setFileName(filename: LooseAutocomplete<GenericFileName>): this;
+
+   /** Sort beatmap object(s) accordingly. */
+   sort(): this;
 
    /**
     * Reparse the beatmap to their respective schema class.
@@ -69,7 +76,7 @@ export interface IWrapDifficulty<T extends { [P in keyof T]: T[P] } = Record<str
     * **NOTE:** This will create a new set of array,
     * `keepRef` allows for already matched object to stay in new array instead of creating new object (this is faster and less memory but can cause reference issue)
     */
-   reparse(keepRef?: boolean): void;
+   reparse(keepRef?: boolean): this;
 
    /**
     * Calculate note per second.
@@ -154,4 +161,5 @@ export interface IWrapDifficulty<T extends { [P in keyof T]: T[P] } = Record<str
    addLightTranslationEventBoxGroups(
       ...data: DeepPartial<IWrapLightTranslationEventBoxGroupAttribute>[]
    ): void;
+   addFxEventBoxGroups(...data: DeepPartial<IWrapFxEventBoxGroupAttribute>[]): void;
 }

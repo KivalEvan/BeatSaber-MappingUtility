@@ -22,37 +22,48 @@ import type { IObstacle } from '../../types/beatmap/v3/obstacle.ts';
 import type { IRotationEvent } from '../../types/beatmap/v3/rotationEvent.ts';
 import type { IArc } from '../../types/beatmap/v3/arc.ts';
 import type { IWaypoint } from '../../types/beatmap/v3/waypoint.ts';
+import type { IFxEventBox } from '../../types/beatmap/v3/fxEventBox.ts';
+import type { IFxEventBoxGroup } from '../../types/beatmap/v3/fxEventBoxGroup.ts';
+import type { IFxEventsCollection } from '../../types/beatmap/v3/fxEventsCollection.ts';
+import type { IFxEventFloat } from '../../types/beatmap/v3/fxEventFloat.ts';
+import type { IFxEventInt } from '../../types/beatmap/v3/fxEventInt.ts';
 
-// FIXME: ALMOST EVERYTHING IS HERE IFUCKIN OPTIONAL REE
+// FIXME: ALMOST EVERYTHING HERE IS IFUCKIN OPTIONAL REE
 export const ColorNoteDataCheck: { readonly [key in keyof IColorNote]: DataCheck } = {
    b: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    c: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    x: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    y: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    d: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    a: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    customData: {
       type: 'object',
@@ -66,16 +77,19 @@ export const BombDataCheck: { readonly [key in keyof IBombNote]: DataCheck } = {
    b: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    x: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    y: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    customData: {
       type: 'object',
@@ -89,58 +103,70 @@ export const ArcDataCheck: { readonly [key in keyof IArc]: DataCheck } = {
    b: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    c: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    x: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    y: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    d: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    mu: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    tb: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    tx: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    ty: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    tc: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    tmu: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    m: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    customData: {
       type: 'object',
@@ -154,49 +180,59 @@ export const ChainDataCheck: { readonly [key in keyof IChain]: DataCheck } = {
    b: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    c: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    x: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    y: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    d: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    tb: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    tx: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    ty: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    sc: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    s: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    customData: {
       type: 'object',
@@ -210,30 +246,36 @@ export const ObstacleDataCheck: { readonly [key in keyof IObstacle]: DataCheck }
    b: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    x: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    y: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    d: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    w: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    h: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    customData: {
       type: 'object',
@@ -247,20 +289,24 @@ export const BasicEventDataCheck: { readonly [key in keyof IBasicEvent]: DataChe
    b: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    et: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    i: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    f: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    customData: {
       type: 'object',
@@ -274,6 +320,7 @@ export const BPMChangeEventDataCheck: { readonly [key in keyof IBPMEvent]: DataC
    b: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    m: {
       type: 'number',
@@ -293,15 +340,18 @@ export const RotationEventDataCheck: {
    b: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    e: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    r: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    customData: {
       type: 'object',
@@ -317,10 +367,12 @@ export const ColorBoostEventDataCheck: {
    b: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    o: {
       type: 'boolean',
       version: '3.0.0',
+      optional: true,
    },
    customData: {
       type: 'object',
@@ -335,43 +387,52 @@ export const IndexFilterDataCheck: { readonly [key in keyof IIndexFilter]: DataC
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    p: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    t: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    r: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    c: {
       type: 'number',
       int: true,
       version: '3.1.0',
+      optional: true,
    },
    l: {
       type: 'number',
       version: '3.1.0',
+      optional: true,
    },
    d: {
       type: 'number',
       int: true,
       version: '3.1.0',
+      optional: true,
    },
    n: {
       type: 'number',
       int: true,
       version: '3.1.0',
+      optional: true,
    },
    s: {
       type: 'number',
       int: true,
       version: '3.1.0',
+      optional: true,
    },
    customData: {
       type: 'object',
@@ -387,24 +448,29 @@ export const LightColorBaseDataCheck: {
    b: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    i: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    c: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    s: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    f: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    customData: {
       type: 'object',
@@ -425,20 +491,24 @@ export const LightColorEventBoxDataCheck: {
    w: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    d: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    r: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    t: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    e: {
       type: 'array',
@@ -449,11 +519,13 @@ export const LightColorEventBoxDataCheck: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    i: {
       type: 'number',
       int: true,
       version: '3.2.0',
+      optional: true,
    },
    customData: {
       type: 'object',
@@ -469,11 +541,13 @@ export const LightColorEventBoxGroupDataCheck: {
    b: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    g: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    e: {
       type: 'array',
@@ -494,29 +568,35 @@ export const LightRotationBaseDataCheck: {
    b: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    p: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    e: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    l: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    r: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    o: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    customData: {
       type: 'object',
@@ -537,25 +617,30 @@ export const LightRotationEventBoxDataCheck: {
    w: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    d: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    s: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    t: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    a: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    l: {
       type: 'array',
@@ -566,16 +651,19 @@ export const LightRotationEventBoxDataCheck: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    b: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    i: {
       type: 'number',
       int: true,
       version: '3.2.0',
+      optional: true,
    },
    customData: {
       type: 'object',
@@ -591,11 +679,13 @@ export const LightRotationEventBoxGroupDataCheck: {
    b: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    g: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    e: {
       type: 'array',
@@ -616,20 +706,24 @@ export const LightTranslationBaseDataCheck: {
    b: {
       type: 'number',
       version: '3.2.0',
+      optional: true,
    },
    p: {
       type: 'number',
       int: true,
       version: '3.2.0',
+      optional: true,
    },
    e: {
       type: 'number',
       int: true,
       version: '3.2.0',
+      optional: true,
    },
    t: {
       type: 'number',
       version: '3.2.0',
+      optional: true,
    },
    customData: {
       type: 'object',
@@ -650,25 +744,30 @@ export const LightTranslationEventBoxDataCheck: {
    w: {
       type: 'number',
       version: '3.2.0',
+      optional: true,
    },
    d: {
       type: 'number',
       int: true,
       version: '3.2.0',
+      optional: true,
    },
    s: {
       type: 'number',
       version: '3.2.0',
+      optional: true,
    },
    t: {
       type: 'number',
       int: true,
       version: '3.2.0',
+      optional: true,
    },
    a: {
       type: 'number',
       int: true,
       version: '3.2.0',
+      optional: true,
    },
    l: {
       type: 'array',
@@ -679,16 +778,19 @@ export const LightTranslationEventBoxDataCheck: {
       type: 'number',
       int: true,
       version: '3.2.0',
+      optional: true,
    },
    b: {
       type: 'number',
       int: true,
       version: '3.2.0',
+      optional: true,
    },
    i: {
       type: 'number',
       int: true,
       version: '3.2.0',
+      optional: true,
    },
    customData: {
       type: 'object',
@@ -704,11 +806,13 @@ export const LightTranslationEventBoxGroupDataCheck: {
    b: {
       type: 'number',
       version: '3.2.0',
+      optional: true,
    },
    g: {
       type: 'number',
       int: true,
       version: '3.2.0',
+      optional: true,
    },
    e: {
       type: 'array',
@@ -718,6 +822,95 @@ export const LightTranslationEventBoxGroupDataCheck: {
    customData: {
       type: 'object',
       version: '3.2.0',
+      check: {},
+      optional: true,
+   },
+} as const;
+
+export const VfxEventBoxDataCheck: {
+   readonly [key in keyof IFxEventBox]: DataCheck;
+} = {
+   f: {
+      type: 'object',
+      version: '3.3.0',
+      check: IndexFilterDataCheck,
+   },
+   w: {
+      type: 'number',
+      version: '3.3.0',
+      optional: true,
+   },
+   d: {
+      type: 'number',
+      int: true,
+      version: '3.3.0',
+      optional: true,
+   },
+   s: {
+      type: 'number',
+      version: '3.3.0',
+      optional: true,
+   },
+   t: {
+      type: 'number',
+      int: true,
+      version: '3.3.0',
+      optional: true,
+   },
+   l: {
+      type: 'number',
+      int: true,
+      array: true,
+      version: '3.3.0',
+   },
+   b: {
+      type: 'number',
+      int: true,
+      version: '3.3.0',
+      optional: true,
+   },
+   i: {
+      type: 'number',
+      int: true,
+      version: '3.3.0',
+      optional: true,
+   },
+   customData: {
+      type: 'object',
+      version: '3.0.0',
+      check: {},
+      optional: true,
+   },
+} as const;
+
+export const VfxEventBoxGroupDataCheck: {
+   readonly [key in keyof IFxEventBoxGroup]: DataCheck;
+} = {
+   b: {
+      type: 'number',
+      version: '3.3.0',
+      optional: true,
+   },
+   g: {
+      type: 'number',
+      int: true,
+      version: '3.3.0',
+      optional: true,
+   },
+   e: {
+      type: 'array',
+      version: '3.3.0',
+      check: VfxEventBoxDataCheck,
+   },
+   t: {
+      type: 'number',
+      int: true,
+      version: '3.3.0',
+      optional: true,
+   },
+   customData: {
+      type: 'object',
+      version: '3.3.0',
       check: {},
       optional: true,
    },
@@ -749,25 +942,105 @@ export const BasicEventTypesWithKeywordsDataCheck: {
    },
 } as const;
 
+export const FxEventFloatDataCheck: {
+   readonly [key in keyof IFxEventFloat]: DataCheck;
+} = {
+   b: {
+      type: 'number',
+      version: '3.3.0',
+      optional: true,
+   },
+   i: {
+      type: 'number',
+      int: true,
+      version: '3.3.0',
+      optional: true,
+   },
+   p: {
+      type: 'number',
+      int: true,
+      version: '3.3.0',
+      optional: true,
+   },
+   v: {
+      type: 'number',
+      version: '3.3.0',
+      optional: true,
+   },
+   customData: {
+      type: 'object',
+      version: '3.3.0',
+      check: {},
+      optional: true,
+   },
+} as const;
+
+export const FxEventIntDataCheck: {
+   readonly [key in keyof IFxEventInt]: DataCheck;
+} = {
+   b: {
+      type: 'number',
+      version: '3.3.0',
+      optional: true,
+   },
+   p: {
+      type: 'number',
+      int: true,
+      version: '3.3.0',
+      optional: true,
+   },
+   v: {
+      type: 'number',
+      int: true,
+      version: '3.3.0',
+      optional: true,
+   },
+   customData: {
+      type: 'object',
+      version: '3.3.0',
+      check: {},
+      optional: true,
+   },
+} as const;
+
+export const FxEventsCollectionDataCheck: {
+   readonly [key in keyof IFxEventsCollection]: DataCheck;
+} = {
+   _fl: {
+      type: 'array',
+      version: '3.3.0',
+      check: FxEventFloatDataCheck,
+   },
+   _il: {
+      type: 'array',
+      version: '3.3.0',
+      check: FxEventIntDataCheck,
+   },
+} as const;
+
 export const WaypointDataCheck: { readonly [key in keyof IWaypoint]: DataCheck } = {
    b: {
       type: 'number',
       version: '3.0.0',
+      optional: true,
    },
    d: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    x: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    y: {
       type: 'number',
       int: true,
       version: '3.0.0',
+      optional: true,
    },
    customData: {
       type: 'object',
@@ -860,10 +1133,21 @@ export const DifficultyCheck: { readonly [key in keyof IDifficulty]: DataCheck }
       check: LightTranslationEventBoxGroupDataCheck,
       optional: true,
    },
+   vfxEventBoxGroups: {
+      type: 'array',
+      version: '3.3.0',
+      check: VfxEventBoxGroupDataCheck,
+      optional: true,
+   },
    basicEventTypesWithKeywords: {
       type: 'object',
       version: '3.0.0',
       check: BasicEventTypesWithKeywordsDataCheck,
+   },
+   _fxEventsCollection: {
+      type: 'object',
+      version: '3.3.0',
+      check: FxEventsCollectionDataCheck,
    },
    useNormalEventsAsCompatibleEvents: {
       type: 'boolean',
