@@ -6,7 +6,9 @@ To ease of development for future maintainer or anyone who is much more comforta
 
 ### Added
 
--  Linkin Park 2.0 environment & color scheme
+-  Environment & color scheme
+   -  Linkin Park 2.0
+   -  The Rolling Stones
 -  Info color scheme for color picker
 
 ### Changed
