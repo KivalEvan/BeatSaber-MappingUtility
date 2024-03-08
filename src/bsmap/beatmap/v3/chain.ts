@@ -131,13 +131,13 @@ export class Chain extends WrapChain<IChain> {
                (this.posX <= -1000
                   ? this.posX / 1000 + 1
                   : this.posX >= 1000
-                  ? this.posX / 1000 - 1
-                  : this.posX) - 2,
+                    ? this.posX / 1000 - 1
+                    : this.posX) - 2,
                this.posY <= -1000
                   ? this.posY / 1000
                   : this.posY >= 1000
-                  ? this.posY / 1000
-                  : this.posY,
+                    ? this.posY / 1000
+                    : this.posY,
             ];
       }
    }
@@ -171,13 +171,13 @@ export class Chain extends WrapChain<IChain> {
                (this.tailPosX <= -1000
                   ? this.tailPosX / 1000 + 1
                   : this.tailPosX >= 1000
-                  ? this.tailPosX / 1000 - 1
-                  : this.tailPosX) - 2,
+                    ? this.tailPosX / 1000 - 1
+                    : this.tailPosX) - 2,
                this.tailPosY <= -1000
                   ? this.tailPosY / 1000
                   : this.tailPosY >= 1000
-                  ? this.tailPosY / 1000
-                  : this.tailPosY,
+                    ? this.tailPosY / 1000
+                    : this.tailPosY,
             ];
       }
    }

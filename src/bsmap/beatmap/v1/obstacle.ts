@@ -34,8 +34,8 @@ export class Obstacle extends WrapObstacle<IObstacle> {
          (data.posY === 2 && data.height === 3
             ? 1
             : data.posY === 0 && data.height === 5
-            ? 0
-            : Obstacle.default._type);
+              ? 0
+              : Obstacle.default._type);
       this._posX = data._lineIndex ?? data.posX ?? Obstacle.default._lineIndex;
       this._duration = data._duration ?? data.duration ?? Obstacle.default._duration;
       this._width = data._width ?? data.width ?? Obstacle.default._width;
@@ -119,13 +119,13 @@ export class Obstacle extends WrapObstacle<IObstacle> {
                (this.posX <= -1000
                   ? this.posX / 1000 + 1
                   : this.posX >= 1000
-                  ? this.posX / 1000 - 1
-                  : this.posX) - 2,
+                    ? this.posX / 1000 - 1
+                    : this.posX) - 2,
                (this.posY <= -1000
                   ? this.posY / 1000
                   : this.posY >= 1000
-                  ? this.posY / 1000
-                  : this.posY) - 0.5,
+                    ? this.posY / 1000
+                    : this.posY) - 0.5,
             ];
       }
    }

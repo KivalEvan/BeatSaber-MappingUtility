@@ -75,9 +75,9 @@ export function difficulty(
       version === 3
          ? cleanV3Difficulty
          : version === 2
-         ? cleanV2Difficulty
-         : version === 1
-         ? cleanV1Difficulty
-         : () => {};
+           ? cleanV2Difficulty
+           : version === 1
+             ? cleanV1Difficulty
+             : () => {};
    clean(difficulty, opt);
 }

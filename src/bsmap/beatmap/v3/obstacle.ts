@@ -117,13 +117,13 @@ export class Obstacle extends WrapObstacle<IObstacle> {
                (this.posX <= -1000
                   ? this.posX / 1000 + 1
                   : this.posX >= 1000
-                  ? this.posX / 1000 - 1
-                  : this.posX) - 2,
+                    ? this.posX / 1000 - 1
+                    : this.posX) - 2,
                (this.posY <= -1000
                   ? this.posY / 1000
                   : this.posY >= 1000
-                  ? this.posY / 1000
-                  : this.posY) - 0.5,
+                    ? this.posY / 1000
+                    : this.posY) - 0.5,
             ];
       }
    }

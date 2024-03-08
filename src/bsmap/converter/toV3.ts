@@ -194,8 +194,8 @@ export function toV3Difficulty(data: IWrapDifficulty): V3Difficulty {
                      typeof e.customData._rotation === 'number'
                         ? e.customData._rotation
                         : e.value >= 1000
-                        ? (e.value - 1360) % 360
-                        : EventLaneRotationValue[e.value] ?? 0,
+                          ? (e.value - 1360) % 360
+                          : EventLaneRotationValue[e.value] ?? 0,
                }),
             );
          } else if (e.isBpmEvent()) {

@@ -340,8 +340,8 @@ export function v3(data: Difficulty): void {
                   (ev.value >= 1000 && ev.value <= 1720
                      ? ev.value - 1360
                      : ev.value >= 0 && ev.value <= 7
-                     ? EventLaneRotationValue[ev.value]
-                     : 0),
+                       ? EventLaneRotationValue[ev.value]
+                       : 0),
             }),
       ),
    );

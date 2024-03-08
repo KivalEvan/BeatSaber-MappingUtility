@@ -257,12 +257,12 @@ export class LightMapper {
                         isFirst
                            ? ev.brightness
                            : eb.brightnessDistributionType === 'Division'
-                           ? ev.brightness +
-                             EasingsFn[eb.brightnessDistributionEasing ?? 'easeLinear'](
-                                i / (lid.length - 1),
-                             ) *
-                                eb.brightnessDistribution
-                           : ev.brightness + i * eb.brightnessDistribution,
+                             ? ev.brightness +
+                               EasingsFn[eb.brightnessDistributionEasing ?? 'easeLinear'](
+                                  i / (lid.length - 1),
+                               ) *
+                                  eb.brightnessDistribution
+                             : ev.brightness + i * eb.brightnessDistribution,
                         0,
                      ),
                      customData: { ...ev.customData, lightID: lid[i] },

@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.0.0 - Framework Rewrite [2023-09-xx]
+## 3.0.0 - Framework Rewrite [2024-04-xx]
 
 To ease of development for future maintainer or anyone who is much more comfortable with framework rather than raw dog HTML. As much as I prefer working on vanilla side for performance reason, I do want people to contribute without hassle and I find Astro+SolidJS to be solid (ha) choice for performance and ease of development balance.
 
@@ -9,6 +9,8 @@ To ease of development for future maintainer or anyone who is much more comforta
 -  Environment & color scheme
    -  Linkin Park 2.0
    -  The Rolling Stones
+   -  Lattice
+   -  Daft Punk
 -  Info color scheme for color picker
 
 ### Changed

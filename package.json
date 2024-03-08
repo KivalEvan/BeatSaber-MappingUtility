@@ -11,13 +11,13 @@
       "astro": "astro"
    },
    "dependencies": {
-      "@astrojs/solid-js": "^3.0.2",
-      "astro": "^3.2.3",
-      "solid-js": "^1.7.12"
+      "@astrojs/solid-js": "^4.0.1",
+      "astro": "^4.4.14",
+      "solid-js": "^1.8.15"
    },
    "devDependencies": {
-      "prettier": "^3.0.3",
-      "prettier-plugin-astro": "^0.12.0",
-      "sass": "^1.69.0"
+      "prettier": "^3.2.5",
+      "prettier-plugin-astro": "^0.13.0",
+      "sass": "^1.71.1"
    }
 }
