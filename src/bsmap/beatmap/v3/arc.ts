@@ -18,52 +18,60 @@ export class Arc extends WrapArc<IArc> {
       x: 0,
       y: 0,
       d: 0,
-      mu: 1,
+      mu: 0,
       tb: 0,
       tx: 0,
       ty: 0,
       tc: 0,
-      tmu: 1,
+      tmu: 0,
       m: 0,
       customData: {},
    };
 
-   constructor();
-   constructor(data: Partial<IWrapArcAttribute<IArc>>);
-   constructor(data: Partial<IArc>);
-   constructor(data: Partial<IArc> & Partial<IWrapArcAttribute<IArc>>);
-   constructor(data: Partial<IArc> & Partial<IWrapArcAttribute<IArc>> = {}) {
-      super();
-
-      this._time = data.b ?? data.time ?? Arc.default.b;
-      this._color = data.c ?? data.color ?? Arc.default.c;
-      this._posX = data.x ?? data.posX ?? Arc.default.x;
-      this._posY = data.y ?? data.posY ?? Arc.default.y;
-      this._direction = data.d ?? data.direction ?? Arc.default.d;
-      this._lengthMultiplier = data.mu ?? data.lengthMultiplier ?? Arc.default.mu;
-      this._tailTime = data.tb ?? data.tailTime ?? Arc.default.tb;
-      this._tailPosX = data.tx ?? data.tailPosX ?? Arc.default.tx;
-      this._tailPosY = data.ty ?? data.tailPosY ?? Arc.default.ty;
-      this._tailDirection = data.tc ?? data.tailDirection ?? Arc.default.tc;
-      this._tailLengthMultiplier = data.tmu ?? data.tailLengthMultiplier ?? Arc.default.tmu;
-      this._midAnchor = data.m ?? data.midAnchor ?? Arc.default.m;
-      this._customData = deepCopy(data.customData ?? Arc.default.customData);
-   }
-
-   static create(): Arc[];
-   static create(...data: Partial<IWrapArcAttribute<IArc>>[]): Arc[];
-   static create(...data: Partial<IArc>[]): Arc[];
-   static create(...data: (Partial<IArc> & Partial<IWrapArcAttribute<IArc>>)[]): Arc[];
-   static create(...data: (Partial<IArc> & Partial<IWrapArcAttribute<IArc>>)[]): Arc[] {
-      const result: Arc[] = [];
-      data.forEach((obj) => result.push(new this(obj)));
+   static create(...data: Partial<IWrapArcAttribute<IArc>>[]): Arc[] {
+      const result: Arc[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }
       return [new this()];
    }
 
-   toJSON(): IArc {
+   constructor(data: Partial<IWrapArcAttribute<IArc>> = {}) {
+      super();
+      this._time = data.time ?? Arc.default.b;
+      this._color = data.color ?? Arc.default.c;
+      this._posX = data.posX ?? Arc.default.x;
+      this._posY = data.posY ?? Arc.default.y;
+      this._direction = data.direction ?? Arc.default.d;
+      this._lengthMultiplier = data.lengthMultiplier ?? Arc.default.mu;
+      this._tailTime = data.tailTime ?? Arc.default.tb;
+      this._tailPosX = data.tailPosX ?? Arc.default.tx;
+      this._tailPosY = data.tailPosY ?? Arc.default.ty;
+      this._tailDirection = data.tailDirection ?? Arc.default.tc;
+      this._tailLengthMultiplier = data.tailLengthMultiplier ?? Arc.default.tmu;
+      this._midAnchor = data.midAnchor ?? Arc.default.m;
+      this._customData = deepCopy(data.customData ?? Arc.default.customData);
+   }
+
+   static fromJSON(data: Partial<IArc> = {}): Arc {
+      const d = new this();
+      d._time = data.b ?? Arc.default.b;
+      d._color = data.c ?? Arc.default.c;
+      d._posX = data.x ?? Arc.default.x;
+      d._posY = data.y ?? Arc.default.y;
+      d._direction = data.d ?? Arc.default.d;
+      d._lengthMultiplier = data.mu ?? Arc.default.mu;
+      d._tailTime = data.tb ?? Arc.default.tb;
+      d._tailPosX = data.tx ?? Arc.default.tx;
+      d._tailPosY = data.ty ?? Arc.default.ty;
+      d._tailDirection = data.tc ?? Arc.default.tc;
+      d._tailLengthMultiplier = data.tmu ?? Arc.default.tmu;
+      d._midAnchor = data.m ?? Arc.default.m;
+      d._customData = deepCopy(data.customData ?? Arc.default.customData);
+      return d;
+   }
+
+   toJSON(): Required<IArc> {
       return {
          b: this.time,
          c: this.color,
@@ -88,7 +96,7 @@ export class Arc extends WrapArc<IArc> {
       this._customData = value;
    }
 
-   mirror(flipColor = true, flipNoodle?: boolean) {
+   mirror(flipColor = true, flipNoodle?: boolean): this {
       if (flipNoodle) {
          if (this.customData.coordinates) {
             this.customData.coordinates[0] = -1 - this.customData.coordinates[0];
@@ -103,7 +111,7 @@ export class Arc extends WrapArc<IArc> {
                      -this.customData.animation.definitePosition[0];
                } else {
                   this.customData.animation.definitePosition.forEach((dp) => {
-                     dp[0] = -dp[0];
+                     if (Array.isArray(dp)) dp[0] = -dp[0];
                   });
                }
             }
@@ -113,7 +121,7 @@ export class Arc extends WrapArc<IArc> {
                      -this.customData.animation.offsetPosition[0];
                } else {
                   this.customData.animation.offsetPosition.forEach((op) => {
-                     op[0] = -op[0];
+                     if (Array.isArray(op)) op[0] = -op[0];
                   });
                }
             }
@@ -148,7 +156,7 @@ export class Arc extends WrapArc<IArc> {
       }
    }
 
-   getAngle(type?: ModType) {
+   getAngle(type?: ModType): number {
       switch (type) {
          case 'vanilla':
          case 'ne':
@@ -188,7 +196,7 @@ export class Arc extends WrapArc<IArc> {
       }
    }
 
-   getTailAngle(type?: ModType) {
+   getTailAngle(type?: ModType): number {
       switch (type) {
          case 'vanilla':
          case 'ne':

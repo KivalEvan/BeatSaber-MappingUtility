@@ -1,4 +1,4 @@
-import { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
+import type { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
 import type { ISwingContainer } from './types/swing.ts';
 import type { NoteContainer, NoteContainerNote } from '../../types/beatmap/wrapper/container.ts';
 import { checkDirection } from '../placement/note.ts';

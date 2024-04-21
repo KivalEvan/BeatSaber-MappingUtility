@@ -13,37 +13,34 @@ export class BombNote extends WrapBombNote<IBombNote> {
       customData: {},
    };
 
-   constructor();
-   constructor(data: Partial<IWrapBombNoteAttribute<IBombNote>>);
-   constructor(data: Partial<IBombNote>);
-   constructor(data: Partial<IBombNote> & Partial<IWrapBombNoteAttribute<IBombNote>>);
-   constructor(data: Partial<IBombNote> & Partial<IWrapBombNoteAttribute<IBombNote>> = {}) {
-      super();
-
-      this._time = data.b ?? data.time ?? BombNote.default.b;
-      this._posX = data.x ?? data.posX ?? BombNote.default.x;
-      this._posY = data.y ?? data.posY ?? BombNote.default.y;
-      this._customData = deepCopy(data.customData ?? BombNote.default.customData);
-   }
-
-   static create(): BombNote[];
-   static create(...data: Partial<IWrapBombNoteAttribute<IBombNote>>[]): BombNote[];
-   static create(...data: Partial<IBombNote>[]): BombNote[];
-   static create(
-      ...data: (Partial<IBombNote> & Partial<IWrapBombNoteAttribute<IBombNote>>)[]
-   ): BombNote[];
-   static create(
-      ...data: (Partial<IBombNote> & Partial<IWrapBombNoteAttribute<IBombNote>>)[]
-   ): BombNote[] {
-      const result: BombNote[] = [];
-      data.forEach((obj) => result.push(new this(obj)));
+   static create(...data: Partial<IWrapBombNoteAttribute<IBombNote>>[]): BombNote[] {
+      const result: BombNote[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }
       return [new this()];
    }
 
-   toJSON(): IBombNote {
+   constructor(data: Partial<IWrapBombNoteAttribute<IBombNote>> = {}) {
+      super();
+      this._time = data.time ?? BombNote.default.b;
+      this._posX = data.posX ?? BombNote.default.x;
+      this._posY = data.posY ?? BombNote.default.y;
+      this._customData = deepCopy(data.customData ?? BombNote.default.customData);
+   }
+
+   static fromJSON(
+      data: Partial<IBombNote> & Partial<IWrapBombNoteAttribute<IBombNote>> = {},
+   ): BombNote {
+      const d = new this();
+      d._time = data.b ?? BombNote.default.b;
+      d._posX = data.x ?? BombNote.default.x;
+      d._posY = data.y ?? BombNote.default.y;
+      d._customData = deepCopy(data.customData ?? BombNote.default.customData);
+      return d;
+   }
+
+   toJSON(): Required<IBombNote> {
       return {
          b: this.time,
          x: this.posX,
@@ -59,7 +56,7 @@ export class BombNote extends WrapBombNote<IBombNote> {
       this._customData = value;
    }
 
-   mirror(_?: boolean, flipNoodle?: boolean) {
+   mirror(_?: boolean, flipNoodle?: boolean): this {
       if (flipNoodle) {
          if (this.customData.coordinates) {
             this.customData.coordinates[0] = -1 - this.customData.coordinates[0];
@@ -74,7 +71,7 @@ export class BombNote extends WrapBombNote<IBombNote> {
                      -this.customData.animation.definitePosition[0];
                } else {
                   this.customData.animation.definitePosition.forEach((dp) => {
-                     dp[0] = -dp[0];
+                     if (Array.isArray(dp)) dp[0] = -dp[0];
                   });
                }
             }
@@ -84,7 +81,7 @@ export class BombNote extends WrapBombNote<IBombNote> {
                      -this.customData.animation.offsetPosition[0];
                } else {
                   this.customData.animation.offsetPosition.forEach((op) => {
-                     op[0] = -op[0];
+                     if (Array.isArray(op)) op[0] = -op[0];
                   });
                }
             }

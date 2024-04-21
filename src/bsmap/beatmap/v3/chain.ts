@@ -21,45 +21,51 @@ export class Chain extends WrapChain<IChain> {
       tb: 0,
       tx: 0,
       ty: 0,
-      sc: 1,
-      s: 1,
+      sc: 0,
+      s: 0,
       customData: {},
    };
 
-   constructor();
-   constructor(data: Partial<IWrapChainAttribute<IChain>>);
-   constructor(data: Partial<IChain>);
-   constructor(data: Partial<IChain> & Partial<IWrapChainAttribute<IChain>>);
-   constructor(data: Partial<IChain> & Partial<IWrapChainAttribute<IChain>> = {}) {
-      super();
-
-      this._time = data.b ?? data.time ?? data.tb ?? Chain.default.b;
-      this._color = data.c ?? data.color ?? Chain.default.c;
-      this._posX = data.x ?? data.posX ?? Chain.default.x;
-      this._posY = data.y ?? data.posY ?? Chain.default.y;
-      this._direction = data.d ?? data.direction ?? Chain.default.d;
-      this._tailTime = data.tb ?? data.tailTime ?? data.b ?? Chain.default.tb;
-      this._tailPosX = data.tx ?? data.tailPosX ?? Chain.default.tx;
-      this._tailPosY = data.ty ?? data.tailPosY ?? Chain.default.ty;
-      this._sliceCount = data.sc ?? data.sliceCount ?? Chain.default.sc;
-      this._squish = data.s ?? data.squish ?? Chain.default.s;
-      this._customData = deepCopy(data.customData ?? Chain.default.customData);
-   }
-
-   static create(): Chain[];
-   static create(...data: Partial<IWrapChainAttribute<IChain>>[]): Chain[];
-   static create(...data: Partial<IChain>[]): Chain[];
-   static create(...data: (Partial<IChain> & Partial<IWrapChainAttribute<IChain>>)[]): Chain[];
-   static create(...data: (Partial<IChain> & Partial<IWrapChainAttribute<IChain>>)[]): Chain[] {
-      const result: Chain[] = [];
-      data.forEach((obj) => result.push(new this(obj)));
+   static create(...data: Partial<IWrapChainAttribute<IChain>>[]): Chain[] {
+      const result: Chain[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }
       return [new this()];
    }
 
-   toJSON(): IChain {
+   constructor(data: Partial<IWrapChainAttribute<IChain>> = {}) {
+      super();
+      this._time = data.time ?? Chain.default.b;
+      this._color = data.color ?? Chain.default.c;
+      this._posX = data.posX ?? Chain.default.x;
+      this._posY = data.posY ?? Chain.default.y;
+      this._direction = data.direction ?? Chain.default.d;
+      this._tailTime = data.tailTime ?? Chain.default.tb;
+      this._tailPosX = data.tailPosX ?? Chain.default.tx;
+      this._tailPosY = data.tailPosY ?? Chain.default.ty;
+      this._sliceCount = data.sliceCount ?? Chain.default.sc;
+      this._squish = data.squish ?? Chain.default.s;
+      this._customData = deepCopy(data.customData ?? Chain.default.customData);
+   }
+
+   static fromJSON(data: Partial<IChain> = {}): Chain {
+      const d = new this();
+      d._time = data.b ?? Chain.default.b;
+      d._color = data.c ?? Chain.default.c;
+      d._posX = data.x ?? Chain.default.x;
+      d._posY = data.y ?? Chain.default.y;
+      d._direction = data.d ?? Chain.default.d;
+      d._tailTime = data.tb ?? Chain.default.tb;
+      d._tailPosX = data.tx ?? Chain.default.tx;
+      d._tailPosY = data.ty ?? Chain.default.ty;
+      d._sliceCount = data.sc ?? Chain.default.sc;
+      d._squish = data.s ?? Chain.default.s;
+      d._customData = deepCopy(data.customData ?? Chain.default.customData);
+      return d;
+   }
+
+   toJSON(): Required<IChain> {
       return {
          b: this.time,
          c: this.color,
@@ -82,7 +88,7 @@ export class Chain extends WrapChain<IChain> {
       this._customData = value;
    }
 
-   mirror(flipColor = true, flipNoodle?: boolean) {
+   mirror(flipColor = true, flipNoodle?: boolean): this {
       if (flipNoodle) {
          if (this.customData.coordinates) {
             this.customData.coordinates[0] = -1 - this.customData.coordinates[0];
@@ -97,7 +103,7 @@ export class Chain extends WrapChain<IChain> {
                      -this.customData.animation.definitePosition[0];
                } else {
                   this.customData.animation.definitePosition.forEach((dp) => {
-                     dp[0] = -dp[0];
+                     if (Array.isArray(dp)) dp[0] = -dp[0];
                   });
                }
             }
@@ -107,7 +113,7 @@ export class Chain extends WrapChain<IChain> {
                      -this.customData.animation.offsetPosition[0];
                } else {
                   this.customData.animation.offsetPosition.forEach((op) => {
-                     op[0] = -op[0];
+                     if (Array.isArray(op)) op[0] = -op[0];
                   });
                }
             }
@@ -142,7 +148,7 @@ export class Chain extends WrapChain<IChain> {
       }
    }
 
-   getAngle(type?: ModType) {
+   getAngle(type?: ModType): number {
       switch (type) {
          case 'me':
             if (this.direction >= 1000) {

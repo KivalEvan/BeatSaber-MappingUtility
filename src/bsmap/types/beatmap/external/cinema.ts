@@ -223,7 +223,7 @@ export interface ICinemaConfig {
    /**
     * You can create clones of the "main screen" by using the `additionalScreens` property.
     *
-    * You can place, rotate and scale these screens independently from each other, but all other properties like color correction, vignetting, curvature and, most import typeantly, the video that is playing, are cloned from the main screen.
+    * You can place, rotate and scale these screens independently from each other, but all other properties like color correction, vignetting, curvature and, most importantly, the video that is playing, are cloned from the main screen.
     *
     * Please note: Adding additional screens currently disables the bloom effect on all screens, even the main one.
     */

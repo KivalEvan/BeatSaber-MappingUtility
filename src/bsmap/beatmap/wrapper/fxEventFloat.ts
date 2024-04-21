@@ -29,20 +29,22 @@ export abstract class WrapFxEventFloat<T extends { [P in keyof T]: T[P] }>
       this._value = value;
    }
 
-   setEasing(value: IWrapFxEventFloat['easing']) {
+   setEasing(value: IWrapFxEventFloat['easing']): this {
       this.easing = value;
       return this;
    }
-   setPrevious(value: IWrapFxEventFloat['previous']) {
+   setPrevious(value: IWrapFxEventFloat['previous']): this {
       this.previous = value;
       return this;
    }
-   setValue(value: IWrapFxEventFloat['value']) {
+   setValue(value: IWrapFxEventFloat['value']): this {
       this.value = value;
       return this;
    }
 
    isValid(): boolean {
-      return (this.previous === 0 || this.previous === 1) && this.easing >= -1 && this.easing <= 3;
+      return (
+         (this.previous === 0 || this.previous === 1) && this.easing >= -1 && this.easing <= 103
+      );
    }
 }

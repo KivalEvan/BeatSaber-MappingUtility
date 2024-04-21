@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-unused-vars
 import type { IEvent } from '../../types/beatmap/v2/event.ts';
-import {
+import type {
    IChromaEventLaser,
    IChromaEventLight,
    IChromaEventRing,
@@ -17,38 +17,38 @@ export class Event extends WrapEvent<IEvent> {
       _time: 0,
       _type: 0,
       _value: 0,
-      _floatValue: 1,
+      _floatValue: 0,
       _customData: {},
    };
 
-   constructor();
-   constructor(data: Partial<IWrapEventAttribute<IEvent>>);
-   constructor(data: Partial<IEvent>);
-   constructor(data: Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>);
-   constructor(data: Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>> = {}) {
-      super();
-
-      this._time = data._time ?? data.time ?? Event.default._time;
-      this._type = data._type ?? data.type ?? Event.default._type;
-      this._value = data._value ?? data.value ?? Event.default._value;
-      this._floatValue = data._floatValue ?? data.floatValue ?? Event.default._floatValue;
-      this._customData = deepCopy(data._customData ?? data.customData ?? Event.default._customData);
-   }
-
-   static create(): Event[];
-   static create(...data: Partial<IWrapEventAttribute<IEvent>>[]): Event[];
-   static create(...data: Partial<IEvent>[]): Event[];
-   static create(...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]): Event[];
-   static create(...data: (Partial<IEvent> & Partial<IWrapEventAttribute<IEvent>>)[]): Event[] {
-      const result: Event[] = [];
-      data.forEach((obj) => result.push(new this(obj)));
+   static create(...data: Partial<IWrapEventAttribute<IEvent>>[]): Event[] {
+      const result: Event[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }
       return [new this()];
    }
 
-   toJSON(): IEvent {
+   constructor(data: Partial<IWrapEventAttribute<IEvent>> = {}) {
+      super();
+      this._time = data.time ?? Event.default._time;
+      this._type = data.type ?? Event.default._type;
+      this._value = data.value ?? Event.default._value;
+      this._floatValue = data.floatValue ?? Event.default._floatValue;
+      this._customData = deepCopy(data.customData ?? Event.default._customData);
+   }
+
+   static fromJSON(data: Partial<IEvent> = {}): Event {
+      const d = new this();
+      d._time = data._time ?? Event.default._time;
+      d._type = data._type ?? Event.default._type;
+      d._value = data._value ?? Event.default._value;
+      d._floatValue = data._floatValue ?? Event.default._floatValue;
+      d._customData = deepCopy(data._customData ?? Event.default._customData);
+      return d;
+   }
+
+   toJSON(): Required<IEvent> {
       return {
          _time: this.time,
          _type: this.type,

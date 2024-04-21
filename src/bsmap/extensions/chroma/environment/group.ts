@@ -12,7 +12,8 @@ export class EnvironmentGroup {
       this.data = data;
       this.anchor = anchor;
    }
-   static create(data: IChromaEnvironment[], anchor: Vector3 = [0, 0, 0]) {
+
+   static create(data: IChromaEnvironment[], anchor: Vector3 = [0, 0, 0]): EnvironmentGroup {
       return new this(data, anchor);
    }
 

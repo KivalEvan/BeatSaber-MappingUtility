@@ -2,5 +2,5 @@ import type { IBasicEventTypesForKeywords } from './basicEventTypesForKeywords.t
 
 export interface IBasicEventTypesWithKeywords {
    /** Data list of basic event types with keywords. */
-   d: IBasicEventTypesForKeywords[];
+   d?: IBasicEventTypesForKeywords[];
 }

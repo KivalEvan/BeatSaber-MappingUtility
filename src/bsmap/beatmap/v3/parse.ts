@@ -1,8 +1,8 @@
-import type { IDifficulty } from '../../types/beatmap/v3/difficulty.ts';
-import { Difficulty } from './difficulty.ts';
-import { DifficultyCheck } from './dataCheck.ts';
-import { deepCheck } from '../shared/dataCheck.ts';
 import logger from '../../logger.ts';
+import { Difficulty } from './difficulty.ts';
+import { Lightshow } from './lightshow.ts';
+import { DifficultyDataCheck, LightshowDataCheck } from './dataCheck.ts';
+import { deepCheck } from '../shared/dataCheck.ts';
 import type { IDataCheckOption } from '../../types/beatmap/shared/dataCheck.ts';
 
 function tag(name: string): string[] {
@@ -10,7 +10,8 @@ function tag(name: string): string[] {
 }
 
 export function parseDifficulty(
-   data: Partial<IDifficulty>,
+   // deno-lint-ignore no-explicit-any
+   data: Record<string, any>,
    checkData: IDataCheckOption = { enabled: true, throwError: true },
 ): Difficulty {
    logger.tInfo(tag('difficulty'), 'Parsing beatmap difficulty v3.x.x');
@@ -23,27 +24,27 @@ export function parseDifficulty(
       )
    ) {
       logger.tWarn(tag('difficulty'), 'Unidentified beatmap version');
-      data.version = '3.0.0';
    }
    if (checkData.enabled) {
-      deepCheck(data, DifficultyCheck, 'difficulty', data.version, checkData.throwError);
+      deepCheck(data, DifficultyDataCheck, 'difficulty', data.version, checkData.throwError);
    }
 
-   data.sliders?.forEach((e) => {
-      e.mu ??= 0;
-      e.tmu ??= 0;
-   });
-   data.basicBeatmapEvents?.forEach((e) => {
-      e.f ??= 0;
-   });
-   data.burstSliders?.forEach((e) => {
-      e.s ??= 0;
-   });
-   data.obstacles?.forEach((e) => {
-      e.d ??= 0;
-      e.w ??= 0;
-      e.h ??= 0;
-   });
+   return Difficulty.fromJSON(data);
+}
 
-   return new Difficulty(data);
+export function parseLightshow(
+   // deno-lint-ignore no-explicit-any
+   data: Record<string, any>,
+   checkData: IDataCheckOption = { enabled: true, throwError: true },
+): Lightshow {
+   logger.tInfo(tag('lightshow'), 'Parsing beatmap lightshow v3.x.x');
+   logger.tWarn(
+      tag('lightshow'),
+      'This beatmap does not have lightshow version and does not work in-game.',
+   );
+   if (checkData.enabled) {
+      deepCheck(data, LightshowDataCheck, 'lightshow', data.version, checkData.throwError);
+   }
+
+   return Lightshow.fromJSON(data);
 }

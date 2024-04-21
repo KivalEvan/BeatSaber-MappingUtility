@@ -1,4 +1,4 @@
-import type { IWrapLightRotationBase } from '../../types/beatmap/wrapper/lightRotationBase.ts';
+import type { IWrapLightRotationEvent } from '../../types/beatmap/wrapper/lightRotationEvent.ts';
 import type { IWrapLightRotationEventBox } from '../../types/beatmap/wrapper/lightRotationEventBox.ts';
 import { WrapEventBox } from './eventBox.ts';
 
@@ -15,7 +15,7 @@ export abstract class WrapLightRotationEventBox<
    protected _rotationDistributionType!: IWrapLightRotationEventBox['rotationDistributionType'];
    protected _axis!: IWrapLightRotationEventBox['axis'];
    protected _flip!: IWrapLightRotationEventBox['flip'];
-   protected declare _events: IWrapLightRotationBase<TBase>[];
+   protected declare _events: IWrapLightRotationEvent<TBase>[];
 
    get rotationDistribution(): IWrapLightRotationEventBox['rotationDistribution'] {
       return this._rotationDistribution;
@@ -41,26 +41,28 @@ export abstract class WrapLightRotationEventBox<
    set flip(value: IWrapLightRotationEventBox['flip']) {
       this._flip = value;
    }
-   get events(): IWrapLightRotationBase<TBase>[] {
+   get events(): IWrapLightRotationEvent<TBase>[] {
       return this._events;
    }
-   set events(value: IWrapLightRotationBase<TBase>[]) {
+   set events(value: IWrapLightRotationEvent<TBase>[]) {
       this._events = value;
    }
 
-   setRotationDistribution(value: IWrapLightRotationEventBox['rotationDistribution']) {
+   setRotationDistribution(value: IWrapLightRotationEventBox['rotationDistribution']): this {
       this.rotationDistribution = value;
       return this;
    }
-   setRotationDistributionType(value: IWrapLightRotationEventBox['rotationDistributionType']) {
+   setRotationDistributionType(
+      value: IWrapLightRotationEventBox['rotationDistributionType'],
+   ): this {
       this.rotationDistributionType = value;
       return this;
    }
-   setAxis(value: IWrapLightRotationEventBox['axis']) {
+   setAxis(value: IWrapLightRotationEventBox['axis']): this {
       this.axis = value;
       return this;
    }
-   setFlip(value: IWrapLightRotationEventBox['flip']) {
+   setFlip(value: IWrapLightRotationEventBox['flip']): this {
       this.flip = value;
       return this;
    }

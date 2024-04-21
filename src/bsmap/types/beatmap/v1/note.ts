@@ -1,3 +1,4 @@
+import type { NoteColor } from '../shared/constants.ts';
 import type { IBaseObject } from './object.ts';
 
 /** Beatmap object interface for Note. */
@@ -29,7 +30,7 @@ export interface INote extends IBaseObject {
     * 3 -> Bomb
     * ```
     */
-   _type: 0 | 1 | 3;
+   _type: NoteColor | 3;
    /**
     * Cut direction of note.
     * ```ts

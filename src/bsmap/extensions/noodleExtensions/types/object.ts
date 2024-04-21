@@ -1,9 +1,9 @@
-import { BombNote } from '../../../beatmap/v3/bombNote.ts';
-import { ColorNote } from '../../../beatmap/v3/colorNote.ts';
-import { Chain } from '../../../beatmap/v3/chain.ts';
-import { Arc } from '../../../beatmap/v3/arc.ts';
-import { Obstacle } from '../../../beatmap/v3/obstacle.ts';
+import type { IWrapBombNote } from '../../../types/beatmap/wrapper/bombNote.ts';
+import type { IWrapColorNote } from '../../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapChain } from '../../../types/beatmap/wrapper/chain.ts';
+import type { IWrapArc } from '../../../types/beatmap/wrapper/arc.ts';
+import type { IWrapObstacle } from '../../../types/beatmap/wrapper/obstacle.ts';
 
-export type INEObject = ColorNote | Obstacle | BombNote | Chain | Arc;
+export type INEObject = IWrapColorNote | IWrapObstacle | IWrapBombNote | IWrapChain | IWrapArc;
 
-export type INENote = ColorNote | BombNote | Chain | Arc;
+export type INENote = IWrapColorNote | IWrapBombNote | IWrapChain | IWrapArc;

@@ -1,10 +1,7 @@
-import type { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
-import type { EnvironmentAllName } from '../../types/beatmap/shared/environment.ts';
 import type { INote } from '../../types/beatmap/v2/note.ts';
 import type { IBaseObject as IV2BaseObject } from '../../types/beatmap/v2/object.ts';
 import type { IBaseObject as IV3BaseObject } from '../../types/beatmap/v3/baseObject.ts';
 import type { IWrapBaseObjectAttribute } from '../../types/beatmap/wrapper/baseObject.ts';
-import type { IWrapInfo } from '../../types/beatmap/wrapper/info.ts';
 import type { Vector2 } from '../../types/vector.ts';
 import { LANE_SIZE } from './constants.ts';
 import type { IBombNote } from '../../types/beatmap/v3/bombNote.ts';
@@ -18,16 +15,6 @@ export function gridToUnityUnit(value: number): number {
 /** Convert unity unit to grid lane size unit. */
 export function unityToGridUnit(value: number): number {
    return value / LANE_SIZE;
-}
-
-export function currentEnvironment(
-   info: IWrapInfo,
-   characteristic?: CharacteristicName,
-): EnvironmentAllName {
-   if (characteristic === '360Degree' || characteristic === '90Degree') {
-      return info.allDirectionsEnvironmentName;
-   }
-   return info.environmentName;
 }
 
 /**
@@ -71,7 +58,7 @@ export function sortNoteFn(a: IWrapGridObjectAttribute, b: IWrapGridObjectAttrib
  * ```
  */
 export function sortV2ObjectFn(a: IV2BaseObject, b: IV2BaseObject): number {
-   return a._time - b._time;
+   return a._time! - b._time!;
 }
 
 /**
@@ -83,12 +70,12 @@ export function sortV2ObjectFn(a: IV2BaseObject, b: IV2BaseObject): number {
 export function sortV2NoteFn(a: INote, b: INote): number {
    if (Array.isArray(a._customData?._position) && Array.isArray(b._customData?._position)) {
       return (
-         a._time - b._time ||
+         a._time! - b._time! ||
          (a._customData!._position as Vector2)[0] - (b._customData!._position as Vector2)[0] ||
          (a._customData!._position as Vector2)[1] - (b._customData!._position as Vector2)[1]
       );
    }
-   return a._time - b._time || a._lineIndex - b._lineLayer || a._lineIndex - b._lineLayer;
+   return a._time! - b._time! || a._lineIndex! - b._lineLayer! || a._lineIndex! - b._lineLayer!;
 }
 
 /**
@@ -98,7 +85,7 @@ export function sortV2NoteFn(a: INote, b: INote): number {
  * ```
  */
 export function sortV3ObjectFn(a: IV3BaseObject, b: IV3BaseObject): number {
-   return a.b - b.b;
+   return a.b! - b.b!;
 }
 
 /**
@@ -110,10 +97,10 @@ export function sortV3ObjectFn(a: IV3BaseObject, b: IV3BaseObject): number {
 export function sortV3NoteFn(a: IBombNote, b: IBombNote): number {
    if (Array.isArray(a.customData?.coordinates) && Array.isArray(b.customData?.coordinates)) {
       return (
-         a.b - b.b ||
+         a.b! - b.b! ||
          (a.customData!.coordinates as Vector2)[0] - (b.customData!.coordinates as Vector2)[0] ||
          (a.customData!.coordinates as Vector2)[1] - (b.customData!.coordinates as Vector2)[1]
       );
    }
-   return a.b - b.b || a.x - b.x || a.y - b.y;
+   return a.b! - b.b! || a.x! - b.x! || a.y! - b.y!;
 }

@@ -1,5 +1,5 @@
 import type { IIndexFilter } from '../../types/beatmap/v3/indexFilter.ts';
-import type { ILightColorBase } from '../../types/beatmap/v3/lightColorBase.ts';
+import type { ILightColorEvent } from '../../types/beatmap/v3/lightColorEvent.ts';
 import type { ILightColorEventBox } from '../../types/beatmap/v3/lightColorEventBox.ts';
 import type { ILightColorEventBoxGroup } from '../../types/beatmap/v3/lightColorEventBoxGroup.ts';
 import type { IWrapLightColorEventBoxGroupAttribute } from '../../types/beatmap/wrapper/lightColorEventBoxGroup.ts';
@@ -12,7 +12,7 @@ import { LightColorEventBox } from './lightColorEventBox.ts';
 export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
    ILightColorEventBoxGroup,
    ILightColorEventBox,
-   ILightColorBase,
+   ILightColorEvent,
    IIndexFilter
 > {
    static default: Required<ILightColorEventBoxGroup> = {
@@ -22,95 +22,58 @@ export class LightColorEventBoxGroup extends WrapLightColorEventBoxGroup<
       customData: {},
    };
 
-   constructor();
-   constructor(
-      data: DeepPartial<
-         IWrapLightColorEventBoxGroupAttribute<
-            ILightColorEventBoxGroup,
-            ILightColorEventBox,
-            ILightColorBase,
-            IIndexFilter
-         >
-      >,
-   );
-   constructor(data: DeepPartial<ILightColorEventBoxGroup>);
-   constructor(
-      data: DeepPartial<ILightColorEventBoxGroup> &
-         DeepPartial<
-            IWrapLightColorEventBoxGroupAttribute<
-               ILightColorEventBoxGroup,
-               ILightColorEventBox,
-               ILightColorBase,
-               IIndexFilter
-            >
-         >,
-   );
-   constructor(
-      data: DeepPartial<ILightColorEventBoxGroup> &
-         DeepPartial<
-            IWrapLightColorEventBoxGroupAttribute<
-               ILightColorEventBoxGroup,
-               ILightColorEventBox,
-               ILightColorBase,
-               IIndexFilter
-            >
-         > = {},
-   ) {
-      super();
-
-      this._time = data.b ?? data.time ?? LightColorEventBoxGroup.default.b;
-      this._id = data.g ?? data.id ?? LightColorEventBoxGroup.default.g;
-      this._boxes = (
-         (data.e as unknown as ILightColorEventBox[]) ??
-         (data.boxes as ILightColorEventBox[]) ??
-         LightColorEventBoxGroup.default.e
-      ).map((obj) => new LightColorEventBox(obj));
-      this._customData = deepCopy(data.customData ?? LightColorEventBoxGroup.default.customData);
-   }
-
-   static create(): LightColorEventBoxGroup[];
    static create(
       ...data: DeepPartial<
          IWrapLightColorEventBoxGroupAttribute<
             ILightColorEventBoxGroup,
             ILightColorEventBox,
-            ILightColorBase,
+            ILightColorEvent,
             IIndexFilter
          >
       >[]
-   ): LightColorEventBoxGroup[];
-   static create(...data: DeepPartial<ILightColorEventBoxGroup>[]): LightColorEventBoxGroup[];
-   static create(
-      ...data: (DeepPartial<ILightColorEventBoxGroup> &
-         DeepPartial<
-            IWrapLightColorEventBoxGroupAttribute<
-               ILightColorEventBoxGroup,
-               ILightColorEventBox,
-               ILightColorBase,
-               IIndexFilter
-            >
-         >)[]
-   ): LightColorEventBoxGroup[];
-   static create(
-      ...data: (DeepPartial<ILightColorEventBoxGroup> &
-         DeepPartial<
-            IWrapLightColorEventBoxGroupAttribute<
-               ILightColorEventBoxGroup,
-               ILightColorEventBox,
-               ILightColorBase,
-               IIndexFilter
-            >
-         >)[]
    ): LightColorEventBoxGroup[] {
-      const result: LightColorEventBoxGroup[] = [];
-      data.forEach((obj) => result.push(new this(obj)));
+      const result: LightColorEventBoxGroup[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }
       return [new this()];
    }
 
-   toJSON(): ILightColorEventBoxGroup {
+   constructor(
+      data: DeepPartial<
+         IWrapLightColorEventBoxGroupAttribute<
+            ILightColorEventBoxGroup,
+            ILightColorEventBox,
+            ILightColorEvent,
+            IIndexFilter
+         >
+      > = {},
+   ) {
+      super();
+      this._time = data.time ?? LightColorEventBoxGroup.default.b;
+      this._id = data.id ?? LightColorEventBoxGroup.default.g;
+      if (data.boxes) {
+         this._boxes = data.boxes.map((obj) => new LightColorEventBox(obj));
+      } else {
+         this._boxes = LightColorEventBoxGroup.default.e.map((obj) =>
+            LightColorEventBox.fromJSON(obj),
+         );
+      }
+      this._customData = deepCopy(data.customData ?? LightColorEventBoxGroup.default.customData);
+   }
+
+   static fromJSON(data: DeepPartial<ILightColorEventBoxGroup> = {}): LightColorEventBoxGroup {
+      const d = new this();
+      d._time = data.b ?? LightColorEventBoxGroup.default.b;
+      d._id = data.g ?? LightColorEventBoxGroup.default.g;
+      d._boxes = (data.e ?? LightColorEventBoxGroup.default.e).map((obj) =>
+         LightColorEventBox.fromJSON(obj),
+      );
+      d._customData = deepCopy(data.customData ?? LightColorEventBoxGroup.default.customData);
+      return d;
+   }
+
+   toJSON(): Required<ILightColorEventBoxGroup> {
       return {
          b: this.time,
          g: this.id,

@@ -18,43 +18,40 @@ export class ColorNote extends WrapColorNote<IColorNote> {
       customData: {},
    };
 
-   constructor();
-   constructor(data: Partial<IWrapColorNoteAttribute<IColorNote>>);
-   constructor(data: Partial<IColorNote>);
-   constructor(data: Partial<IColorNote> & Partial<IWrapColorNoteAttribute<IColorNote>>);
-   constructor(data: Partial<IColorNote> & Partial<IWrapColorNoteAttribute<IColorNote>> = {}) {
-      super();
-
-      this._time = data.b ?? data.time ?? ColorNote.default.b;
-      this._posX = data.x ?? data.posX ?? ColorNote.default.x;
-      this._posY = data.y ?? data.posY ?? ColorNote.default.y;
-      this._color =
-         data.c ??
-         data.color ??
-         (data.type === 0 || data.type === 1 ? (data.type as 0) : ColorNote.default.c);
-      this._direction = data.d ?? data.direction ?? ColorNote.default.d;
-      this._angleOffset = data.a ?? data.angleOffset ?? ColorNote.default.a;
-      this._customData = deepCopy(data.customData ?? ColorNote.default.customData);
-   }
-
-   static create(): ColorNote[];
-   static create(...data: Partial<IWrapColorNoteAttribute<IColorNote>>[]): ColorNote[];
-   static create(...data: Partial<IColorNote>[]): ColorNote[];
-   static create(
-      ...data: (Partial<IColorNote> & Partial<IWrapColorNoteAttribute<IColorNote>>)[]
-   ): ColorNote[];
-   static create(
-      ...data: (Partial<IColorNote> & Partial<IWrapColorNoteAttribute<IColorNote>>)[]
-   ): ColorNote[] {
-      const result: ColorNote[] = [];
-      data.forEach((obj) => result.push(new this(obj)));
+   static create(...data: Partial<IWrapColorNoteAttribute<IColorNote>>[]): ColorNote[] {
+      const result: ColorNote[] = data.map((obj) => new this(obj));
       if (result.length) {
          return result;
       }
       return [new this()];
    }
 
-   toJSON(): IColorNote {
+   constructor(data: Partial<IWrapColorNoteAttribute<IColorNote>> = {}) {
+      super();
+      this._time = data.time ?? ColorNote.default.b;
+      this._posX = data.posX ?? ColorNote.default.x;
+      this._posY = data.posY ?? ColorNote.default.y;
+      this._color =
+         data.color ??
+         (data.type === 0 || data.type === 1 ? (data.type as 0) : ColorNote.default.c);
+      this._direction = data.direction ?? ColorNote.default.d;
+      this._angleOffset = data.angleOffset ?? ColorNote.default.a;
+      this._customData = deepCopy(data.customData ?? ColorNote.default.customData);
+   }
+
+   static fromJSON(data: Partial<IColorNote> = {}): ColorNote {
+      const d = new this();
+      d._time = data.b ?? ColorNote.default.b;
+      d._posX = data.x ?? ColorNote.default.x;
+      d._posY = data.y ?? ColorNote.default.y;
+      d._color = data.c ?? ColorNote.default.c;
+      d._direction = data.d ?? ColorNote.default.d;
+      d._angleOffset = data.a ?? ColorNote.default.a;
+      d._customData = deepCopy(data.customData ?? ColorNote.default.customData);
+      return d;
+   }
+
+   toJSON(): Required<IColorNote> {
       return {
          b: this.time,
          c: this.color,
@@ -66,10 +63,10 @@ export class ColorNote extends WrapColorNote<IColorNote> {
       };
    }
 
-   get type(): IColorNote['c'] {
+   get type(): Required<IColorNote>['c'] {
       return this._color;
    }
-   set type(value: IColorNote['c']) {
+   set type(value: Required<IColorNote>['c']) {
       this._color = value;
    }
 
@@ -80,7 +77,7 @@ export class ColorNote extends WrapColorNote<IColorNote> {
       this._customData = value;
    }
 
-   mirror(flipColor = true, flipNoodle?: boolean) {
+   mirror(flipColor = true, flipNoodle?: boolean): this {
       if (flipNoodle) {
          if (this.customData.coordinates) {
             this.customData.coordinates[0] = -1 - this.customData.coordinates[0];
@@ -95,7 +92,7 @@ export class ColorNote extends WrapColorNote<IColorNote> {
                      -this.customData.animation.definitePosition[0];
                } else {
                   this.customData.animation.definitePosition.forEach((dp) => {
-                     dp[0] = -dp[0];
+                     if (Array.isArray(dp)) dp[0] = -dp[0];
                   });
                }
             }
@@ -105,7 +102,7 @@ export class ColorNote extends WrapColorNote<IColorNote> {
                      -this.customData.animation.offsetPosition[0];
                } else {
                   this.customData.animation.offsetPosition.forEach((op) => {
-                     op[0] = -op[0];
+                     if (Array.isArray(op)) op[0] = -op[0];
                   });
                }
             }
@@ -140,7 +137,7 @@ export class ColorNote extends WrapColorNote<IColorNote> {
       }
    }
 
-   getAngle(type?: ModType) {
+   getAngle(type?: ModType): number {
       switch (type) {
          case 'vanilla':
          case 'ne':

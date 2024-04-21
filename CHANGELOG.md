@@ -6,11 +6,12 @@ To ease of development for future maintainer or anyone who is much more comforta
 
 ### Added
 
--  Environment & color scheme
+-  New base color scheme
    -  Linkin Park 2.0
    -  The Rolling Stones
    -  Lattice
    -  Daft Punk
+   -  Hip Hop
 -  Info color scheme for color picker
 
 ### Changed

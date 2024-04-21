@@ -1,4 +1,4 @@
-import {
+import type {
    FloatPointDefinition,
    Vector3PointDefinition,
    Vector4PointDefinition,
@@ -258,14 +258,15 @@ export function fixVector3PointDefinition(
 ): Vector3PointDefinition[] {
    return Array.isArray(value)
       ? value
-           .filter((ary) => Array.isArray(ary))
+           .filter((ary) => Array.isArray(ary) || typeof ary === 'string')
            .map((elm: unknown[]) => {
+              if (typeof elm === 'string') return elm;
               const temp = [
                  fixFloat(elm.at(0), defaultValue[0]),
                  fixFloat(elm.at(1), defaultValue[1]),
                  fixFloat(elm.at(2), defaultValue[2]),
                  fixFloat(elm.at(3), 1, 0, 1),
-              ] as Vector3PointDefinition;
+              ] as Exclude<Vector3PointDefinition, string>;
               if (elm.length > 4) {
                  const attr = elm.slice(4).filter((e) => typeof e === 'string');
                  const ease = attr.find((e) => easingsList.includes(e as Easings));
@@ -293,15 +294,16 @@ export function fixVector4PointDefinition(
 ): Vector4PointDefinition[] {
    return Array.isArray(value)
       ? value
-           .filter((ary) => Array.isArray(ary))
+           .filter((ary) => Array.isArray(ary) || typeof ary === 'string')
            .map((elm: unknown[]) => {
+              if (typeof elm === 'string') return elm;
               const temp = [
                  fixFloat(value.at(0), defaultValue[0]),
                  fixFloat(value.at(1), defaultValue[1]),
                  fixFloat(value.at(2), defaultValue[2]),
                  fixFloat(value.at(3), defaultValue[3]),
                  fixFloat(elm.at(4), 1, 0, 1),
-              ] as Vector4PointDefinition;
+              ] as Exclude<Vector4PointDefinition, string>;
               if (elm.length > 5) {
                  const attr = elm.slice(5).filter((e) => typeof e === 'string');
                  const ease = attr.find((e) => easingsList.includes(e as Easings));

@@ -18,6 +18,7 @@ import { colorFrom, hsvaToRgba, rgbaToHsva } from '../../utils/colors.ts';
 import { ColorScheme, EnvironmentSchemeName } from '../../beatmap/shared/colorScheme.ts';
 import type { ColorArray } from '../../types/colors.ts';
 import type { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
+import { deepCopy } from '../../utils/misc.ts';
 
 /**
  * This uses new lighting lighting syntax for v2 lighting including support for color and easing.
@@ -29,14 +30,14 @@ import type { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts'
  * Not all functionality works here however, there are quirks that may not work too well.
  */
 export class LightMapper {
-   lightIDMapping;
-   readonly environment;
+   lightIDMapping: Record<number, number[]>;
+   readonly environment: EnvironmentAllName;
    private queue: EventBoxType[] = [];
    private events: BasicEvent[] = [];
    private boosts: ColorBoostEvent[] = [];
 
    constructor(environment: EnvironmentAllName) {
-      this.lightIDMapping = <{ [key: number]: number[] }>structuredClone(LightIDList[environment]);
+      this.lightIDMapping = deepCopy(LightIDList[environment], true);
       this.environment = environment;
    }
 
@@ -45,7 +46,7 @@ export class LightMapper {
       type: 0 | 1 | 2 | 3 | 4 | 6 | 7 | 10 | 11,
       eventBox: DeepPartial<EventBox>[],
       lightID?: number[],
-   ) {
+   ): this {
       this.queue.push({
          time,
          type,
@@ -100,22 +101,22 @@ export class LightMapper {
       return this;
    }
 
-   ring(time: number, type: 8 | 9, customData?: IChromaEventRing) {
-      this.events.push(new BasicEvent({ b: time, et: type, customData }));
+   ring(time: number, type: 8 | 9, customData?: IChromaEventRing): this {
+      this.events.push(new BasicEvent({ time, type, customData }));
       return this;
    }
 
-   zoom(time: number, customData?: IChromaEventZoom) {
-      this.events.push(new BasicEvent({ b: time, et: 9, customData }));
+   zoom(time: number, customData?: IChromaEventZoom): this {
+      this.events.push(new BasicEvent({ time, type: 9, customData }));
       return this;
    }
 
-   boost(time: number, toggle: boolean) {
-      this.boosts.push(new ColorBoostEvent({ b: time, o: toggle }));
+   boost(time: number, toggle: boolean): this {
+      this.boosts.push(new ColorBoostEvent({ time, toggle: toggle }));
       return this;
    }
 
-   private internalEventValue(color: number, transition: number) {
+   private internalEventValue(color: number, transition: number): number {
       const transitionValue: { [key: number]: number } = {
          0: 0,
          1: 3,
@@ -125,7 +126,7 @@ export class LightMapper {
       return 1 + color * 4 + transitionValue[transition];
    }
 
-   process(mapData: IWrapDifficulty, overwrite = true) {
+   process(mapData: IWrapDifficulty, overwrite = true): void {
       const events: BasicEvent[] = [...this.events];
       this.queue.sort((a, b) => a.time - b.time);
       for (const q of this.queue) {
@@ -183,10 +184,10 @@ export class LightMapper {
                      return;
                   }
                   const event = new BasicEvent({
-                     b: q.time + ev.time,
-                     et: q.type,
-                     i: this.internalEventValue(ev.color, ev.transition),
-                     f: ev.brightness,
+                     time: q.time + ev.time,
+                     type: q.type,
+                     value: this.internalEventValue(ev.color, ev.transition),
+                     floatValue: ev.brightness,
                      customData: { ...ev.customData, lightID: lid },
                   });
                   events.push(event);
@@ -250,10 +251,10 @@ export class LightMapper {
                      }
                   }
                   const event = new BasicEvent({
-                     b: q.time + ev.time + x,
-                     et: q.type,
-                     i: this.internalEventValue(ev.color, ev.transition),
-                     f: Math.max(
+                     time: q.time + ev.time + x,
+                     type: q.type,
+                     value: this.internalEventValue(ev.color, ev.transition),
+                     floatValue: Math.max(
                         isFirst
                            ? ev.brightness
                            : eb.brightnessDistributionType === 'Division'
@@ -279,7 +280,7 @@ export class LightMapper {
                      }
                      if (!isFirst) {
                         event.customData.color = hsvaToRgba(
-                           ...(rgbaToHsva(...event.customData.color).map((v, x) => {
+                           rgbaToHsva(event.customData.color).map((v, x) => {
                               if (!x) {
                                  v! +=
                                     eb.hueDistributionType === 'Division'
@@ -289,7 +290,7 @@ export class LightMapper {
                                        : i * eb.hueDistribution;
                               }
                               return v;
-                           }) as ColorArray),
+                           }) as ColorArray,
                         );
                      }
                   }
@@ -342,11 +343,11 @@ export class LightMapper {
             }
             mapData.basicEvents.push(
                new Event({
-                  _time: e.time,
-                  _type: e.type,
-                  _value: e.value,
-                  _floatValue: e.floatValue,
-                  _customData,
+                  time: e.time,
+                  type: e.type,
+                  value: e.value,
+                  floatValue: e.floatValue,
+                  customData: _customData,
                }),
             );
          });

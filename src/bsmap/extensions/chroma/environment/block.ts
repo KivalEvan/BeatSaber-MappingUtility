@@ -5,15 +5,15 @@ import { deepCopy } from '../../../utils/misc.ts';
 
 /** **IMPORTANT:** Manually adjust block to be exactly 1x1x1 unity unit (1x1x1 scale does usually not work) */
 export class EnvironmentBlock {
-   data;
-   anchor;
+   data: IChromaEnvironment;
+   anchor: Vector3;
    static startLightID = 100;
    static index = 0;
    protected constructor(data: IChromaEnvironment, anchor: Vector3) {
       this.data = data;
       this.anchor = anchor;
    }
-   static create(data: IChromaEnvironment, anchor: Vector3) {
+   static create(data: IChromaEnvironment, anchor: Vector3): EnvironmentBlock {
       return new this(data, anchor);
    }
 

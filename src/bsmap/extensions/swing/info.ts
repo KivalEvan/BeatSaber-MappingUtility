@@ -1,11 +1,11 @@
-import { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
-import { Difficulty } from '../../beatmap/v3/difficulty.ts';
+import type { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
 import type { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
 import type { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
 import type { NoteContainer } from '../../types/beatmap/wrapper/container.ts';
 import type { ISwingAnalysis, ISwingCount } from './types/swing.ts';
 import { median } from '../../utils/math.ts';
 import Swing from './swing.ts';
+import type { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
 
 // derived from Uninstaller's Swings Per Second tool
 // some variable or function may have been modified
@@ -68,7 +68,7 @@ function calcMaxRollingSps(swingArray: number[], x: number): number {
 }
 
 export function info(
-   difficulty: Difficulty,
+   difficulty: IWrapDifficulty,
    bpm: BeatPerMinute,
    charName: CharacteristicName,
    diffName: DifficultyName,
@@ -182,23 +182,9 @@ export function calcSpsTotalPercDrop(spsArray: ISwingAnalysis[]): number {
 }
 
 export function getSpsLowest(spsArray: ISwingAnalysis[]): number {
-   let lowest = Number.MAX_SAFE_INTEGER;
-   spsArray.forEach((spsMap) => {
-      const overall = spsMap.total.average;
-      if (overall > 0) {
-         lowest = Math.min(lowest, overall);
-      }
-   });
-   return lowest;
+   return Math.min(...spsArray.map((e) => e.total.average), Number.MAX_SAFE_INTEGER);
 }
 
 export function getSpsHighest(spsArray: ISwingAnalysis[]): number {
-   let highest = 0;
-   spsArray.forEach((spsMap) => {
-      const overall = spsMap.total.average;
-      if (overall > 0) {
-         highest = Math.max(highest, overall);
-      }
-   });
-   return highest;
+   return Math.max(...spsArray.map((e) => e.total.average), 0);
 }

@@ -1,4 +1,4 @@
-import { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
+import type { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
 import { settings } from './settings.ts';
 import type { IWrapBaseObject } from '../../types/beatmap/wrapper/baseObject.ts';
 

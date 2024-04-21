@@ -25,7 +25,7 @@ export function shiftColor(objects: IChromaObject[], options: ShiftColorOptions)
    ];
    const shift = (currentColor: ColorArray, shiftHSVA: ColorArray, settings: typeof opt) => {
       return hsvaToRgba(
-         ...(rgbaToHsva(...currentColor).map((hsva, i) => {
+         rgbaToHsva(currentColor).map((hsva, i) => {
             if (i === 0 && typeof hsva === 'number') {
                if (settings.fixedHue) {
                   return shiftHSVA[0];
@@ -54,7 +54,7 @@ export function shiftColor(objects: IChromaObject[], options: ShiftColorOptions)
                   return hsva + shiftHSVA[3];
                }
             }
-         }) as ColorArray),
+         }) as ColorArray,
       ) as ColorArray;
    };
    objects.forEach((obj) => {

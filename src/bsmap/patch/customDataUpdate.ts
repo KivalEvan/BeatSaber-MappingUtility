@@ -1,5 +1,5 @@
-import { Difficulty as V2Difficulty } from '../beatmap/v2/difficulty.ts';
-import { Difficulty as V3Difficulty } from '../beatmap/v3/difficulty.ts';
+import type { Difficulty as V2Difficulty } from '../beatmap/v2/difficulty.ts';
+import type { Difficulty as V3Difficulty } from '../beatmap/v3/difficulty.ts';
 import { isV2, isV3 } from '../beatmap/version.ts';
 import eventToV2 from '../converter/customData/eventToV2.ts';
 import eventToV3 from '../converter/customData/eventToV3.ts';

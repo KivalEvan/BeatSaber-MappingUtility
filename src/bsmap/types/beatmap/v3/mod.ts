@@ -1,6 +1,8 @@
 /**
  * Beatmap v3 JSON schema.
  *
+ * Beatmap model version: 3.3.0
+ *
  * @module
  */
 
@@ -26,13 +28,14 @@ export * from './fxEventInt.ts';
 export * from './fxEventsCollection.ts';
 export * from './gridObject.ts';
 export * from './indexFilter.ts';
-export * from './lightColorBase.ts';
+export * from './lightColorEvent.ts';
 export * from './lightColorEventBox.ts';
 export * from './lightColorEventBoxGroup.ts';
-export * from './lightRotationBase.ts';
+export * from './lightRotationEvent.ts';
 export * from './lightRotationEventBox.ts';
 export * from './lightRotationEventBoxGroup.ts';
-export * from './lightTranslationBase.ts';
+export * from './lightshow.ts';
+export * from './lightTranslationEvent.ts';
 export * from './lightTranslationEventBox.ts';
 export * from './lightTranslationEventBoxGroup.ts';
 export * from './obstacle.ts';

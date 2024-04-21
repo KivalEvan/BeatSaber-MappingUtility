@@ -21,19 +21,44 @@ import type {
    IWrapLightTranslationEventBoxGroup,
    IWrapLightTranslationEventBoxGroupAttribute,
 } from './lightTranslationEventBoxGroup.ts';
-import type { IWrapEventTypesWithKeywords } from './eventTypesWithKeywords.ts';
+import type {
+   IWrapEventTypesWithKeywords,
+   IWrapEventTypesWithKeywordsAttribute,
+} from './eventTypesWithKeywords.ts';
 import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 import type { Version } from '../shared/version.ts';
 import type { DeepPartial, LooseAutocomplete } from '../../utils.ts';
-import type { GenericFileName } from '../shared/filename.ts';
+import type { GenericFilename } from '../shared/filename.ts';
 import type { EventContainer, NoteContainer } from './container.ts';
 import type { BeatPerMinute } from '../../../beatmap/shared/bpm.ts';
-import type { IWrapFxEventsCollection } from './fxEventsCollection.ts';
 import type { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBoxGroup.ts';
+import type { IFileInfo } from '../shared/filename.ts';
 
 export interface IWrapDifficultyAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseItemAttribute<T> {
-   version: Version;
+   extends IWrapBaseItemAttribute<T>,
+      IFileInfo {
+   readonly version: Version;
+   bpmEvents: IWrapBPMEventAttribute[];
+   rotationEvents: IWrapRotationEventAttribute[];
+   colorNotes: IWrapColorNoteAttribute[];
+   bombNotes: IWrapBombNoteAttribute[];
+   obstacles: IWrapObstacleAttribute[];
+   arcs: IWrapArcAttribute[];
+   chains: IWrapChainAttribute[];
+   waypoints: IWrapWaypointAttribute[];
+   basicEvents: IWrapEventAttribute[];
+   colorBoostEvents: IWrapColorBoostEventAttribute[];
+   lightColorEventBoxGroups: IWrapLightColorEventBoxGroupAttribute[];
+   lightRotationEventBoxGroups: IWrapLightRotationEventBoxGroupAttribute[];
+   lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroupAttribute[];
+   fxEventBoxGroups: IWrapFxEventBoxGroupAttribute[];
+   eventTypesWithKeywords: IWrapEventTypesWithKeywordsAttribute;
+   useNormalEventsAsCompatibleEvents: boolean;
+}
+
+export interface IWrapDifficulty<T extends { [P in keyof T]: T[P] } = Record<string, any>>
+   extends IWrapBaseItem<T>,
+      IWrapDifficultyAttribute<T> {
    bpmEvents: IWrapBPMEvent[];
    rotationEvents: IWrapRotationEvent[];
    colorNotes: IWrapColorNote[];
@@ -49,16 +74,8 @@ export interface IWrapDifficultyAttribute<T extends { [P in keyof T]: T[P] } = R
    lightTranslationEventBoxGroups: IWrapLightTranslationEventBoxGroup[];
    fxEventBoxGroups: IWrapFxEventBoxGroup[];
    eventTypesWithKeywords: IWrapEventTypesWithKeywords;
-   fxEventsCollection: IWrapFxEventsCollection;
-   useNormalEventsAsCompatibleEvents: boolean;
 
-   filename: string;
-}
-
-export interface IWrapDifficulty<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseItem<T>,
-      IWrapDifficultyAttribute<T> {
-   setFileName(filename: LooseAutocomplete<GenericFileName>): this;
+   setFilename(filename: LooseAutocomplete<GenericFilename>): this;
 
    /** Sort beatmap object(s) accordingly. */
    sort(): this;
@@ -144,22 +161,22 @@ export interface IWrapDifficulty<T extends { [P in keyof T]: T[P] } = Record<str
     */
    getEventContainer(): EventContainer[];
 
-   addBpmEvents(...data: Partial<IWrapBPMEventAttribute>[]): void;
-   addRotationEvents(...data: Partial<IWrapRotationEventAttribute>[]): void;
-   addColorNotes(...data: Partial<IWrapColorNoteAttribute>[]): void;
-   addBombNotes(...data: Partial<IWrapBombNoteAttribute>[]): void;
-   addObstacles(...data: Partial<IWrapObstacleAttribute>[]): void;
-   addArcs(...data: Partial<IWrapArcAttribute>[]): void;
-   addChains(...data: Partial<IWrapChainAttribute>[]): void;
-   addWaypoints(...data: Partial<IWrapWaypointAttribute>[]): void;
-   addBasicEvents(...data: Partial<IWrapEventAttribute>[]): void;
-   addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute>[]): void;
-   addLightColorEventBoxGroups(...data: DeepPartial<IWrapLightColorEventBoxGroupAttribute>[]): void;
+   addBpmEvents(...data: Partial<IWrapBPMEventAttribute>[]): this;
+   addRotationEvents(...data: Partial<IWrapRotationEventAttribute>[]): this;
+   addColorNotes(...data: Partial<IWrapColorNoteAttribute>[]): this;
+   addBombNotes(...data: Partial<IWrapBombNoteAttribute>[]): this;
+   addObstacles(...data: Partial<IWrapObstacleAttribute>[]): this;
+   addArcs(...data: Partial<IWrapArcAttribute>[]): this;
+   addChains(...data: Partial<IWrapChainAttribute>[]): this;
+   addWaypoints(...data: Partial<IWrapWaypointAttribute>[]): this;
+   addBasicEvents(...data: Partial<IWrapEventAttribute>[]): this;
+   addColorBoostEvents(...data: Partial<IWrapColorBoostEventAttribute>[]): this;
+   addLightColorEventBoxGroups(...data: DeepPartial<IWrapLightColorEventBoxGroupAttribute>[]): this;
    addLightRotationEventBoxGroups(
       ...data: DeepPartial<IWrapLightRotationEventBoxGroupAttribute>[]
-   ): void;
+   ): this;
    addLightTranslationEventBoxGroups(
       ...data: DeepPartial<IWrapLightTranslationEventBoxGroupAttribute>[]
-   ): void;
-   addFxEventBoxGroups(...data: DeepPartial<IWrapFxEventBoxGroupAttribute>[]): void;
+   ): this;
+   addFxEventBoxGroups(...data: DeepPartial<IWrapFxEventBoxGroupAttribute>[]): this;
 }
