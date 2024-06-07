@@ -1,43 +1,33 @@
-// deno-lint-ignore-file no-explicit-any
-import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
-import type { Version } from '../shared/version.ts';
-import type { IFileInfo } from '../shared/filename.ts';
+import type { IWrapBaseFileAttribute, IWrapBeatmapFile } from './baseFile.ts';
+import type { IWrapBaseItemAttribute } from './baseItem.ts';
 import type { IWrapBPMEventAttribute } from './bpmEvent.ts';
 
-export interface IWrapAudioAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseItemAttribute<T>,
-      IFileInfo {
-   version: Version;
+export interface IWrapAudioDataAttribute extends IWrapBaseItemAttribute, IWrapBaseFileAttribute {
    audioChecksum: string;
    sampleCount: number; // int
    frequency: number; // int
-   bpmData: IWrapAudioBPM[];
-   lufsData: IWrapAudioLUFS[];
+   bpmData: IWrapAudioDataBPM[];
+   lufsData: IWrapAudioDataLUFS[];
 }
 
-export interface IWrapAudioBPM {
+export interface IWrapAudioDataBPM {
    startSampleIndex: number; // int
    endSampleIndex: number; // int
    startBeat: number; // float
    endBeat: number; // float
 }
 
-export interface IWrapAudioLUFS {
+export interface IWrapAudioDataLUFS {
    startSampleIndex: number; // int
    endSampleIndex: number; // int
    lufs: number; // float
 }
 
-export interface IWrapAudio<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseItem<T>,
-      IWrapAudioAttribute<T> {
+export interface IWrapAudioData extends IWrapBeatmapFile, IWrapAudioDataAttribute {
    setFilename(filename: string): this;
    setSampleCount(value: number): this;
    setFrequency(value: number): this;
 
    fromBpmEvents(data: IWrapBPMEventAttribute[], frequency: number, sampleCount?: number): this;
    getBpmEvents(): IWrapBPMEventAttribute[];
-
-   /** Sort beatmap object(s) accordingly. */
-   sort(): this;
 }

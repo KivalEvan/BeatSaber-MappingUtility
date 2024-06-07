@@ -1,7 +1,7 @@
-import { NoteJumpSpeed } from '../../beatmap/shared/njs.ts';
+import { NoteJumpSpeed } from '../../beatmap/helpers/njs.ts';
 import type { INEObject } from './types/object.ts';
 import { settings } from './settings.ts';
-import type { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
+import { TimeProcessor } from '../../beatmap/helpers/timeProcessor.ts';
 import type { EasingFunction } from '../../types/easings.ts';
 import { lerp, normalize } from '../../utils/math.ts';
 import logger from '../../logger.ts';
@@ -18,7 +18,7 @@ function tag(name: string): string[] {
 export function setNjs(
    objects: INEObject[],
    options: {
-      bpm: BeatPerMinute;
+      timeProc: TimeProcessor;
       njs: NoteJumpSpeed | number;
       offset?: number;
       jd?: number;
@@ -30,7 +30,7 @@ export function setNjs(
    }
    const njs =
       typeof options.njs === 'number'
-         ? new NoteJumpSpeed(options.bpm, options.njs, options.offset)
+         ? new NoteJumpSpeed(options.timeProc.bpm, options.njs, options.offset)
          : options.njs;
    const offset = njs.calcHjdFromJd(options.jd) - njs.calcHjd(0);
    objects.forEach((o) => {
@@ -49,7 +49,7 @@ export function setNjs(
 export function simultaneousSpawn(
    objects: INEObject[],
    options: {
-      bpm: BeatPerMinute;
+      timeProc: TimeProcessor;
       njs: NoteJumpSpeed | number;
       njsOverride?: boolean;
       jd?: number;
@@ -72,7 +72,10 @@ export function simultaneousSpawn(
       o.customData.noteJumpMovementSpeed = options.njsOverride
          ? o.customData.noteJumpMovementSpeed ?? njs
          : njs;
-      const currentNJS = new NoteJumpSpeed(options.bpm, o.customData.noteJumpMovementSpeed);
+      const currentNJS = new NoteJumpSpeed(
+         options.timeProc.bpm,
+         o.customData.noteJumpMovementSpeed,
+      );
       const offset = currentNJS.calcHjdFromJd(options.jd) - currentNJS.calcHjd(0);
       o.customData.noteJumpStartBeatOffset =
          options.spawnBeatOffset! +
@@ -91,7 +94,7 @@ export function simultaneousSpawn(
 export function gradientNjs(
    objects: INEObject[],
    options: {
-      bpm: BeatPerMinute | number;
+      timeProc: TimeProcessor | number;
       njsStart: number;
       njsEnd: number;
       njsOffset?: NoteJumpSpeed | number | null;
@@ -128,7 +131,11 @@ export function gradientNjs(
          options.easing,
       );
       if (typeof options.jd === 'number') {
-         const currNJS = new NoteJumpSpeed(options.bpm, o.customData.noteJumpMovementSpeed, offset);
+         const currNJS = new NoteJumpSpeed(
+            options.timeProc instanceof TimeProcessor ? options.timeProc.bpm : options.timeProc,
+            o.customData.noteJumpMovementSpeed,
+            offset,
+         );
          o.customData.noteJumpStartBeatOffset =
             currNJS.calcHjdFromJd(options.jd) - currNJS.calcHjd(0);
       }

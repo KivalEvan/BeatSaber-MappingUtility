@@ -1,26 +1,23 @@
-// deno-lint-ignore-file no-explicit-any
 import type { LooseAutocomplete } from '../../utils.ts';
-import type { Version } from '../shared/version.ts';
 import type { CharacteristicName } from '../shared/characteristic.ts';
 import type { DifficultyName } from '../shared/difficulty.ts';
 import type { EnvironmentAllName } from '../shared/environment.ts';
-import type { GenericFilename, IFileInfo } from '../shared/filename.ts';
-import type { IWrapBaseItem } from './baseItem.ts';
 import type { IColor } from '../../colors.ts';
+import type { ICustomDataInfo } from './custom/info.ts';
+import type { ICustomDataInfoBeatmap } from '../v4/custom/info.ts';
+import type { IWrapBaseFileAttribute, IWrapBeatmapFile } from './baseFile.ts';
+import type { GenericFilename } from '../shared/filename.ts';
+import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 
-export interface IWrapInfoAttribute<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-   TDifficulty extends { [P in keyof TDifficulty]: TDifficulty[P] } = Record<string, any>,
-> extends IWrapBaseItem<T>,
-      IFileInfo {
-   readonly version: Version;
+export interface IWrapInfoAttribute extends IWrapBaseItemAttribute, IWrapBaseFileAttribute {
    song: IWrapInfoSong;
    audio: IWrapInfoAudio;
    songPreviewFilename: string;
    coverImageFilename: string;
    environmentNames: EnvironmentAllName[];
    colorSchemes: IWrapInfoColorScheme[];
-   difficulties: IWrapInfoDifficultyAttribute<TDifficulty>[];
+   difficulties: IWrapInfoBeatmapAttribute[];
+   customData: ICustomDataInfo;
 }
 
 export interface IWrapInfoSong {
@@ -37,10 +34,33 @@ export interface IWrapInfoAudio {
    lufs: number; // float
    previewStartTime: number; // float
    previewDuration: number; // float
+   /**
+    * Exist for backport compatibility.
+    *
+    * Highly recommended to not use offset as it causes audio syncing issue.
+    *
+    * @deprecated
+    */
+   audioOffset: number;
+   /**
+    * Exist for backport compatibility.
+    *
+    * @deprecated
+    */
+   shuffle: number;
+   /**
+    * Exist for backport compatibility.
+    *
+    * @deprecated
+    */
+   shufflePeriod: number;
 }
 
 export interface IWrapInfoColorScheme {
-   useOverride: boolean;
+   /**
+    * For use in v2 info, true by default.
+    */
+   useOverride?: boolean;
    name: string;
    saberLeftColor: Required<IColor>;
    saberRightColor: Required<IColor>;
@@ -58,25 +78,19 @@ export interface IWrapInfoBeatmapAuthors {
    lighters: string[];
 }
 
-export interface IWrapInfo<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-   TDifficulty extends { [P in keyof TDifficulty]: TDifficulty[P] } = Record<string, any>,
-> extends IWrapBaseItem<T>,
-      IWrapInfoAttribute<T, TDifficulty> {
-   difficulties: IWrapInfoDifficulty<TDifficulty>[];
-   setFilename(filename: LooseAutocomplete<GenericFilename>): this;
+export interface IWrapInfo extends Omit<IWrapBeatmapFile, 'customData'>, IWrapInfoAttribute {
+   difficulties: IWrapInfoBeatmap[];
+
+   setCustomData(object: this['customData']): this;
+   addCustomData(object: this['customData']): this;
 
    /** Sort beatmap object(s) accordingly. */
    sort(): this;
 
-   /** Show entries of map inside info. */
-   addMap(data: Partial<IWrapInfoDifficultyAttribute>): this;
-   listMap(): [CharacteristicName, IWrapInfoDifficulty][];
+   addMap(data: Partial<IWrapInfoBeatmapAttribute>): this;
 }
 
-export interface IWrapInfoDifficultyAttribute<
-   T extends { [P in keyof T]: T[P] } = Record<string, any>,
-> extends IWrapBaseItem<T> {
+export interface IWrapInfoBeatmapAttribute extends IWrapBaseItemAttribute {
    characteristic: CharacteristicName;
    difficulty: DifficultyName;
    filename: LooseAutocomplete<GenericFilename>;
@@ -86,11 +100,12 @@ export interface IWrapInfoDifficultyAttribute<
    njsOffset: number;
    colorSchemeId: number;
    environmentId: number;
+   customData: ICustomDataInfoBeatmap;
 }
 
-export interface IWrapInfoDifficulty<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseItem<T>,
-      IWrapInfoDifficultyAttribute<T> {
-   copyColorScheme(colorScheme: IWrapInfoColorScheme): this;
-   copyColorScheme(id: number, info: IWrapInfo): this;
+export interface IWrapInfoBeatmap
+   extends Omit<IWrapBaseItem, 'customData'>,
+      IWrapInfoBeatmapAttribute {
+   setCustomData(object: this['customData']): this;
+   addCustomData(object: this['customData']): this;
 }

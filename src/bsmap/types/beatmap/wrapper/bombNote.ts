@@ -1,9 +1,11 @@
-// deno-lint-ignore-file no-explicit-any
-import type { IWrapGridObject, IWrapGridObjectAttribute } from './gridObject.ts';
+import type { IWrapBaseNote, IWrapBaseNoteAttribute } from './baseNote.ts';
+import type { ICustomDataNote } from './custom/note.ts';
 
-export interface IWrapBombNoteAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapGridObjectAttribute<T> {}
+export interface IWrapBombNoteAttribute extends IWrapBaseNoteAttribute {
+   customData: ICustomDataNote;
+}
 
-export interface IWrapBombNote<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapGridObject<T>,
-      IWrapBombNoteAttribute<T> {}
+export interface IWrapBombNote extends Omit<IWrapBaseNote, 'customData'>, IWrapBombNoteAttribute {
+   setCustomData(object: this['customData']): this;
+   addCustomData(object: this['customData']): this;
+}

@@ -1,7 +1,6 @@
+import { ColorNote } from '../../beatmap/core/colorNote.ts';
 import { NoteDirection } from '../../beatmap/shared/constants.ts';
-import { WrapColorNote } from '../../beatmap/wrapper/colorNote.ts';
 import type { IWrapBaseNote } from '../../types/beatmap/wrapper/baseNote.ts';
-import type { IWrapGridObject } from '../../types/beatmap/wrapper/gridObject.ts';
 import { radToDeg, shortRotDistance } from '../../utils/math.ts';
 
 // TODO: update with new position/rotation system
@@ -139,7 +138,7 @@ export function isEnd(currNote: IWrapBaseNote, prevNote: IWrapBaseNote, cd: numb
 // a fkin abomination that's what currNote is
 export function isIntersect(
    currNote: IWrapBaseNote,
-   compareTo: IWrapGridObject,
+   compareTo: IWrapBaseNote,
    angleDistances: [number, number, number?][],
    ahead = false,
 ): [boolean, boolean] {
@@ -164,7 +163,7 @@ export function isIntersect(
       }
    }
    let resultN2 = false;
-   if (compareTo instanceof WrapColorNote && compareTo.direction !== 8) {
+   if (compareTo instanceof ColorNote && compareTo.direction !== 8) {
       const nA2 = compareTo.getAngle();
       const a = (radToDeg(Math.atan2(nY2 - nY1, nX2 - nX1)) + 450) % 360;
       for (const [angleRange, maxDistance, offsetT] of angleDistances) {

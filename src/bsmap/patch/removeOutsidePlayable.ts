@@ -1,8 +1,7 @@
-import { isV3 } from '../beatmap/version.ts';
 import logger from '../logger.ts';
-import type { BeatPerMinute } from '../beatmap/shared/bpm.ts';
+import type { TimeProcessor } from '../beatmap/helpers/timeProcessor.ts';
 import type { IWrapBaseObject } from '../types/beatmap/wrapper/baseObject.ts';
-import type { IWrapDifficulty } from '../types/beatmap/wrapper/difficulty.ts';
+import type { IWrapBeatmap } from '../types/beatmap/wrapper/beatmap.ts';
 
 function tag(): string[] {
    return ['patch', 'removeOutsidePlayable'];
@@ -12,7 +11,7 @@ let duration = 0;
 const filterTime = <T extends IWrapBaseObject>(obj: T) =>
    duration ? !(obj.time < 0 || obj.time > duration) : !(obj.time < 0);
 
-export default function (data: IWrapDifficulty, bpm: BeatPerMinute, audioLength: number) {
+export default function (data: IWrapBeatmap, bpm: TimeProcessor, audioLength: number) {
    duration = bpm.toBeatTime(audioLength, true);
    logger.tDebug(tag(), 'Removing outside playable BPM events');
    data.bpmEvents = data.bpmEvents.filter(filterTime);
@@ -31,30 +30,29 @@ export default function (data: IWrapDifficulty, bpm: BeatPerMinute, audioLength:
    logger.tDebug(tag(), 'Removing outside playable waypoints');
    data.waypoints = data.waypoints.filter(filterTime);
    logger.tDebug(tag(), 'Removing outside playable fake color notes');
-   if (isV3(data)) {
-      if (data.customData.fakeColorNotes) {
-         data.customData.fakeColorNotes = data.customData.fakeColorNotes.filter((obj) =>
+   if (data.difficulty.customData.fakeColorNotes) {
+      data.difficulty.customData.fakeColorNotes = data.difficulty.customData.fakeColorNotes.filter(
+         (obj) => (duration ? !(obj.b! < 0 || obj.b! > duration) : !(obj.b! < 0)),
+      );
+   }
+   logger.tDebug(tag(), 'Removing outside playable fake bomb notes');
+   if (data.difficulty.customData.fakeBombNotes) {
+      data.difficulty.customData.fakeBombNotes = data.difficulty.customData.fakeBombNotes.filter(
+         (obj) => (duration ? !(obj.b! < 0 || obj.b! > duration) : !(obj.b! < 0)),
+      );
+   }
+   logger.tDebug(tag(), 'Removing outside playable fake obstacles');
+   if (data.difficulty.customData.fakeObstacles) {
+      data.difficulty.customData.fakeObstacles = data.difficulty.customData.fakeObstacles.filter(
+         (obj) => (duration ? !(obj.b! < 0 || obj.b! > duration) : !(obj.b! < 0)),
+      );
+   }
+   logger.tDebug(tag(), 'Removing outside playable fake chains');
+   if (data.difficulty.customData.fakeBurstSliders) {
+      data.difficulty.customData.fakeBurstSliders =
+         data.difficulty.customData.fakeBurstSliders.filter((obj) =>
             duration ? !(obj.b! < 0 || obj.b! > duration) : !(obj.b! < 0),
          );
-      }
-      logger.tDebug(tag(), 'Removing outside playable fake bomb notes');
-      if (data.customData.fakeBombNotes) {
-         data.customData.fakeBombNotes = data.customData.fakeBombNotes.filter((obj) =>
-            duration ? !(obj.b! < 0 || obj.b! > duration) : !(obj.b! < 0),
-         );
-      }
-      logger.tDebug(tag(), 'Removing outside playable fake obstacles');
-      if (data.customData.fakeObstacles) {
-         data.customData.fakeObstacles = data.customData.fakeObstacles.filter((obj) =>
-            duration ? !(obj.b! < 0 || obj.b! > duration) : !(obj.b! < 0),
-         );
-      }
-      logger.tDebug(tag(), 'Removing outside playable fake chains');
-      if (data.customData.fakeBurstSliders) {
-         data.customData.fakeBurstSliders = data.customData.fakeBurstSliders.filter((obj) =>
-            duration ? !(obj.b! < 0 || obj.b! > duration) : !(obj.b! < 0),
-         );
-      }
    }
    logger.tDebug(tag(), 'Removing outside playable basic events');
    data.basicEvents = data.basicEvents.filter(filterTime);

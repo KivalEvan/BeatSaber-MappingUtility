@@ -19,6 +19,10 @@ export type DeepPartial<T> = {
    [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
 };
 
+export type DeepPartialIgnore<T, Ignore extends string> = {
+   [P in keyof T]?: T[P] extends object ? (P extends Ignore ? T[P] : DeepPartial<T[P]>) : T[P];
+};
+
 export type DeepRequiredIgnore<T, Ignore extends string = ''> = {
    [P in keyof T]-?: T[P] extends object
       ? P extends Ignore
@@ -102,11 +106,3 @@ export type Nullable<T> = T extends Primitive
    : {
         [P in keyof T]?: Nullable<T[P]>;
      };
-
-/** INTERNAL USE ONLY */
-export type _ObtainCustomData<T extends Record<string, unknown>> =
-   T['customData'] extends Record<string, unknown>
-      ? T['customData']
-      : T['_customData'] extends Record<string, unknown>
-        ? T['_customData']
-        : Record<string, unknown>;

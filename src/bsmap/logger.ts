@@ -1,3 +1,6 @@
+// deno-lint-ignore-file no-explicit-any
+import { dim, red, yellow } from './deps.ts';
+
 enum LogLevels {
    VERBOSE,
    DEBUG,
@@ -11,18 +14,18 @@ enum LogLevels {
 export class Logger {
    static readonly LogLevels = LogLevels;
 
-   static LogPrefixes = new Map<LogLevels, string>([
+   static LogPrefixes: Map<LogLevels, string> = new Map<LogLevels, string>([
       [LogLevels.VERBOSE, 'VERBOSE'],
       [LogLevels.DEBUG, 'DEBUG'],
       [LogLevels.INFO, 'INFO'],
-      [LogLevels.WARN, 'WARN'],
-      [LogLevels.ERROR, '!!ERROR!!'],
+      [LogLevels.WARN, yellow('WARN')],
+      [LogLevels.ERROR, red('!!ERROR!!')],
       [LogLevels.NONE, 'NONE'],
    ]);
 
    #logLevel = LogLevels.INFO;
    #tagPrint: (tags: string[], level: LogLevels) => string = (tags, level) =>
-      `${Logger.LogPrefixes.get(level)} ${'>'} [${tags.join('::')}]`;
+      `${Logger.LogPrefixes.get(level)} ${dim('>')} [${dim(tags.join('::'))}]`;
    #untagged = 'script';
 
    set logLevel(value: LogLevels) {
@@ -127,5 +130,6 @@ export class Logger {
    }
 }
 
+const globalLog: Logger = new Logger();
 /** Simple logging system. */
-export default new Logger();
+export default globalLog;

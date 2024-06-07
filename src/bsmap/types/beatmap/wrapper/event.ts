@@ -1,9 +1,8 @@
-// deno-lint-ignore-file no-explicit-any
 import type { IWrapBaseObject, IWrapBaseObjectAttribute } from './baseObject.ts';
 import type { EnvironmentAllName } from '../shared/environment.ts';
+import type { ICustomDataEvent } from './custom/event.ts';
 
-export interface IWrapEventAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseObjectAttribute<T> {
+export interface IWrapEventAttribute extends IWrapBaseObjectAttribute {
    /**
     * Event type `<int>` of basic event.
     * ```ts
@@ -39,11 +38,13 @@ export interface IWrapEventAttribute<T extends { [P in keyof T]: T[P] } = Record
    value: number;
    /** Float value `<float>` of basic event. */
    floatValue: number;
+   customData: ICustomDataEvent;
 }
 
-export interface IWrapEvent<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseObject<T>,
-      IWrapEventAttribute<T> {
+export interface IWrapEvent extends Omit<IWrapBaseObject, 'customData'>, IWrapEventAttribute {
+   setCustomData(object: this['customData']): this;
+   addCustomData(object: this['customData']): this;
+
    setType(value: number): this;
    setValue(value: number): this;
    setFloatValue(value: number): this;
@@ -168,7 +169,7 @@ export interface IWrapEvent<T extends { [P in keyof T]: T[P] } = Record<string, 
     * if (event.isLaneRotationEvent()) {}
     * ```
     */
-   isLaneRotationEvent(environment?: EnvironmentAllName): boolean;
+   isLaneRotationEvent(): boolean;
 
    /**
     * Check if event is a extra event.

@@ -1,8 +1,8 @@
 import type { IWrapBombNote } from '../../types/beatmap/wrapper/bombNote.ts';
 import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
 import type { IWrapBaseSlider } from '../../types/beatmap/wrapper/baseSlider.ts';
-import type { NoteContainer } from '../../types/beatmap/wrapper/container.ts';
 import type { ICountNote, ICountStatsNote } from './types/stats.ts';
+import type { IWrapBaseNote } from '../../types/beatmap/wrapper/baseNote.ts';
 
 /**
  * Count number of red, blue, and bomb notes with their properties in given array and return a note count object.
@@ -29,24 +29,24 @@ export function countNote(notes: (IWrapColorNote | IWrapBaseSlider)[]): ICountNo
    for (let i = notes.length - 1; i >= 0; i--) {
       if (notes[i].color === 0) {
          noteCount.red.total++;
-         if (notes[i].isChroma()) {
+         if (notes[i].check()) {
             noteCount.red.chroma++;
          }
-         if (notes[i].isNoodleExtensions()) {
+         if (notes[i].check()) {
             noteCount.red.noodleExtensions++;
          }
-         if (notes[i].isMappingExtensions()) {
+         if (notes[i].check()) {
             noteCount.red.mappingExtensions++;
          }
       } else if (notes[i].color === 1) {
          noteCount.blue.total++;
-         if (notes[i].isChroma()) {
+         if (notes[i].check()) {
             noteCount.blue.chroma++;
          }
-         if (notes[i].isNoodleExtensions()) {
+         if (notes[i].check()) {
             noteCount.blue.noodleExtensions++;
          }
-         if (notes[i].isMappingExtensions()) {
+         if (notes[i].check()) {
             noteCount.blue.mappingExtensions++;
          }
       }
@@ -63,13 +63,13 @@ export function countBomb(bombs: IWrapBombNote[]): ICountStatsNote {
    };
    for (let i = bombs.length - 1; i >= 0; i--) {
       bombCount.total++;
-      if (bombs[i].isChroma()) {
+      if (bombs[i].check()) {
          bombCount.chroma++;
       }
-      if (bombs[i].isNoodleExtensions()) {
+      if (bombs[i].check()) {
          bombCount.noodleExtensions++;
       }
-      if (bombs[i].isMappingExtensions()) {
+      if (bombs[i].check()) {
          bombCount.mappingExtensions++;
       }
    }
@@ -82,8 +82,8 @@ export function countBomb(bombs: IWrapBombNote[]): ICountStatsNote {
  * const xCount = countX(notes, 0);
  * ```
  */
-export function countX(notes: NoteContainer[], x: number): number {
-   return notes.filter((n) => n.data.posX === x).length;
+export function countX(notes: IWrapBaseNote[], x: number): number {
+   return notes.filter((n) => n.posX === x).length;
 }
 
 /**
@@ -92,8 +92,8 @@ export function countX(notes: NoteContainer[], x: number): number {
  * const yCount = countY(notes, 0);
  * ```
  */
-export function countY(notes: NoteContainer[], y: number): number {
-   return notes.filter((n) => n.data.posY === y).length;
+export function countY(notes: IWrapBaseNote[], y: number): number {
+   return notes.filter((n) => n.posY === y).length;
 }
 
 /**
@@ -102,8 +102,8 @@ export function countY(notes: NoteContainer[], y: number): number {
  * const xyCount = countXY(notes, 0, 0);
  * ```
  */
-export function countXY(notes: NoteContainer[], x: number, y: number): number {
-   return notes.filter((n) => n.data.posX === x && n.data.posY === y).length;
+export function countXY(notes: IWrapBaseNote[], x: number, y: number): number {
+   return notes.filter((n) => n.posX === x && n.posY === y).length;
 }
 
 /**
@@ -112,8 +112,8 @@ export function countXY(notes: NoteContainer[], x: number, y: number): number {
  * const cdCount = countDirection(notes, 0);
  * ```
  */
-export function countDirection(notes: NoteContainer[], cd: number): number {
-   return notes.filter((n) => n.type !== 'bomb' && n.data.direction === cd).length;
+export function countDirection(notes: IWrapBaseNote[], cd: number): number {
+   return notes.filter((n) => n.direction === cd).length;
 }
 
 /**
@@ -122,8 +122,8 @@ export function countDirection(notes: NoteContainer[], cd: number): number {
  * const angleCount = countAngle(notes, 0);
  * ```
  */
-export function countAngle(notes: NoteContainer[], angle: number): number {
-   return notes.filter((n) => n.type !== 'bomb' && n.data.getAngle() === angle).length;
+export function countAngle(notes: IWrapBaseNote[], angle: number): number {
+   return notes.filter((n) => n.getAngle() === angle).length;
 }
 
 /**

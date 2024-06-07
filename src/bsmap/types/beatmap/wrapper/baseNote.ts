@@ -1,13 +1,12 @@
-// deno-lint-ignore-file no-explicit-any
 import type { NoteColor } from '../shared/constants.ts';
-import type { ModType } from '../shared/modCheck.ts';
 import type { IWrapGridObject, IWrapGridObjectAttribute } from './gridObject.ts';
+import type { GetAngleFn, GetPositionFn } from '../shared/functions.ts';
 
-export interface IWrapBaseNoteAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapGridObjectAttribute<T> {
+export interface IWrapBaseNoteAttribute extends IWrapGridObjectAttribute {
    /**
     * Color `<int>` of note.
     * ```ts
+    * -1 -> None
     * 0 -> Red
     * 1 -> Blue
     * ```
@@ -28,19 +27,24 @@ export interface IWrapBaseNoteAttribute<T extends { [P in keyof T]: T[P] } = Rec
    direction: number;
 }
 
-export interface IWrapBaseNote<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapGridObject<T>,
-      IWrapBaseNoteAttribute<T> {
+export interface IWrapBaseNote extends IWrapGridObject, IWrapBaseNoteAttribute {
    setColor(value: NoteColor): this;
    setDirection(value: number): this;
 
    /**
-    * Get note and return standardised note angle.
+    * Get standardised note angle.
+    *
+    * @example
     * ```ts
-    * const noteAngle = note.getAngle();
+    * import type { IWrapBaseNote } from './baseNote.ts';
+    * let note!: IBaseNote;
+    * const optionalFn = (object: IWrapBaseNote) => object.customData.value;
+    * const tailAngle = note.getTailAngle(optionalFn);
     * ```
+    *
+    * Custom function are used to return any arbitrary data first if value exist, otherwise returns base value.
     */
-   getAngle(type?: ModType): number;
+   getAngle(fn?: GetAngleFn<this>): number;
 
    /**
     * Check if note is red note.
@@ -61,16 +65,8 @@ export interface IWrapBaseNote<T extends { [P in keyof T]: T[P] } = Record<strin
    /**
     * Compare current note with the note ahead of it and return if the notes is a double.
     * ```ts
-    * if (note.isDouble(otherNote, tol)) {}
+    * if (note.isDouble(otherNote, tol, optionalFn)) {}
     * ```
     */
-   isDouble(compareTo: IWrapBaseNote, tolerance: number): boolean;
-
-   /**
-    * Check if note has a valid cut direction.
-    * ```ts
-    * if (note.isValidDirection()) {}
-    * ```
-    */
-   isValidDirection(): boolean;
+   isDouble(compareTo: this, tolerance: number, fn?: GetPositionFn<this>): boolean;
 }

@@ -4,11 +4,11 @@
  * @module
  */
 
+export * from './converter/mod.ts';
+export * from './core/mod.ts';
+export * from './loader/mod.ts';
+export * as mapping from './mapping/mod.ts';
+export * from './saver/mod.ts';
+export * from './schema/mod.ts';
 export * from './shared/mod.ts';
-export * as wrapper from './wrapper/mod.ts';
-export * as v1 from './v1/mod.ts';
-export * as v2 from './v2/mod.ts';
-export * as v3 from './v3/mod.ts';
-export * as v4 from './v4/mod.ts';
-export * as parse from './parse.ts';
-export * from './version.ts';
+export * from './helpers/mod.ts';

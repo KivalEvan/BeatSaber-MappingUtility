@@ -1,10 +1,9 @@
-// deno-lint-ignore-file no-explicit-any
 import type { SliderMidAnchorMode } from '../shared/constants.ts';
-import type { ModType } from '../shared/modCheck.ts';
 import type { IWrapBaseSlider, IWrapBaseSliderAttribute } from './baseSlider.ts';
+import type { ICustomDataSlider } from './custom/slider.ts';
+import type { GetAngleFn } from '../shared/functions.ts';
 
-export interface IWrapArcAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseSliderAttribute<T> {
+export interface IWrapArcAttribute extends IWrapBaseSliderAttribute {
    /**
     * Head control point length multiplier `<float>` of arc.
     *
@@ -41,21 +40,30 @@ export interface IWrapArcAttribute<T extends { [P in keyof T]: T[P] } = Record<s
     * **NOTE:** The visual will only be applied under specific condition.
     */
    midAnchor: SliderMidAnchorMode;
+   customData: ICustomDataSlider;
 }
 
-export interface IWrapArc<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseSlider<T>,
-      IWrapArcAttribute<T> {
+export interface IWrapArc extends Omit<IWrapBaseSlider, 'customData'>, IWrapArcAttribute {
+   setCustomData(object: this['customData']): this;
+   addCustomData(object: this['customData']): this;
+
    setLengthMultiplier(value: number): this;
    setTailLengthMultiplier(value: number): this;
    setTailDirection(value: number): this;
    setMidAnchor(value: SliderMidAnchorMode): this;
 
    /**
-    * Get arc and return standardised tail note angle.
+    * Get standardised tail note angle.
+    *
+    * @example
     * ```ts
-    * const arcTailAngle = arc.getTailAngle();
+    * import type { IWrapArc } from './arc.ts';
+    * let arc!: IWrapArc;
+    * const optionalFn = (object: IWrapArc) => object.customData.value;
+    * const arcTailAngle = arc.getTailAngle(optionalFn);
     * ```
+    *
+    * Custom function are used to return any arbitrary data first if value exist, otherwise returns base value.
     */
-   getTailAngle(type?: ModType): number;
+   getTailAngle(fn?: GetAngleFn<this>): number;
 }

@@ -1,4 +1,4 @@
-// deno-lint-ignore-file no-explicit-any
+import type { IWrapWaypoint, IWrapWaypointAttribute } from './waypoint.ts';
 import type { IWrapEvent, IWrapEventAttribute } from './event.ts';
 import type { IWrapColorBoostEvent, IWrapColorBoostEventAttribute } from './colorBoostEvent.ts';
 import type {
@@ -13,23 +13,16 @@ import type {
    IWrapLightTranslationEventBoxGroup,
    IWrapLightTranslationEventBoxGroupAttribute,
 } from './lightTranslationEventBoxGroup.ts';
-import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
-import type { DeepPartial, LooseAutocomplete } from '../../utils.ts';
-import type { GenericFilename, IFileInfo } from '../shared/filename.ts';
-import type { EventContainer } from './container.ts';
-import type { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBoxGroup.ts';
-import type { IWrapWaypoint } from './waypoint.ts';
-import type { IWrapWaypointAttribute } from './waypoint.ts';
-import type { Version } from '../shared/version.ts';
 import type {
    IWrapEventTypesWithKeywords,
    IWrapEventTypesWithKeywordsAttribute,
 } from './eventTypesWithKeywords.ts';
+import type { DeepPartial } from '../../utils.ts';
+import type { IWrapFxEventBoxGroup, IWrapFxEventBoxGroupAttribute } from './fxEventBoxGroup.ts';
+import type { ICustomDataDifficulty } from './custom/difficulty.ts';
+import type { IWrapBaseItem, IWrapBaseItemAttribute } from './baseItem.ts';
 
-export interface IWrapLightshowAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseItemAttribute<T>,
-      IFileInfo {
-   readonly version: Version;
+export interface IWrapLightshowAttribute extends IWrapBaseItemAttribute {
    waypoints: IWrapWaypointAttribute[];
    basicEvents: IWrapEventAttribute[];
    colorBoostEvents: IWrapColorBoostEventAttribute[];
@@ -39,11 +32,10 @@ export interface IWrapLightshowAttribute<T extends { [P in keyof T]: T[P] } = Re
    fxEventBoxGroups: IWrapFxEventBoxGroupAttribute[];
    eventTypesWithKeywords: IWrapEventTypesWithKeywordsAttribute;
    useNormalEventsAsCompatibleEvents: boolean;
+   customData: ICustomDataDifficulty;
 }
 
-export interface IWrapLightshow<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseItem<T>,
-      IWrapLightshowAttribute<T> {
+export interface IWrapLightshow extends Omit<IWrapBaseItem, 'customData'>, IWrapLightshowAttribute {
    waypoints: IWrapWaypoint[];
    basicEvents: IWrapEvent[];
    colorBoostEvents: IWrapColorBoostEvent[];
@@ -53,33 +45,8 @@ export interface IWrapLightshow<T extends { [P in keyof T]: T[P] } = Record<stri
    fxEventBoxGroups: IWrapFxEventBoxGroup[];
    eventTypesWithKeywords: IWrapEventTypesWithKeywords;
 
-   setFilename(filename: LooseAutocomplete<GenericFilename>): this;
-
-   /** Sort beatmap object(s) accordingly. */
-   sort(): this;
-
-   /**
-    * Reparse the beatmap to their respective schema class.
-    *
-    * Used to match the beatmap schema if wrapper mix-and-matched the class.
-    * ```ts
-    * if (!difficulty.isValid()) {
-    *     difficulty.reparse();
-    * }
-    * ```
-    *
-    * **NOTE:** This will create a new set of array,
-    * `keepRef` allows for already matched object to stay in new array instead of creating new object (this is faster and less memory but can cause reference issue)
-    */
-   reparse(keepRef?: boolean): this;
-
-   /**
-    * Get container of basic events and boost events.
-    * ```ts
-    * const noteCountainer = getNoteContainer(Difficulty);
-    * ```
-    */
-   getEventContainer(): EventContainer[];
+   setCustomData(object: this['customData']): this;
+   addCustomData(object: this['customData']): this;
 
    addWaypoints(...data: Partial<IWrapWaypointAttribute>[]): this;
    addBasicEvents(...data: Partial<IWrapEventAttribute>[]): this;

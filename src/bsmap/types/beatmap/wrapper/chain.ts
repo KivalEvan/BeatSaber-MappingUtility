@@ -1,8 +1,7 @@
-// deno-lint-ignore-file no-explicit-any
 import type { IWrapBaseSlider, IWrapBaseSliderAttribute } from './baseSlider.ts';
+import type { ICustomDataSlider } from './custom/slider.ts';
 
-export interface IWrapChainAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseSliderAttribute<T> {
+export interface IWrapChainAttribute extends IWrapBaseSliderAttribute {
    /**
     * Slice count or element `<int>` in chain.
     *
@@ -20,11 +19,13 @@ export interface IWrapChainAttribute<T extends { [P in keyof T]: T[P] } = Record
     * **WARNING:** Value `0` will crash the game.
     */
    squish: number;
+   customData: ICustomDataSlider;
 }
 
-export interface IWrapChain<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseSlider<T>,
-      IWrapChainAttribute<T> {
+export interface IWrapChain extends Omit<IWrapBaseSlider, 'customData'>, IWrapChainAttribute {
+   setCustomData(object: this['customData']): this;
+   addCustomData(object: this['customData']): this;
+
    setSliceCount(value: number): this;
    setSquish(value: number): this;
 }

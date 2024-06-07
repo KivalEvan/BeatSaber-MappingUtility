@@ -1,9 +1,8 @@
-// deno-lint-ignore-file no-explicit-any
-import type { ModType } from '../shared/modCheck.ts';
+import type { GetPositionFn } from '../shared/functions.ts';
+import type { ICustomDataObstacle } from './custom/obstacle.ts';
 import type { IWrapGridObject, IWrapGridObjectAttribute } from './gridObject.ts';
 
-export interface IWrapObstacleAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapGridObjectAttribute<T> {
+export interface IWrapObstacleAttribute extends IWrapGridObjectAttribute {
    /** Duration `<float>` of obstacle.*/
    duration: number;
    /**
@@ -25,11 +24,13 @@ export interface IWrapObstacleAttribute<T extends { [P in keyof T]: T[P] } = Rec
     * **RANGE:** `1-5`
     */
    height: number;
+   customData: ICustomDataObstacle;
 }
 
-export interface IWrapObstacle<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapGridObject<T>,
-      IWrapObstacleAttribute<T> {
+export interface IWrapObstacle extends Omit<IWrapGridObject, 'customData'>, IWrapObstacleAttribute {
+   setCustomData(object: this['customData']): this;
+   addCustomData(object: this['customData']): this;
+
    setDuration(value: number): this;
    setWidth(value: number): this;
    setHeight(value: number): this;
@@ -40,7 +41,7 @@ export interface IWrapObstacle<T extends { [P in keyof T]: T[P] } = Record<strin
     * if (wall.isInteractive()) {}
     * ```
     */
-   isInteractive(type?: ModType): boolean;
+   isInteractive(fn?: GetPositionFn<this>): boolean;
 
    /**
     * Check if current obstacle is longer than previous obstacle.
@@ -48,7 +49,7 @@ export interface IWrapObstacle<T extends { [P in keyof T]: T[P] } = Record<strin
     * if (wall.isLonger(compareWall)) {}
     * ```
     */
-   isLonger(compareTo: IWrapObstacle, prevOffset: number, type?: ModType): boolean;
+   isLonger(compareTo: this, prevOffset: number, fn?: GetPositionFn<this>): boolean;
 
    /**
     * Check if obstacle has zero value.

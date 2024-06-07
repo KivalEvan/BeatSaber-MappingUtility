@@ -1,11 +1,11 @@
 import { createSignal } from 'solid-js';
-import { NoteJumpSpeed } from '../bsmap/beatmap/shared/njs';
+import { NoteJumpSpeed } from '../bsmap/beatmap/helpers/njs';
 import { createStore } from 'solid-js/store';
 import { round } from '../bsmap/utils/math';
 
 const NJS = new NoteJumpSpeed(128, 16);
 const [scaleSelect, setScaleSelect] = createSignal('hjd');
-const [bpm, setBpm] = createSignal(NJS.bpm.value);
+const [bpm, setBpm] = createSignal(NJS.bpm);
 const [njs, setNjs] = createStore({
    value: NJS.value,
    offset: NJS.offset,
@@ -41,7 +41,7 @@ export default function () {
                value={bpm()}
                onInput={(e) => {
                   setBpm(round(parseFloat(e.currentTarget.value), 3));
-                  NJS.bpm.value = bpm();
+                  NJS.bpm = bpm();
                   update();
                }}
             />

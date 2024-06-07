@@ -1,8 +1,8 @@
-// deno-lint-ignore-file no-explicit-any
+import type { Vector2 } from '../../vector.ts';
+import type { GetPositionFn, MirrorFn } from '../shared/functions.ts';
 import type { IWrapBaseNote, IWrapBaseNoteAttribute } from './baseNote.ts';
 
-export interface IWrapBaseSliderAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseNoteAttribute<T> {
+export interface IWrapBaseSliderAttribute extends IWrapBaseNoteAttribute {
    /** Tail beat time `<float>` of base arc. */
    tailTime: number;
    /**
@@ -32,12 +32,13 @@ export interface IWrapBaseSliderAttribute<T extends { [P in keyof T]: T[P] } = R
    tailLaneRotation: number;
 }
 
-export interface IWrapBaseSlider<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends IWrapBaseNote<T>,
-      IWrapBaseSliderAttribute<T> {
+export interface IWrapBaseSlider extends IWrapBaseNote, IWrapBaseSliderAttribute {
    setDirection(value: number): this;
    setTailTime(value: number): this;
    setTailPosX(value: number): this;
    setTailPosY(value: number): this;
    setTailLaneRotation(value: number): this;
+
+   mirror(flipColor?: boolean, fn?: MirrorFn<this>): this;
+   getTailPosition(fn?: GetPositionFn<this>): Vector2;
 }

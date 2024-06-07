@@ -1,56 +1,56 @@
-// deno-lint-ignore-file no-explicit-any
-import type { _ObtainCustomData } from '../../utils.ts';
-import type { ISerializable } from '../shared/serializable.ts';
+import type { ICustomDataBase } from '../shared/custom/customData.ts';
+import type { ICloneable } from '../shared/cloneable.ts';
 
-export interface IWrapBaseItemAttribute<T extends { [P in keyof T]: T[P] } = Record<string, any>> {
+export interface IWrapBaseItemAttribute {
    /**
     * Custom data `<object>` of beatmap object.
     *
     * This has no type-safety for unsupported data.
     */
-   customData: _ObtainCustomData<T>;
+   customData: ICustomDataBase;
 }
 
-export interface IWrapBaseItem<T extends { [P in keyof T]: T[P] } = Record<string, any>>
-   extends ISerializable<T>,
-      IWrapBaseItemAttribute<T> {
-   setCustomData(value: _ObtainCustomData<T>): this;
+export interface IWrapBaseItem extends ICloneable, IWrapBaseItemAttribute {
+   setCustomData(value: this['customData']): this;
    resetCustomData(): this;
    removeCustomData(key: string): this;
-   addCustomData(object: _ObtainCustomData<T>): this;
+   addCustomData(object: this['customData']): this;
+
+   /**
+    * Sort beatmap object(s) accordingly.
+    *
+    * Certain objects may not contain sortable array.
+    *
+    * Custom function can be provided and will run after base implemention.
+    */
+   sort(fn?: (object: this) => void): this;
 
    /** Allow for advanced custom function. */
-   func(fn: (object: this, ...args: any[]) => void, ...args: any[]): this;
+   perform(fn: (object: this) => void): this;
 
    /**
     * Check if object is valid in vanilla game.
+    * This may also allow for value outside of intended value as long as it does not cause
+    * weird, inconsistent behaviour or unable to load the map.
+    *
+    * However, this validity may not be applicable to older version of the game or schema.
+    *
+    * Override allow for custom function to take over rather than run alongside.
+    *
+    * @example
     * ```ts
-    * if (obj.isValid()) {}
+    * if (!obj.isValid(optionalFn)) {}
     * ```
     */
-   isValid(): boolean;
+   isValid(fn?: (object: this) => boolean, override?: boolean): boolean;
 
    /**
-    * Check if object has Chroma properties.
+    * Check an object given a custom function.
+    *
+    * @example
     * ```ts
-    * if (obj.isChroma()) {}
+    * if (obj.check(hasChromaFn)) {}
     * ```
     */
-   isChroma(): boolean;
-
-   /**
-    * Check if object has Noodle Extensions properties.
-    * ```ts
-    * if (obj.isNoodleExtensions()) {}
-    * ```
-    */
-   isNoodleExtensions(): boolean;
-
-   /**
-    * Check if object has Mapping Extensions properties.
-    * ```ts
-    * if (obj.isMappingExtensions()) {}
-    * ```
-    */
-   isMappingExtensions(): boolean;
+   check(fn?: (object: this) => boolean): boolean;
 }

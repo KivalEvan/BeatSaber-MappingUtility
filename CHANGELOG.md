@@ -12,6 +12,7 @@ To ease of development for future maintainer or anyone who is much more comforta
    -  Lattice
    -  Daft Punk
    -  Hip Hop
+   -  Collider
 -  Info color scheme for color picker
 
 ### Changed

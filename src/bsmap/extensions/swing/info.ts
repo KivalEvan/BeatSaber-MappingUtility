@@ -1,33 +1,31 @@
-import type { BeatPerMinute } from '../../beatmap/shared/bpm.ts';
+import type { TimeProcessor } from '../../beatmap/helpers/timeProcessor.ts';
 import type { CharacteristicName } from '../../types/beatmap/shared/characteristic.ts';
 import type { DifficultyName } from '../../types/beatmap/shared/difficulty.ts';
-import type { NoteContainer } from '../../types/beatmap/wrapper/container.ts';
 import type { ISwingAnalysis, ISwingCount } from './types/swing.ts';
 import { median } from '../../utils/math.ts';
 import Swing from './swing.ts';
-import type { IWrapDifficulty } from '../../types/beatmap/wrapper/difficulty.ts';
+import type { IWrapColorNote } from '../../types/beatmap/wrapper/colorNote.ts';
+import type { IWrapBeatmap } from '../../types/beatmap/wrapper/beatmap.ts';
+import { sortNoteFn } from '../../beatmap/helpers/sort.ts';
 
 // derived from Uninstaller's Swings Per Second tool
 // some variable or function may have been modified
 // translating from Python to JavaScript is hard
 // this is special function SPS used by ScoreSaber
 export function count(
-   noteContainer: NoteContainer[],
+   colorNotes: IWrapColorNote[],
    duration: number,
-   bpm: BeatPerMinute,
+   bpm: TimeProcessor,
 ): ISwingCount {
    const swingCount: ISwingCount = {
       left: new Array(Math.floor(duration + 1)).fill(0),
       right: new Array(Math.floor(duration + 1)).fill(0),
    };
-   let lastRed!: NoteContainer;
-   let lastBlue!: NoteContainer;
-   for (const nc of noteContainer) {
-      if (nc.type !== 'note') {
-         continue;
-      }
-      const realTime = bpm.toRealTime(nc.data.time);
-      if (nc.data.color === 0) {
+   let lastRed!: IWrapColorNote;
+   let lastBlue!: IWrapColorNote;
+   for (const nc of colorNotes) {
+      const realTime = bpm.toRealTime(nc.time);
+      if (nc.color === 0) {
          if (lastRed) {
             if (Swing.next(nc, lastRed, bpm)) {
                swingCount.left[Math.floor(realTime)]++;
@@ -37,7 +35,7 @@ export function count(
          }
          lastRed = nc;
       }
-      if (nc.data.color === 1) {
+      if (nc.color === 1) {
          if (lastBlue) {
             if (Swing.next(nc, lastBlue, bpm)) {
                swingCount.right[Math.floor(realTime)]++;
@@ -68,8 +66,8 @@ function calcMaxRollingSps(swingArray: number[], x: number): number {
 }
 
 export function info(
-   difficulty: IWrapDifficulty,
-   bpm: BeatPerMinute,
+   difficulty: IWrapBeatmap,
+   bpm: TimeProcessor,
    charName: CharacteristicName,
    diffName: DifficultyName,
 ): ISwingAnalysis {
@@ -80,14 +78,14 @@ export function info(
       red: { average: 0, peak: 0, median: 0, total: 0 },
       blue: { average: 0, peak: 0, median: 0, total: 0 },
       total: { average: 0, peak: 0, median: 0, total: 0 },
-      container: Swing.generate(difficulty.getNoteContainer(), bpm),
+      container: Swing.generate(difficulty.colorNotes, bpm),
    };
    const duration = Math.max(
-      bpm.toRealTime(difficulty.getLastInteractiveTime() - difficulty.getFirstInteractiveTime()),
+      bpm.toRealTime(getLastInteractiveTime(difficulty) - getFirstInteractiveTime(difficulty)),
       0,
    );
-   const mapDuration = Math.max(bpm.toRealTime(difficulty.getLastInteractiveTime()), 0);
-   const swing = count(difficulty.getNoteContainer(), mapDuration, bpm);
+   const mapDuration = Math.max(bpm.toRealTime(getLastInteractiveTime(difficulty)), 0);
+   const swing = count(difficulty.colorNotes, mapDuration, bpm);
    const swingTotal = swing.left.map((num, i) => num + swing.right[i]);
    if (swingTotal.reduce((a, b) => a + b) === 0) {
       return spsInfo;
@@ -187,4 +185,43 @@ export function getSpsLowest(spsArray: ISwingAnalysis[]): number {
 
 export function getSpsHighest(spsArray: ISwingAnalysis[]): number {
    return Math.max(...spsArray.map((e) => e.total.average), 0);
+}
+
+function getLastInteractiveTime(bm: IWrapBeatmap): number {
+   const notes = [...bm.colorNotes, ...bm.chains, ...bm.bombNotes].sort(sortNoteFn);
+   let lastNoteTime = 0;
+   if (notes.length > 0) {
+      lastNoteTime = notes[notes.length - 1].time;
+   }
+   const lastInteractiveObstacleTime = findLastInteractiveObstacleTime(bm);
+   return Math.max(lastNoteTime, lastInteractiveObstacleTime);
+}
+
+function getFirstInteractiveTime(bm: IWrapBeatmap): number {
+   const notes = [...bm.colorNotes, ...bm.chains, ...bm.bombNotes].sort(sortNoteFn);
+   let firstNoteTime = Number.MAX_VALUE;
+   if (notes.length > 0) {
+      firstNoteTime = notes[0].time;
+   }
+   const firstInteractiveObstacleTime = findFirstInteractiveObstacleTime(bm);
+   return Math.min(firstNoteTime, firstInteractiveObstacleTime);
+}
+
+function findFirstInteractiveObstacleTime(bm: IWrapBeatmap): number {
+   for (let i = 0, len = bm.obstacles.length; i < len; i++) {
+      if (bm.obstacles[i].isInteractive()) {
+         return bm.obstacles[i].time;
+      }
+   }
+   return Number.MAX_VALUE;
+}
+
+function findLastInteractiveObstacleTime(bm: IWrapBeatmap): number {
+   let obstacleEnd = 0;
+   for (let i = bm.obstacles.length - 1; i >= 0; i--) {
+      if (bm.obstacles[i].isInteractive()) {
+         obstacleEnd = Math.max(obstacleEnd, bm.obstacles[i].time + bm.obstacles[i].duration);
+      }
+   }
+   return obstacleEnd;
 }
