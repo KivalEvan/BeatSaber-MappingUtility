@@ -10,13 +10,13 @@ by **Kival Evan#5480**
 
 ### Installing
 
-Clone or fork the project and install dependencies with `yarn`.
+Clone or fork the project and install dependencies with `npm i`.
 
 ### Deploying
 
-Run the development server with `yarn dev`, the URL will be given in the CLI.
+Run the development server with `npm run dev`, the URL will be given in the CLI.
 
-To run the app locally, `yarn build` for the first time setup, then `yarn preview` to run the server.
+To run the app locally, `npm run build` for the first time setup, then `npm run preview` to run the server.
 
 ## Contributing
 
