@@ -1,6 +1,6 @@
 import { Index, createSignal } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import { round } from '../bsmap/utils/math';
+import { round } from 'bsmap/utils';
 
 type DifficultyName = 'Easy' | 'Normal' | 'Hard' | 'Expert' | 'Expert+';
 interface DiffSPS {

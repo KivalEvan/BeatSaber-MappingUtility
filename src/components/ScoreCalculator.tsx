@@ -1,6 +1,6 @@
 import { createStore } from 'solid-js/store';
-import type { Vector2 } from '../bsmap/types/vector';
-import { formatNumber, invLerp, lerp, round } from '../bsmap/utils/math';
+import type { Vector2 } from 'bsmap/types';
+import { formatNumber, invLerp, lerp, round } from 'bsmap/utils';
 import { ppCurve } from '../data/ppCurve';
 import { For, Index, createSignal } from 'solid-js';
 

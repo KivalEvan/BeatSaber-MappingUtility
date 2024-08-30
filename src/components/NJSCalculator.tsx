@@ -1,7 +1,7 @@
 import { createSignal } from 'solid-js';
-import { NoteJumpSpeed } from '../bsmap/beatmap/helpers/njs';
+import { NoteJumpSpeed } from 'bsmap';
 import { createStore } from 'solid-js/store';
-import { round } from '../bsmap/utils/math';
+import { round } from 'bsmap/utils';
 
 const NJS = new NoteJumpSpeed(128, 16);
 const [scaleSelect, setScaleSelect] = createSignal('hjd');

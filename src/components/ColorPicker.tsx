@@ -1,23 +1,24 @@
 import { For, Index, createSignal } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import type { ColorSchemeName } from '../bsmap/types/beatmap/shared/colorScheme';
-import type { IColorScheme } from '../bsmap/types/beatmap/v2/custom/colorScheme';
-import type { LooseAutocomplete, Nullable } from '../bsmap/types/utils';
-import { ColorScheme } from '../bsmap/beatmap/shared/colorScheme';
-import type { ColorArray, IColor } from '../bsmap/types/colors';
-import { colorFrom, colorToHex, deltaE00, toColorObject } from '../bsmap/utils/colors';
-import type { IInfoColorSchemeData } from '../bsmap/types/beatmap/v2/info';
-import { round } from '../bsmap/utils/math';
+import { ColorScheme } from 'bsmap';
+import type {
+   ColorArray,
+   IColor,
+   v2,
+   LooseAutocomplete,
+   Nullable,
+   ColorSchemeName,
+} from 'bsmap/types';
+import { round, deepCopy, colorFrom, colorToHex, deltaE00, toColorObject } from 'bsmap/utils';
 import { myCustomColor } from '../data/customColor';
-import { deepCopy } from '../bsmap/utils/misc';
 
-let schemeList: { [key: string]: IColorScheme } = { ...ColorScheme, Custom: {} };
+let schemeList: { [key: string]: v2.IColorScheme } = { ...ColorScheme, Custom: {} };
 const [schName, setSchName] = createSignal('Custom');
 const [schList, setSchList] = createStore<LooseAutocomplete<ColorSchemeName>[]>(
    ['Custom'].concat(Object.keys(schemeList)),
 );
 const [colorSch, setColorSch] = createStore<{
-   [k in keyof IColorScheme]: { readonly name: string; value: IColor | null; checked: boolean };
+   [k in keyof v2.IColorScheme]: { readonly name: string; value: IColor | null; checked: boolean };
 }>({
    _colorLeft: { name: 'Note L', value: null, checked: false },
    _colorRight: { name: 'Note R', value: null, checked: false },
@@ -29,7 +30,7 @@ const [colorSch, setColorSch] = createStore<{
    _envColorWhiteBoost: { name: 'Light W Boost', value: null, checked: false },
    _obstacleColor: { name: 'Obstacle', value: null, checked: false },
 });
-const [jsonCd, setJsonCd] = createStore<Nullable<IColorScheme>>({
+const [jsonCd, setJsonCd] = createStore<Nullable<v2.IColorScheme>>({
    _colorLeft: null,
    _colorRight: null,
    _envColorLeft: null,
@@ -41,7 +42,7 @@ const [jsonCd, setJsonCd] = createStore<Nullable<IColorScheme>>({
    _obstacleColor: null,
 });
 const [jsonInfo, setJsonInfo] = createStore<{
-   [k in keyof IInfoColorSchemeData]: IInfoColorSchemeData[k] | null;
+   [k in keyof v2.IInfoColorSchemeData]: v2.IInfoColorSchemeData[k] | null;
 }>({
    colorSchemeId: '',
    saberAColor: { r: 0, g: 0, b: 0, a: 0 },
@@ -98,7 +99,7 @@ function colorSchemeHandler(this: HTMLOptionElement) {
    sch = deepCopy(sch);
    setSchName(this.value);
    for (const key in sch) {
-      const k = key as keyof IColorScheme;
+      const k = key as keyof v2.IColorScheme;
       setColorSch(k, 'value', sch[k]!);
       setColorSch(k, 'checked', true);
    }
@@ -109,7 +110,7 @@ function colorSchemeHandler(this: HTMLOptionElement) {
 function jsonCdHandler(this: HTMLTextAreaElement) {
    resetAll();
    setMsgErr('');
-   const colorType: (keyof IColorScheme)[] = [
+   const colorType: (keyof v2.IColorScheme)[] = [
       '_colorLeft',
       '_colorRight',
       '_envColorLeft',
@@ -121,7 +122,7 @@ function jsonCdHandler(this: HTMLTextAreaElement) {
       '_obstacleColor',
    ];
 
-   let parsedJson: Nullable<IColorScheme> = {};
+   let parsedJson: Nullable<v2.IColorScheme> = {};
    try {
       if (/^{/.test(this.value.trim())) {
          parsedJson = JSON.parse(this.value.trim());
@@ -134,7 +135,7 @@ function jsonCdHandler(this: HTMLTextAreaElement) {
       return;
    }
    for (const key in parsedJson) {
-      const k = key as keyof IColorScheme;
+      const k = key as keyof v2.IColorScheme;
       if (colorType.includes(k)) {
          const p = parsedJson[k];
          if (!p) continue;
@@ -156,7 +157,7 @@ function jsonCdHandler(this: HTMLTextAreaElement) {
 function jsonInfoHandler(this: HTMLTextAreaElement) {
    resetAll();
    setMsgErr('');
-   const colorType: (keyof IInfoColorSchemeData)[] = [
+   const colorType: (keyof v2.IInfoColorSchemeData)[] = [
       'saberAColor',
       'saberBColor',
       'environmentColor0',
@@ -168,7 +169,7 @@ function jsonInfoHandler(this: HTMLTextAreaElement) {
       'environmentColorWBoost',
    ];
 
-   let parsedJson: Nullable<IInfoColorSchemeData> = {};
+   let parsedJson: Nullable<v2.IInfoColorSchemeData> = {};
    try {
       if (/^{/.test(this.value.trim())) {
          parsedJson = JSON.parse(this.value.trim());
@@ -181,7 +182,7 @@ function jsonInfoHandler(this: HTMLTextAreaElement) {
       return;
    }
    for (const key in parsedJson) {
-      const k = key as keyof Omit<IInfoColorSchemeData, 'colorSchemeId'>;
+      const k = key as keyof Omit<v2.IInfoColorSchemeData, 'colorSchemeId'>;
       if (colorType.includes(k)) {
          const p = parsedJson[k];
          if (!p || typeof p === 'string') continue;
@@ -201,7 +202,7 @@ function jsonInfoHandler(this: HTMLTextAreaElement) {
 }
 
 function colorHexHandler(this: HTMLInputElement) {
-   const objName = this.name as keyof IColorScheme;
+   const objName = this.name as keyof v2.IColorScheme;
    const str = this.value.trim();
    if (/^\#?[0-9a-fA-F]{6,8}/.test(str)) {
    }
@@ -215,7 +216,7 @@ function colorHexHandler(this: HTMLInputElement) {
 }
 
 function colorPickerHandler(this: HTMLInputElement) {
-   const objName = this.name as keyof IColorScheme;
+   const objName = this.name as keyof v2.IColorScheme;
    const color = colorFrom(this.value);
    setColorSch(objName, 'value', toColorObject(color));
    setColorSch(objName, 'checked', true);
@@ -225,7 +226,7 @@ function colorPickerHandler(this: HTMLInputElement) {
 }
 
 function includeHandler(this: HTMLInputElement) {
-   const objName = this.name as keyof IColorScheme;
+   const objName = this.name as keyof v2.IColorScheme;
    setColorSch(objName, 'value', colorSch[objName]?.value ?? { r: 0, g: 0, b: 0, a: 0 });
    setColorSch(objName, 'checked', this.checked);
    setCustom();
@@ -234,7 +235,7 @@ function includeHandler(this: HTMLInputElement) {
 }
 
 function resetHandler(this: HTMLInputElement, ev: Event) {
-   const objName = this.name as keyof IColorScheme;
+   const objName = this.name as keyof v2.IColorScheme;
    setColorSch(objName, 'value', null);
    setColorSch(objName, 'checked', false);
    setCustom();
@@ -265,7 +266,7 @@ function updateDeltaE() {
 
 function updateColorJSON() {
    for (const key in colorSch) {
-      const k = key as keyof IColorScheme;
+      const k = key as keyof v2.IColorScheme;
       if (colorSch[k]!.checked && colorSch[k]!.value) {
          setJsonCd(k, toColorObject(colorSch[k]!.value!));
          setJsonInfo(cdInfoMap[k], toColorObject(colorSch[k]!.value!, true));
@@ -307,7 +308,7 @@ function formatJson(data: Record<string, any>): string {
 
 function setCustom() {
    for (const key in colorSch) {
-      const k = key as keyof IColorScheme;
+      const k = key as keyof v2.IColorScheme;
       if (colorSch[k]!.value) {
          schemeList['Custom'][k] = colorSch[k]!.value!;
       } else {
@@ -319,7 +320,7 @@ function setCustom() {
 
 function resetAll() {
    for (const key in colorSch) {
-      const k = key as keyof IColorScheme;
+      const k = key as keyof v2.IColorScheme;
       setColorSch(k, 'value', null);
       setColorSch(k, 'checked', false);
    }

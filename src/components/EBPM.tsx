@@ -1,6 +1,6 @@
 import { createSignal } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import { round } from '../bsmap/utils/math';
+import { round } from 'bsmap/utils';
 
 const [bpm, setBpm] = createSignal(128);
 const [ebpm, setEbpm] = createStore({

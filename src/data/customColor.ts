@@ -1,6 +1,6 @@
-import type { IColorScheme } from '../bsmap/types/beatmap/v2/custom/colorScheme';
+import type { v2 } from 'bsmap/types';
 
-export const myCustomColor: { [key: string]: IColorScheme } = {
+export const myCustomColor: { [key: string]: v2.IColorScheme } = {
    'New World': {
       _colorLeft: { r: 0.625, g: 0.625, b: 0.625 },
       _colorRight: { r: 0.34375, g: 0.4375, b: 0.625 },

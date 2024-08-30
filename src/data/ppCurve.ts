@@ -1,4 +1,4 @@
-import type { Vector2 } from '../bsmap/types/vector';
+import type { Vector2 } from 'bsmap/types';
 
 export const ppCurve: { [key: string]: Vector2[] } = {
    'ScoreSaber 2023': [
