@@ -13,7 +13,7 @@
    "dependencies": {
       "@astrojs/solid-js": "^4.4.1",
       "astro": "^4.15.1",
-      "bsmap": "^2.1.0",
+      "bsmap": "^2.1.2",
       "solid-js": "^1.8.22"
    },
    "devDependencies": {
