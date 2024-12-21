@@ -11,15 +11,15 @@
       "astro": "astro"
    },
    "dependencies": {
-      "@astrojs/solid-js": "^4.4.1",
-      "astro": "^4.15.1",
-      "bsmap": "^2.1.2",
-      "solid-js": "^1.8.22"
+      "@astrojs/solid-js": "^4.4.4",
+      "astro": "^4.16.18",
+      "bsmap": "^2.1.9",
+      "solid-js": "^1.9.3"
    },
    "devDependencies": {
-      "prettier": "^3.3.3",
+      "prettier": "^3.4.2",
       "prettier-plugin-astro": "^0.14.1",
-      "sass": "^1.77.8",
-      "typescript": "^5.5.4"
+      "sass": "^1.83.0",
+      "typescript": "^5.7.2"
    }
 }

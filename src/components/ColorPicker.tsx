@@ -1,6 +1,6 @@
 import { For, Index, createSignal } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import { ColorScheme } from 'bsmap';
+import { ColorScheme, ColorSchemeVariant } from 'bsmap';
 import type {
    ColorArray,
    IColor,
@@ -12,7 +12,7 @@ import type {
 import { round, deepCopy, colorFrom, colorToHex, deltaE00, toColorObject } from 'bsmap/utils';
 import { myCustomColor } from '../data/customColor';
 
-let schemeList: { [key: string]: v2.IColorScheme } = { ...ColorScheme, Custom: {} };
+let schemeList: { [key: string]: v2.IColorScheme } = {};
 const [schName, setSchName] = createSignal('Custom');
 const [schList, setSchList] = createStore<LooseAutocomplete<ColorSchemeName>[]>(
    ['Custom'].concat(Object.keys(schemeList)),
@@ -82,12 +82,49 @@ const [dEArrowL, setDEArrowL] = createSignal<number | null>(null);
 const [dEArrowR, setDEArrowR] = createSignal<number | null>(null);
 const [msgErr, setMsgErr] = createSignal('');
 
-function showCustomHandler(this: HTMLInputElement) {
-   schemeList = { ...ColorScheme, Custom: schemeList.Custom };
-   if (this.checked) {
-      schemeList = { ...schemeList, ...myCustomColor };
+let showColorScheme = {
+   variants: false,
+   others: false,
+};
+
+function repopulateSchemeList() {
+   const custom = schemeList.Custom;
+   schemeList = { ...ColorScheme };
+   if (showColorScheme.variants) {
+      for (const key in ColorScheme) {
+         if (!(key in ColorSchemeVariant)) {
+            continue;
+         }
+
+         for (const v in ColorSchemeVariant[key as keyof typeof ColorSchemeVariant]) {
+            const k = `${key} - ${v}`;
+            schemeList[k] = {
+               ...ColorScheme[key as keyof typeof ColorScheme],
+               ...ColorSchemeVariant[key as keyof typeof ColorSchemeVariant]![
+                  v as keyof (typeof ColorSchemeVariant)[keyof typeof ColorSchemeVariant]
+               ],
+            };
+         }
+      }
    }
-   setSchList(['Custom'].concat(Object.keys(schemeList)));
+   if (showColorScheme.others) {
+      for (const key in myCustomColor) {
+         schemeList[key] = myCustomColor[key];
+      }
+   }
+   schemeList.Custom = custom;
+   setSchList(Object.keys(schemeList));
+}
+repopulateSchemeList();
+
+function showVariantsHandler(this: HTMLInputElement) {
+   showColorScheme.variants = this.checked;
+   repopulateSchemeList();
+}
+
+function showOthersHandler(this: HTMLInputElement) {
+   showColorScheme.others = this.checked;
+   repopulateSchemeList();
 }
 
 function colorSchemeHandler(this: HTMLOptionElement) {
@@ -343,8 +380,21 @@ export default function () {
             </For>
          </select>
          <br></br>
-         <input type="checkbox" id="cp-show-custom" onChange={showCustomHandler} />
-         <label for="cp-show-custom">Show others</label>
+         <span>Include:</span>
+         <input
+            type="checkbox"
+            id="cp-show-variants"
+            onChange={showVariantsHandler}
+            checked={showColorScheme.variants}
+         />
+         <label for="cp-show-variants">Variants</label>
+         <input
+            type="checkbox"
+            id="cp-show-others"
+            onChange={showOthersHandler}
+            checked={showColorScheme.others}
+         />
+         <label for="cp-show-others">Others</label>
          <table>
             <thead>
                <tr>
