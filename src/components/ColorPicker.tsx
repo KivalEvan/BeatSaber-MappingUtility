@@ -94,9 +94,10 @@ let showColorScheme = {
 
 function repopulateSchemeList() {
    const custom = schemeList.Custom;
-   schemeList = { ...ColorScheme };
-   if (showColorScheme.variants) {
-      for (const key in ColorScheme) {
+   schemeList = {};
+   for (const key in ColorScheme) {
+      schemeList[key] = ColorScheme[key as keyof typeof ColorScheme];
+      if (showColorScheme.variants) {
          if (!(key in ColorSchemeVariant)) {
             continue;
          }
