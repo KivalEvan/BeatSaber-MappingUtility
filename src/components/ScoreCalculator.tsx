@@ -1,18 +1,20 @@
 import { createStore } from 'solid-js/store';
-import type { Vector2 } from 'bsmap/types';
-import { formatNumber, invLerp, lerp, round } from 'bsmap/utils';
+import { type Vector2, formatNumber, invLerp, lerp, round } from 'bsmap';
 import { ppCurve } from '../data/ppCurve';
 import { For, Index, createSignal } from 'solid-js';
 
-function interpolatePoint(pointArr: Vector2[], xPoint: number): number {
-   const percAry = pointArr.map((arr) => arr[0]);
-   const multAry = pointArr.map((arr) => arr[1]);
-   const pS = percAry.find((x) => x <= xPoint) ?? percAry[0];
-   const pE = [...percAry].reverse().find((x) => x >= xPoint) ?? pS;
-   const mS = multAry[percAry.indexOf(pS)];
-   const mE = multAry[percAry.indexOf(pE)];
-   const t = invLerp(xPoint, pS, pE) || 0;
-   return multAry[percAry.indexOf(xPoint)] || lerp(t, mS, mE);
+function interpolatePoint(points: Vector2[], xPoint: number): number {
+   const percents = points.map((arr) => arr[0]);
+   const multipliers = points.map((arr) => arr[1]);
+
+   const percStart = percents.find((x) => x <= xPoint) ?? percents[0];
+   const percEnd = [...percents].reverse().find((x) => x >= xPoint) ?? percStart;
+
+   const multStart = multipliers[percents.indexOf(percStart)];
+   const multEnd = multipliers[percents.indexOf(percEnd)];
+
+   const t = invLerp(xPoint, percStart, percEnd) || 0;
+   return multipliers[percents.indexOf(xPoint)] || lerp(t, multStart, multEnd);
 }
 
 const maxNoteScore: number = 115;

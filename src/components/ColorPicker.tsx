@@ -1,15 +1,20 @@
 import { For, Index, createSignal } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import { ColorScheme, ColorSchemeVariant } from 'bsmap';
-import type {
-   ColorArray,
-   IColor,
-   v2,
-   LooseAutocomplete,
-   Nullable,
-   ColorSchemeName,
-} from 'bsmap/types';
-import { round, deepCopy, colorFrom, colorToHex, deltaE00, toColorObject } from 'bsmap/utils';
+import {
+   type ColorArray,
+   type IColor,
+   type v2,
+   type LooseAutocomplete,
+   type Nullable,
+   type ColorSchemeName,
+   round,
+   deepCopy,
+   colorFrom,
+   colorToHex,
+   deltaE00,
+   toColorObject,
+} from 'bsmap';
 import { myCustomColor } from '../data/customColor';
 
 let schemeList: { [key: string]: v2.IColorScheme } = {};
