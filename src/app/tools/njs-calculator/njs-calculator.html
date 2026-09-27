@@ -1,0 +1,254 @@
+<section appToolSection id="njs-calculator" heading="NJS Calculator">
+   @let jumpResults = results();
+   <form (submit)="$event.preventDefault()">
+      <p id="njs-results-note" class="data-errorSlot data-errorSlot--note" role="status">
+         {{ hasErrors() ? 'Results use the last valid values.' : '' }}
+      </p>
+      <div class="tool-grid">
+         <div class="tool-group inputGroup">
+            <div class="form-field field">
+               <label for="njs-input-bpm">BPM</label>
+               <input
+                  #bpmInput
+                  type="number"
+                  class="form-input"
+                  id="njs-input-bpm"
+                  min="0"
+                  step="1"
+                  [value]="inputs().bpm"
+                  [attr.aria-describedby]="
+                     fieldErrors().bpm ? 'njs-error-bpm njs-results-note' : null
+                  "
+                  [attr.aria-invalid]="fieldErrors().bpm ? 'true' : null"
+                  (input)="updateFromInput('bpm', bpmInput)"
+               />
+               <span
+                  id="njs-error-bpm"
+                  class="data-errorSlot"
+                  role="alert"
+                  [attr.tabindex]="fieldErrors().bpm ? 0 : null"
+                  >{{ fieldErrors().bpm }}</span
+               >
+            </div>
+            <div class="form-field field">
+               <label for="njs-input-njs">NJS</label>
+               <input
+                  #njsInput
+                  type="number"
+                  class="form-input"
+                  id="njs-input-njs"
+                  min="0"
+                  step="0.25"
+                  [value]="inputs().njs"
+                  [attr.aria-describedby]="
+                     fieldErrors().njs ? 'njs-error-njs njs-results-note' : null
+                  "
+                  [attr.aria-invalid]="fieldErrors().njs ? 'true' : null"
+                  (input)="updateFromInput('njs', njsInput)"
+               />
+               <span
+                  id="njs-error-njs"
+                  class="data-errorSlot"
+                  role="alert"
+                  [attr.tabindex]="fieldErrors().njs ? 0 : null"
+                  >{{ fieldErrors().njs }}</span
+               >
+            </div>
+            <div class="form-field field">
+               <label for="njs-input-offset">Offset</label>
+               <input
+                  #offsetInput
+                  type="number"
+                  class="form-input"
+                  id="njs-input-offset"
+                  step="0.125"
+                  [value]="inputs().offset"
+                  [attr.aria-describedby]="
+                     fieldErrors().offset ? 'njs-error-offset njs-results-note' : null
+                  "
+                  [attr.aria-invalid]="fieldErrors().offset ? 'true' : null"
+                  (input)="updateFromInput('offset', offsetInput)"
+               />
+               <span
+                  id="njs-error-offset"
+                  class="data-errorSlot"
+                  role="alert"
+                  [attr.tabindex]="fieldErrors().offset ? 0 : null"
+                  >{{ fieldErrors().offset }}</span
+               >
+            </div>
+         </div>
+
+         <div class="tool-group inputGroup">
+            <div class="form-field field">
+               <label for="njs-input-hjd">Half jump duration</label>
+               <input
+                  #hjdInput
+                  type="number"
+                  class="form-input"
+                  id="njs-input-hjd"
+                  min="0"
+                  step="0.25"
+                  [value]="inputs().hjd"
+                  [attr.aria-describedby]="
+                     fieldErrors().hjd ? 'njs-error-hjd njs-results-note' : null
+                  "
+                  [attr.aria-invalid]="fieldErrors().hjd ? 'true' : null"
+                  (input)="updateFromInput('hjd', hjdInput)"
+               />
+               <span
+                  id="njs-error-hjd"
+                  class="data-errorSlot"
+                  role="alert"
+                  [attr.tabindex]="fieldErrors().hjd ? 0 : null"
+                  >{{ fieldErrors().hjd }}</span
+               >
+            </div>
+            <div class="form-field field">
+               <label for="njs-input-jd">Jump distance</label>
+               <input
+                  #jdInput
+                  type="number"
+                  class="form-input"
+                  id="njs-input-jd"
+                  min="0"
+                  step="0.25"
+                  [value]="inputs().jd"
+                  [attr.aria-describedby]="
+                     fieldErrors().jd ? 'njs-error-jd njs-results-note' : null
+                  "
+                  [attr.aria-invalid]="fieldErrors().jd ? 'true' : null"
+                  (input)="updateFromInput('jd', jdInput)"
+               />
+               <span
+                  id="njs-error-jd"
+                  class="data-errorSlot"
+                  role="alert"
+                  [attr.tabindex]="fieldErrors().jd ? 0 : null"
+                  >{{ fieldErrors().jd }}</span
+               >
+            </div>
+            <div class="form-field field">
+               <label for="njs-input-reacttime">Reaction time (ms)</label>
+               <input
+                  #reactionInput
+                  type="number"
+                  class="form-input"
+                  id="njs-input-reacttime"
+                  min="0"
+                  step="5"
+                  [value]="inputs().reactionTimeMs"
+                  [attr.aria-describedby]="
+                     fieldErrors().reactionTimeMs
+                        ? 'njs-error-reactionTimeMs njs-results-note'
+                        : null
+                  "
+                  [attr.aria-invalid]="fieldErrors().reactionTimeMs ? 'true' : null"
+                  (input)="updateFromInput('reactionTimeMs', reactionInput)"
+               />
+               <span
+                  id="njs-error-reactionTimeMs"
+                  class="data-errorSlot"
+                  role="alert"
+                  [attr.tabindex]="fieldErrors().reactionTimeMs ? 0 : null"
+                  >{{ fieldErrors().reactionTimeMs }}</span
+               >
+            </div>
+            <div class="form-field field">
+               <label for="njs-option-njs-scale">When editing JD, change</label>
+               <select
+                  #scale
+                  class="form-select"
+                  id="njs-option-njs-scale"
+                  [value]="scaleSelect()"
+                  (change)="scaleSelect.set(scale.value === 'njs' ? 'njs' : 'hjd')"
+               >
+                  <option value="njs">NJS</option>
+                  <option value="hjd">HJD</option>
+               </select>
+            </div>
+         </div>
+
+         <div class="tool-grid tool-spanFull">
+            <div class="tool-group">
+               <h3 id="njs-pattern-limits-title">Pattern timing limits</h3>
+               <div class="data-tableScroll">
+                  <table class="data-table" aria-labelledby="njs-pattern-limits-title">
+                     <thead>
+                        <tr>
+                           <th scope="col">Pattern</th>
+                           <th scope="col">Time distance (beats)</th>
+                           <th scope="col">Beat precision</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <th scope="row">Reverse Staircase (V/H)</th>
+                           <td>
+                              {{
+                                 formatNumber(jumpResults?.patterns.reverseStaircase.timeDistance)
+                              }}
+                           </td>
+                           <td>
+                              {{
+                                 formatNumber(jumpResults?.patterns.reverseStaircase.beatPrecision)
+                              }}
+                           </td>
+                        </tr>
+                        <tr>
+                           <th scope="row">Reverse Staircase (Diagonal)</th>
+                           <td>
+                              {{
+                                 formatNumber(
+                                    jumpResults?.patterns.diagonalReverseStaircase.timeDistance
+                                 )
+                              }}
+                           </td>
+                           <td>
+                              {{
+                                 formatNumber(
+                                    jumpResults?.patterns.diagonalReverseStaircase.beatPrecision
+                                 )
+                              }}
+                           </td>
+                        </tr>
+                        <tr>
+                           <th scope="row">Inline Hitbox</th>
+                           <td>
+                              {{ formatNumber(jumpResults?.patterns.inlineHitbox.timeDistance) }}
+                           </td>
+                           <td>
+                              {{ formatNumber(jumpResults?.patterns.inlineHitbox.beatPrecision) }}
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+            <div class="tool-group">
+               <dl class="data-metrics">
+                  <dt>Optimal jump distance (low-high)</dt>
+                  <dd>
+                     <output
+                        >{{ formatNumber(jumpResults?.optimalJdLow) }} -
+                        {{ formatNumber(jumpResults?.optimalJdHigh) }}</output
+                     >
+                  </dd>
+                  <dt>Minimum HJD</dt>
+                  <dd>
+                     <output>{{ minimumHjd }}</output>
+                  </dd>
+                  <dt>Minimum jump distance</dt>
+                  <dd>
+                     <output>{{ formatNumber(jumpResults?.minJd) }}</output>
+                  </dd>
+                  <dt>Minimum reaction time</dt>
+                  <dd>
+                     <output>{{ formatNumber(jumpResults?.minReactionTimeMs) }} ms</output>
+                  </dd>
+               </dl>
+            </div>
+         </div>
+      </div>
+   </form>
+</section>

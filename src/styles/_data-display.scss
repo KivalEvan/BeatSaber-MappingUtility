@@ -1,0 +1,137 @@
+.data-note {
+   color: var(--muted);
+   font-size: 0.8125rem;
+   line-height: 1.55;
+   margin-top: 0.75rem;
+   margin-bottom: 0;
+
+   &:empty {
+      margin: 0;
+   }
+}
+
+.data-metrics {
+   display: grid;
+   grid-template-columns: minmax(0, 1fr) auto;
+   margin: 0.5rem 0 0;
+   font-size: 0.875rem;
+
+   dt,
+   dd {
+      padding: 0.45rem 0;
+      border-bottom: 1px solid var(--divider);
+      margin: 0;
+   }
+
+   dt {
+      color: var(--muted);
+      padding-right: 1rem;
+   }
+
+   dd {
+      text-align: right;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+   }
+}
+
+.data-metricValue {
+   color: var(--accent);
+   font-variant-numeric: tabular-nums;
+   font-weight: 600;
+}
+
+.data-tableScroll {
+   position: relative;
+   overflow-x: auto;
+   max-width: 100%;
+   scrollbar-width: thin;
+}
+
+.data-table {
+   width: 100%;
+   border-collapse: collapse;
+   text-align: left;
+
+   th {
+      font-size: 0.8125rem;
+      color: var(--muted);
+      font-weight: 600;
+      background: var(--surface-raised);
+   }
+
+   th,
+   td {
+      padding: 0.45rem 0.65rem;
+      border-bottom: 1px solid var(--divider);
+
+      &:first-child {
+         padding-left: 0.75rem;
+      }
+
+      @media (max-width: 760px) {
+         padding: 0.6rem;
+      }
+   }
+
+   td {
+      font-size: 0.875rem;
+      font-variant-numeric: tabular-nums;
+   }
+
+   tbody tr:hover {
+      background: var(--input);
+   }
+
+   input {
+      min-width: 5rem;
+
+      &[type='checkbox'] {
+         min-width: 0;
+      }
+
+      &[type='text'] {
+         font-family: var(--font-mono);
+         font-size: 0.8125rem;
+      }
+   }
+}
+
+.data-message {
+   display: block;
+   margin: 1rem 0;
+   padding: 0.875rem 1rem;
+   font-size: 0.875rem;
+   border: 1px solid var(--border);
+   background: var(--surface-raised);
+
+   &--error {
+      color: var(--danger);
+      background: var(--danger-surface);
+      border-color: var(--danger);
+
+      &:empty {
+         display: none;
+      }
+   }
+}
+
+.data-fieldError {
+   color: var(--danger);
+   font-size: 0.8125rem;
+}
+
+.data-errorSlot {
+   display: block;
+   height: 1.4em;
+   overflow-y: auto;
+   color: var(--danger);
+   font-size: 0.8125rem;
+   line-height: 1.4;
+
+   &--note {
+      height: 1.4em;
+      margin: 0;
+      color: var(--muted);
+   }
+}

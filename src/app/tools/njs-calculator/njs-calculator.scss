@@ -1,0 +1,18 @@
+.inputGroup {
+   max-width: 20rem;
+}
+
+.field {
+   display: grid;
+   grid-template-columns: minmax(0, 1fr) minmax(0, 8rem);
+   align-items: center;
+   gap: 0.3rem 0.75rem;
+
+   > .data-errorSlot {
+      grid-column: 1 / -1;
+   }
+
+   &:last-child {
+      margin-bottom: 0;
+   }
+}

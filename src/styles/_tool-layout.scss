@@ -1,0 +1,116 @@
+.tool-panel {
+   min-width: 0;
+   border: 1px solid var(--border);
+   border-radius: 2px;
+   background: var(--surface);
+
+   @media (max-width: 900px) {
+      scroll-margin-top: 1rem;
+   }
+
+   &__header {
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1px solid var(--divider);
+
+      h2 {
+         margin: 0;
+      }
+
+      @media (max-width: 760px) {
+         padding: 1rem;
+      }
+   }
+
+   &__content {
+      padding: 1.25rem;
+
+      > .tool-grid + .tool-grid,
+      > .tool-group {
+         margin-top: 1rem;
+      }
+
+      > .tool-group:first-child {
+         margin-top: 0;
+      }
+
+      > .tool-group + .tool-group {
+         padding-top: 1rem;
+         border-top: 1px solid var(--divider);
+      }
+
+      @media (max-width: 760px) {
+         padding: 1rem;
+      }
+   }
+}
+
+.tool-group {
+   min-width: 0;
+}
+
+.tool-spanFull {
+   grid-column: 1 / -1;
+}
+
+.tool-grid {
+   display: grid;
+   grid-template-columns: repeat(2, minmax(0, 1fr));
+   align-items: start;
+   gap: 1.25rem;
+
+   > .tool-group + .tool-group {
+      border-left: 1px solid var(--divider);
+      padding-left: 1.25rem;
+   }
+
+   > .tool-group:nth-child(2n + 1) {
+      border-left: 0;
+      padding-left: 0;
+   }
+
+   &--three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+
+      > .tool-group:nth-child(3) {
+         border-left: 1px solid var(--divider);
+         padding-left: 1.25rem;
+      }
+
+      @media (max-width: 1150px) {
+         grid-template-columns: repeat(2, minmax(0, 1fr));
+
+         > .tool-group:nth-child(3) {
+            border-left: 0;
+            padding-left: 0;
+         }
+      }
+   }
+
+   > .tool-group.tool-spanFull {
+      border-left: 0;
+      padding-left: 0;
+   }
+
+   > .tool-spanFull:empty {
+      display: none;
+   }
+
+   // Keep the shared mobile overrides after both grid variants.
+   @media (max-width: 760px) {
+      &,
+      &--three {
+         grid-template-columns: minmax(0, 1fr);
+         gap: 1rem;
+      }
+
+      > .tool-group + .tool-group {
+         padding: 1rem 0 0;
+         border-left: 0;
+         border-top: 1px solid var(--divider);
+      }
+
+      > .tool-spanFull {
+         grid-column: auto;
+      }
+   }
+}

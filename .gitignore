@@ -1,7 +1,8 @@
 # build output
 dist/
-# generated types
-.astro/
+# Angular build cache
+.angular/
+out-tsc/
 
 # dependencies
 node_modules/
@@ -19,3 +20,7 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+
+# local browser and design-review output
+.playwright-mcp/
+.impeccable/review/

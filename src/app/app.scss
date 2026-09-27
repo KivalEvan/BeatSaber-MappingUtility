@@ -1,0 +1,164 @@
+@use 'app-navigation';
+
+:host {
+   display: block;
+}
+
+.shell {
+   max-width: 92rem;
+   min-height: 100vh;
+   margin: auto;
+   padding: 0 clamp(1rem, 3.4vw, 3.25rem);
+   display: flex;
+   flex-direction: column;
+}
+
+.header {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   gap: 2rem;
+   padding: 1rem 0;
+   border-bottom: 1px solid var(--border);
+
+   @media (max-width: 900px) {
+      padding: 0.75rem 0;
+   }
+
+   @media (max-width: 760px) {
+      align-items: flex-start;
+      gap: 1rem;
+      flex-direction: column;
+   }
+   &__identity {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      min-width: 0;
+
+      @media (max-width: 760px) {
+         gap: 0.75rem;
+      }
+   }
+
+   &__identity h1 {
+      @media (max-width: 760px) {
+         font-size: clamp(1.5rem, 6vw, 2rem);
+      }
+   }
+
+   &__actions {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+
+      @media (max-width: 760px) {
+         flex-direction: row;
+         justify-content: space-between;
+         flex-wrap: wrap;
+         gap: 0.5rem 1rem;
+         width: 100%;
+      }
+   }
+}
+
+.projectLinks {
+   display: flex;
+   align-items: center;
+   gap: 1.25rem;
+
+   @media (max-width: 760px) {
+      gap: 0.75rem;
+   }
+}
+
+.projectLinks a {
+   font-size: 0.875rem;
+   text-decoration: none;
+
+   &:hover {
+      text-decoration: underline;
+   }
+}
+
+.theme {
+   display: flex;
+   min-width: 0;
+   align-items: center;
+   gap: 0.75rem;
+   font-size: 0.8125rem;
+   color: var(--muted);
+}
+
+.theme select {
+   width: auto;
+   min-height: 2rem;
+   padding: 0.25rem 2rem 0.25rem 0.6rem;
+   font-size: 0.8125rem;
+
+   @media (max-width: 760px) {
+      min-height: 2.75rem;
+   }
+}
+
+.footer {
+   display: flex;
+   justify-content: flex-end;
+   gap: 1rem;
+   padding: 1rem 0;
+   margin-top: 1rem;
+   border-top: 1px solid var(--divider);
+   color: var(--muted);
+   font-size: 0.75rem;
+
+   @media (max-width: 760px) {
+      flex-wrap: wrap;
+   }
+}
+
+.skipLink {
+   position: fixed;
+   top: 0.5rem;
+   left: 0.5rem;
+   z-index: 20;
+   padding: 0.75rem 1rem;
+   background: var(--accent);
+   color: var(--on-accent);
+   transform: translateY(-200%);
+
+   &:focus {
+      transform: translateY(0);
+   }
+}
+
+.workbench {
+   display: grid;
+   grid-template-columns: 12.5rem minmax(0, 1fr);
+   align-items: start;
+   gap: 1.25rem;
+   padding-top: 1rem;
+   flex: 1;
+
+   @media (max-width: 1150px) {
+      grid-template-columns: 11.5rem minmax(0, 1fr);
+      gap: 1rem;
+   }
+
+   @media (max-width: 900px) {
+      display: block;
+      padding-top: 0;
+   }
+}
+
+.workspace {
+   min-width: 0;
+
+   > div:not([hidden]) + div:not([hidden]) {
+      margin-top: 1.5rem;
+   }
+
+   @media (max-width: 900px) {
+      padding-top: 1.25rem;
+      scroll-margin-top: 1rem;
+   }
+}

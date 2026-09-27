@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8" />
+      <title>BS Mapping Utility</title>
+      <base href="/BeatSaber-MappingUtility/" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="theme-color" content="#080b10" />
+      <meta name="description" content="Plenty o' utilities for Beat Saber mapping" />
+      <link rel="icon" type="image/png" href="favicon.png" />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://kivalevan.me/BeatSaber-MappingUtility/" />
+      <meta property="og:title" content="BS Mapping Utility" />
+      <meta property="og:description" content="Plenty o' utilities for Beat Saber mapping" />
+      <meta
+         property="og:image"
+         content="https://kivalevan.me/BeatSaber-MappingUtility/favicon.png"
+      />
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:title" content="BS Mapping Utility" />
+      <meta name="twitter:description" content="Plenty o' utilities for Beat Saber mapping" />
+      <meta
+         name="twitter:image"
+         content="https://kivalevan.me/BeatSaber-MappingUtility/favicon.png"
+      />
+      <script>
+         try {
+            const theme = localStorage.getItem('mapping-utility-theme');
+            if (['dark', 'light', 'monochrome'].includes(theme)) {
+               document.documentElement.dataset.theme = theme;
+            }
+         } catch {
+            /* Theme selection still works when storage is unavailable. */
+         }
+      </script>
+   </head>
+   <body>
+      <noscript><p class="data-message">Enable JavaScript to use these tools.</p></noscript>
+      <app-root></app-root>
+   </body>
+</html>

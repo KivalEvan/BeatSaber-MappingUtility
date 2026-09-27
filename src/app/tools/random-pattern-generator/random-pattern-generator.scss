@@ -1,0 +1,48 @@
+.nestedGrid {
+   @media (max-width: 760px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+   }
+}
+
+.preview {
+   overflow: auto;
+   padding: 0.75rem;
+   background: var(--input);
+   border: 1px solid var(--divider);
+   margin-bottom: 1rem;
+}
+
+.table {
+   width: auto;
+   margin: auto;
+   table-layout: fixed;
+   border-collapse: collapse;
+   text-align: left;
+
+   td {
+      border: 1px solid var(--border);
+      padding: 0;
+      width: 3.5rem;
+      height: 3.5rem;
+      font-size: 0.875rem;
+      font-variant-numeric: tabular-nums;
+   }
+}
+
+.image {
+   display: block;
+   width: 3.5rem;
+   height: 3.5rem;
+   object-fit: contain;
+
+   &[src$='.svg'] {
+      padding: 0.625rem;
+   }
+}
+
+@each $angle in 45, 90, 135, 180, 225, 270, 315 {
+   .deg#{$angle} {
+      transform: rotate(#{$angle}deg);
+   }
+}

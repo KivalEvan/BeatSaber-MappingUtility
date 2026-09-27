@@ -1,0 +1,155 @@
+<section appToolSection id="ebpm-precision" heading="Effective BPM & Time Precision">
+   <p id="ebpm-results-note" class="data-errorSlot data-errorSlot--note" role="status">
+      {{ hasErrors() ? 'Results use the last valid values.' : '' }}
+   </p>
+   <div class="tool-grid">
+      <div class="tool-group">
+         <div class="form-field">
+            <label for="ebpm-input-bpm">BPM</label>
+            <input
+               #tempoInput
+               type="number"
+               class="form-input"
+               id="ebpm-input-bpm"
+               min="0"
+               step="1"
+               [value]="inputValue('tempo', results().bpm)"
+               [attr.aria-invalid]="errors().tempo ? 'true' : null"
+               [attr.aria-describedby]="
+                  errors().tempo ? 'ebpm-input-bpm-error ebpm-results-note' : null
+               "
+               (input)="updateFromInput('tempo', tempoInput)"
+            />
+            <span
+               id="ebpm-input-bpm-error"
+               class="data-errorSlot"
+               role="alert"
+               [attr.tabindex]="errors().tempo ? 0 : null"
+               >{{ errors().tempo }}</span
+            >
+         </div>
+         <div class="form-field">
+            <label for="ebpm-input-precbeat">Beat precision</label>
+            <input
+               #precisionInput
+               type="number"
+               class="form-input"
+               id="ebpm-input-precbeat"
+               min="1"
+               step="1"
+               [value]="inputValue('beatPrecision', round(results().beatPrecision, 3))"
+               [attr.aria-invalid]="errors().beatPrecision ? 'true' : null"
+               [attr.aria-describedby]="
+                  errors().beatPrecision ? 'ebpm-input-precbeat-error ebpm-results-note' : null
+               "
+               (input)="updateFromInput('beatPrecision', precisionInput)"
+            />
+            <span
+               id="ebpm-input-precbeat-error"
+               class="data-errorSlot"
+               role="alert"
+               [attr.tabindex]="errors().beatPrecision ? 0 : null"
+               >{{ errors().beatPrecision }}</span
+            >
+         </div>
+         <div class="form-field">
+            <label for="ebpm-input-prectime">Time distance (beat)</label>
+            <input
+               #timeDistanceInput
+               type="number"
+               class="form-input"
+               id="ebpm-input-prectime"
+               min="0"
+               step="0.125"
+               [value]="inputValue('timeDistance', round(results().timeDistanceBeats, 3))"
+               [attr.aria-invalid]="errors().timeDistance ? 'true' : null"
+               [attr.aria-describedby]="
+                  errors().timeDistance ? 'ebpm-input-prectime-error ebpm-results-note' : null
+               "
+               (input)="updateFromInput('timeDistance', timeDistanceInput)"
+            />
+            <span
+               id="ebpm-input-prectime-error"
+               class="data-errorSlot"
+               role="alert"
+               [attr.tabindex]="errors().timeDistance ? 0 : null"
+               >{{ errors().timeDistance }}</span
+            >
+         </div>
+         <div class="form-field">
+            <label for="ebpm-input-precrealtime">Time distance (ms)</label>
+            <input
+               #realTimeInput
+               type="number"
+               class="form-input"
+               id="ebpm-input-precrealtime"
+               min="0"
+               step="1"
+               [value]="inputValue('realTime', round(results().timeDistanceMs, 3))"
+               [attr.aria-invalid]="errors().realTime ? 'true' : null"
+               [attr.aria-describedby]="
+                  errors().realTime ? 'ebpm-input-precrealtime-error ebpm-results-note' : null
+               "
+               (input)="updateFromInput('realTime', realTimeInput)"
+            />
+            <span
+               id="ebpm-input-precrealtime-error"
+               class="data-errorSlot"
+               role="alert"
+               [attr.tabindex]="errors().realTime ? 0 : null"
+               >{{ errors().realTime }}</span
+            >
+         </div>
+      </div>
+      <div class="tool-group">
+         <div class="form-field">
+            <label for="ebpm-input-ebpm-ohj">eBPM (One-handed jump)</label>
+            <input
+               #oneHandedInput
+               type="number"
+               class="form-input"
+               id="ebpm-input-ebpm-ohj"
+               min="0"
+               step="1"
+               [value]="inputValue('oneHanded', round(results().effectiveBpm, 3))"
+               [attr.aria-invalid]="errors().oneHanded ? 'true' : null"
+               [attr.aria-describedby]="
+                  errors().oneHanded ? 'ebpm-input-ebpm-ohj-error ebpm-results-note' : null
+               "
+               (input)="updateFromInput('oneHanded', oneHandedInput)"
+            />
+            <span
+               id="ebpm-input-ebpm-ohj-error"
+               class="data-errorSlot"
+               role="alert"
+               [attr.tabindex]="errors().oneHanded ? 0 : null"
+               >{{ errors().oneHanded }}</span
+            >
+         </div>
+         <div class="form-field">
+            <label for="ebpm-input-ebpm-stream">eBPM (Alternating stream)</label>
+            <input
+               #streamInput
+               type="number"
+               class="form-input"
+               id="ebpm-input-ebpm-stream"
+               min="0"
+               step="1"
+               [value]="inputValue('stream', round(results().streamBpm, 3))"
+               [attr.aria-invalid]="errors().stream ? 'true' : null"
+               [attr.aria-describedby]="
+                  errors().stream ? 'ebpm-input-ebpm-stream-error ebpm-results-note' : null
+               "
+               (input)="updateFromInput('stream', streamInput)"
+            />
+            <span
+               id="ebpm-input-ebpm-stream-error"
+               class="data-errorSlot"
+               role="alert"
+               [attr.tabindex]="errors().stream ? 0 : null"
+               >{{ errors().stream }}</span
+            >
+         </div>
+      </div>
+   </div>
+</section>

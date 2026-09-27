@@ -1,0 +1,184 @@
+.workspace {
+   display: grid;
+   grid-template-columns: minmax(0, 1fr);
+   gap: 1rem;
+   margin-top: 1rem;
+
+   > .workspaceGroup + .workspaceGroup {
+      border-top: 1px solid var(--divider);
+      padding: 1rem 0 0;
+   }
+}
+
+.metrics {
+   grid-auto-flow: column;
+   grid-template-columns: repeat(3, minmax(0, 1fr));
+   grid-template-rows: repeat(2, auto);
+
+   dt {
+      padding-right: 0;
+      padding-bottom: 0;
+      border-bottom: 0;
+   }
+
+   dd {
+      text-align: left;
+      padding-top: 0;
+   }
+}
+
+.workspace + .json {
+   margin-top: 0.75rem;
+}
+
+.table {
+   min-width: 36rem;
+
+   th,
+   td {
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
+   }
+
+   th:first-child {
+      width: 8rem;
+   }
+
+   td:last-child {
+      width: 8.75rem;
+   }
+
+   input[type='color'] {
+      width: 4.5rem;
+      min-width: 4.5rem;
+   }
+
+   input[type='button'] {
+      min-width: 0;
+      padding: 0.35rem 0.65rem;
+   }
+
+   @media (max-width: 760px) {
+      min-width: 0;
+
+      thead {
+         position: absolute;
+         width: 1px;
+         height: 1px;
+         overflow: hidden;
+         clip: rect(0, 0, 0, 0);
+         white-space: nowrap;
+      }
+
+      tbody > tr:not(.errorRow) {
+         display: grid;
+         grid-template-columns: minmax(0, 1fr) 2.75rem auto;
+         align-items: center;
+      }
+
+      th,
+      td {
+         display: block;
+         min-width: 0;
+         padding: 0.125rem;
+         border: 0;
+      }
+
+      th:first-child {
+         grid-column: 1 / -1;
+         width: auto;
+         padding: 0.35rem 0.25rem;
+      }
+
+      td:last-child {
+         width: auto;
+      }
+
+      input[type='text'] {
+         min-width: 0;
+         padding-inline: 0.25rem;
+      }
+
+      input[type='color'] {
+         width: 2.75rem;
+         min-width: 2.75rem;
+      }
+
+      input[type='button'] {
+         min-width: 2.75rem;
+         padding-inline: 0.125rem;
+      }
+   }
+}
+
+.tableRow {
+   flex-wrap: nowrap;
+
+   @media (max-width: 760px) {
+      gap: 0.25rem;
+   }
+}
+
+.includeLabel {
+   display: none;
+
+   @media (max-width: 760px) {
+      display: inline;
+      font-size: 0.75rem;
+   }
+}
+
+.table .errorRow td {
+   padding: 0 0.25rem;
+   border-bottom: 0;
+}
+
+.tableCheckField {
+   flex-shrink: 0;
+
+   @media (max-width: 760px) {
+      gap: 0.25rem;
+      min-width: 2.75rem;
+      justify-content: center;
+   }
+}
+
+.json {
+   border-top: 1px solid var(--divider);
+   padding-top: 0.75rem;
+
+   textarea {
+      min-height: 9rem;
+   }
+}
+
+.jsonField {
+   margin-bottom: 0;
+}
+
+.jsonGrid {
+   margin-top: 0.75rem;
+
+   > .jsonField + .jsonField {
+      border-left: 1px solid var(--divider);
+      padding-left: 1.25rem;
+
+      @media (max-width: 760px) {
+         border-left: 0;
+         border-top: 1px solid var(--divider);
+         padding: 1rem 0 0;
+      }
+   }
+}
+
+.srOnly {
+   position: absolute;
+   width: 1px;
+   height: 1px;
+   padding: 0;
+   margin: -1px;
+   overflow: hidden;
+   clip: rect(0, 0, 0, 0);
+   white-space: nowrap;
+   border: 0;
+}

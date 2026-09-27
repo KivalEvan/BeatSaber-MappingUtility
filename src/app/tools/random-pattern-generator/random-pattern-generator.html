@@ -1,0 +1,291 @@
+<section appToolSection id="random-pattern" heading="Random Pattern Generator">
+   <div class="tool-grid">
+      <div class="tool-group">
+         <div class="tool-grid nestedGrid">
+            <div class="form-field">
+               <label for="rpg-input-rpattern-row">Rows</label>
+               <input
+                  #rowsInput
+                  class="form-input"
+                  type="number"
+                  id="rpg-input-rpattern-row"
+                  name="row"
+                  min="1"
+                  [max]="maxGridDimension"
+                  step="1"
+                  [value]="settings().row"
+                  [attr.aria-invalid]="!!errors().row"
+                  [attr.aria-describedby]="errors().row ? 'rpg-input-rpattern-row-error' : null"
+                  (change)="updateNumberSetting('row', rowsInput.value)"
+               />
+               <span
+                  id="rpg-input-rpattern-row-error"
+                  class="data-errorSlot"
+                  role="alert"
+                  [attr.tabindex]="errors().row ? 0 : null"
+                  >{{ errors().row }}</span
+               >
+            </div>
+            <div class="form-field">
+               <label for="rpg-input-rpattern-column">Columns</label>
+               <input
+                  #columnsInput
+                  class="form-input"
+                  type="number"
+                  id="rpg-input-rpattern-column"
+                  name="column"
+                  min="1"
+                  [max]="maxGridDimension"
+                  step="1"
+                  [value]="settings().column"
+                  [attr.aria-invalid]="!!errors().column"
+                  [attr.aria-describedby]="
+                     errors().column ? 'rpg-input-rpattern-column-error' : null
+                  "
+                  (change)="updateNumberSetting('column', columnsInput.value)"
+               />
+               <span
+                  id="rpg-input-rpattern-column-error"
+                  class="data-errorSlot"
+                  role="alert"
+                  [attr.tabindex]="errors().column ? 0 : null"
+                  >{{ errors().column }}</span
+               >
+            </div>
+         </div>
+         <div class="tool-grid tool-grid--three nestedGrid">
+            <div class="form-field">
+               <label for="rpg-input-rpattern-red">Red notes</label>
+               <input
+                  #redCountInput
+                  class="form-input"
+                  type="number"
+                  id="rpg-input-rpattern-red"
+                  name="noteRed"
+                  min="0"
+                  [max]="maxNoteCount"
+                  step="1"
+                  [value]="settings().noteRed"
+                  [attr.aria-invalid]="!!errors().noteRed"
+                  [attr.aria-describedby]="errors().noteRed ? 'rpg-input-rpattern-red-error' : null"
+                  (change)="updateNumberSetting('noteRed', redCountInput.value)"
+               />
+               <span
+                  id="rpg-input-rpattern-red-error"
+                  class="data-errorSlot"
+                  role="alert"
+                  [attr.tabindex]="errors().noteRed ? 0 : null"
+                  >{{ errors().noteRed }}</span
+               >
+            </div>
+            <div class="form-field">
+               <label for="rpg-input-rpattern-blue">Blue notes</label>
+               <input
+                  #blueCountInput
+                  class="form-input"
+                  type="number"
+                  id="rpg-input-rpattern-blue"
+                  name="noteBlue"
+                  min="0"
+                  [max]="maxNoteCount"
+                  step="1"
+                  [value]="settings().noteBlue"
+                  [attr.aria-invalid]="!!errors().noteBlue"
+                  [attr.aria-describedby]="
+                     errors().noteBlue ? 'rpg-input-rpattern-blue-error' : null
+                  "
+                  (change)="updateNumberSetting('noteBlue', blueCountInput.value)"
+               />
+               <span
+                  id="rpg-input-rpattern-blue-error"
+                  class="data-errorSlot"
+                  role="alert"
+                  [attr.tabindex]="errors().noteBlue ? 0 : null"
+                  >{{ errors().noteBlue }}</span
+               >
+            </div>
+            <div class="form-field">
+               <label for="rpg-input-rpattern-bomb">Bombs</label>
+               <input
+                  #bombCountInput
+                  class="form-input"
+                  type="number"
+                  id="rpg-input-rpattern-bomb"
+                  name="noteBomb"
+                  min="0"
+                  [max]="maxNoteCount"
+                  step="1"
+                  [value]="settings().noteBomb"
+                  [attr.aria-invalid]="!!errors().noteBomb"
+                  [attr.aria-describedby]="
+                     errors().noteBomb ? 'rpg-input-rpattern-bomb-error' : null
+                  "
+                  (change)="updateNumberSetting('noteBomb', bombCountInput.value)"
+               />
+               <span
+                  id="rpg-input-rpattern-bomb-error"
+                  class="data-errorSlot"
+                  role="alert"
+                  [attr.tabindex]="errors().noteBomb ? 0 : null"
+                  >{{ errors().noteBomb }}</span
+               >
+            </div>
+         </div>
+         <div class="form-row">
+            <label class="form-checkField" for="rpg-input-rpattern-limit">
+               <input
+                  #limitInput
+                  class="form-choice"
+                  type="checkbox"
+                  id="rpg-input-rpattern-limit"
+                  name="limit"
+                  [checked]="settings().limit"
+                  (change)="updateBooleanSetting('limit', limitInput.checked)"
+               />
+               Limit total notes
+            </label>
+            <div class="form-field">
+               <label for="rpg-input-rpattern-total">Maximum notes</label>
+               <input
+                  #totalInput
+                  class="form-input"
+                  type="number"
+                  id="rpg-input-rpattern-total"
+                  name="total"
+                  min="0"
+                  [max]="maxNoteCount"
+                  step="1"
+                  [value]="settings().total"
+                  [disabled]="!settings().limit"
+                  [attr.aria-invalid]="!!errors().total"
+                  [attr.aria-describedby]="errors().total ? 'rpg-input-rpattern-total-error' : null"
+                  (change)="updateNumberSetting('total', totalInput.value)"
+               />
+               <span
+                  id="rpg-input-rpattern-total-error"
+                  class="data-errorSlot"
+                  role="alert"
+                  [attr.tabindex]="errors().total ? 0 : null"
+                  >{{ errors().total }}</span
+               >
+            </div>
+         </div>
+      </div>
+      <div class="tool-group">
+         <div class="form-row">
+            <label class="form-checkField" for="rpg-input-rpattern-nodot">
+               <input
+                  #noDotInput
+                  class="form-choice"
+                  type="checkbox"
+                  id="rpg-input-rpattern-nodot"
+                  name="noDot"
+                  [checked]="settings().noDot"
+                  (change)="updateBooleanSetting('noDot', noDotInput.checked)"
+               />
+               Exclude dot notes
+            </label>
+            <label class="form-checkField" for="rpg-input-rpattern-parity">
+               <input
+                  #parityInput
+                  class="form-choice"
+                  type="checkbox"
+                  id="rpg-input-rpattern-parity"
+                  name="parity"
+                  [checked]="settings().parity"
+                  (change)="updateBooleanSetting('parity', parityInput.checked)"
+               />
+               Use parity
+            </label>
+         </div>
+         <div class="form-row">
+            <div class="form-field">
+               <label for="rpg-input-rpattern-parity-extend">Parity extension</label>
+               <input
+                  #parityExtensionInput
+                  class="form-input"
+                  type="number"
+                  id="rpg-input-rpattern-parity-extend"
+                  name="parityExtend"
+                  min="0"
+                  [max]="maxParityExtension"
+                  step="1"
+                  [value]="settings().parityExtend"
+                  [disabled]="!settings().parity"
+                  [attr.aria-invalid]="!!errors().parityExtend"
+                  [attr.aria-describedby]="
+                     errors().parityExtend ? 'rpg-input-rpattern-parity-extend-error' : null
+                  "
+                  (change)="updateNumberSetting('parityExtend', parityExtensionInput.value)"
+               />
+               <span
+                  id="rpg-input-rpattern-parity-extend-error"
+                  class="data-errorSlot"
+                  role="alert"
+                  [attr.tabindex]="errors().parityExtend ? 0 : null"
+                  >{{ errors().parityExtend }}</span
+               >
+            </div>
+         </div>
+         <div class="form-row">
+            <label class="form-checkField" for="rpg-input-rpattern-parity-red">
+               <input
+                  #redParityInput
+                  class="form-choice"
+                  type="checkbox"
+                  id="rpg-input-rpattern-parity-red"
+                  name="parityRed"
+                  [checked]="settings().parityRed"
+                  [disabled]="!settings().parity"
+                  (change)="updateBooleanSetting('parityRed', redParityInput.checked)"
+               />
+               Backhand red
+            </label>
+            <label class="form-checkField" for="rpg-input-rpattern-parity-blue">
+               <input
+                  #blueParityInput
+                  class="form-choice"
+                  type="checkbox"
+                  id="rpg-input-rpattern-parity-blue"
+                  name="parityBlue"
+                  [checked]="settings().parityBlue"
+                  [disabled]="!settings().parity"
+                  (change)="updateBooleanSetting('parityBlue', blueParityInput.checked)"
+               />
+               Backhand blue
+            </label>
+         </div>
+         <input
+            type="button"
+            class="form-button form-button--primary"
+            id="rpg-input-generate-rpattern"
+            value="Generate"
+            (click)="generate()"
+            [disabled]="generateDisabled()"
+         />
+      </div>
+      <div class="tool-group tool-spanFull">
+         <div class="preview" role="region" aria-label="Generated pattern" tabindex="0">
+            <table class="table" id="rpg-table-rpattern" aria-label="Generated note grid">
+               <tbody>
+                  @for (row of rows(); track row) {
+                     <tr>
+                        @for (column of columns(); track column) {
+                           @let cell = grid()[row * settings().column + column];
+                           <td>
+                              <img
+                                 [src]="imageSource(cell)"
+                                 [alt]="imageAlt(cell)"
+                                 [class]="imageClass(cell)"
+                              />
+                           </td>
+                        }
+                     </tr>
+                  }
+               </tbody>
+            </table>
+         </div>
+         <p class="data-note" role="status">{{ statusMessage() }}</p>
+      </div>
+   </div>
+</section>

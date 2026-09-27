@@ -1,0 +1,151 @@
+<a class="skipLink" href="#workspace">Skip to the active tool</a>
+<div class="shell" [class.navigation-ready]="activeTool() !== null">
+   <header class="header">
+      <div class="header__identity">
+         <button
+            #navigationTrigger
+            class="form-button navigation-trigger"
+            type="button"
+            aria-label="Open tool navigation"
+            aria-haspopup="dialog"
+            aria-controls="tool-drawer"
+            [attr.aria-expanded]="drawerOpen()"
+            [hidden]="activeTool() === null"
+            (click)="openDrawer()"
+         >
+            <app-icon name="menu" />
+         </button>
+         <h1>Beat Saber Mapping Utility</h1>
+      </div>
+      <div class="header__actions">
+         <nav class="projectLinks" aria-label="Project links">
+            <a href="https://kivalevan.me/BeatSaber-MapCheck/">Map Check</a>
+            <a href="https://github.com/KivalEvan/BeatSaber-MappingUtility">GitHub</a>
+         </nav>
+         <div class="theme">
+            <label for="theme-select">Theme</label>
+            <select
+               #themeSelect
+               id="theme-select"
+               class="form-select"
+               [value]="theme()"
+               (change)="changeTheme(themeSelect.value)"
+            >
+               <option value="dark">Dark</option>
+               <option value="light">Light</option>
+               <option value="monochrome">Monochrome</option>
+            </select>
+         </div>
+      </div>
+   </header>
+   <dialog
+      #drawer
+      id="tool-drawer"
+      class="navigation-drawer"
+      aria-labelledby="drawer-title"
+      (click)="onBackdropClick($event)"
+      (cancel)="$event.preventDefault(); dismissDrawer()"
+      (close)="onDrawerClosed()"
+   >
+      <div class="navigation-drawer__heading">
+         <h2 id="drawer-title">Mapping tools</h2>
+         <button
+            class="form-button navigation-close"
+            type="button"
+            aria-label="Close tool navigation"
+            (click)="dismissDrawer()"
+         >
+            <app-icon name="close" />
+         </button>
+      </div>
+      <div class="navigation-drawer__content">
+         @if (isCompact()) {
+            <ng-container [ngTemplateOutlet]="navigationLinks" />
+         }
+      </div>
+   </dialog>
+   <div class="workbench">
+      <div class="navigation-rail">
+         @if (!isCompact()) {
+            <ng-container [ngTemplateOutlet]="navigationLinks" />
+         }
+      </div>
+      <main #workspace id="workspace" class="workspace" tabindex="-1">
+         <div
+            id="panel-ebpm-precision"
+            [hidden]="activeTool() !== null && activeTool() !== 'ebpm-precision'"
+            [attr.role]="activeTool() !== null ? 'tabpanel' : null"
+            [attr.aria-labelledby]="activeTool() !== null ? 'tab-ebpm-precision' : null"
+            [attr.tabindex]="activeTool() !== null ? 0 : null"
+         >
+            <app-ebpm />
+         </div>
+         <div
+            id="panel-njs-calculator"
+            [hidden]="activeTool() !== null && activeTool() !== 'njs-calculator'"
+            [attr.role]="activeTool() !== null ? 'tabpanel' : null"
+            [attr.aria-labelledby]="activeTool() !== null ? 'tab-njs-calculator' : null"
+            [attr.tabindex]="activeTool() !== null ? 0 : null"
+         >
+            <app-njs-calculator />
+         </div>
+         <div
+            id="panel-color-picker"
+            [hidden]="activeTool() !== null && activeTool() !== 'color-picker'"
+            [attr.role]="activeTool() !== null ? 'tabpanel' : null"
+            [attr.aria-labelledby]="activeTool() !== null ? 'tab-color-picker' : null"
+            [attr.tabindex]="activeTool() !== null ? 0 : null"
+         >
+            <app-color-picker />
+         </div>
+         <div
+            id="panel-sps-difference"
+            [hidden]="activeTool() !== null && activeTool() !== 'sps-difference'"
+            [attr.role]="activeTool() !== null ? 'tabpanel' : null"
+            [attr.aria-labelledby]="activeTool() !== null ? 'tab-sps-difference' : null"
+            [attr.tabindex]="activeTool() !== null ? 0 : null"
+         >
+            <app-sps-difference />
+         </div>
+         <div
+            id="panel-random-pattern"
+            [hidden]="activeTool() !== null && activeTool() !== 'random-pattern'"
+            [attr.role]="activeTool() !== null ? 'tabpanel' : null"
+            [attr.aria-labelledby]="activeTool() !== null ? 'tab-random-pattern' : null"
+            [attr.tabindex]="activeTool() !== null ? 0 : null"
+         >
+            <app-random-pattern-generator />
+         </div>
+      </main>
+   </div>
+   <footer class="footer"><app-watermark /></footer>
+</div>
+
+<ng-template #navigationLinks>
+   <nav #navigation aria-label="Mapping tools">
+      <div
+         class="navigation-list"
+         [attr.role]="activeTool() !== null ? 'tablist' : null"
+         [attr.aria-label]="activeTool() !== null ? 'Mapping tools' : null"
+         [attr.aria-orientation]="activeTool() !== null ? 'vertical' : null"
+      >
+         @for (tool of tools; track tool.id; let index = $index) {
+            <a
+               #toolLink
+               [id]="'tab-' + tool.id"
+               class="navigation-link"
+               [href]="'#' + tool.id"
+               [attr.role]="activeTool() !== null ? 'tab' : null"
+               [attr.aria-controls]="activeTool() !== null ? 'panel-' + tool.id : null"
+               [attr.aria-selected]="activeTool() !== null ? activeTool() === tool.id : null"
+               [tabIndex]="activeTool() === null || activeTool() === tool.id ? 0 : -1"
+               (click)="onToolClick($event, tool.id)"
+               (keydown)="onToolKeydown($event, index)"
+            >
+               <app-icon [name]="tool.icon" />
+               <span class="navigation-link__title">{{ tool.name }}</span>
+            </a>
+         }
+      </div>
+   </nav>
+</ng-template>

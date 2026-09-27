@@ -1,0 +1,200 @@
+<section appToolSection id="color-picker" heading="Color Picker">
+   <div class="tool-group">
+      <div class="form-row">
+         <div class="form-field">
+            <label for="cp-option-colorscheme">Color scheme</label>
+            <select
+               #schemeSelect
+               class="form-select"
+               id="cp-option-colorscheme"
+               [value]="schemeName()"
+               (change)="selectScheme(schemeSelect.value)"
+            >
+               @for (name of schemeNames(); track name) {
+                  <option [value]="name">{{ name }}</option>
+               }
+            </select>
+         </div>
+         <label class="form-checkField" for="cp-show-variants">
+            <input
+               #variantsInput
+               class="form-choice"
+               type="checkbox"
+               id="cp-show-variants"
+               [checked]="showVariants()"
+               (change)="toggleVariants(variantsInput.checked)"
+            />
+            Show variants
+         </label>
+         <label class="form-checkField" for="cp-show-others">
+            <input
+               #othersInput
+               class="form-choice"
+               type="checkbox"
+               id="cp-show-others"
+               [checked]="showOthers()"
+               (change)="toggleOthers(othersInput.checked)"
+            />
+            Show other schemes
+         </label>
+      </div>
+   </div>
+   <div class="workspace">
+      <div class="tool-group workspaceGroup">
+         <div class="data-tableScroll" role="region" aria-label="Scheme colors" tabindex="0">
+            <table class="data-table table">
+               <thead>
+                  <tr>
+                     <th scope="col">Channel</th>
+                     <th scope="col">Hex</th>
+                     <th scope="col">Picker</th>
+                     <th scope="col">Include & reset</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  @for (field of colorFields; track field.customKey) {
+                     @let entry = colors()[field.customKey];
+                     <tr>
+                        <th scope="row">{{ field.label }}</th>
+                        <td>
+                           <label class="srOnly" [for]="'cp-hex-' + field.customKey">
+                              {{ field.label }} hex color
+                           </label>
+                           <input
+                              #hexInput
+                              class="form-input"
+                              [id]="'cp-hex-' + field.customKey"
+                              type="text"
+                              [name]="field.customKey"
+                              [value]="
+                                 hexErrors()[field.customKey]?.value ??
+                                 (entry.value ? colorPreviewHex(entry.value) : '')
+                              "
+                              placeholder="#RRGGBB"
+                              [attr.aria-invalid]="!!hexErrors()[field.customKey]"
+                              [attr.aria-describedby]="
+                                 hexErrors()[field.customKey]
+                                    ? 'cp-hex-' + field.customKey + '-error'
+                                    : null
+                              "
+                              (change)="changeHex(field.customKey, hexInput.value)"
+                           />
+                        </td>
+                        <td>
+                           <label class="srOnly" [for]="'cp-color-' + field.customKey">
+                              {{ field.label }} visual color picker
+                           </label>
+                           <input
+                              #pickerInput
+                              class="form-colorInput"
+                              [id]="'cp-color-' + field.customKey"
+                              type="color"
+                              [name]="field.customKey"
+                              [value]="
+                                 entry.value ? colorPreviewHex(entry.value).slice(0, 7) : '#000000'
+                              "
+                              (change)="changeHex(field.customKey, pickerInput.value)"
+                           />
+                        </td>
+                        <td>
+                           <div class="form-row tableRow">
+                              <label
+                                 class="form-checkField tableCheckField"
+                                 [for]="'cp-include-' + field.customKey"
+                              >
+                                 <input
+                                    #includeInput
+                                    class="form-choice"
+                                    [id]="'cp-include-' + field.customKey"
+                                    type="checkbox"
+                                    [name]="field.customKey"
+                                    [checked]="entry.checked"
+                                    (change)="toggleInclude(field.customKey, includeInput.checked)"
+                                 />
+                                 <span class="includeLabel" aria-hidden="true">Include</span>
+                                 <span class="srOnly">Include {{ field.label }}</span>
+                              </label>
+                              <input
+                                 class="form-button"
+                                 type="button"
+                                 [name]="field.customKey"
+                                 value="Reset"
+                                 [attr.aria-label]="'Reset ' + field.label"
+                                 (click)="resetColor(field.customKey)"
+                                 [disabled]="entry.value === null && !hexErrors()[field.customKey]"
+                              />
+                           </div>
+                        </td>
+                     </tr>
+                     <tr class="errorRow" role="presentation">
+                        <td colspan="4" role="presentation">
+                           <span
+                              [id]="'cp-hex-' + field.customKey + '-error'"
+                              class="data-errorSlot"
+                              role="alert"
+                              [attr.tabindex]="hexErrors()[field.customKey] ? 0 : null"
+                              >{{ hexErrors()[field.customKey]?.message }}</span
+                           >
+                        </td>
+                     </tr>
+                  }
+               </tbody>
+            </table>
+         </div>
+      </div>
+      <div class="tool-group workspaceGroup">
+         <dl class="data-metrics metrics">
+            <dt>Note similarity (ΔE)</dt>
+            <dd class="data-metricValue">{{ formatDifference(differences().notes) }}</dd>
+            <dt>Left arrow similarity (ΔE)</dt>
+            <dd class="data-metricValue">{{ formatDifference(differences().leftArrow) }}</dd>
+            <dt>Right arrow similarity (ΔE)</dt>
+            <dd class="data-metricValue">{{ formatDifference(differences().rightArrow) }}</dd>
+         </dl>
+         <p class="data-note">Lower ΔE = more similar.</p>
+      </div>
+   </div>
+   <div class="tool-group json">
+      <h3>Export or import JSON</h3>
+      <div class="tool-grid jsonGrid">
+         <div class="form-field jsonField">
+            <label for="cp-io-jsoncd">Custom data format</label>
+            <textarea
+               #customJson
+               class="form-textarea"
+               id="cp-io-jsoncd"
+               rows="10"
+               [spellcheck]="false"
+               [value]="jsonErrors().custom?.value ?? outputs().custom"
+               [attr.aria-invalid]="!!jsonErrors().custom"
+               [attr.aria-describedby]="jsonErrors().custom ? 'cp-jsoncd-error' : null"
+               (change)="importJson(customJson.value, 'custom')"
+            ></textarea>
+            @if (jsonErrors().custom; as error) {
+               <p id="cp-jsoncd-error" class="data-message data-message--error" role="alert">
+                  {{ error.message }}
+               </p>
+            }
+         </div>
+         <div class="form-field jsonField">
+            <label for="cp-io-jsoninfo">Info format</label>
+            <textarea
+               #infoJson
+               class="form-textarea"
+               id="cp-io-jsoninfo"
+               rows="10"
+               [spellcheck]="false"
+               [value]="jsonErrors().info?.value ?? outputs().info"
+               [attr.aria-invalid]="!!jsonErrors().info"
+               [attr.aria-describedby]="jsonErrors().info ? 'cp-jsoninfo-error' : null"
+               (change)="importJson(infoJson.value, 'info')"
+            ></textarea>
+            @if (jsonErrors().info; as error) {
+               <p id="cp-jsoninfo-error" class="data-message data-message--error" role="alert">
+                  {{ error.message }}
+               </p>
+            }
+         </div>
+      </div>
+   </div>
+</section>

@@ -1,0 +1,59 @@
+<section appToolSection id="sps-difference" heading="SPS Difference">
+   <form (submit)="$event.preventDefault()">
+      <div class="grid" role="group" aria-label="Values by difficulty">
+         @for (difficulty of difficulties(); track difficulty.name; let i = $index) {
+            @let inputId = 'sps-input-' + difficulty.name; @let errorId = inputId + '-error';
+            <div class="form-field">
+               <label [attr.for]="inputId">{{ difficulty.name }}</label>
+               <input
+                  #difficultyInput
+                  type="number"
+                  class="form-input"
+                  [id]="inputId"
+                  [name]="difficulty.name"
+                  min="0"
+                  step="0.01"
+                  [value]="difficulty.rawValue"
+                  [attr.aria-describedby]="difficulty.validationMessage ? errorId : null"
+                  [attr.aria-invalid]="difficulty.validationMessage ? 'true' : null"
+                  (input)="handleInput(i, difficultyInput)"
+               />
+               @if (difficulty.validationMessage; as message) {
+                  <span [id]="errorId" class="data-fieldError" role="alert">{{ message }}</span>
+               }
+            </div>
+         }
+      </div>
+      <dl class="total">
+         <dt>Total reduction:</dt>
+         <dd>
+            <output aria-live="polite">{{ formatReduction(totalReduction()) }}</output>
+         </dd>
+      </dl>
+      @if (adjacentDrops().length) {
+         <dl class="comparisons">
+            @for (comparison of adjacentDrops(); track comparison.previous) {
+               <div>
+                  <dt>{{ comparison.previous }} reduction from {{ comparison.next }}</dt>
+                  <dd>
+                     <output
+                        [attr.for]="
+                           'sps-input-' + comparison.previous + ' sps-input-' + comparison.next
+                        "
+                        [class.data-metricValue]="!comparison.unavailableReason"
+                     >
+                        @if (comparison.unavailableReason === 'zero') {
+                           Cannot calculate: enter a value above 0 for {{ comparison.next }}.
+                        } @else if (comparison.unavailableReason === 'range') {
+                           Cannot calculate: enter values closer together.
+                        } @else {
+                           {{ formatReduction(comparison.reduction) }}
+                        }
+                     </output>
+                  </dd>
+               </div>
+            }
+         </dl>
+      }
+   </form>
+</section>

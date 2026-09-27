@@ -1,0 +1,73 @@
+{
+   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+   "version": 1,
+   "newProjectRoot": "projects",
+   "cli": {
+      "analytics": false,
+      "packageManager": "npm"
+   },
+   "projects": {
+      "mapping-utility": {
+         "projectType": "application",
+         "root": "",
+         "sourceRoot": "src",
+         "prefix": "app",
+         "architect": {
+            "build": {
+               "builder": "@angular/build:application",
+               "options": {
+                  "outputPath": {
+                     "base": "dist/angular",
+                     "browser": "BeatSaber-MappingUtility"
+                  },
+                  "browser": "src/main.ts",
+                  "server": "src/main.server.ts",
+                  "outputMode": "static",
+                  "index": "src/index.html",
+                  "baseHref": "/BeatSaber-MappingUtility/",
+                  "tsConfig": "tsconfig.app.json",
+                  "inlineStyleLanguage": "scss",
+                  "assets": [
+                     { "glob": "**/*", "input": "public" },
+                     { "glob": "OFL.txt", "input": "src/assets/fonts", "output": "assets/fonts" },
+                     {
+                        "glob": "LICENSE",
+                        "input": "node_modules/bsmap",
+                        "output": "licenses/bsmap"
+                     }
+                  ],
+                  "styles": ["src/styles/global.scss"]
+               },
+               "configurations": {
+                  "production": {
+                     "outputHashing": "all",
+                     "budgets": [
+                        { "type": "initial", "maximumWarning": "500kB", "maximumError": "1MB" },
+                        {
+                           "type": "anyComponentStyle",
+                           "maximumWarning": "8kB",
+                           "maximumError": "16kB"
+                        }
+                     ]
+                  },
+                  "development": {
+                     "optimization": false,
+                     "extractLicenses": false,
+                     "sourceMap": true
+                  }
+               },
+               "defaultConfiguration": "production"
+            },
+            "serve": {
+               "builder": "@angular/build:dev-server",
+               "options": { "servePath": "/BeatSaber-MappingUtility/" },
+               "configurations": {
+                  "production": { "buildTarget": "mapping-utility:build:production" },
+                  "development": { "buildTarget": "mapping-utility:build:development" }
+               },
+               "defaultConfiguration": "development"
+            }
+         }
+      }
+   }
+}
