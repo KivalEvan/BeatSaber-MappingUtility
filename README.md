@@ -13,8 +13,10 @@ menu button in the header to open the sidebar. Select a tool to close it, or
 dismiss it with Escape, the close button, or the backdrop. Your inputs stay in
 place when you switch tools. Reloading the page resets tool inputs. The Theme
 selector offers dark, light, and monochrome appearances and remembers your
-choice when browser storage is available. NJS references stay visible, and the
-Color Picker JSON editor has tabs for Custom Data, V2 Info, and V4 Info.
+choice when browser storage is available. Dark uses neutral charcoal page and
+panel backgrounds. Inputs keep their blue tint and controls keep cyan accents.
+NJS references stay visible. The Color Picker JSON editor has tabs for Custom
+Data, V2 Info, and V4 Info.
 
 Each tool has a direct link, such as `#njs-calculator` or `#color-picker`. Use
 Up and Down to move between focused tool tabs. Home and End select the first and

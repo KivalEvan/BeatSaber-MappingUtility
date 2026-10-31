@@ -4,7 +4,7 @@ description: A focused toolkit of five mapping utilities for Beat Saber mappers.
 colors:
   accent: "#21d4fd"
   accent-surface: "#12303f"
-  background: "#080b10"
+  background: "#0a0a0a"
   border: "#42526a"
   danger: "#ff7c89"
   danger-surface: "#2b1821"
@@ -13,7 +13,7 @@ colors:
   input: "#0c1119"
   muted: "#b4c0d0"
   on-accent: "#061018"
-  surface: "#121823"
+  surface: "#171717"
   surface-raised: "#1a2330"
   text: "#f5f8fc"
   light-accent: "#00667c"
@@ -152,8 +152,8 @@ components:
 
 **Creative North Star: "MapCheck's Focused Workbench"**
 
-This is a companion instrument panel for Beat Saber mappers. In Dark, layered
-blue-black surfaces and steel rules keep the tools focused while cyan marks
+This is a companion instrument panel for Beat Saber mappers. In Dark, the page
+and main panels use charcoal. Inputs keep their blue tint, and cyan marks
 action, focus, and selection. Light shifts to cool, pale surfaces and deep teal;
 Monochrome reduces the palette to black, white, and gray. All three themes
 preserve the same semantic roles. Depth comes from tonal surfaces and borders,
