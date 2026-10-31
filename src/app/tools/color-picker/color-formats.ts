@@ -1,47 +1,82 @@
 import {
    type ColorArray,
-   type IColor,
-   type v2,
-   round,
    colorFrom,
    colorToHex,
    deltaE00,
+   type IColor,
+   round,
    toColorObject,
+   type v2,
+   type v4,
 } from 'bsmap';
 
 interface ColorField {
    readonly customKey: keyof v2.IColorScheme;
    readonly label: string;
    readonly infoKey: Exclude<keyof v2.IInfoColorSchemeData, 'colorSchemeId'>;
+   readonly overrideKey: 'overrideNotes' | 'overrideLights';
 }
 
 export const colorFields = [
-   { customKey: '_colorLeft', label: 'Note Left', infoKey: 'saberAColor' },
-   { customKey: '_colorRight', label: 'Note Right', infoKey: 'saberBColor' },
-   { customKey: '_obstacleColor', label: 'Obstacle', infoKey: 'obstaclesColor' },
-   { customKey: '_envColorLeft', label: 'Light 0', infoKey: 'environmentColor0' },
-   { customKey: '_envColorRight', label: 'Light 1', infoKey: 'environmentColor1' },
-   { customKey: '_envColorWhite', label: 'Light W', infoKey: 'environmentColorW' },
+   {
+      customKey: '_colorLeft',
+      label: 'Note Left',
+      infoKey: 'saberAColor',
+      overrideKey: 'overrideNotes',
+   },
+   {
+      customKey: '_colorRight',
+      label: 'Note Right',
+      infoKey: 'saberBColor',
+      overrideKey: 'overrideNotes',
+   },
+   {
+      customKey: '_obstacleColor',
+      label: 'Obstacle',
+      infoKey: 'obstaclesColor',
+      overrideKey: 'overrideNotes',
+   },
+   {
+      customKey: '_envColorLeft',
+      label: 'Light 0',
+      infoKey: 'environmentColor0',
+      overrideKey: 'overrideLights',
+   },
+   {
+      customKey: '_envColorRight',
+      label: 'Light 1',
+      infoKey: 'environmentColor1',
+      overrideKey: 'overrideLights',
+   },
+   {
+      customKey: '_envColorWhite',
+      label: 'Light W',
+      infoKey: 'environmentColorW',
+      overrideKey: 'overrideLights',
+   },
    {
       customKey: '_envColorLeftBoost',
       label: 'Light 0 Boost',
       infoKey: 'environmentColor0Boost',
+      overrideKey: 'overrideLights',
    },
    {
       customKey: '_envColorRightBoost',
       label: 'Light 1 Boost',
       infoKey: 'environmentColor1Boost',
+      overrideKey: 'overrideLights',
    },
    {
       customKey: '_envColorWhiteBoost',
       label: 'Light W Boost',
       infoKey: 'environmentColorWBoost',
+      overrideKey: 'overrideLights',
    },
 ] as const satisfies readonly ColorField[];
 
 export type ColorKey = (typeof colorFields)[number]['customKey'];
 export type ColorEntries = Record<ColorKey, ColorEntry>;
-export type JsonFormat = 'custom' | 'info';
+export type JsonFormat = 'custom' | 'infoV2' | 'infoV4';
 
 export interface ColorEntry {
    value: IColor | null;
@@ -54,10 +89,7 @@ export interface ColorDifferences {
    rightArrow: number | null;
 }
 
-export interface ColorOutputs {
-   custom: string;
-   info: string;
-}
+export type ColorOutputs = Record<JsonFormat, string>;
 
 const infoDefaults: Omit<v2.IInfoColorSchemeData, 'colorSchemeId'> = {
    saberAColor: { r: 0, g: 0, b: 0, a: 0 },
@@ -100,10 +132,7 @@ export function parseHexColor(hex: string): IColor | null {
    return toColorObject(colorFrom(`#${trimmed.replace(/^#/, '')}`));
 }
 
-export function parseColorJson(
-   text: string,
-   format: JsonFormat,
-): Partial<Record<ColorKey, IColor>> {
+export function parseColorJson(text: string, format: JsonFormat): ColorEntries {
    const trimmed = text.trim();
    const value: unknown = JSON.parse(
       trimmed.startsWith('{') ? trimmed : `{${trimmed.replace(/,\s*$/, '')}}`,
@@ -113,33 +142,81 @@ export function parseColorJson(
       throw new Error('Enter a JSON object with color fields.');
    }
 
-   const colors: Partial<Record<ColorKey, IColor>> = {};
+   let fields = value as Record<string, unknown>;
+   let useOverride = true;
 
-   for (const { customKey, infoKey } of colorFields) {
+   if (format === 'infoV2' && Object.hasOwn(fields, 'colorScheme')) {
+      const scheme = fields['colorScheme'];
+      if (!scheme || typeof scheme !== 'object' || Array.isArray(scheme)) {
+         throw new Error('colorScheme must be a JSON object.');
+      }
+      if (typeof fields['useOverride'] !== 'boolean') {
+         throw new Error('useOverride must be true or false.');
+      }
+
+      useOverride = fields['useOverride'];
+      fields = scheme as Record<string, unknown>;
+   }
+
+   if (format === 'infoV4') {
+      for (const key of ['overrideNotes', 'overrideLights'] as const) {
+         if (Object.hasOwn(fields, key) && typeof fields[key] !== 'boolean') {
+            throw new Error(`${key} must be true or false.`);
+         }
+      }
+   }
+
+   const colors = createColorEntries();
+   let hasColorField = false;
+
+   for (const { customKey, infoKey, overrideKey } of colorFields) {
       const name = format === 'custom' ? customKey : infoKey;
-      const raw = (value as Record<string, unknown>)[name];
+      if (!Object.hasOwn(fields, name)) continue;
+      hasColorField = true;
+
+      const raw = fields[name];
       if (raw == null) continue;
 
-      if (typeof raw !== 'object' || Array.isArray(raw)) {
-         throw new Error(`${name} must contain numeric r, g and b channels.`);
-      }
-
-      const channels = raw as Record<string, unknown>;
-      const color: IColor = { r: 0, g: 0, b: 0 };
-
-      for (const channel of ['r', 'g', 'b', 'a'] as const) {
-         const component = channels[channel];
-
-         if (component === undefined) continue;
-
-         if (typeof component !== 'number' || !Number.isFinite(component)) {
-            throw new Error(`${name}.${channel} must be a finite number.`);
+      let color: IColor;
+      if (format === 'infoV4') {
+         if (
+            typeof raw !== 'string' ||
+            !/^#?(?:[\da-f]{3,4}|[\da-f]{6}|[\da-f]{8})$/i.test(raw.trim())
+         ) {
+            throw new Error(`${name} must be a hex color with 3, 4, 6 or 8 digits.`);
          }
 
-         color[channel] = component;
+         color = toColorObject(colorFrom(`#${raw.trim().replace(/^#/, '')}`));
+      } else {
+         if (typeof raw !== 'object' || Array.isArray(raw)) {
+            throw new Error(`${name} must contain numeric r, g and b channels.`);
+         }
+
+         const channels = raw as Record<string, unknown>;
+         color = { r: 0, g: 0, b: 0 };
+
+         for (const channel of ['r', 'g', 'b', 'a'] as const) {
+            const component = channels[channel];
+
+            if (channel === 'a' && component === undefined) continue;
+
+            if (typeof component !== 'number' || !Number.isFinite(component)) {
+               throw new Error(`${name}.${channel} must be a finite number.`);
+            }
+
+            color[channel] = component;
+         }
       }
 
-      colors[customKey] = color;
+      colors[customKey] = {
+         value: color,
+         // V4.0.0 omitted these flags and enabled both override groups.
+         checked: useOverride && (format !== 'infoV4' || fields[overrideKey] !== false),
+      };
+   }
+
+   if (!hasColorField && Object.keys(fields).length > 0) {
+      throw new Error('No color fields found for this format.');
    }
 
    return colors;
@@ -163,18 +240,87 @@ export function formatDifference(value: number | null) {
 
 export function serializeColorOutputs(colors: ColorEntries, schemeName: string): ColorOutputs {
    const custom: Partial<v2.IColorScheme> = {};
-   const info: v2.IInfoColorSchemeData = { colorSchemeId: schemeName, ...infoDefaults };
+   const infoV2: v2.IInfoColorSchemeData = {
+      colorSchemeId: schemeName,
+      ...infoDefaults,
+   };
+   const infoV4: v4.IInfoColorScheme = {
+      colorSchemeName: schemeName,
+      overrideNotes: false,
+      overrideLights: false,
+      saberAColor: '#00000000',
+      saberBColor: '#00000000',
+      obstaclesColor: '#00000000',
+      environmentColor0: '#00000000',
+      environmentColor1: '#00000000',
+      environmentColor0Boost: '#00000000',
+      environmentColor1Boost: '#00000000',
+   };
 
-   for (const { customKey, infoKey } of colorFields) {
+   for (const { customKey, overrideKey } of colorFields) {
       const entry = colors[customKey];
-      if (!entry.checked || !entry.value) continue;
+      if (entry.checked && entry.value) infoV4[overrideKey] = true;
+   }
 
-      custom[customKey] = toColorObject(entry.value);
-      info[infoKey] = toColorObject(entry.value, true);
+   for (const { customKey, infoKey, overrideKey } of colorFields) {
+      const entry = colors[customKey];
+      if (!entry.value) continue;
+
+      if (entry.checked) {
+         custom[customKey] = toColorObject(entry.value);
+         infoV2[infoKey] = toColorObject(entry.value, true);
+      }
+
+      // Disabled V4 groups can retain their stored colors without applying them.
+      if (entry.checked || !infoV4[overrideKey]) {
+         infoV4[infoKey] = colorPreviewHex(entry.value);
+      }
    }
 
    return {
       custom: JSON.stringify(custom, null, 2),
-      info: JSON.stringify(info, null, 2),
+      infoV2: JSON.stringify(infoV2, null, 2),
+      infoV4: JSON.stringify(infoV4, null, 2),
    };
+}
+
+export function v4ExportWarnings(colors: ColorEntries): string[] {
+   const enabledGroups = new Set(
+      colorFields
+         .filter(({ customKey }) => colors[customKey].checked && colors[customKey].value)
+         .map(({ overrideKey }) => overrideKey),
+   );
+   const warnings: string[] = [];
+
+   if (
+      colorFields.some(({ customKey, overrideKey }) => {
+         const entry = colors[customKey];
+         return (
+            entry.value &&
+            (entry.checked || !enabledGroups.has(overrideKey)) &&
+            Object.values(entry.value).some((channel) => channel < 0 || channel > 1)
+         );
+      })
+   ) {
+      warnings.push(
+         'V4 hex cannot retain HDR, negative, or out-of-range alpha values. Original values stay in the editor.',
+      );
+   }
+
+   if (
+      colorFields.some(({ customKey, infoKey, overrideKey }) => {
+         const entry = colors[customKey];
+         return (
+            !entry.checked &&
+            enabledGroups.has(overrideKey) &&
+            (Object.hasOwn(infoDefaults, infoKey) || entry.value !== null)
+         );
+      })
+   ) {
+      warnings.push(
+         'V4 overrides notes and lights by group; use Custom Data for per-color inclusion.',
+      );
+   }
+
+   return warnings;
 }

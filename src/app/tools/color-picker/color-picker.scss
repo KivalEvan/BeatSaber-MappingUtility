@@ -156,18 +156,35 @@
    margin-bottom: 0;
 }
 
-.jsonGrid {
-   margin-top: 0.75rem;
+.jsonTabs {
+   display: flex;
+   gap: 0.25rem;
+   margin-block: 0.75rem;
+   border-bottom: 1px solid var(--divider);
+}
 
-   > .jsonField + .jsonField {
-      border-left: 1px solid var(--divider);
-      padding-left: 1.25rem;
+.jsonTab {
+   flex: 1;
+   min-height: 2.75rem;
+   padding: 0.5rem;
+   color: var(--muted);
+   background: var(--surface);
+   border: 1px solid transparent;
+   border-bottom: 2px solid transparent;
+   font: inherit;
+   font-size: 0.875rem;
+   cursor: pointer;
 
-      @media (max-width: 760px) {
-         border-left: 0;
-         border-top: 1px solid var(--divider);
-         padding: 1rem 0 0;
-      }
+   &:hover {
+      color: var(--text);
+      background: var(--surface-raised);
+   }
+
+   &[aria-selected='true'] {
+      color: var(--accent);
+      background: var(--accent-surface);
+      border-color: var(--divider);
+      border-bottom-color: var(--accent);
    }
 }
 

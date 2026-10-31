@@ -1,19 +1,20 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, type ElementRef, signal, viewChildren } from '@angular/core';
 import { ColorScheme, ColorSchemeVariant, type v2 } from 'bsmap';
 import { customColors } from './custom-colors';
 import { ToolSection } from '../../ui/tool-section';
 import {
    colorDifferences,
+   type ColorEntries,
    colorFields,
+   type ColorKey,
    colorPreviewHex,
    createColorEntries,
    formatDifference,
+   type JsonFormat,
    parseColorJson,
    parseHexColor,
    serializeColorOutputs,
-   type ColorEntries,
-   type ColorKey,
-   type JsonFormat,
+   v4ExportWarnings,
 } from './color-formats';
 
 type BuiltInSchemeName = keyof typeof ColorScheme;
@@ -21,11 +22,6 @@ type BuiltInSchemeName = keyof typeof ColorScheme;
 interface InvalidInput {
    value: string;
    message: string;
-}
-
-interface JsonErrors {
-   custom: InvalidInput | null;
-   info: InvalidInput | null;
 }
 
 @Component({
@@ -38,19 +34,28 @@ export class ColorPicker {
    protected readonly schemeName = signal('Custom');
    protected readonly showVariants = signal(false);
    protected readonly showOthers = signal(false);
+   protected readonly activeJsonFormat = signal<JsonFormat>('custom');
+   protected readonly jsonFormats = [
+      { id: 'custom', label: 'Custom Data', inputId: 'cp-io-jsoncd' },
+      { id: 'infoV2', label: 'V2 Info', inputId: 'cp-io-jsoninfo' },
+      { id: 'infoV4', label: 'V4 Info', inputId: 'cp-io-jsoninfov4' },
+   ] as const;
 
-   private readonly customScheme = signal<v2.IColorScheme>({});
+   private readonly jsonTabs = viewChildren<ElementRef<HTMLButtonElement>>('jsonTab');
+
+   private readonly customEntries = signal<ColorEntries>(createColorEntries());
    protected readonly colors = signal<ColorEntries>(createColorEntries());
 
    // Bind rejected text so resetting to the same accepted value still updates the control.
    protected readonly hexErrors = signal<Partial<Record<ColorKey, InvalidInput>>>({});
-   protected readonly jsonErrors = signal<JsonErrors>({
+   protected readonly jsonErrors = signal<Record<JsonFormat, InvalidInput | null>>({
       custom: null,
-      info: null,
+      infoV2: null,
+      infoV4: null,
    });
 
    private readonly schemes = computed(() => {
-      const list: Record<string, v2.IColorScheme> = { Custom: this.customScheme() };
+      const list: Record<string, v2.IColorScheme> = {};
 
       for (const name of Object.keys(ColorScheme) as BuiltInSchemeName[]) {
          const scheme = ColorScheme[name];
@@ -75,22 +80,28 @@ export class ColorPicker {
    protected readonly outputs = computed(() =>
       serializeColorOutputs(this.colors(), this.schemeName()),
    );
-   protected readonly schemeNames = computed(() => Object.keys(this.schemes()));
+   protected readonly v4Warnings = computed(() => v4ExportWarnings(this.colors()));
+   protected readonly schemeNames = computed(() => ['Custom', ...Object.keys(this.schemes())]);
 
    protected readonly colorFields = colorFields;
    protected readonly colorPreviewHex = colorPreviewHex;
    protected readonly formatDifference = formatDifference;
 
    protected selectScheme(name: string) {
-      const scheme = this.schemes()[name];
-      if (!scheme) return;
+      if (name === 'Custom') {
+         this.colors.set(this.customEntries());
+      } else {
+         const scheme = this.schemes()[name];
+         if (!scheme) return;
 
-      this.colors.set(createColorEntries(scheme));
+         this.colors.set(createColorEntries(scheme));
+      }
+
       this.hexErrors.set({});
       this.schemeName.set(name);
    }
 
-   protected changeHex(key: ColorKey, hex: string) {
+   protected changeColor(key: ColorKey, hex: string, source: 'hex' | 'picker') {
       const value = parseHexColor(hex);
       if (!value) {
          this.hexErrors.update((errors) => ({
@@ -99,6 +110,9 @@ export class ColorPicker {
          }));
          return;
       }
+
+      const alpha = this.colors()[key].value?.a;
+      if (source === 'picker' && alpha !== undefined) value.a = alpha;
 
       this.setColor(key, { value, checked: true });
       this.clearHexError(key);
@@ -109,7 +123,7 @@ export class ColorPicker {
       try {
          const imported = parseColorJson(text, format);
 
-         this.colors.set(createColorEntries(imported));
+         this.colors.set(imported);
          this.hexErrors.set({});
          this.markCustom();
          this.jsonErrors.update((errors) => ({ ...errors, [format]: null }));
@@ -118,10 +132,37 @@ export class ColorPicker {
             ...errors,
             [format]: {
                value: text,
-               message: `${format === 'custom' ? 'Custom data' : 'Info'} JSON not applied: ${error instanceof Error ? error.message : 'Check the JSON and try again.'}`,
+               message: `JSON not applied: ${
+                  error instanceof Error ? error.message : 'Check the JSON and try again.'
+               }`,
             },
          }));
       }
+   }
+
+   protected onJsonFormatKeydown(event: KeyboardEvent, index: number) {
+      let next: number;
+
+      switch (event.key) {
+         case 'ArrowRight':
+            next = (index + 1) % this.jsonFormats.length;
+            break;
+         case 'ArrowLeft':
+            next = (index - 1 + this.jsonFormats.length) % this.jsonFormats.length;
+            break;
+         case 'Home':
+            next = 0;
+            break;
+         case 'End':
+            next = this.jsonFormats.length - 1;
+            break;
+         default:
+            return;
+      }
+
+      event.preventDefault();
+      this.activeJsonFormat.set(this.jsonFormats[next].id);
+      this.jsonTabs()[next].nativeElement.focus({ preventScroll: true });
    }
 
    protected toggleInclude(key: ColorKey, checked: boolean) {
@@ -160,14 +201,7 @@ export class ColorPicker {
    }
 
    private markCustom() {
-      const scheme: v2.IColorScheme = {};
-
-      for (const { customKey } of colorFields) {
-         const entry = this.colors()[customKey];
-         if (entry.checked && entry.value) scheme[customKey] = entry.value;
-      }
-
-      this.customScheme.set(scheme);
+      this.customEntries.set(this.colors());
       this.schemeName.set('Custom');
    }
 }

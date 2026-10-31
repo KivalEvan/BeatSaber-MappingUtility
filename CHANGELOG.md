@@ -1,53 +1,29 @@
 # Changelog
 
-## 3.0.0 [Unreleased]
+## 3.0.0 [31-10-2026]
 
-### Added
-
-- Added base color schemes:
-   - Linkin Park 2.0
-   - The Rolling Stones
-   - Lattice
-   - Daft Punk
-   - Hip Hop
-   - Collider
-   - Britney Spears
-   - Monstercat 2.0
-   - Metallica
-   - Cube
-   - Coldplay
-   - Prodigy
-   - Hip Hop Mixtape 2
-- Added color scheme variants.
-- Added Info color scheme import and export to the Color Picker.
-- Added dark, light, and monochrome themes with a saved theme preference.
-- Added a sidebar menu for mobile and narrow screens.
-- Added keyboard navigation between tools and a link to skip directly to the active tool.
-
-### Changed
-
-- Redesigned the interface to match BeatSaber-MapCheck and reduce scrolling.
-- Tools now open in separate workspaces and retain their inputs when switching between tools.
-- Tool selection supports direct links and the browser Back and Forward buttons.
-- NJS reference tables and color JSON editors stay visible without expanding sections.
-- SPS comparisons appear beneath their inputs, and color similarity results appear side by side.
-- The Weeknd and Panic 2.0 color schemes now include white light values.
-- Custom colors remain available when switching between color schemes.
-
-### Fixed
-
-- EBPM input errors no longer disappear when another field changes.
-- Very large EBPM and SPS values no longer produce invalid numeric results.
-- Imported colors outside the displayable range now have valid previews without changing their exported values.
-- Invalid hex colors and malformed JSON now show clear error messages.
-- Resetting colors or selecting a scheme now replaces invalid text and clears its error together.
-- Color similarity shows N/A instead of invalid numbers when imported channels exceed the calculation range.
-- Extremely large negative NJS offsets no longer replace valid calculations with invalid values.
-- Incomplete SPS numbers now show an error instead of being treated as empty fields.
-- Restoring the light theme also restores the matching browser toolbar color.
-- Switching tools no longer adds extra space above panels after EBPM.
-
-### Removed
-
-- Removed Score Calculator.
-- Removed Difficulty Label.
+```diff
++ Added color scheme variants and 13 new base color schemes: Linkin Park 2.0,
+  The Rolling Stones, Lattice, Daft Punk, Hip Hop, Collider, Britney Spears,
+  Monstercat 2.0, Metallica, Cube, Coldplay, Prodigy, and Hip Hop Mixtape 2.
++ Added Color Picker import and export for Info color schemes, with tabs for
+  Custom Data, V2 Info, and V4 Info.
++ Added dark, light, and monochrome themes, with a saved theme preference.
++ Added a mobile sidebar, keyboard navigation, and a skip link.
+* Redesigned the interface to reduce scrolling.
+* Tools now keep their inputs when switching between workspaces and support
+  direct links and browser navigation.
+* NJS references remain visible, SPS comparisons appear beneath their inputs,
+  and color similarity results appear side by side.
+* Updated The Weeknd and Panic 2.0 schemes with white lights. Custom colors
+  remain available when switching schemes.
+* V4 color exports warn when values or per-color selections cannot be preserved.
+* Fixed input validation and calculation errors in the EBPM, NJS, and SPS tools,
+  including large values, incomplete numbers, and NJS jump distance changes.
+* Fixed SPS decimal editing and the placement of reductions.
+* Fixed Color Picker imports, alpha values, previews, error messages, and the
+  retention of unchecked custom colors.
+* Removed empty validation gaps and extra spacing when switching tools.
+* Fixed the browser toolbar color when restoring the light theme.
+- Removed Score Calculator and Difficulty Label.
+```

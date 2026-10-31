@@ -129,6 +129,10 @@
    font-size: 0.8125rem;
    line-height: 1.4;
 
+   &:empty {
+      display: none;
+   }
+
    &--note {
       height: 1.4em;
       margin: 0;

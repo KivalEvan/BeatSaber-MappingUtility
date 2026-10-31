@@ -119,7 +119,9 @@ export class App {
    }
 
    protected onToolClick(event: MouseEvent, id: ToolId) {
-      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) {
+         return;
+      }
 
       event.preventDefault();
       this.navigateToTool(id, true);
@@ -199,7 +201,9 @@ export class App {
    }
 
    private navigateToTool(id: ToolId, dismiss: boolean) {
-      if (window.location.hash !== `#${id}`) window.history.pushState(null, '', `#${id}`);
+      if (window.location.hash !== `#${id}`) {
+         window.history.pushState(null, '', `#${id}`);
+      }
 
       this.activeTool.set(id);
 
@@ -211,11 +215,12 @@ export class App {
             {
                earlyRead: () => this.workspace().nativeElement.getBoundingClientRect().top < 0,
                write: (shouldScroll) => {
-                  if (shouldScroll)
+                  if (shouldScroll) {
                      this.workspace().nativeElement.scrollIntoView({
                         block: 'start',
                         behavior: 'instant',
                      });
+                  }
                },
             },
             { injector: this.injector },

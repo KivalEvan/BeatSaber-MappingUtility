@@ -77,7 +77,7 @@
                                     ? 'cp-hex-' + field.customKey + '-error'
                                     : null
                               "
-                              (change)="changeHex(field.customKey, hexInput.value)"
+                              (change)="changeColor(field.customKey, hexInput.value, 'hex')"
                            />
                         </td>
                         <td>
@@ -93,7 +93,7 @@
                               [value]="
                                  entry.value ? colorPreviewHex(entry.value).slice(0, 7) : '#000000'
                               "
-                              (change)="changeHex(field.customKey, pickerInput.value)"
+                              (change)="changeColor(field.customKey, pickerInput.value, 'picker')"
                            />
                         </td>
                         <td>
@@ -126,17 +126,19 @@
                            </div>
                         </td>
                      </tr>
-                     <tr class="errorRow" role="presentation">
-                        <td colspan="4" role="presentation">
-                           <span
-                              [id]="'cp-hex-' + field.customKey + '-error'"
-                              class="data-errorSlot"
-                              role="alert"
-                              [attr.tabindex]="hexErrors()[field.customKey] ? 0 : null"
-                              >{{ hexErrors()[field.customKey]?.message }}</span
-                           >
-                        </td>
-                     </tr>
+                     @if (hexErrors()[field.customKey]; as error) {
+                        <tr class="errorRow" role="presentation">
+                           <td colspan="4" role="presentation">
+                              <span
+                                 [id]="'cp-hex-' + field.customKey + '-error'"
+                                 class="data-errorSlot"
+                                 role="alert"
+                                 tabindex="0"
+                                 >{{ error.message }}</span
+                              >
+                           </td>
+                        </tr>
+                     }
                   }
                </tbody>
             </table>
@@ -156,45 +158,59 @@
    </div>
    <div class="tool-group json">
       <h3>Export or import JSON</h3>
-      <div class="tool-grid jsonGrid">
-         <div class="form-field jsonField">
-            <label for="cp-io-jsoncd">Custom data format</label>
-            <textarea
-               #customJson
-               class="form-textarea"
-               id="cp-io-jsoncd"
-               rows="10"
-               [spellcheck]="false"
-               [value]="jsonErrors().custom?.value ?? outputs().custom"
-               [attr.aria-invalid]="!!jsonErrors().custom"
-               [attr.aria-describedby]="jsonErrors().custom ? 'cp-jsoncd-error' : null"
-               (change)="importJson(customJson.value, 'custom')"
-            ></textarea>
-            @if (jsonErrors().custom; as error) {
-               <p id="cp-jsoncd-error" class="data-message data-message--error" role="alert">
-                  {{ error.message }}
-               </p>
-            }
-         </div>
-         <div class="form-field jsonField">
-            <label for="cp-io-jsoninfo">Info format</label>
-            <textarea
-               #infoJson
-               class="form-textarea"
-               id="cp-io-jsoninfo"
-               rows="10"
-               [spellcheck]="false"
-               [value]="jsonErrors().info?.value ?? outputs().info"
-               [attr.aria-invalid]="!!jsonErrors().info"
-               [attr.aria-describedby]="jsonErrors().info ? 'cp-jsoninfo-error' : null"
-               (change)="importJson(infoJson.value, 'info')"
-            ></textarea>
-            @if (jsonErrors().info; as error) {
-               <p id="cp-jsoninfo-error" class="data-message data-message--error" role="alert">
-                  {{ error.message }}
-               </p>
-            }
-         </div>
+      <div class="jsonTabs" role="tablist" aria-label="Color JSON format">
+         @for (format of jsonFormats; track format.id; let index = $index) {
+            <button
+               #jsonTab
+               class="jsonTab"
+               type="button"
+               role="tab"
+               [id]="'cp-json-tab-' + format.id"
+               [attr.aria-controls]="'cp-json-panel-' + format.id"
+               [attr.aria-selected]="activeJsonFormat() === format.id"
+               [tabIndex]="activeJsonFormat() === format.id ? 0 : -1"
+               (click)="activeJsonFormat.set(format.id)"
+               (keydown)="onJsonFormatKeydown($event, index)"
+            >
+               {{ format.label }}
+            </button>
+         }
       </div>
+      @for (format of jsonFormats; track format.id) {
+         <div
+            class="form-field jsonField"
+            role="tabpanel"
+            [id]="'cp-json-panel-' + format.id"
+            [attr.aria-labelledby]="'cp-json-tab-' + format.id"
+            [hidden]="activeJsonFormat() !== format.id"
+         >
+            <label class="srOnly" [for]="format.inputId">{{ format.label }} JSON</label>
+            <textarea
+               #jsonInput
+               class="form-textarea"
+               [id]="format.inputId"
+               rows="10"
+               [spellcheck]="false"
+               [value]="jsonErrors()[format.id]?.value ?? outputs()[format.id]"
+               [attr.aria-invalid]="!!jsonErrors()[format.id]"
+               [attr.aria-describedby]="jsonErrors()[format.id] ? format.inputId + '-error' : null"
+               (change)="importJson(jsonInput.value, format.id)"
+            ></textarea>
+            @if (jsonErrors()[format.id]; as error) {
+               <p
+                  class="data-message data-message--error"
+                  role="alert"
+                  [id]="format.inputId + '-error'"
+               >
+                  {{ error.message }}
+               </p>
+            }
+            @if (format.id === 'infoV4') {
+               @for (warning of v4Warnings(); track warning) {
+                  <p class="data-note">{{ warning }}</p>
+               }
+            }
+         </div>
+      }
    </div>
 </section>

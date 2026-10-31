@@ -1,6 +1,14 @@
+import { NoteDirection } from 'bsmap';
+
+export enum PatternNoteType {
+   Red = 0,
+   Blue = 1,
+   Bomb = 2,
+}
+
 export interface PatternNote {
-   _noteType: number;
-   _noteDirection: number;
+   _noteType: PatternNoteType;
+   _noteDirection: NoteDirection;
 }
 
 /** Settings for a grid, its note counts, and its allowed note directions. */
@@ -22,51 +30,66 @@ export interface PatternSettings {
    parityBlue: boolean;
 }
 
-interface ParityRotation {
-   [key: number]: { [key: number]: number[] };
+enum ParitySelection {
+   Backhand = 'backhand',
+   Forehand = 'forehand',
 }
 
-function createValidParity(ext: number = 0, dot: boolean = false) {
-   const parityRotation: ParityRotation = {
-      0: {
-         0: [6, 1, 7],
-         1: [4, 0, 5],
-      },
-      1: {
-         0: [6, 1, 7],
-         1: [4, 0, 5],
-      },
+type NoteColor = PatternNoteType.Red | PatternNoteType.Blue;
+type ParityRotation = Record<NoteColor, Record<ParitySelection, NoteDirection[]>>;
+
+const NOTE_TYPES = [PatternNoteType.Red, PatternNoteType.Blue, PatternNoteType.Bomb] as const;
+const DIRECTIONS: readonly NoteDirection[] = [
+   NoteDirection.UP,
+   NoteDirection.DOWN,
+   NoteDirection.LEFT,
+   NoteDirection.RIGHT,
+   NoteDirection.UP_LEFT,
+   NoteDirection.UP_RIGHT,
+   NoteDirection.DOWN_LEFT,
+   NoteDirection.DOWN_RIGHT,
+   NoteDirection.ANY,
+];
+
+function createValidParity(ext: number, dot: boolean): ParityRotation {
+   const red: Record<ParitySelection, NoteDirection[]> = {
+      backhand: [NoteDirection.DOWN_LEFT, NoteDirection.DOWN, NoteDirection.DOWN_RIGHT],
+      forehand: [NoteDirection.UP_LEFT, NoteDirection.UP, NoteDirection.UP_RIGHT],
+   };
+   const blue: Record<ParitySelection, NoteDirection[]> = {
+      backhand: [NoteDirection.DOWN_LEFT, NoteDirection.DOWN, NoteDirection.DOWN_RIGHT],
+      forehand: [NoteDirection.UP_LEFT, NoteDirection.UP, NoteDirection.UP_RIGHT],
    };
 
    if (dot) {
-      parityRotation[0][0].push(8);
-      parityRotation[0][1].push(8);
-      parityRotation[1][0].push(8);
-      parityRotation[1][1].push(8);
+      red.backhand.push(NoteDirection.ANY);
+      red.forehand.push(NoteDirection.ANY);
+      blue.backhand.push(NoteDirection.ANY);
+      blue.forehand.push(NoteDirection.ANY);
    }
 
    if (ext > 0) {
-      parityRotation[0][0].push(3);
-      parityRotation[0][1].push(2);
-      parityRotation[1][0].push(2);
-      parityRotation[1][1].push(3);
+      red.backhand.push(NoteDirection.RIGHT);
+      red.forehand.push(NoteDirection.LEFT);
+      blue.backhand.push(NoteDirection.LEFT);
+      blue.forehand.push(NoteDirection.RIGHT);
    }
 
    if (ext > 1) {
-      parityRotation[0][0].push(5);
-      parityRotation[0][1].push(6);
-      parityRotation[1][0].push(4);
-      parityRotation[1][1].push(7);
+      red.backhand.push(NoteDirection.UP_RIGHT);
+      red.forehand.push(NoteDirection.DOWN_LEFT);
+      blue.backhand.push(NoteDirection.UP_LEFT);
+      blue.forehand.push(NoteDirection.DOWN_RIGHT);
    }
 
    if (ext > 2) {
-      parityRotation[0][0].push(0, 2);
-      parityRotation[0][1].push(1, 3);
-      parityRotation[1][0].push(0, 3);
-      parityRotation[1][1].push(1, 2);
+      red.backhand.push(NoteDirection.UP, NoteDirection.LEFT);
+      red.forehand.push(NoteDirection.DOWN, NoteDirection.RIGHT);
+      blue.backhand.push(NoteDirection.UP, NoteDirection.RIGHT);
+      blue.forehand.push(NoteDirection.DOWN, NoteDirection.LEFT);
    }
 
-   return parityRotation;
+   return { [PatternNoteType.Red]: red, [PatternNoteType.Blue]: blue };
 }
 
 /**
@@ -83,9 +106,16 @@ export function generatePattern(options: PatternSettings): (PatternNote | null)[
    );
 
    const cells: (PatternNote | null)[] = Array(maxSize).fill(null);
-   const parity = { 0: options.parityRed ? 0 : 1, 1: options.parityBlue ? 0 : 1 };
+   const parity: Record<NoteColor, ParitySelection> = {
+      [PatternNoteType.Red]: options.parityRed
+         ? ParitySelection.Backhand
+         : ParitySelection.Forehand,
+      [PatternNoteType.Blue]: options.parityBlue
+         ? ParitySelection.Backhand
+         : ParitySelection.Forehand,
+   };
    const validRotation = createValidParity(options.parityExtend, !options.noDot);
-   const allDirections = Array.from({ length: options.noDot ? 8 : 9 }, (_, direction) => direction);
+   const allDirections = options.noDot ? DIRECTIONS.slice(0, -1) : DIRECTIONS;
 
    for (let i = 0; i < total; i++) {
       let randomPosition = Math.floor(Math.random() * maxSize);
@@ -95,18 +125,24 @@ export function generatePattern(options: PatternSettings): (PatternNote | null)[
          randomType = (randomType + 1) % 3;
       }
 
+      const noteType = NOTE_TYPES[randomType];
       const directions =
-         options.parity && randomType < 2
-            ? validRotation[randomType][parity[randomType as 0 | 1]]
+         options.parity && noteType !== PatternNoteType.Bomb
+            ? validRotation[noteType][parity[noteType]]
             : allDirections;
       const randomDirection =
-         randomType === 2 ? 0 : directions[Math.floor(Math.random() * directions.length)];
+         noteType === PatternNoteType.Bomb
+            ? NoteDirection.UP
+            : directions[Math.floor(Math.random() * directions.length)];
 
       while (cells[randomPosition] !== null) {
          randomPosition = (randomPosition + 1) % maxSize;
       }
 
-      cells[randomPosition] = { _noteType: randomType, _noteDirection: randomDirection };
+      cells[randomPosition] = {
+         _noteType: noteType,
+         _noteDirection: randomDirection,
+      };
       note[randomType]--;
    }
 

@@ -7,7 +7,6 @@ type DifficultyName = (typeof DIFFICULTY_NAMES)[number];
 
 interface DifficultyEntry {
    name: DifficultyName;
-   rawValue: string;
    value: number | null;
    validationMessage: string | null;
 }
@@ -18,7 +17,6 @@ interface EnteredDifficulty {
 }
 
 interface AdjacentDrop {
-   previous: DifficultyName;
    next: DifficultyName;
    reduction: number | null;
    unavailableReason: 'zero' | 'range' | null;
@@ -38,35 +36,40 @@ export class SpsDifference {
    protected readonly difficulties = signal<DifficultyEntry[]>(
       DIFFICULTY_NAMES.map((name) => ({
          name,
-         rawValue: '',
          value: null,
          validationMessage: null,
       })),
    );
 
-   protected readonly adjacentDrops = computed<AdjacentDrop[]>(() => {
-      const entered: EnteredDifficulty[] = [];
+   protected readonly adjacentDrops = computed<Partial<Record<DifficultyName, AdjacentDrop>>>(
+      () => {
+         const entered: EnteredDifficulty[] = [];
 
-      for (const difficulty of this.difficulties()) {
-         if (difficulty.value !== null) {
-            entered.push({ name: difficulty.name, value: difficulty.value });
+         for (const difficulty of this.difficulties()) {
+            if (difficulty.value !== null) {
+               entered.push({ name: difficulty.name, value: difficulty.value });
+            }
          }
-      }
 
-      return entered.slice(1).map((next, index) => {
-         const previous = entered[index];
-         const reduction = next.value === 0 ? null : (1 - previous.value / next.value) * 100;
-         const unavailableReason =
-            next.value === 0 ? 'zero' : Number.isFinite(reduction) ? null : 'range';
+         const drops: Partial<Record<DifficultyName, AdjacentDrop>> = {};
 
-         return {
-            previous: previous.name,
-            next: next.name,
-            reduction: unavailableReason === null ? reduction : null,
-            unavailableReason,
-         };
-      });
-   });
+         for (let index = 1; index < entered.length; index++) {
+            const previous = entered[index - 1];
+            const next = entered[index];
+            const reduction = next.value === 0 ? null : (1 - previous.value / next.value) * 100;
+            const unavailableReason =
+               next.value === 0 ? 'zero' : Number.isFinite(reduction) ? null : 'range';
+
+            drops[previous.name] = {
+               next: next.name,
+               reduction: unavailableReason === null ? reduction : null,
+               unavailableReason,
+            };
+         }
+
+         return drops;
+      },
+   );
 
    protected readonly totalReduction = computed<number | null>(() => {
       const values: number[] = [];
@@ -95,12 +98,16 @@ export class SpsDifference {
       );
    }
 
+   // Mounted inputs own their drafts so incomplete numbers and the caret survive updates.
    protected handleInput(index: number, input: HTMLInputElement) {
       const rawValue = input.value;
 
       if (rawValue === '' && !input.validity.badInput) {
          input.setCustomValidity('');
-         this.setDifficulty(index, { rawValue: '', value: null, validationMessage: null });
+         this.setDifficulty(index, {
+            value: null,
+            validationMessage: null,
+         });
          return;
       }
 
@@ -109,7 +116,10 @@ export class SpsDifference {
          const message = 'Enter a number greater than or equal to 0.';
 
          input.setCustomValidity(message);
-         this.setDifficulty(index, { rawValue, value: null, validationMessage: message });
+         this.setDifficulty(index, {
+            value: null,
+            validationMessage: message,
+         });
          return;
       }
 
@@ -119,14 +129,24 @@ export class SpsDifference {
             'This value is too large to round to two decimal places. Enter a smaller value.';
 
          input.setCustomValidity(message);
-         this.setDifficulty(index, { rawValue, value: null, validationMessage: message });
+         this.setDifficulty(index, {
+            value: null,
+            validationMessage: message,
+         });
          return;
       }
 
       input.setCustomValidity('');
-      const normalizedValue = String(value);
-      this.setDifficulty(index, { rawValue: normalizedValue, value, validationMessage: null });
+      this.setDifficulty(index, {
+         value,
+         validationMessage: null,
+      });
+   }
 
-      if (input.value !== normalizedValue) input.value = normalizedValue;
+   protected normalizeInput(index: number, input: HTMLInputElement) {
+      const value = this.difficulties()[index].value;
+      if (value === null) return;
+
+      input.value = String(value);
    }
 }

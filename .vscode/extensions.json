@@ -1,4 +1,4 @@
 {
-   "recommendations": ["Angular.ng-template"],
-   "unwantedRecommendations": []
+  "recommendations": ["Angular.ng-template"],
+  "unwantedRecommendations": []
 }

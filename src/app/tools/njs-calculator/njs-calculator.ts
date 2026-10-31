@@ -116,7 +116,11 @@ export class NjsCalculator {
                   3,
                );
             } else {
-               nextNjs.value = round(distance / (2 * nextNjs.calcRtFromHjd()), 3);
+               const hjd = nextNjs.hjd;
+               nextNjs.value = round(distance / (2 * nextNjs.calcRtFromHjd(hjd)), 3);
+
+               // Compensate for base HJD changes at the new NJS to keep HJD fixed.
+               nextNjs.offset = round(hjd - nextNjs.calcHjd(0), 3);
             }
 
             break;
@@ -172,7 +176,7 @@ export class NjsCalculator {
    }
 
    protected formatNumber(value: number | null | undefined): string {
-      return value !== null && value !== undefined && Number.isFinite(value) ? String(value) : '-';
+      return String(value ?? '-');
    }
 
    private normalizedInputs(nextNjs: NoteJumpSpeed, result: JumpResults): Inputs {

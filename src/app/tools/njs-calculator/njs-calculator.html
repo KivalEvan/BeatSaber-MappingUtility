@@ -1,8 +1,13 @@
 <section appToolSection id="njs-calculator" heading="NJS Calculator">
    @let jumpResults = results();
    <form (submit)="$event.preventDefault()">
-      <p id="njs-results-note" class="data-errorSlot data-errorSlot--note" role="status">
-         {{ hasErrors() ? 'Results use the last valid values.' : '' }}
+      <p
+         id="njs-results-note"
+         class="data-errorSlot data-errorSlot--note"
+         role="status"
+         [hidden]="!hasErrors()"
+      >
+         Results use the last valid values.
       </p>
       <div class="tool-grid">
          <div class="tool-group inputGroup">

@@ -1,7 +1,12 @@
 import { Component, computed, signal } from '@angular/core';
 import { NoteDirection } from 'bsmap';
 import { ToolSection } from '../../ui/tool-section';
-import { generatePattern, type PatternNote, type PatternSettings } from './pattern-generation';
+import {
+   generatePattern,
+   type PatternNote,
+   PatternNoteType,
+   type PatternSettings,
+} from './pattern-generation';
 
 type NumberSetting =
    'row' | 'column' | 'noteRed' | 'noteBlue' | 'noteBomb' | 'total' | 'parityExtend';
@@ -13,7 +18,7 @@ interface NoteAppearance {
    readonly name: string;
 }
 
-const cutDirections: Record<number, string> = {
+const cutDirections: Record<Exclude<NoteDirection, typeof NoteDirection.ANY>, string> = {
    [NoteDirection.UP]: 'up',
    [NoteDirection.DOWN]: 'down',
    [NoteDirection.LEFT]: 'left',
@@ -141,7 +146,9 @@ export class RandomPatternGenerator {
          const reason =
             settings.limit && settings.total === capacity
                ? `Grid capacity and maximum notes are both ${placed}.`
-               : `${settings.limit && settings.total < capacity ? 'Maximum notes' : 'Grid capacity'} is ${placed}.`;
+               : `${
+                    settings.limit && settings.total < capacity ? 'Maximum notes' : 'Grid capacity'
+                 } is ${placed}.`;
          this.statusMessage.set(`${placed} of ${requested} objects placed. ${reason}`);
       } else {
          this.statusMessage.set(
@@ -165,7 +172,8 @@ export class RandomPatternGenerator {
       if (!cell) return 'assets/blank.png';
 
       const appearance = this.noteAppearance[cell._noteType];
-      const isDotNote = cell._noteDirection === 8 && cell._noteType < 2;
+      const isDotNote =
+         cell._noteDirection === NoteDirection.ANY && cell._noteType !== PatternNoteType.Bomb;
       const image = isDotNote ? appearance.dotImage : appearance.image;
 
       return `assets/${image}`;
@@ -175,7 +183,7 @@ export class RandomPatternGenerator {
       if (!cell) return 'Empty';
 
       const name = this.noteAppearance[cell._noteType].name;
-      if (cell._noteType >= 2) return name;
+      if (cell._noteType === PatternNoteType.Bomb) return name;
       if (cell._noteDirection === NoteDirection.ANY) return `${name}, dot`;
 
       return `${name}, cut ${cutDirections[cell._noteDirection]}`;
@@ -183,8 +191,10 @@ export class RandomPatternGenerator {
 
    protected imageClass(cell: PatternNote | null): string {
       const rotation =
-         cell && cell._noteType < 2 && cell._noteDirection !== 8
-            ? (this.noteRotation[cell._noteDirection] ?? '')
+         cell &&
+         cell._noteType !== PatternNoteType.Bomb &&
+         cell._noteDirection !== NoteDirection.ANY
+            ? this.noteRotation[cell._noteDirection]
             : '';
 
       return `image ${rotation}`;

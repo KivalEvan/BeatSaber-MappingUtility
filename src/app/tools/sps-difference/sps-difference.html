@@ -13,13 +13,31 @@
                   [name]="difficulty.name"
                   min="0"
                   step="0.01"
-                  [value]="difficulty.rawValue"
                   [attr.aria-describedby]="difficulty.validationMessage ? errorId : null"
                   [attr.aria-invalid]="difficulty.validationMessage ? 'true' : null"
                   (input)="handleInput(i, difficultyInput)"
+                  (blur)="normalizeInput(i, difficultyInput)"
                />
                @if (difficulty.validationMessage; as message) {
                   <span [id]="errorId" class="data-fieldError" role="alert">{{ message }}</span>
+               }
+               @if (adjacentDrops()[difficulty.name]; as comparison) {
+                  <output
+                     class="reduction"
+                     [attr.for]="inputId + ' sps-input-' + comparison.next"
+                     [attr.aria-label]="difficulty.name + ' reduction from ' + comparison.next"
+                     [title]="'Reduction from ' + comparison.next"
+                     [class.data-metricValue]="!comparison.unavailableReason"
+                     [class.data-fieldError]="!!comparison.unavailableReason"
+                  >
+                     @if (comparison.unavailableReason === 'zero') {
+                        Enter a value above 0 for {{ comparison.next }}.
+                     } @else if (comparison.unavailableReason === 'range') {
+                        Enter values closer together.
+                     } @else {
+                        {{ formatReduction(comparison.reduction) }}
+                     }
+                  </output>
                }
             </div>
          }
@@ -30,30 +48,5 @@
             <output aria-live="polite">{{ formatReduction(totalReduction()) }}</output>
          </dd>
       </dl>
-      @if (adjacentDrops().length) {
-         <dl class="comparisons">
-            @for (comparison of adjacentDrops(); track comparison.previous) {
-               <div>
-                  <dt>{{ comparison.previous }} reduction from {{ comparison.next }}</dt>
-                  <dd>
-                     <output
-                        [attr.for]="
-                           'sps-input-' + comparison.previous + ' sps-input-' + comparison.next
-                        "
-                        [class.data-metricValue]="!comparison.unavailableReason"
-                     >
-                        @if (comparison.unavailableReason === 'zero') {
-                           Cannot calculate: enter a value above 0 for {{ comparison.next }}.
-                        } @else if (comparison.unavailableReason === 'range') {
-                           Cannot calculate: enter values closer together.
-                        } @else {
-                           {{ formatReduction(comparison.reduction) }}
-                        }
-                     </output>
-                  </dd>
-               </div>
-            }
-         </dl>
-      }
    </form>
 </section>
